@@ -6,15 +6,12 @@
 // SPDX-License-Identifier: MIT
 //
 
-import SwiftUI
-import XCTestApp
+import CardinalKitViews
+import XCTest
 
 
-@main
-struct UITestsApp: App {
-    var body: some Scene {
-        WindowGroup {
-            TestAppTestsView<CardinalKitViewsTests>()
-        }
+final class LocalStorageTests: XCTestCase {
+    func testCardinalKitViews() async throws {
+        XCTAssert(true)
     }
 }
