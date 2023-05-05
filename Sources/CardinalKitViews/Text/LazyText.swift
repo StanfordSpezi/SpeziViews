@@ -14,23 +14,23 @@ import SwiftUI
 /// Uses a `LazyVStack` under the hood to load and display the text line-by-line.
 public struct LazyText: View {
     private let text: String
-    @State private var lines: [(linenumber: Int, text: String)] = []
     
+    
+    private var lines: [(id: UUID, text: String)] {
+        var lines: [(id: UUID, text: String)] = []
+        text.enumerateLines { line, _ in
+            lines.append((UUID(), line))
+        }
+        return lines
+    }
     
     public var body: some View {
         LazyVStack(alignment: .leading) {
-            ForEach(lines, id: \.linenumber) { line in
+            ForEach(lines, id: \.id) { line in
                 Text(line.text)
                     .multilineTextAlignment(.leading)
             }
         }
-            .onAppear {
-                var lineNumber = 0
-                text.enumerateLines { line, _ in
-                    lines.append((lineNumber, line))
-                    lineNumber += 1
-                }
-            }
     }
     
     
