@@ -8,53 +8,19 @@
 
 import SpeziViews
 import SwiftUI
+import XCTestApp
 
 
-struct ViewsTestsView: View {
-    enum ViewsTestElements: String, CaseIterable, Codable {
-        case canvas = "Canvas"
-        case nameFields = "Name Fields"
-        case userProfile = "User Profile"
-        case geometryReader = "Geometry Reader"
-        case label = "Label"
-        case lazyText = "Lazy Text"
-        case markdownView = "Markdown View"
-        case htmlView = "HTML View"
-        case viewState = "View State"
-    }
-    
-    
-    @Binding private var path: NavigationPath
-    
-    
-    var body: some View {
-        List(ViewsTestElements.allCases, id: \.rawValue) { viewsTestElement in
-            NavigationLink(viewsTestElement.rawValue, value: viewsTestElement)
-        }
-            .navigationTitle("Views Tests")
-            .navigationDestination(for: ViewsTestElements.self) { viewsTestElement in
-                switch viewsTestElement {
-                case .canvas:
-                    canvas
-                case .nameFields:
-                    nameFields
-                case .userProfile:
-                    userProfile
-                case .geometryReader:
-                    geometryReader
-                case .label:
-                    label
-                case .lazyText:
-                    lazyText
-                case .markdownView:
-                    markdownView
-                case .htmlView:
-                    htmlView
-                case .viewState:
-                    viewState
-                }
-            }
-    }
+enum SpeziViewsTests: String, TestAppTests {
+    case canvas = "Canvas"
+    case nameFields = "Name Fields"
+    case userProfile = "User Profile"
+    case geometryReader = "Geometry Reader"
+    case label = "Label"
+    case lazyText = "Lazy Text"
+    case markdownView = "Markdown View"
+    case htmlView = "HTML View"
+    case viewState = "View State"
     
     
     @ViewBuilder
@@ -141,21 +107,26 @@ struct ViewsTestsView: View {
     }
     
     
-    init(navigationPath: Binding<NavigationPath>) {
-        self._path = navigationPath
-    }
-}
-
-
-#if DEBUG
-struct ViewsTestsView_Previews: PreviewProvider {
-    @State private static var path = NavigationPath()
-    
-    
-    static var previews: some View {
-        NavigationStack {
-            ViewsTestsView(navigationPath: $path)
+    func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
+        switch self {
+        case .canvas:
+            canvas
+        case .nameFields:
+            nameFields
+        case .userProfile:
+            userProfile
+        case .geometryReader:
+            geometryReader
+        case .label:
+            label
+        case .lazyText:
+            lazyText
+        case .markdownView:
+            markdownView
+        case .htmlView:
+            htmlView
+        case .viewState:
+            viewState
         }
     }
 }
-#endif

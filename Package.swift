@@ -1,7 +1,7 @@
 // swift-tools-version:5.7
 
 //
-// This source file is part of the CardinalKit open-source project
+// This source file is part of the Stanford Spezi open-source project
 // 
 // SPDX-FileCopyrightText: 2022 Stanford University and the project authors (see CONTRIBUTORS.md)
 // 
@@ -12,22 +12,22 @@ import PackageDescription
 
 
 let package = Package(
-    name: "CardinalKitViews",
+    name: "SpeziViews",
     defaultLocalization: "en",
     platforms: [
         .iOS(.v16)
     ],
     products: [
-        .library(name: "CardinalKitViews", targets: ["CardinalKitViews"])
+        .library(name: "SpeziViews", targets: ["SpeziViews"])
     ],
     targets: [
         .target(
-            name: "CardinalKitViews"
+            name: "SpeziViews"
         ),
         .testTarget(
-            name: "CardinalKitViewsTests",
+            name: "SpeziViewsTests",
             dependencies: [
-                .target(name: "CardinalKitViews")
+                .target(name: "SpeziViews")
             ]
         )
     ]

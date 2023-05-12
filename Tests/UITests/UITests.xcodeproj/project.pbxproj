@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F2D338729DE52EA00081B1D /* CardinalKitViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2D338629DE52EA00081B1D /* CardinalKitViewsTests.swift */; };
+		2F2D338729DE52EA00081B1D /* SpeziViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */; };
 		2F6D139A28F5F386007C25D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F6D139928F5F386007C25D6 /* Assets.xcassets */; };
 		2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA7382B290ADFAA007ACEB9 /* TestApp.swift */; };
 		2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9485E29DE90720081C086 /* ViewStateTestView.swift */; };
@@ -18,7 +18,7 @@
 		2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */; };
 		2FA9486B29DE90720081C086 /* HTMLViewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486429DE90720081C086 /* HTMLViewTestView.swift */; };
 		2FA9486D29DE91130081C086 /* ViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486C29DE91130081C086 /* ViewsTests.swift */; };
-		2FA9486F29DE91A30081C086 /* CardinalKitViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* CardinalKitViews */; };
+		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
 		2FA9487129DE91CC0081C086 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9487029DE91CC0081C086 /* XCTestApp */; };
 		2FA9487329DE92410081C086 /* XCTestExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9487229DE92410081C086 /* XCTestExtensions */; };
 /* End PBXBuildFile section */
@@ -34,8 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F2D338629DE52EA00081B1D /* CardinalKitViewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardinalKitViewsTests.swift; sourceTree = "<group>"; };
-		2F61BDC129DD023E00D71D33 /* CardinalKitViews */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CardinalKitViews; path = ../..; sourceTree = "<group>"; };
+		2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziViewsTests.swift; sourceTree = "<group>"; };
+		2F61BDC129DD023E00D71D33 /* SpeziViews */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SpeziViews; path = ../..; sourceTree = "<group>"; };
 		2F6D139228F5F384007C25D6 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F6D139928F5F386007C25D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2F6D13AC28F5F386007C25D6 /* TestAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FA9486F29DE91A30081C086 /* CardinalKitViews in Frameworks */,
+				2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */,
 				2FA9487129DE91CC0081C086 /* XCTestApp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,7 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */,
-				2F61BDC129DD023E00D71D33 /* CardinalKitViews */,
+				2F61BDC129DD023E00D71D33 /* SpeziViews */,
 				2F6D139428F5F384007C25D6 /* TestApp */,
 				2F6D13AF28F5F386007C25D6 /* TestAppUITests */,
 				2F6D139328F5F384007C25D6 /* Products */,
@@ -97,7 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				2FA7382B290ADFAA007ACEB9 /* TestApp.swift */,
-				2F2D338629DE52EA00081B1D /* CardinalKitViewsTests.swift */,
+				2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */,
 				2FA9485D29DE90710081C086 /* ViewsTests */,
 				2F6D139928F5F386007C25D6 /* Assets.xcassets */,
 			);
@@ -150,7 +150,7 @@
 			);
 			name = TestApp;
 			packageProductDependencies = (
-				2FA9486E29DE91A30081C086 /* CardinalKitViews */,
+				2FA9486E29DE91A30081C086 /* SpeziViews */,
 				2FA9487029DE91CC0081C086 /* XCTestApp */,
 			);
 			productName = Example;
@@ -251,7 +251,7 @@
 				2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */,
 				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
 				2FA9486629DE90720081C086 /* MarkdownViewTestView.swift in Sources */,
-				2F2D338729DE52EA00081B1D /* CardinalKitViewsTests.swift in Sources */,
+				2F2D338729DE52EA00081B1D /* SpeziViewsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,7 +410,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.cardinalkit.views.testapp;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.spezi.views.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -441,7 +441,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.cardinalkit.views.testapp;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.spezi.views.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -460,7 +460,7 @@
 				DEVELOPMENT_TEAM = 637867499T;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.cardinalkit.views.testappuitests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.spezi.views.testappuitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -481,7 +481,7 @@
 				DEVELOPMENT_TEAM = 637867499T;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.cardinalkit.views.testappuitests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.spezi.views.testappuitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -573,7 +573,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.cardinalkit.views.testapp;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.spezi.views.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -592,7 +592,7 @@
 				DEVELOPMENT_TEAM = 637867499T;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.cardinalkit.views.testappuitests;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.stanford.spezi.views.testappuitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -641,7 +641,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		2F2D337F29DE4A6000081B1D /* XCRemoteSwiftPackageReference "XCTestExtensions" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/StanfordBDHG/XCTestExtensions.git";
+			repositoryURL = "https://github.com/StanfordSpezi/XCTestExtensions.git";
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 0.4.0;
@@ -650,9 +650,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2FA9486E29DE91A30081C086 /* CardinalKitViews */ = {
+		2FA9486E29DE91A30081C086 /* SpeziViews */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CardinalKitViews;
+			productName = SpeziViews;
 		};
 		2FA9487029DE91CC0081C086 /* XCTestApp */ = {
 			isa = XCSwiftPackageProductDependency;
