@@ -61,7 +61,7 @@ enum SpeziViewsTests: String, TestAppTests {
         Label(
             """
             This is a label ...
-            An other text. This is longer and we can check if the justified text works as epxected. This is a very long text.
+            An other text. This is longer and we can check if the justified text works as expected. This is a very long text.
             """,
             textAlignment: .justified,
             textColor: .blue
@@ -70,7 +70,7 @@ enum SpeziViewsTests: String, TestAppTests {
         Label(
             """
             This is a label ...
-            An other text. This is longer and we can check if the justified text works as epxected. This is a very long text.
+            An other text. This is longer and we can check if the justified text works as expected. This is a very long text.
             """,
             textAlignment: .right,
             textColor: .red
@@ -110,7 +110,7 @@ enum SpeziViewsTests: String, TestAppTests {
 
     @ViewBuilder
     private var defaultErrorOnly: some View {
-        ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"));
+        ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"))
     }
 
     @ViewBuilder
@@ -118,7 +118,8 @@ enum SpeziViewsTests: String, TestAppTests {
         DefaultErrorDescriptionTestView()
     }
     
-    
+
+    // swiftlint:disable:next cyclomatic_complexity
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
         switch self {
         case .canvas:

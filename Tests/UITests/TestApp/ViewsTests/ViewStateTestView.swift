@@ -12,10 +12,10 @@ import SwiftUI
 
 struct ViewStateTestView: View {
     struct TestError: LocalizedError {
-        var errorDescription: String? = nil
-        var failureReason: String? = nil
-        var helpAnchor: String? = nil
-        var recoverySuggestion: String? = nil
+        var errorDescription: String?
+        var failureReason: String?
+        var helpAnchor: String?
+        var recoverySuggestion: String?
     }
 
     var testError = TestError(
