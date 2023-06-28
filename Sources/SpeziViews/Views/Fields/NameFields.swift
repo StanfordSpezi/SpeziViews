@@ -108,7 +108,7 @@ public struct NameFields<FocusedField: Hashable>: View {
     ///   - focusedState: `FocusState` binding to control and observe the focus state from outside the view.
     public init(
         // swiftlint:disable:previous function_default_parameter_at_end
-        // We want to keep the arguments grouped by field to ensure that we have the same order as in the non-focusfield initializer.
+        // We want to keep the arguments grouped by field to ensure that we have the same order as in the non-focus-field-based initializer.
         name: Binding<PersonNameComponents>,
         givenNameField: FieldLocalization = LocalizationDefaults.givenName,
         givenNameFieldIdentifier: FocusedField,

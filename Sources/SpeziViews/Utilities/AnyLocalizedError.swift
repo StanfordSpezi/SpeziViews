@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// A type erased version of `LocalizedError` with convenience initializers to do a best-effort transform an exsting `Error` to an `LocalizedError`.
+/// A type erased version of `LocalizedError` with convenience initializers to do a best-effort transform an existing `Error` to an `LocalizedError`.
 public struct AnyLocalizedError: LocalizedError {
     /// A localized message describing what error occurred.
     public var errorDescription: String?
