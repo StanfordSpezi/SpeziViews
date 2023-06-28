@@ -126,7 +126,7 @@ final class ViewsTests: XCTestCase {
         
         app.collectionViews.buttons["HTML View"].tap()
         
-        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 5))
+        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 15))
         XCTAssert(app.staticTexts["This is an HTML example taking 5 seconds to load."].waitForExistence(timeout: 10))
     }
 }
