@@ -28,8 +28,7 @@ public enum ViewState: Equatable {
             }
 
             guard errorTitle != errorDescription else {
-                // in the case that an error only has a `errorDescription` we don't use it as the title
-                // but use a generic default.
+                // in the case that an error only has a `errorDescription` we don't use it as the title but use a generic default.
                 fallthrough
             }
 
