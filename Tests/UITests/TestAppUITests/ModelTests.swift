@@ -28,4 +28,22 @@ final class ModelTests: XCTestCase {
 
         app.staticTexts["View State: idle"].tap()
     }
+
+    func testDefaultErrorDescription() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        app.collectionViews.buttons["Default Error Only"].tap()
+
+        XCTAssert(app.staticTexts["View State: processing"].exists)
+
+        sleep(6)
+
+        let alert = app.alerts.firstMatch.scrollViews.otherElements
+        XCTAssert(alert.staticTexts["Error"].exists)
+        XCTAssert(alert.staticTexts["Some error occurred!"].exists)
+        alert.buttons["OK"].tap()
+
+        app.staticTexts["View State: idle"].tap()
+    }
 }

@@ -12,11 +12,18 @@ import SwiftUI
 
 struct ViewStateTestView: View {
     struct TestError: LocalizedError {
-        let errorDescription: String?
-        let failureReason: String?
-        let helpAnchor: String?
-        let recoverySuggestion: String?
+        var errorDescription: String? = nil
+        var failureReason: String? = nil
+        var helpAnchor: String? = nil
+        var recoverySuggestion: String? = nil
     }
+
+    var testError = TestError(
+        errorDescription: nil,
+        failureReason: "Failure Reason",
+        helpAnchor: "Help Anchor",
+        recoverySuggestion: "Recovery Suggestion"
+    )
     
     @State var viewState: ViewState = .idle
     @Environment(\.defaultErrorDescription) var defaultErrorDescription
@@ -28,12 +35,7 @@ struct ViewStateTestView: View {
                 try? await Task.sleep(for: .seconds(5))
                 viewState = .error(
                     AnyLocalizedError(
-                        error: TestError(
-                            errorDescription: nil,
-                            failureReason: "Failure Reason",
-                            helpAnchor: "Help Anchor",
-                            recoverySuggestion: "Recovery Suggestion"
-                        ),
+                        error: testError,
                         defaultErrorDescription: defaultErrorDescription ?? "Error Description"
                     )
                 )

@@ -26,6 +26,13 @@ public enum ViewState: Equatable {
             guard let errorTitle = error.errorDescription else {
                 fallthrough
             }
+
+            guard errorTitle != errorDescription else {
+                // in the case that an error only has a `errorDescription` we don't use it as the title
+                // but use a generic default.
+                fallthrough
+            }
+
             return errorTitle
         default:
             return String(localized: "VIEW_STATE_DEFAULT_ERROR_TITLE", bundle: .module)

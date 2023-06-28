@@ -21,6 +21,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case markdownView = "Markdown View"
     case htmlView = "HTML View"
     case viewState = "View State"
+    case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
     
     
@@ -108,6 +109,11 @@ enum SpeziViewsTests: String, TestAppTests {
     }
 
     @ViewBuilder
+    private var defaultErrorOnly: some View {
+        ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"));
+    }
+
+    @ViewBuilder
     private var defaultErrorDescription: some View {
         DefaultErrorDescriptionTestView()
     }
@@ -133,6 +139,8 @@ enum SpeziViewsTests: String, TestAppTests {
             htmlView
         case .viewState:
             viewState
+        case .defaultErrorOnly:
+            defaultErrorOnly
         case .defaultErrorDescription:
             defaultErrorDescription
         }
