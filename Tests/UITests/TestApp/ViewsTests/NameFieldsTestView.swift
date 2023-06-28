@@ -17,8 +17,8 @@ struct NameFieldsTestView: View {
         VStack {
             NameFields(
                 name: $name,
-                givenNameField: FieldLocalization(title: "First Title", placeholder: "First Placeholder"),
-                familyNameField: FieldLocalization(title: "Second Title", placeholder: "Second Placeholder")
+                givenNameField: FieldLocalizationResource(title: "First Title", placeholder: "First Placeholder"),
+                familyNameField: FieldLocalizationResource(title: "Second Title", placeholder: "Second Placeholder")
             )
                 .padding(32)
             Form {
