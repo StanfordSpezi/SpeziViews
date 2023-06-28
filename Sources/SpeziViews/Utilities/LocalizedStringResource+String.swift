@@ -9,6 +9,7 @@
 import Foundation
 
 extension LocalizedStringResource {
+    /// Creates a localized `String` from the given `LocalizedStringResource`.
     public func localizedString() -> String {
         String(localized: self)
     }
