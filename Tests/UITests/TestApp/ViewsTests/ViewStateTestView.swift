@@ -19,6 +19,7 @@ struct ViewStateTestView: View {
     }
     
     @State var viewState: ViewState = .idle
+    @Environment(\.defaultErrorDescription) var defaultErrorDescription
     
     var body: some View {
         Text("View State: \(String(describing: viewState))")
@@ -33,7 +34,7 @@ struct ViewStateTestView: View {
                             helpAnchor: "Help Anchor",
                             recoverySuggestion: "Recovery Suggestion"
                         ),
-                        defaultErrorDescription: "Error Description"
+                        defaultErrorDescription: defaultErrorDescription ?? "Error Description"
                     )
                 )
             }

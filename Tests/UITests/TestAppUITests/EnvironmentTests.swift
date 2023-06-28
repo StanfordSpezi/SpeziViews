@@ -10,19 +10,19 @@ import XCTest
 import XCTestExtensions
 
 
-final class ModelTests: XCTestCase {
-    func testViewState() throws {
+final class EnvironmentTests: XCTestCase {
+    func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
         app.launch()
 
-        app.collectionViews.buttons["View State"].tap()
+        app.collectionViews.buttons["Default Error Description"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].exists)
 
         sleep(6)
 
         let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["Error Description"].exists)
+        XCTAssert(alert.staticTexts["This is a default error description!"].exists)
         XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
         alert.buttons["OK"].tap()
 

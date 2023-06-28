@@ -11,6 +11,8 @@ import Foundation
 
 /// A type erased version of `LocalizedError` with convenience initializers to do a best-effort transform an existing `Error` to an `LocalizedError`.
 public struct AnyLocalizedError: LocalizedError {
+    private static let globalDefaultErrorDescription = LocalizedStringResource("DEFAULT_ERROR_DESCRIPTION", bundle: .atURL(Bundle.module.bundleURL))
+
     /// A localized message describing what error occurred.
     public var errorDescription: String?
     /// A localized message describing the reason for the failure.
@@ -19,7 +21,19 @@ public struct AnyLocalizedError: LocalizedError {
     public var helpAnchor: String?
     /// A localized message providing "help" text if the user requests help.
     public var recoverySuggestion: String?
-    
+
+
+    /// Provides a best-effort approach to create a type erased version of `LocalizedError`.
+    ///
+    /// - Note: Refer to the documentation of the ``DefaultErrorDescription`` environment key on how to pass a useful and
+    /// environment-defined default error description.
+    ///
+    /// - Parameters:
+    ///   - error: The error instance that should be wrapped.
+    ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
+    public init(error: Error, defaultErrorDescription: LocalizedStringResource? = nil) {
+        self.init(error: error, defaultErrorDescription: String(localized: defaultErrorDescription ?? Self.globalDefaultErrorDescription))
+    }
     
     /// Provides a best-effort approach to create a type erased version of `LocalizedError`.
     ///
@@ -29,7 +43,7 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    public init(error: Error, defaultErrorDescription: String? = nil) {
+    public init(error: Error, defaultErrorDescription: String) {
         switch error {
         case let localizedError as LocalizedError:
             self.errorDescription = localizedError.errorDescription ?? defaultErrorDescription
@@ -39,7 +53,7 @@ public struct AnyLocalizedError: LocalizedError {
         case let customStringConvertible as CustomStringConvertible:
             self.errorDescription = customStringConvertible.description
         default:
-            self.errorDescription = defaultErrorDescription ?? String(localized: DefaultErrorDescription.defaultValue)
+            self.errorDescription = defaultErrorDescription
         }
     }
 }

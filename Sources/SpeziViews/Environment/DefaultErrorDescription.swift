@@ -14,14 +14,12 @@ import SwiftUI
 /// sensible default for a localized default error description in the case that a sub-view has to display
 /// an ``AnyLocalizedError`` for a generic error.
 public struct DefaultErrorDescription: EnvironmentKey {
-    public static var defaultValue: LocalizedStringResource = {
-        LocalizedStringResource("DEFAULT_ERROR_DESCRIPTION", bundle: .atURL(Bundle.module.bundleURL))
-    }()
+    public static var defaultValue: LocalizedStringResource?
 }
 
 extension EnvironmentValues {
     /// Refer to the documentation of ``DefaultErrorDescription``.
-    public var defaultErrorDescription: LocalizedStringResource {
+    public var defaultErrorDescription: LocalizedStringResource? {
         get {
             self[DefaultErrorDescription.self]
         }

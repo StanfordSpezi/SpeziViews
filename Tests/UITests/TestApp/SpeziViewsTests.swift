@@ -21,6 +21,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case markdownView = "Markdown View"
     case htmlView = "HTML View"
     case viewState = "View State"
+    case defaultErrorDescription = "Default Error Description"
     
     
     @ViewBuilder
@@ -61,7 +62,7 @@ enum SpeziViewsTests: String, TestAppTests {
             This is a label ...
             An other text. This is longer and we can check if the justified text works as epxected. This is a very long text.
             """,
-            textAllignment: .justified,
+            textAlignment: .justified,
             textColor: .blue
         )
             .border(.gray)
@@ -70,7 +71,7 @@ enum SpeziViewsTests: String, TestAppTests {
             This is a label ...
             An other text. This is longer and we can check if the justified text works as epxected. This is a very long text.
             """,
-            textAllignment: .right,
+            textAlignment: .right,
             textColor: .red
         )
             .border(.red)
@@ -105,6 +106,11 @@ enum SpeziViewsTests: String, TestAppTests {
     private var viewState: some View {
         ViewStateTestView()
     }
+
+    @ViewBuilder
+    private var defaultErrorDescription: some View {
+        DefaultErrorDescriptionTestView()
+    }
     
     
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
@@ -127,6 +133,16 @@ enum SpeziViewsTests: String, TestAppTests {
             htmlView
         case .viewState:
             viewState
+        case .defaultErrorDescription:
+            defaultErrorDescription
         }
     }
 }
+
+#if DEBUG
+struct SpeziViewsTests_Previews: PreviewProvider {
+    static var previews: some View {
+        TestAppTestsView<SpeziViewsTests>()
+    }
+}
+#endif
