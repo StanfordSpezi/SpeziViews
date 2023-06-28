@@ -22,10 +22,14 @@ public struct AnyLocalizedError: LocalizedError {
     
     
     /// Provides a best-effort approach to create a type erased version of `LocalizedError`.
+    ///
+    /// - Note: Refer to the documentation of the ``DefaultErrorDescription`` environment key on how to pass a useful and
+    /// environment-defined default error description.
+    ///
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    public init(error: Error, defaultErrorDescription: String) {
+    public init(error: Error, defaultErrorDescription: String? = nil) {
         switch error {
         case let localizedError as LocalizedError:
             self.errorDescription = localizedError.errorDescription ?? defaultErrorDescription
@@ -35,7 +39,7 @@ public struct AnyLocalizedError: LocalizedError {
         case let customStringConvertible as CustomStringConvertible:
             self.errorDescription = customStringConvertible.description
         default:
-            self.errorDescription = defaultErrorDescription
+            self.errorDescription = defaultErrorDescription ?? String(localized: DefaultErrorDescription.defaultValue)
         }
     }
 }
