@@ -60,7 +60,7 @@ public struct MarkdownView: View {
     }
     
     
-    /// Creates a ``MarkdownView`` that displayes the content of a markdown file as an utf8 representation that is loaded asynchronously.
+    /// Creates a ``MarkdownView`` that displays the content of a markdown file as an utf8 representation that is loaded asynchronously.
     /// - Parameters:
     ///   - asyncMarkdown: The async closure to load the markdown as an utf8 representation.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
@@ -72,7 +72,7 @@ public struct MarkdownView: View {
         self._state = state
     }
     
-    /// Creates a ``MarkdownView`` that displayes the content of a markdown file
+    /// Creates a ``MarkdownView`` that displays the content of a markdown file
     /// - Parameters:
     ///   - asyncMarkdown: A `Data` instance containing the markdown file as an utf8 representation.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.

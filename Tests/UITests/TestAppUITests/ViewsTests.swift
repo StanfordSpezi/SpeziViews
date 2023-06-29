@@ -1,7 +1,7 @@
 //
 // This source file is part of the Stanford Spezi open-source project
 //
-// SPDX-FileCopyrightText: 2022 Stanford University and the project authors (see CONTRIBUTORS.md)
+// SPDX-FileCopyrightText: 2023 Stanford University and the project authors (see CONTRIBUTORS.md)
 //
 // SPDX-License-Identifier: MIT
 //
@@ -92,7 +92,7 @@ final class ViewsTests: XCTestCase {
         
         // The string value needs to be searched for in the UI.
         // swiftlint:disable:next line_length
-        let text = "This is a label ... An other text. This is longer and we can check if the justified text works as epxected. This is a very long text."
+        let text = "This is a label ... An other text. This is longer and we can check if the justified text works as expected. This is a very long text."
         XCTAssertEqual(app.staticTexts.allElementsBoundByIndex.filter { $0.label.contains(text) }.count, 2)
     }
     
@@ -126,25 +126,7 @@ final class ViewsTests: XCTestCase {
         
         app.collectionViews.buttons["HTML View"].tap()
         
-        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 5))
+        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 15))
         XCTAssert(app.staticTexts["This is an HTML example taking 5 seconds to load."].waitForExistence(timeout: 10))
-    }
-    
-    func testViewState() throws {
-        let app = XCUIApplication()
-        app.launch()
-        
-        app.collectionViews.buttons["View State"].tap()
-        
-        XCTAssert(app.staticTexts["View State: processing"].exists)
-        
-        sleep(6)
-        
-        let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["Error Description"].exists)
-        XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        alert.buttons["OK"].tap()
-        
-        app.staticTexts["View State: idle"].tap()
     }
 }

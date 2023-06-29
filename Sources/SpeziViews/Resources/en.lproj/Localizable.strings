@@ -20,3 +20,6 @@
 
 // MARK: HTMLView
 "HTML_LOADING_ERROR" = "Could not load the HTML.";
+
+// MARK: AnyLocalizedError
+"DEFAULT_ERROR_DESCRIPTION" = "Unexpected error occurred!";

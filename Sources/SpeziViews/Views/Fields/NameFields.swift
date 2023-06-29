@@ -12,23 +12,26 @@ import SwiftUI
 /// ``NameFields`` provides two text fields in a grid layout that allow users to enter their given and family name and parses the results in a `PersonNameComponents` instance.
 public struct NameFields<FocusedField: Hashable>: View {
     public enum LocalizationDefaults {
-        public static var givenName: FieldLocalization {
-            FieldLocalization(
-                title: String(localized: "NAME_FIELD_GIVEN_NAME_TITLE", bundle: .module),
-                placeholder: String(localized: "NAME_FIELD_GIVEN_NAME_PLACEHOLDER", bundle: .module)
+        public static var givenName: FieldLocalizationResource {
+            FieldLocalizationResource(
+                title: "NAME_FIELD_GIVEN_NAME_TITLE",
+                placeholder: "NAME_FIELD_GIVEN_NAME_PLACEHOLDER",
+                bundle: .module
             )
         }
-        public static var familyName: FieldLocalization {
-            FieldLocalization(
-                title: String(localized: "NAME_FIELD_FAMILY_NAME_TITLE", bundle: .module),
-                placeholder: String(localized: "NAME_FIELD_FAMILY_NAME_PLACEHOLDER", bundle: .module)
+        public static var familyName: FieldLocalizationResource {
+            FieldLocalizationResource(
+                title: "NAME_FIELD_FAMILY_NAME_TITLE",
+                placeholder: "NAME_FIELD_FAMILY_NAME_PLACEHOLDER",
+                bundle: .module
             )
         }
     }
     
-    private let givenNameField: FieldLocalization
+    private let givenNameField: FieldLocalizationResource
+    private let familyNameField: FieldLocalizationResource
+
     private let givenNameFieldIdentifier: FocusedField
-    private let familyNameField: FieldLocalization
     private let familyNameFieldIdentifier: FocusedField
     
     @FocusState private var focusedState: FocusedField?
@@ -57,7 +60,7 @@ public struct NameFields<FocusedField: Hashable>: View {
             DescriptionGridRow {
                 Text(givenNameField.title)
             } content: {
-                TextField(givenNameField.placeholder, text: givenNameBinding)
+                TextField(givenNameField.placeholder.localizedString(), text: givenNameBinding)
                     .autocorrectionDisabled(true)
                     .textInputAutocapitalization(.never)
                     .textContentType(.givenName)
@@ -68,7 +71,7 @@ public struct NameFields<FocusedField: Hashable>: View {
             DescriptionGridRow {
                 Text(familyNameField.title)
             } content: {
-                TextField(familyNameField.placeholder, text: familyNameBinding)
+                TextField(familyNameField.placeholder.localizedString(), text: familyNameBinding)
                     .autocorrectionDisabled(true)
                     .textInputAutocapitalization(.never)
                     .textContentType(.familyName)
@@ -85,8 +88,8 @@ public struct NameFields<FocusedField: Hashable>: View {
     ///   - familyNameField: The localization of the family name field.
     public init(
         name: Binding<PersonNameComponents>,
-        givenNameField: FieldLocalization = LocalizationDefaults.givenName,
-        familyNameField: FieldLocalization = LocalizationDefaults.familyName
+        givenNameField: FieldLocalizationResource = LocalizationDefaults.givenName,
+        familyNameField: FieldLocalizationResource = LocalizationDefaults.familyName
     ) where FocusedField == UUID {
         self._name = name
         self.givenNameField = givenNameField
@@ -108,11 +111,11 @@ public struct NameFields<FocusedField: Hashable>: View {
     ///   - focusedState: `FocusState` binding to control and observe the focus state from outside the view.
     public init(
         // swiftlint:disable:previous function_default_parameter_at_end
-        // We want to keep the arguments grouped by field to ensure that we have the same order as in the non-focusfield initializer.
+        // We want to keep the arguments grouped by field to ensure that we have the same order as in the non-focus-field-based initializer.
         name: Binding<PersonNameComponents>,
-        givenNameField: FieldLocalization = LocalizationDefaults.givenName,
+        givenNameField: FieldLocalizationResource = LocalizationDefaults.givenName,
         givenNameFieldIdentifier: FocusedField,
-        familyNameField: FieldLocalization = LocalizationDefaults.familyName,
+        familyNameField: FieldLocalizationResource = LocalizationDefaults.familyName,
         familyNameFieldIdentifier: FocusedField,
         focusedState: FocusState<FocusedField?>
     ) {

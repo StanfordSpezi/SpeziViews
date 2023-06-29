@@ -13,7 +13,6 @@
 		2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9485E29DE90720081C086 /* ViewStateTestView.swift */; };
 		2FA9486629DE90720081C086 /* MarkdownViewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */; };
 		2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486029DE90720081C086 /* CanvasTestView.swift */; };
-		2FA9486829DE90720081C086 /* ViewsTestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486129DE90720081C086 /* ViewsTestsView.swift */; };
 		2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486229DE90720081C086 /* NameFieldsTestView.swift */; };
 		2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */; };
 		2FA9486B29DE90720081C086 /* HTMLViewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486429DE90720081C086 /* HTMLViewTestView.swift */; };
@@ -21,6 +20,9 @@
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
 		2FA9487129DE91CC0081C086 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9487029DE91CC0081C086 /* XCTestApp */; };
 		2FA9487329DE92410081C086 /* XCTestExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9487229DE92410081C086 /* XCTestExtensions */; };
+		A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880962A4C4E6500150B2F /* ModelTests.swift */; };
+		A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */; };
+		A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A978809A2A4C52F100150B2F /* EnvironmentTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,12 +45,14 @@
 		2FA9485E29DE90720081C086 /* ViewStateTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStateTestView.swift; sourceTree = "<group>"; };
 		2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownViewTestView.swift; sourceTree = "<group>"; };
 		2FA9486029DE90720081C086 /* CanvasTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasTestView.swift; sourceTree = "<group>"; };
-		2FA9486129DE90720081C086 /* ViewsTestsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewsTestsView.swift; sourceTree = "<group>"; };
 		2FA9486229DE90720081C086 /* NameFieldsTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameFieldsTestView.swift; sourceTree = "<group>"; };
 		2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeometryReaderTestView.swift; sourceTree = "<group>"; };
 		2FA9486429DE90720081C086 /* HTMLViewTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLViewTestView.swift; sourceTree = "<group>"; };
 		2FA9486C29DE91130081C086 /* ViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewsTests.swift; sourceTree = "<group>"; };
 		2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestApp.xctestplan; sourceTree = "<group>"; };
+		A97880962A4C4E6500150B2F /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultErrorDescriptionTestView.swift; sourceTree = "<group>"; };
+		A978809A2A4C52F100150B2F /* EnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				2FA9486C29DE91130081C086 /* ViewsTests.swift */,
+				A97880962A4C4E6500150B2F /* ModelTests.swift */,
+				A978809A2A4C52F100150B2F /* EnvironmentTests.swift */,
 			);
 			path = TestAppUITests;
 			sourceTree = "<group>";
@@ -125,10 +131,10 @@
 				2FA9485E29DE90720081C086 /* ViewStateTestView.swift */,
 				2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */,
 				2FA9486029DE90720081C086 /* CanvasTestView.swift */,
-				2FA9486129DE90720081C086 /* ViewsTestsView.swift */,
 				2FA9486229DE90720081C086 /* NameFieldsTestView.swift */,
 				2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */,
 				2FA9486429DE90720081C086 /* HTMLViewTestView.swift */,
+				A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */,
 			);
 			path = ViewsTests;
 			sourceTree = "<group>";
@@ -246,11 +252,11 @@
 				2FA9486B29DE90720081C086 /* HTMLViewTestView.swift in Sources */,
 				2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */,
 				2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */,
-				2FA9486829DE90720081C086 /* ViewsTestsView.swift in Sources */,
 				2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */,
 				2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */,
 				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
 				2FA9486629DE90720081C086 /* MarkdownViewTestView.swift in Sources */,
+				A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */,
 				2F2D338729DE52EA00081B1D /* SpeziViewsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +266,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FA9486D29DE91130081C086 /* ViewsTests.swift in Sources */,
+				A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */,
+				A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,7 +652,7 @@
 			repositoryURL = "https://github.com/StanfordSpezi/XCTestExtensions.git";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.4.0;
+				minimumVersion = 0.4.5;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

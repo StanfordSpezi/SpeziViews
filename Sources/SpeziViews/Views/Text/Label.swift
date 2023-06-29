@@ -1,7 +1,7 @@
 //
 // This source file is part of the Stanford Spezi open-source project
 //
-// SPDX-FileCopyrightText: 2022 Stanford University and the project authors (see CONTRIBUTORS.md)
+// SPDX-FileCopyrightText: 2023 Stanford University and the project authors (see CONTRIBUTORS.md)
 //
 // SPDX-License-Identifier: MIT
 //
@@ -12,7 +12,7 @@ import SwiftUI
 private struct _Label: UIViewRepresentable {
     let text: String
     let textStyle: UIFont.TextStyle
-    let textAllignment: NSTextAlignment
+    let textAlignment: NSTextAlignment
     let textColor: UIColor
     let numberOfLines: Int
     let preferredMaxLayoutWidth: CGFloat
@@ -24,7 +24,7 @@ private struct _Label: UIViewRepresentable {
         label.lineBreakMode = .byTruncatingTail
         label.font = UIFont.preferredFont(forTextStyle: textStyle)
         label.adjustsFontForContentSizeCategory = true
-        label.textAlignment = textAllignment
+        label.textAlignment = textAlignment
         label.numberOfLines = numberOfLines
         
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -48,7 +48,7 @@ private struct _Label: UIViewRepresentable {
 public struct Label: View {
     private let text: String
     private let textStyle: UIFont.TextStyle
-    private let textAllignment: NSTextAlignment
+    private let textAlignment: NSTextAlignment
     private let textColor: UIColor
     private let numberOfLines: Int
     
@@ -58,7 +58,7 @@ public struct Label: View {
             _Label(
                 text: text,
                 textStyle: textStyle,
-                textAllignment: textAllignment,
+                textAlignment: textAlignment,
                 textColor: textColor,
                 numberOfLines: numberOfLines,
                 preferredMaxLayoutWidth: width
@@ -71,19 +71,19 @@ public struct Label: View {
     /// - Parameters:
     ///   - text: The text that should be displayed.
     ///   - textStyle: The `UIFont.TextStyle` of the `UILabel`. Defaults to `.body`.
-    ///   - textAllignment: The `NSTextAlignment` of the `UILabel`. Defaults to `.justified`.
+    ///   - textAlignment: The `NSTextAlignment` of the `UILabel`. Defaults to `.justified`.
     ///   - textColor: The `UIColor` of the `UILabel`. Defaults to `.label`.
-    ///   - numberOfLines: The number of lines allowd of the `UILabel`. Defaults to 0 indicating no limit.
+    ///   - numberOfLines: The number of lines allowed of the `UILabel`. Defaults to 0 indicating no limit.
     public init(
         _ text: String,
         textStyle: UIFont.TextStyle = .body,
-        textAllignment: NSTextAlignment = .justified,
+        textAlignment: NSTextAlignment = .justified,
         textColor: UIColor = .label,
         numberOfLines: Int = 0
     ) {
         self.text = text
         self.textStyle = textStyle
-        self.textAllignment = textAllignment
+        self.textAlignment = textAlignment
         self.textColor = textColor
         self.numberOfLines = numberOfLines
     }
