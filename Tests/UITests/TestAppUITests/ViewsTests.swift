@@ -139,7 +139,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.collectionViews.buttons["Hello World"].exists)
         app.collectionViews.buttons["Hello World"].tap()
 
-        XCTAssert(app.collectionViews.staticTexts["Action exectued"].waitForExistence(timeout: 2))
+        XCTAssert(app.collectionViews.staticTexts["Action executed"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Reset"].tap()
 
         XCTAssert(app.collectionViews.buttons["Hello Throwing World"].exists)

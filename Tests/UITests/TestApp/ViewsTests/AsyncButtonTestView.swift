@@ -1,8 +1,9 @@
 //
-//  AsyncButtonTestView.swift
-//  TestApp
+// This source file is part of the Stanford Spezi open-source project
 //
-//  Created by Andreas Bauer on 13.07.23.
+// SPDX-FileCopyrightText: 2022 Stanford University and the project authors (see CONTRIBUTORS.md)
+//
+// SPDX-License-Identifier: MIT
 //
 
 import SpeziViews
@@ -21,14 +22,14 @@ enum CustomError: Error, LocalizedError {
 }
 
 struct AsyncButtonTestView: View {
-    @State private var showCompleted: Bool = false
+    @State private var showCompleted = false
     @State private var viewState: ViewState = .idle
 
     var body: some View {
         List {
             if showCompleted {
                 Section {
-                    Text("Action exectued")
+                    Text("Action executed")
                     Button("Reset") {
                         showCompleted = false
                     }
