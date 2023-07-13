@@ -47,7 +47,7 @@ final class ViewsTests: XCTestCase {
         
         app.collectionViews.buttons["Name Fields"].tap()
         
-        XCTAssert(app.staticTexts["First Title"].exists)
+        XCTAssert(app.staticTexts["First Title"].waitForExistence(timeout: 1))
         XCTAssert(app.staticTexts["Second Title"].exists)
         XCTAssert(app.staticTexts["First Name"].exists)
         XCTAssert(app.staticTexts["Last Name"].exists)
@@ -68,10 +68,10 @@ final class ViewsTests: XCTestCase {
         
         app.collectionViews.buttons["User Profile"].tap()
         
-        XCTAssertTrue(app.staticTexts["PS"].exists)
+        XCTAssertTrue(app.staticTexts["PS"].waitForExistence(timeout: 1))
         XCTAssertTrue(app.staticTexts["LS"].exists)
         
-        XCTAssertTrue(app.images["person.crop.artframe"].waitForExistence(timeout: 1.0))
+        XCTAssertTrue(app.images["person.crop.artframe"].waitForExistence(timeout: 3.5))
     }
     
     func testGeometryReader() throws {
@@ -89,6 +89,8 @@ final class ViewsTests: XCTestCase {
         app.launch()
         
         app.collectionViews.buttons["Label"].tap()
+
+        sleep(2)
         
         // The string value needs to be searched for in the UI.
         // swiftlint:disable:next line_length
@@ -102,7 +104,7 @@ final class ViewsTests: XCTestCase {
         
         app.collectionViews.buttons["Lazy Text"].tap()
         
-        XCTAssert(app.staticTexts["This is a long text ..."].exists)
+        XCTAssert(app.staticTexts["This is a long text ..."].waitForExistence(timeout: 1))
         XCTAssert(app.staticTexts["And some more lines ..."].exists)
         XCTAssert(app.staticTexts["And a third line ..."].exists)
     }
@@ -113,8 +115,8 @@ final class ViewsTests: XCTestCase {
         
         app.collectionViews.buttons["Markdown View"].tap()
         
-        XCTAssert(app.staticTexts["This is a markdown example."].exists)
-        
+        XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 1))
+
         sleep(6)
         
         XCTAssert(app.staticTexts["This is a markdown example taking 5 seconds to load."].exists)
@@ -136,7 +138,7 @@ final class ViewsTests: XCTestCase {
 
         app.collectionViews.buttons["Async Button"].tap()
 
-        XCTAssert(app.collectionViews.buttons["Hello World"].exists)
+        XCTAssert(app.collectionViews.buttons["Hello World"].waitForExistence(timeout: 1))
         app.collectionViews.buttons["Hello World"].tap()
 
         XCTAssert(app.collectionViews.staticTexts["Action executed"].waitForExistence(timeout: 2))

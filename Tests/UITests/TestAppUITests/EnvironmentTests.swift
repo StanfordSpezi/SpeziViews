@@ -17,7 +17,7 @@ final class EnvironmentTests: XCTestCase {
 
         app.collectionViews.buttons["Default Error Description"].tap()
 
-        XCTAssert(app.staticTexts["View State: processing"].exists)
+        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 1))
 
         sleep(6)
 

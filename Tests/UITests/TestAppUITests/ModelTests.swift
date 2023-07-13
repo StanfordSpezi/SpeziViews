@@ -17,7 +17,7 @@ final class ModelTests: XCTestCase {
 
         app.collectionViews.buttons["View State"].tap()
 
-        XCTAssert(app.staticTexts["View State: processing"].exists)
+        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 1))
 
         sleep(6)
 
@@ -35,7 +35,7 @@ final class ModelTests: XCTestCase {
 
         app.collectionViews.buttons["Default Error Only"].tap()
 
-        XCTAssert(app.staticTexts["View State: processing"].exists)
+        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 1))
 
         sleep(6)
 

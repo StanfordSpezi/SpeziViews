@@ -656,7 +656,7 @@
 			repositoryURL = "https://github.com/StanfordSpezi/XCTestExtensions.git";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.4.5;
+				minimumVersion = 0.4.6;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -42,7 +42,7 @@ enum SpeziViewsTests: String, TestAppTests {
         UserProfileView(
             name: PersonNameComponents(givenName: "Leland", familyName: "Stanford"),
             imageLoader: {
-                try? await Task.sleep(for: .seconds(1))
+                try? await Task.sleep(for: .seconds(3))
                 return Image(systemName: "person.crop.artframe")
             }
         )
