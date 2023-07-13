@@ -26,7 +26,8 @@ struct ViewStateTestView: View {
     )
     
     @State var viewState: ViewState = .idle
-    @Environment(\.defaultErrorDescription) var defaultErrorDescription
+    @Environment(\.defaultErrorDescription)
+    var defaultErrorDescription
     
     var body: some View {
         Text("View State: \(String(describing: viewState))")

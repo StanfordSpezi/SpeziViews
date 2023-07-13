@@ -129,4 +129,25 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 15))
         XCTAssert(app.staticTexts["This is an HTML example taking 5 seconds to load."].waitForExistence(timeout: 10))
     }
+
+    func testAsyncButtonView() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        app.collectionViews.buttons["Async Button"].tap()
+
+        XCTAssert(app.collectionViews.buttons["Hello World"].exists)
+        app.collectionViews.buttons["Hello World"].tap()
+
+        XCTAssert(app.collectionViews.staticTexts["Action exectued"].waitForExistence(timeout: 2))
+        app.collectionViews.buttons["Reset"].tap()
+
+        XCTAssert(app.collectionViews.buttons["Hello Throwing World"].exists)
+        app.collectionViews.buttons["Hello Throwing World"].tap()
+
+        let alert = app.alerts.firstMatch.scrollViews.otherElements
+        XCTAssert(alert.staticTexts["Custom Error"].waitForExistence(timeout: 1))
+        XCTAssert(alert.staticTexts["Error was thrown!"].waitForExistence(timeout: 1))
+        alert.buttons["OK"].tap()
+    }
 }

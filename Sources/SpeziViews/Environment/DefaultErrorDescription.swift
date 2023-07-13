@@ -14,7 +14,7 @@ import SwiftUI
 /// sensible default for a localized default error description in the case that a sub-view has to display
 /// an ``AnyLocalizedError`` for a generic error.
 public struct DefaultErrorDescription: EnvironmentKey {
-    public static var defaultValue: LocalizedStringResource?
+    public static let defaultValue: LocalizedStringResource? = nil
 }
 
 extension EnvironmentValues {
