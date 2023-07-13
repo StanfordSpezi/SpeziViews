@@ -26,15 +26,18 @@ enum SpeziViewsTests: String, TestAppTests {
     case asyncButton = "Async Button"
     
     
-    @ViewBuilder private var canvas: some View {
+    @ViewBuilder
+    private var canvas: some View {
         CanvasTestView()
     }
     
-    @ViewBuilder private var nameFields: some View {
+    @ViewBuilder
+    private var nameFields: some View {
         NameFieldsTestView()
     }
     
-    @ViewBuilder private var userProfile: some View {
+    @ViewBuilder
+    private var userProfile: some View {
         UserProfileView(
             name: PersonNameComponents(givenName: "Paul", familyName: "Schmiedmayer")
         )
@@ -49,11 +52,13 @@ enum SpeziViewsTests: String, TestAppTests {
             .frame(width: 200)
     }
     
-    @ViewBuilder private var geometryReader: some View {
+    @ViewBuilder
+    private var geometryReader: some View {
         GeometryReaderTestView()
     }
     
-    @ViewBuilder private var label: some View {
+    @ViewBuilder
+    private var label: some View {
         Label(
             """
             This is a label ...
@@ -74,15 +79,18 @@ enum SpeziViewsTests: String, TestAppTests {
             .border(.red)
     }
     
-    @ViewBuilder private var markdownView: some View {
+    @ViewBuilder
+    private var markdownView: some View {
         MarkdownViewTestView()
     }
 
-    @ViewBuilder private var htmlView: some View {
+    @ViewBuilder
+    private var htmlView: some View {
         HTMLViewTestView()
     }
     
-    @ViewBuilder private var lazyText: some View {
+    @ViewBuilder
+    private var lazyText: some View {
         ScrollView {
             LazyText(
                 text: """
@@ -96,19 +104,23 @@ enum SpeziViewsTests: String, TestAppTests {
         }
     }
     
-    @ViewBuilder private var viewState: some View {
+    @ViewBuilder
+    private var viewState: some View {
         ViewStateTestView()
     }
 
-    @ViewBuilder private var defaultErrorOnly: some View {
+    @ViewBuilder
+    private var defaultErrorOnly: some View {
         ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"))
     }
 
-    @ViewBuilder private var defaultErrorDescription: some View {
+    @ViewBuilder
+    private var defaultErrorDescription: some View {
         DefaultErrorDescriptionTestView()
     }
 
-    @ViewBuilder private var asyncButton: some View {
+    @ViewBuilder
+    private var asyncButton: some View {
         AsyncButtonTestView()
     }
     

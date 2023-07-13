@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 /// An `EnvironmentKey` that provides a generalized configuration for debounce durations for any processing-related operations.
 ///
 /// This might be helpful to provide extensive customization points without introducing clutter in the initializer of views.
@@ -15,6 +16,7 @@ import SwiftUI
 public struct ProcessingDebounceDuration: EnvironmentKey {
     public static let defaultValue: Duration = .milliseconds(150)
 }
+
 
 extension EnvironmentValues {
     /// Refer to the documentation of ``ProcessingDebounceDuration``.

@@ -8,11 +8,13 @@
 
 import SwiftUI
 
+
 enum AsyncButtonState {
     case idle
     case disabled
     case disabledAndProcessing
 }
+
 
 /// A SwiftUI `Button` that initiates an asynchronous (throwing) action.
 @MainActor
@@ -47,6 +49,7 @@ public struct AsyncButton<Label: View>: View {
                 actionTask?.cancel()
             }
     }
+
 
     /// Creates am async button that generates its label from a provided localized string.
     /// - Parameters:
@@ -116,6 +119,7 @@ public struct AsyncButton<Label: View>: View {
         self.label = label
     }
 
+
     private func submitAction() {
         guard viewState != .processing else {
             return
@@ -167,6 +171,7 @@ public struct AsyncButton<Label: View>: View {
         }
     }
 }
+
 
 #if DEBUG
 struct AsyncThrowingButton_Previews: PreviewProvider {

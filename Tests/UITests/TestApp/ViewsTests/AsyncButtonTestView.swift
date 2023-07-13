@@ -9,6 +9,7 @@
 import SpeziViews
 import SwiftUI
 
+
 enum CustomError: Error, LocalizedError {
     case error
 
@@ -20,6 +21,7 @@ enum CustomError: Error, LocalizedError {
         "Error was thrown!"
     }
 }
+
 
 struct AsyncButtonTestView: View {
     @State private var showCompleted = false
@@ -51,6 +53,7 @@ struct AsyncButtonTestView: View {
         }
     }
 }
+
 
 #if DEBUG
 struct AsyncButtonTestView_Previews: PreviewProvider {

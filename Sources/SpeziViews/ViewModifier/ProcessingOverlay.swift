@@ -8,9 +8,11 @@
 
 import SwiftUI
 
+
 private struct ProcessingOverlay<Overlay: View>: ViewModifier {
     fileprivate var isProcessing: Bool
     @ViewBuilder fileprivate var overlay: () -> Overlay
+
 
     func body(content: Content) -> some View {
         content
@@ -22,6 +24,7 @@ private struct ProcessingOverlay<Overlay: View>: ViewModifier {
             }
     }
 }
+
 
 extension View {
     /// Modifies the view to be replaced by an processing indicator based on the supplied condition.
