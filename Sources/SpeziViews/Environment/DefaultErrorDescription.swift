@@ -8,13 +8,14 @@
 
 import SwiftUI
 
+
 /// An `EnvironmentKey` that provides access to the default, localized error description.
 ///
 /// This might be helpful for views that rely on ``AnyLocalizedError``. Outer views can define a
 /// sensible default for a localized default error description in the case that a sub-view has to display
 /// an ``AnyLocalizedError`` for a generic error.
 public struct DefaultErrorDescription: EnvironmentKey {
-    public static var defaultValue: LocalizedStringResource?
+    public static let defaultValue: LocalizedStringResource? = nil
 }
 
 extension EnvironmentValues {

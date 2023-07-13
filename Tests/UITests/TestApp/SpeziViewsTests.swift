@@ -23,6 +23,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case viewState = "View State"
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
+    case asyncButton = "Async Button"
     
     
     @ViewBuilder
@@ -44,7 +45,7 @@ enum SpeziViewsTests: String, TestAppTests {
         UserProfileView(
             name: PersonNameComponents(givenName: "Leland", familyName: "Stanford"),
             imageLoader: {
-                try? await Task.sleep(for: .seconds(1))
+                try? await Task.sleep(for: .seconds(3))
                 return Image(systemName: "person.crop.artframe")
             }
         )
@@ -117,6 +118,11 @@ enum SpeziViewsTests: String, TestAppTests {
     private var defaultErrorDescription: some View {
         DefaultErrorDescriptionTestView()
     }
+
+    @ViewBuilder
+    private var asyncButton: some View {
+        AsyncButtonTestView()
+    }
     
 
     // swiftlint:disable:next cyclomatic_complexity
@@ -144,6 +150,8 @@ enum SpeziViewsTests: String, TestAppTests {
             defaultErrorOnly
         case .defaultErrorDescription:
             defaultErrorDescription
+        case .asyncButton:
+            asyncButton
         }
     }
 }

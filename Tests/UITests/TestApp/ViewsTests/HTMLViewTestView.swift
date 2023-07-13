@@ -26,8 +26,10 @@ struct HTMLViewTestView: View {
     }
 }
 
+#if DEBUG
 struct HTMLViewTestView_Previews: PreviewProvider {
     static var previews: some View {
         HTMLViewTestView()
     }
 }
+#endif

@@ -15,8 +15,10 @@ struct DefaultErrorDescriptionTestView: View {
     }
 }
 
+#if DEBUG
 struct DefaultErrorDescriptionTestView_Previews: PreviewProvider {
     static var previews: some View {
         DefaultErrorDescriptionTestView()
     }
 }
+#endif
