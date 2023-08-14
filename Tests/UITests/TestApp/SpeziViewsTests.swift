@@ -59,11 +59,7 @@ enum SpeziViewsTests: String, TestAppTests {
     
     @ViewBuilder
     private var label: some View {
-        Label(
-            """
-            This is a label ...
-            An other text. This is longer and we can check if the justified text works as expected. This is a very long text.
-            """,
+        Label("LABEL_TEXT",
             textAlignment: .justified,
             textColor: .blue
         )
@@ -101,6 +97,7 @@ enum SpeziViewsTests: String, TestAppTests {
                 And a third line ...
                 """
             )
+            LazyText(text: "LAZY_TEXT")
         }
     }
     

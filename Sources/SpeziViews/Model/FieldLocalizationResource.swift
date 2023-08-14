@@ -32,7 +32,12 @@ public struct FieldLocalizationResource: Codable {
     ///   - placeholder: The placeholder of a `TextField` following the localization mechanisms lined out in `StringProtocol.localized()`.
     ///   - bundle: The `Bundle` used for localization. If you have differing bundles for title and placeholder use the
     ///     alternative initializer ``init(title:placeholder:)``.
-    public init(title: String, placeholder: String, bundle: Bundle? = nil) {
+    @_disfavoredOverload
+    public init<Title: StringProtocol, Placeholder: StringProtocol>(
+        title: Title,
+        placeholder: Placeholder,
+        bundle: Bundle? = nil
+    ) {
         self.init(title: title.localized(bundle), placeholder: placeholder.localized(bundle))
     }
 }

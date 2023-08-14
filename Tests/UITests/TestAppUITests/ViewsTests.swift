@@ -107,6 +107,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["This is a long text ..."].waitForExistence(timeout: 1))
         XCTAssert(app.staticTexts["And some more lines ..."].exists)
         XCTAssert(app.staticTexts["And a third line ..."].exists)
+        XCTAssert(app.staticTexts["An other lazy text ..."].exists)
     }
     
     func testMarkdownView() throws {

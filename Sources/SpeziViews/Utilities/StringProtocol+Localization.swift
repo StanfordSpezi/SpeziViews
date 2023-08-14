@@ -26,7 +26,7 @@ extension StringProtocol {
     /// `String` instances are not localized. You have to manually localize a `String` instance using `String(localized:)`.
     public func localized(_ bundle: Bundle? = nil) -> LocalizedStringResource {
         let bundleDescription = bundle.map { LocalizedStringResource.BundleDescription.atURL(from: $0) } ?? .main
-
+        
         switch self {
         case let text as String.LocalizationValue:
             return LocalizedStringResource(text, bundle: bundleDescription)
