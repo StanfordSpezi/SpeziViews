@@ -59,7 +59,8 @@ enum SpeziViewsTests: String, TestAppTests {
     
     @ViewBuilder
     private var label: some View {
-        Label("LABEL_TEXT",
+        Label(
+            "LABEL_TEXT",
             textAlignment: .justified,
             textColor: .blue
         )
