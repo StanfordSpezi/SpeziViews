@@ -18,6 +18,7 @@ public struct DefaultErrorDescription: EnvironmentKey {
     public static let defaultValue: LocalizedStringResource? = nil
 }
 
+
 extension EnvironmentValues {
     /// Refer to the documentation of ``DefaultErrorDescription``.
     public var defaultErrorDescription: LocalizedStringResource? {

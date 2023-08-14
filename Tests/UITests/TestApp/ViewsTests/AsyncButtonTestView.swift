@@ -38,11 +38,10 @@ struct AsyncButtonTestView: View {
                 }
             }
             Group {
-                AsyncButton("Hello World") {
+                AsyncButton("HELLO_WORLD") {
                     try? await Task.sleep(for: .milliseconds(500))
                     showCompleted = true
                 }
-
                 AsyncButton("Hello Throwing World", role: .destructive, state: $viewState) {
                     try? await Task.sleep(for: .milliseconds(500))
                     throw CustomError.error

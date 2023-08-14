@@ -1,0 +1,87 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lf" : {
+
+    },
+    "Action executed" : {
+
+    },
+    "Did Draw Anything: %@" : {
+
+    },
+    "Error Description" : {
+
+    },
+    "First Placeholder" : {
+
+    },
+    "First Title" : {
+
+    },
+    "Hello Throwing World" : {
+
+    },
+    "HELLO_WORLD" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hallo Welt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello World"
+          }
+        }
+      }
+    },
+    "LABEL_TEXT" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text."
+          }
+        }
+      }
+    },
+    "LAZY_TEXT" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An other lazy text ..."
+          }
+        }
+      }
+    },
+    "Reset" : {
+
+    },
+    "Second Placeholder" : {
+
+    },
+    "Second Title" : {
+
+    },
+    "Show Tool Picker" : {
+
+    },
+    "This is a default error description!" : {
+
+    },
+    "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
+
+    },
+    "This is a long text ...\n\nAnd some more lines ...\n\nAnd a third line ..." : {
+
+    },
+    "View State: %@" : {
+
+    }
+  },
+  "version" : "1.0"
+}
