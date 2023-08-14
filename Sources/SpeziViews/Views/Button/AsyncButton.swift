@@ -84,6 +84,24 @@ public struct AsyncButton<Label: View>: View {
 
     /// Creates an async throwing button that generates its label from a provided localized string.
     /// - Parameters:
+    ///   - title: The string without localization used to generate the Label.
+    ///   - role: An optional button role that is passed onto the underlying `Button`.
+    ///   - state: A ``ViewState`` binding that it used to propagate any error caught in the button action.
+    ///         It may also be used to externally control or observe the button's processing state.
+    ///   - action: An asynchronous button action.
+    public init<S: StringProtocol>( // swiftlint:disable:this function_default_parameter_at_end
+        _ title: S,
+        role: ButtonRole? = nil,
+        state: Binding<ViewState>,
+        action: @escaping () async throws -> Void
+    ) where Label == Text {
+        self.init(role: role, state: state, action: action) {
+            Text(title)
+        }
+    }
+    
+    /// Creates an async throwing button that generates its label from a provided localized string.
+    /// - Parameters:
     ///   - title: The localized string used to generate the Label.
     ///   - role: An optional button role that is passed onto the underlying `Button`.
     ///   - state: A ``ViewState`` binding that it used to propagate any error caught in the button action.

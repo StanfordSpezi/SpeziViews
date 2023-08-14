@@ -75,13 +75,34 @@ public struct Label: View {
     ///   - textColor: The `UIColor` of the `UILabel`. Defaults to `.label`.
     ///   - numberOfLines: The number of lines allowed of the `UILabel`. Defaults to 0 indicating no limit.
     public init(
-        _ text: String,
+        _ text: LocalizedStringResource,
         textStyle: UIFont.TextStyle = .body,
         textAlignment: NSTextAlignment = .justified,
         textColor: UIColor = .label,
         numberOfLines: Int = 0
     ) {
-        self.text = text
+        self.text = text.localizedString()
+        self.textStyle = textStyle
+        self.textAlignment = textAlignment
+        self.textColor = textColor
+        self.numberOfLines = numberOfLines
+    }
+    
+    /// Creates a new instance of the SwiftUI-based wrapper around a `UILabel` without localization.
+    /// - Parameters:
+    ///   - text: The text that should be displayed without localization.
+    ///   - textStyle: The `UIFont.TextStyle` of the `UILabel`. Defaults to `.body`.
+    ///   - textAlignment: The `NSTextAlignment` of the `UILabel`. Defaults to `.justified`.
+    ///   - textColor: The `UIColor` of the `UILabel`. Defaults to `.label`.
+    ///   - numberOfLines: The number of lines allowed of the `UILabel`. Defaults to 0 indicating no limit.
+    public init<S: StringProtocol>(
+        _ text: S,
+        textStyle: UIFont.TextStyle = .body,
+        textAlignment: NSTextAlignment = .justified,
+        textColor: UIColor = .label,
+        numberOfLines: Int = 0
+    ) {
+        self.text = String(text)
         self.textStyle = textStyle
         self.textAlignment = textAlignment
         self.textColor = textColor

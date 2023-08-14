@@ -19,8 +19,8 @@ public enum ViewState {
     case error(LocalizedError)
 }
 
-// MARK: - ViewState Extensions
 
+// MARK: - ViewState Extensions
 extension ViewState: Equatable {
     public static func == (lhs: ViewState, rhs: ViewState) -> Bool {
         switch (lhs, rhs) {
@@ -31,6 +31,7 @@ extension ViewState: Equatable {
         }
     }
 }
+
 
 // MARK: - ViewState + Error
 extension ViewState {
