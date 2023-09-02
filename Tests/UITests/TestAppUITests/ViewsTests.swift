@@ -154,5 +154,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(alert.staticTexts["Custom Error"].waitForExistence(timeout: 1))
         XCTAssert(alert.staticTexts["Error was thrown!"].waitForExistence(timeout: 1))
         alert.buttons["OK"].tap()
+
+        XCTAssert(app.collectionViews.buttons["Hello Throwing World"].isEnabled)
     }
 }
