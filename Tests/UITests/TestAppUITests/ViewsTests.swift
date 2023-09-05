@@ -39,6 +39,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
         
+        sleep(2) // waitForExistence will otherwise return immediately
         XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 2))
         canvasView.swipeUp()
     }
@@ -154,5 +155,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(alert.staticTexts["Custom Error"].waitForExistence(timeout: 1))
         XCTAssert(alert.staticTexts["Error was thrown!"].waitForExistence(timeout: 1))
         alert.buttons["OK"].tap()
+
+        XCTAssert(app.collectionViews.buttons["Hello Throwing World"].isEnabled)
     }
 }

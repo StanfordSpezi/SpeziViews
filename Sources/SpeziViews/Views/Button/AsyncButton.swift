@@ -166,11 +166,11 @@ public struct AsyncButton<Label: View>: View {
         }
 
         actionTask = Task {
-            do {
-                let debounce = Task {
-                    try await debounceProcessingIndicator()
-                }
+            let debounce = Task {
+                await debounceProcessingIndicator()
+            }
 
+            do {
                 try await action()
                 debounce.cancel()
 
@@ -181,6 +181,7 @@ public struct AsyncButton<Label: View>: View {
                     }
                 }
             } catch {
+                debounce.cancel()
                 viewState = .error(AnyLocalizedError(
                     error: error,
                     defaultErrorDescription: defaultErrorDescription
@@ -192,8 +193,8 @@ public struct AsyncButton<Label: View>: View {
         }
     }
 
-    private func debounceProcessingIndicator() async throws {
-        try await Task.sleep(for: processingDebounceDuration)
+    private func debounceProcessingIndicator() async {
+        try? await Task.sleep(for: processingDebounceDuration)
 
         // this is actually important to catch cases where the action runs a tiny bit faster than the debounce timer
         guard !Task.isCancelled else {
@@ -230,10 +231,7 @@ struct AsyncThrowingButton_Previews: PreviewProvider {
         Group {
             PreviewButton()
             PreviewButton(title: "Test Button with short action", duration: .milliseconds(100))
-            /*AsyncThrowingButton(state: $state, action: { print("button pressed") }) {
-                Text("Test Button!")
-            }*/
-            PreviewButton(title: "Test Button with Error") {
+            PreviewButton(title: "Test Button with Error", duration: .seconds(0)) {
                 throw CancellationError()
             }
 
