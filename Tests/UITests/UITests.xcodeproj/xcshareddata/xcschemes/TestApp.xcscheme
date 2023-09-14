@@ -14,10 +14,10 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2F6D139128F5F384007C25D6"
-               BuildableName = "TestApp.app"
-               BlueprintName = "TestApp"
-               ReferencedContainer = "container:UITests.xcodeproj">
+               BlueprintIdentifier = "SpeziViews"
+               BuildableName = "SpeziViews"
+               BlueprintName = "SpeziViews"
+               ReferencedContainer = "container:../..">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
