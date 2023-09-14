@@ -10,7 +10,15 @@ import Foundation
 
 extension LocalizedStringResource {
     /// Creates a localized `String` from the given `LocalizedStringResource`.
-    public func localizedString() -> String {
-        String(localized: self)
+    /// - Parameter locale: Specifies an override locale.
+    /// - Returns: The localized string.
+    public func localizedString(for locale: Locale? = nil) -> String {
+        if let locale {
+            var resource = self
+            resource.locale = locale
+            return String(localized: resource)
+        }
+
+        return String(localized: self)
     }
 }
