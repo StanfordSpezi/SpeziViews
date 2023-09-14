@@ -18,7 +18,6 @@ extension LocalizedStringResource {
             resource.locale = locale
             return String(localized: resource)
         }
-
         return String(localized: self)
     }
 }

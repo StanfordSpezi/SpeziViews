@@ -50,7 +50,10 @@ struct NameFieldRow<Label: View, FocusedField: Hashable>: View {
 
         if let fieldFocus {
             row
-                .onTapFocus(focusedField: fieldFocus.focusedState, fieldIdentifier: fieldFocus.fieldIdentifier)
+                .onTapFocus(
+                    focusedField: fieldFocus.focusedState,
+                    fieldIdentifier: fieldFocus.fieldIdentifier
+                )
         } else {
             row
                 .onTapFocus()

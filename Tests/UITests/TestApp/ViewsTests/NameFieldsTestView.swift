@@ -12,6 +12,8 @@ import SwiftUI
 
 struct NameFieldsTestView: View {
     @State var name = PersonNameComponents()
+
+    @FocusState var focus: String?
     
     var body: some View {
         VStack {
@@ -22,7 +24,7 @@ struct NameFieldsTestView: View {
             )
                 .padding(32)
             Form {
-                NameFields(name: $name)
+                NameFields(name: $name, givenNameFieldIdentifier: "givenName", familyNameFieldIdentifier: "familyName", focusedState: $focus)
             }
         }
             .navigationBarTitleDisplayMode(.inline)
