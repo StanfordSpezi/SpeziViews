@@ -72,7 +72,7 @@ public struct NameFields<GivenNameLabel: View, FamilyNameLabel: View, FocusedFie
         givenNameFieldIdentifier: FocusedField,
         familyNameField: FieldLocalizationResource = LocalizationDefaults.familyName,
         familyNameFieldIdentifier: FocusedField,
-        focusedState: FocusState<FocusedField?>.Binding // TODO breaking change!
+        focusedState: FocusState<FocusedField?>.Binding
     ) where GivenNameLabel == Text, FamilyNameLabel == Text {
         self.init(
             name: name,
