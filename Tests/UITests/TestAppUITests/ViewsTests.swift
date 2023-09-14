@@ -98,7 +98,7 @@ final class ViewsTests: XCTestCase {
         // The string value needs to be searched for in the UI.
         // swiftlint:disable:next line_length
         let text = "This is a label ... An other text. This is longer and we can check if the justified text works as expected. This is a very long text."
-        XCTAssertEqual(app.staticTexts.allElementsBoundByIndex.filter { $0.label.contains(text) }.count, 2)
+        XCTAssertEqual(app.staticTexts.allElementsBoundByIndex.filter { $0.label.replacingOccurrences(of: "\n", with: " ").contains(text) }.count, 2)
     }
     
     func testLazyText() throws {
