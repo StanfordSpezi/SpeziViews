@@ -9,25 +9,27 @@
 import SwiftUI
 
 
+private struct UUIDOnTapFocus: ViewModifier {
+    @FocusState var focusedState: UUID?
+
+    func body(content: Content) -> some View {
+        content
+            .onTapFocus(focusedField: $focusedState, fieldIdentifier: UUID())
+    }
+}
+
+
 private struct OnTapFocus<FocusedField: Hashable>: ViewModifier {
     private let fieldIdentifier: FocusedField
-    
-    @FocusState private var focusedState: FocusedField?
-    
+
+    @FocusState.Binding var focusedState: FocusedField?
     
     init(
-        focusedState: FocusState<FocusedField?>,
+        focusedState: FocusState<FocusedField?>.Binding,
         fieldIdentifier: FocusedField
     ) {
         self._focusedState = focusedState
         self.fieldIdentifier = fieldIdentifier
-    }
-    
-    init() where FocusedField == UUID {
-        self.init(
-            focusedState: FocusState<FocusedField?>(),
-            fieldIdentifier: UUID()
-        )
     }
     
     
@@ -44,17 +46,29 @@ private struct OnTapFocus<FocusedField: Hashable>: ViewModifier {
 extension View {
     /// Modifies the view to be in a focused state (e.g., `TextFields`) if it is tapped.
     public func onTapFocus() -> some View {
-        modifier(OnTapFocus())
+        modifier(UUIDOnTapFocus())
+    }
+
+    /// Modifies the view to be in a focused state (e.g., `TextFields`) if it is tapped.
+    /// - Parameters:
+    ///   - focusedField: The `FocusState` binding that should be set.
+    ///   - fieldIdentifier: The identifier that the `focusedField` should be set to.
+    public func onTapFocus<FocusedField: Hashable>(
+        focusedField: FocusState<FocusedField?>.Binding,
+        fieldIdentifier: FocusedField
+    ) -> some View {
+        modifier(OnTapFocus(focusedState: focusedField, fieldIdentifier: fieldIdentifier))
     }
     
     /// Modifies the view to be in a focused state (e.g., `TextFields`) if it is tapped.
     /// - Parameters:
     ///   - focusedField: The `FocusState` binding that should be set.
     ///   - fieldIdentifier: The identifier that the `focusedField` should be set to.
+    @available(*, deprecated, message: "Please move to the onTapFocus(focusedField:fieldIdentifier:) that accepts the FocusState as a Binding.")
     public func onTapFocus<FocusedField: Hashable>(
         focusedField: FocusState<FocusedField?>,
         fieldIdentifier: FocusedField
     ) -> some View {
-        modifier(OnTapFocus(focusedState: focusedField, fieldIdentifier: fieldIdentifier))
+        modifier(OnTapFocus(focusedState: focusedField.projectedValue, fieldIdentifier: fieldIdentifier))
     }
 }

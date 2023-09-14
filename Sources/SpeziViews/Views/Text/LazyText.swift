@@ -13,12 +13,14 @@ import SwiftUI
 ///
 /// Uses a `LazyVStack` under the hood to load and display the text line-by-line.
 public struct LazyText: View {
-    private let text: String
+    private let text: LocalizedStringResource
+
+    @Environment(\.locale) private var locale
     
     
     private var lines: [(id: UUID, text: String)] {
         var lines: [(id: UUID, text: String)] = []
-        text.enumerateLines { line, _ in
+        text.localizedString(for: locale).enumerateLines { line, _ in
             lines.append((UUID(), line))
         }
         return lines
@@ -38,13 +40,13 @@ public struct LazyText: View {
     /// - Parameter text: The text without localization that should be displayed in the ``LazyText`` view.
     @_disfavoredOverload
     public init<Text: StringProtocol>(text: Text) {
-        self.text = String(text)
+        self.text = LocalizedStringResource("\(String(text))")
     }
     
     /// A lazy loading text view that is especially useful for larger text files that should not be displayed all at once.
     /// - Parameter text: The text that should be displayed in the ``LazyText`` view.
     public init(text: LocalizedStringResource) {
-        self.text = text.localizedString()
+        self.text = text
     }
 }
 

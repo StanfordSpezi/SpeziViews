@@ -47,17 +47,19 @@ private struct _Label: UIViewRepresentable {
 
 /// A ``Label`` is a SwiftUI-based wrapper around a `UILabel` that allows the usage of an `NSTextAlignment` to e.g. justify the text.
 public struct Label: View {
-    private let text: String
+    private let text: LocalizedStringResource
     private let textStyle: UIFont.TextStyle
     private let textAlignment: NSTextAlignment
     private let textColor: UIColor
     private let numberOfLines: Int
+
+    @Environment(\.locale) private var locale
     
     
     public var body: some View {
         HorizontalGeometryReader { width in
             _Label(
-                text: text,
+                text: text.localizedString(for: locale),
                 textStyle: textStyle,
                 textAlignment: textAlignment,
                 textColor: textColor,
@@ -82,7 +84,7 @@ public struct Label: View {
         textColor: UIColor = .label,
         numberOfLines: Int = 0
     ) {
-        self.text = text.localizedString()
+        self.text = text
         self.textStyle = textStyle
         self.textAlignment = textAlignment
         self.textColor = textColor
@@ -104,7 +106,7 @@ public struct Label: View {
         textColor: UIColor = .label,
         numberOfLines: Int = 0
     ) {
-        self.text = String(text)
+        self.text = LocalizedStringResource("\(String(text))")
         self.textStyle = textStyle
         self.textAlignment = textAlignment
         self.textColor = textColor

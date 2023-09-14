@@ -18,7 +18,6 @@ public struct DescriptionGridRow<Description: View, Content: View>: View {
     public var body: some View {
         GridRow {
             description
-                .fontWeight(.semibold)
                 .gridColumnAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
             content
