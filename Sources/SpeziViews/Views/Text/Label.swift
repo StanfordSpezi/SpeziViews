@@ -67,6 +67,9 @@ public struct Label: View {
                 preferredMaxLayoutWidth: width
             )
         }
+            .accessibilityRepresentation {
+                Text(text)
+            }
     }
     
     
@@ -113,3 +116,12 @@ public struct Label: View {
         self.numberOfLines = numberOfLines
     }
 }
+
+
+#if DEBUG
+struct Label_Previews: PreviewProvider {
+    static var previews: some View {
+        Label("This is very long text that wraps around multiple lines and adjusts the spacing between words accordingly.")
+    }
+}
+#endif
