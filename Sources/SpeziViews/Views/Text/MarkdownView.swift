@@ -24,6 +24,11 @@ import SwiftUI
 /// )
 /// ```
 public struct MarkdownView: View {
+    public enum Error: LocalizedError {
+        case markdownLoadingError
+    }
+    
+    
     private let asyncMarkdown: () async -> Data
     
     @State private var markdown: Data?
@@ -36,9 +41,15 @@ public struct MarkdownView: View {
                 markdown: markdown,
                 options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
               ) else {
+            Task { @MainActor in
+                state = .error(Error.markdownLoadingError)
+            }
             return AttributedString(
                 String(localized: "MARKDOWN_LOADING_ERROR", bundle: .module)
             )
+        }
+        Task { @MainActor in
+            state = .idle
         }
         return markdownString
     }
@@ -55,6 +66,7 @@ public struct MarkdownView: View {
             }
         }
             .task {
+                state = .processing
                 markdown = await asyncMarkdown()
             }
     }
