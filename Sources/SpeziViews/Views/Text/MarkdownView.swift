@@ -41,9 +41,6 @@ public struct MarkdownView: View {
                 markdown: markdown,
                 options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
               ) else {
-            Task { @MainActor in
-                state = .error(Error.markdownLoadingError)
-            }
             return AttributedString(
                 String(localized: "MARKDOWN_LOADING_ERROR", bundle: .module)
             )
