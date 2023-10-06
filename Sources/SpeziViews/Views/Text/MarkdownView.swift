@@ -26,6 +26,18 @@ import SwiftUI
 public struct MarkdownView: View {
     public enum Error: LocalizedError {
         case markdownLoadingError
+        
+        public var errorDescription: String? {
+            "Failed to load the markdown text."
+        }
+        
+        public var recoverySuggestion: String? {
+            "Please check the content of the markdown text."
+        }
+
+        public var failureReason: String? {
+            "The system wasn't able to parse the given markdown text, indicating an invalid markdown text."
+        }
     }
     
     
@@ -41,10 +53,14 @@ public struct MarkdownView: View {
                 markdown: markdown,
                 options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
               ) else {
+            Task { @MainActor in
+                state = .error(Error.markdownLoadingError)
+            }
             return AttributedString(
                 String(localized: "MARKDOWN_LOADING_ERROR", bundle: .module)
             )
         }
+        
         Task { @MainActor in
             state = .idle
         }
