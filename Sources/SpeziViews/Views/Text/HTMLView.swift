@@ -24,6 +24,38 @@ import WebKit
 /// )
 /// ```
 private struct WebView: UIViewRepresentable {
+    class Coordinator: NSObject, WKNavigationDelegate {
+        let parent: WebView
+        
+        @Binding private var state: ViewState
+        
+        
+        init(_ parent: WebView, state: Binding<ViewState>) {
+            self.parent = parent
+            self._state = state
+        }
+        
+        
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
+            Task { @MainActor in
+                state = .idle
+            }
+        }
+        
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation, withError error: Error) {
+            Task { @MainActor in
+                state = .error(AnyLocalizedError(error: error))
+            }
+        }
+
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
+            Task { @MainActor in
+                state = .error(AnyLocalizedError(error: error))
+            }
+        }
+    }
+    
+    
     let htmlContent: String
     
     @Binding var state: ViewState
@@ -41,38 +73,6 @@ private struct WebView: UIViewRepresentable {
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self, state: $state)
-    }
-    
-    
-    class Coordinator: NSObject, WKNavigationDelegate {
-        let parent: WebView
-        
-        @Binding private var state: ViewState
-        
-        
-        init(_ parent: WebView, state: Binding<ViewState>) {
-            self.parent = parent
-            self._state = state
-        }
-        
-        
-        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            Task { @MainActor in
-                state = .idle
-            }
-        }
-        
-        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-            Task { @MainActor in
-                state = .error(AnyLocalizedError(error: error))
-            }
-        }
-
-        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            Task { @MainActor in
-                state = .error(AnyLocalizedError(error: error))
-            }
-        }
     }
 }
 
