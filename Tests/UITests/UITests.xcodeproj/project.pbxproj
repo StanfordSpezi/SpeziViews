@@ -184,7 +184,7 @@
 			);
 			name = TestAppUITests;
 			packageProductDependencies = (
-				977CF55E2AD2B92C006D9B54 /* XCTestExtensions */,
+				977CF55D2AD2B92C006D9B54 /* XCTestExtensions */,
 			);
 			productName = ExampleUITests;
 			productReference = 2F6D13AC28F5F386007C25D6 /* TestAppUITests.xctest */;

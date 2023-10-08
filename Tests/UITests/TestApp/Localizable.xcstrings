@@ -22,7 +22,11 @@
     "Hello Throwing World" : {
 
     },
+    "Hello World" : {
+
+    },
     "HELLO_WORLD" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
