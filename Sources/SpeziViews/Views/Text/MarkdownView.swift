@@ -27,67 +27,49 @@ public struct MarkdownView: View {
     public enum Error: LocalizedError {
         case markdownLoadingError
         
+        
         public var errorDescription: String? {
-            "Failed to load the markdown text."
+            LocalizedStringResource("MARKDOWN_LOADING_ERROR", bundle: .atURL(from: .module)).localizedString()
         }
         
         public var recoverySuggestion: String? {
-            "Please check the content of the markdown text."
+            LocalizedStringResource("MARKDOWN_LOADING_ERROR_RECOVERY_SUGGESTION", bundle: .atURL(from: .module)).localizedString()
         }
 
         public var failureReason: String? {
-            "The system wasn't able to parse the given markdown text, indicating an invalid markdown text."
+            LocalizedStringResource("MARKDOWN_LOADING_ERROR_FAILURE_REASON", bundle: .atURL(from: .module)).localizedString()
         }
     }
     
     
     private let asyncMarkdown: () async -> Data
     
-    @State private var markdown: Data?
+    @State private var markdownString: AttributedString?
     @Binding private var state: ViewState
-    
-    
-    private var markdownString: AttributedString {
-        guard let markdown,
-              let markdownString = try? AttributedString(
-                markdown: markdown,
-                options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
-              ) else {
-            Task { @MainActor in
-                state = .error(Error.markdownLoadingError)
-            }
-            return AttributedString(
-                String(localized: "MARKDOWN_LOADING_ERROR", bundle: .module)
-            )
-        }
-        
-        Task { @MainActor in
-            state = .idle
-        }
-        return markdownString
-    }
     
     
     public var body: some View {
         VStack {
-            if markdown == nil {
-                ProgressView()
-                    .padding()
-            } else {
+            if let markdownString {
                 Text(markdownString)
+            } else {
+                ProgressView()
                     .padding()
             }
         }
             .task {
                 state = .processing
-                markdown = await asyncMarkdown()
+                markdownString = parse(
+                    markdown: await asyncMarkdown()
+                )
+                state = .idle
             }
     }
     
     
     /// Creates a ``MarkdownView`` that displays the content of a markdown file as an utf8 representation that is loaded asynchronously.
     /// - Parameters:
-    ///   - asyncMarkdown: The async closure to load the markdown as an utf8 representation.
+    ///   - asyncMarkdown: An async closure to load the markdown in an utf8 representation.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
     public init(
         asyncMarkdown: @escaping () async -> Data,
@@ -99,7 +81,7 @@ public struct MarkdownView: View {
     
     /// Creates a ``MarkdownView`` that displays the content of a markdown file
     /// - Parameters:
-    ///   - asyncMarkdown: A `Data` instance containing the markdown file as an utf8 representation.
+    ///   - asyncMarkdown: A `Data` instance containing the markdown file in an utf8 representation.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
     public init(
         markdown: Data,
@@ -109,6 +91,26 @@ public struct MarkdownView: View {
             asyncMarkdown: { markdown },
             state: state
         )
+    }
+    
+    
+    /// Parses the incoming markdown and handles the view's error state management.
+    /// - Parameters:
+    ///   - markdown: A `Data` instance containing the markdown file in an utf8 representation.
+    ///
+    /// - Returns: Parsed Markdown as an `AttributedString`
+    @MainActor private func parse(markdown: Data) -> AttributedString {
+        guard let markdownString = try? AttributedString(
+                markdown: markdown,
+                options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+              ) else {
+            state = .error(Error.markdownLoadingError)
+            return AttributedString(
+                String(localized: "MARKDOWN_LOADING_ERROR", bundle: .module)
+            )
+        }
+        
+        return markdownString
     }
 }
 

@@ -17,6 +17,8 @@
 
 // MARK: MarkdownView
 "MARKDOWN_LOADING_ERROR" = "Das Dokument konnte nicht geladen werden.";
+"MARKDOWN_LOADING_ERROR_RECOVERY_SUGGESTION" = "Bitte prüfen Sie den Inhalt des Markdown Dokuments.";
+"MARKDOWN_LOADING_ERROR_FAILURE_REASON" = "Der Inhalt des Dokuments konnte nicht verarbeitet werden. Grund dessen ist ein invaliden Markdown Text.";
 
 // MARK: HTMLView
 "HTML_LOADING_ERROR" = "HTML konnte nicht geladen werden.";

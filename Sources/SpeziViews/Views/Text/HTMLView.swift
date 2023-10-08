@@ -110,7 +110,7 @@ public struct HTMLView: View {
 
     /// Creates an ``HTMLView`` that displays HTML that is loaded asynchronously.
     /// - Parameters:
-    ///   - asyncHTML: The async closure to load the html as a utf8 representation.
+    ///   - asyncHTML: The async closure to load the html in an utf8 representation.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``HTMLView``.
     public init(
         asyncHTML: @escaping () async -> Data,
@@ -122,7 +122,7 @@ public struct HTMLView: View {
 
     /// Creates an ``HTMLView`` that displays the HTML content.
     /// - Parameters:
-    ///   - html: A `Data` instance containing the html as an utf8 representation.
+    ///   - html: A `Data` instance containing the html in an utf8 representation.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``HTMLView``.
     public init(
         html: Data,
