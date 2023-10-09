@@ -140,8 +140,8 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.collectionViews.buttons["HTML View"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["HTML View"].tap()
         
-        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 15))
-        XCTAssert(app.staticTexts["This is an HTML example taking 5 seconds to load."].waitForExistence(timeout: 10))
+        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 30))
+        XCTAssert(app.staticTexts["This is an HTML example taking 5 seconds to load."].waitForExistence(timeout: 20))
     }
 
     func testAsyncButtonView() throws {

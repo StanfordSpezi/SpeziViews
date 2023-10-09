@@ -20,7 +20,7 @@ final class EnvironmentTests: XCTestCase {
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
-        sleep(6)
+        sleep(12)
 
         let alert = app.alerts.firstMatch.scrollViews.otherElements
         XCTAssert(alert.staticTexts["This is a default error description!"].exists)

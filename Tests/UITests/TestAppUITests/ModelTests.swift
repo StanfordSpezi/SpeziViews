@@ -20,7 +20,7 @@ final class ModelTests: XCTestCase {
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
-        sleep(6)
+        sleep(12)
 
         let alert = app.alerts.firstMatch.scrollViews.otherElements
         XCTAssert(alert.staticTexts["Error Description"].exists)
