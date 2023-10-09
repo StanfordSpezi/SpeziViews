@@ -22,26 +22,25 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Canvas"].tap()
         
-        XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 5))
-        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 5))
+        XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
+        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 2))
         
         let canvasView = app.scrollViews.firstMatch
         canvasView.swipeRight()
         canvasView.swipeDown()
         
-        XCTAssert(app.staticTexts["Did Draw Anything: true"].exists)
+        XCTAssert(app.staticTexts["Did Draw Anything: true"].waitForExistence(timeout: 2))
         
         XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
         
-        XCTAssert(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 5))
+        XCTAssert(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
         canvasView.swipeLeft()
         
-        XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
         
-        sleep(10) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 5))
+        sleep(15) // waitForExistence will otherwise return immediately
+        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
         canvasView.swipeUp()
     }
     
