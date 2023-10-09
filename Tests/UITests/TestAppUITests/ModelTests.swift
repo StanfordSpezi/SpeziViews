@@ -15,9 +15,10 @@ final class ModelTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
+        XCTAssert(app.collectionViews.buttons["View State"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["View State"].tap()
 
-        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 1))
+        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
         sleep(6)
 
@@ -26,6 +27,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
         alert.buttons["OK"].tap()
 
+        XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
         app.staticTexts["View State: idle"].tap()
     }
 
@@ -33,9 +35,10 @@ final class ModelTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
+        XCTAssert(app.collectionViews.buttons["Default Error Only"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Default Error Only"].tap()
 
-        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 1))
+        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
         sleep(6)
 
@@ -44,6 +47,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(alert.staticTexts["Some error occurred!"].exists)
         alert.buttons["OK"].tap()
 
+        XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
         app.staticTexts["View State: idle"].tap()
     }
 }
