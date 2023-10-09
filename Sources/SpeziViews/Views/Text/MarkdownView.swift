@@ -58,11 +58,9 @@ public struct MarkdownView: View {
             }
         }
             .task {
-                state = .processing
                 markdownString = parse(
                     markdown: await asyncMarkdown()
                 )
-                state = .idle
             }
     }
     
@@ -100,6 +98,8 @@ public struct MarkdownView: View {
     ///
     /// - Returns: Parsed Markdown as an `AttributedString`
     @MainActor private func parse(markdown: Data) -> AttributedString {
+        state = .processing
+        
         guard let markdownString = try? AttributedString(
                 markdown: markdown,
                 options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
@@ -110,6 +110,7 @@ public struct MarkdownView: View {
             )
         }
         
+        state = .idle
         return markdownString
     }
 }
