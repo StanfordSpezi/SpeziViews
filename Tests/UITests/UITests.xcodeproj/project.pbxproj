@@ -18,9 +18,9 @@
 		2FA9486B29DE90720081C086 /* HTMLViewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486429DE90720081C086 /* HTMLViewTestView.swift */; };
 		2FA9486D29DE91130081C086 /* ViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486C29DE91130081C086 /* ViewsTests.swift */; };
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
-		2FA9487129DE91CC0081C086 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9487029DE91CC0081C086 /* XCTestApp */; };
-		2FA9487329DE92410081C086 /* XCTestExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9487229DE92410081C086 /* XCTestExtensions */; };
 		2FB099B82A8AD25300B20952 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB099B72A8AD25100B20952 /* Localizable.xcstrings */; };
+		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
+		977CF55E2AD2B92C006D9B54 /* XCTestExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55D2AD2B92C006D9B54 /* XCTestExtensions */; };
 		A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880962A4C4E6500150B2F /* ModelTests.swift */; };
 		A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */; };
 		A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A978809A2A4C52F100150B2F /* EnvironmentTests.swift */; };
@@ -65,7 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */,
-				2FA9487129DE91CC0081C086 /* XCTestApp in Frameworks */,
+				977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FA9487329DE92410081C086 /* XCTestExtensions in Frameworks */,
+				977CF55C2AD2B92C006D9B54 /* XCTestExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +163,7 @@
 			name = TestApp;
 			packageProductDependencies = (
 				2FA9486E29DE91A30081C086 /* SpeziViews */,
-				2FA9487029DE91CC0081C086 /* XCTestApp */,
+				977CF55B2AD2B92C006D9B54 /* XCTestApp */,
 			);
 			productName = Example;
 			productReference = 2F6D139228F5F384007C25D6 /* TestApp.app */;
@@ -184,7 +184,7 @@
 			);
 			name = TestAppUITests;
 			packageProductDependencies = (
-				2FA9487229DE92410081C086 /* XCTestExtensions */,
+				977CF55D2AD2B92C006D9B54 /* XCTestExtensions */,
 			);
 			productName = ExampleUITests;
 			productReference = 2F6D13AC28F5F386007C25D6 /* TestAppUITests.xctest */;
@@ -220,7 +220,7 @@
 			);
 			mainGroup = 2F6D138928F5F384007C25D6;
 			packageReferences = (
-				2F2D337F29DE4A6000081B1D /* XCRemoteSwiftPackageReference "XCTestExtensions" */,
+				977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */,
 			);
 			productRefGroup = 2F6D139328F5F384007C25D6 /* Products */;
 			projectDirPath = "";
@@ -655,12 +655,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2F2D337F29DE4A6000081B1D /* XCRemoteSwiftPackageReference "XCTestExtensions" */ = {
+		977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/StanfordSpezi/XCTestExtensions.git";
+			repositoryURL = "https://github.com/StanfordBDHG/XCTestExtensions";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.4.6;
+				minimumVersion = 0.4.7;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -670,14 +670,14 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SpeziViews;
 		};
-		2FA9487029DE91CC0081C086 /* XCTestApp */ = {
+		977CF55B2AD2B92C006D9B54 /* XCTestApp */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2F2D337F29DE4A6000081B1D /* XCRemoteSwiftPackageReference "XCTestExtensions" */;
+			package = 977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */;
 			productName = XCTestApp;
 		};
-		2FA9487229DE92410081C086 /* XCTestExtensions */ = {
+		977CF55D2AD2B92C006D9B54 /* XCTestExtensions */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2F2D337F29DE4A6000081B1D /* XCRemoteSwiftPackageReference "XCTestExtensions" */;
+			package = 977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */;
 			productName = XCTestExtensions;
 		};
 /* End XCSwiftPackageProductDependency section */

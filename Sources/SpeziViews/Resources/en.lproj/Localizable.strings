@@ -17,6 +17,8 @@
 
 // MARK: MarkdownView
 "MARKDOWN_LOADING_ERROR" = "Could not load and parse the document.";
+"MARKDOWN_LOADING_ERROR_RECOVERY_SUGGESTION" = "Please check the content of the markdown text.";
+"MARKDOWN_LOADING_ERROR_FAILURE_REASON" = "The system wasn't able to parse the given markdown text, indicating an invalid markdown text.";
 
 // MARK: HTMLView
 "HTML_LOADING_ERROR" = "Could not load the HTML.";

@@ -37,12 +37,13 @@ public struct DocumentView: View {
 
     @Binding private var state: ViewState
 
+    
     public var documentView: AnyView {
         switch self.type {
         case .markdown:
-            return AnyView(MarkdownView(asyncMarkdown: asyncData))
+            return AnyView(MarkdownView(asyncMarkdown: asyncData, state: $state))
         case .html:
-            return AnyView(HTMLView(asyncHTML: asyncData))
+            return AnyView(HTMLView(asyncHTML: asyncData, state: $state))
         }
     }
 

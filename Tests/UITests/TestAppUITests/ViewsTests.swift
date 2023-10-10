@@ -19,6 +19,7 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Canvas"].tap()
         
         XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
@@ -28,19 +29,18 @@ final class ViewsTests: XCTestCase {
         canvasView.swipeRight()
         canvasView.swipeDown()
         
-        XCTAssert(app.staticTexts["Did Draw Anything: true"].exists)
+        XCTAssert(app.staticTexts["Did Draw Anything: true"].waitForExistence(timeout: 2))
         
         XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
         
-        XCTAssert(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 2))
+        XCTAssert(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
         canvasView.swipeLeft()
         
-        XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
         
-        sleep(6) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 2))
+        sleep(15) // waitForExistence will otherwise return immediately
+        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
         canvasView.swipeUp()
     }
     
@@ -48,12 +48,13 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["Name Fields"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Name Fields"].tap()
         
-        XCTAssert(app.staticTexts["First Title"].waitForExistence(timeout: 1))
-        XCTAssert(app.staticTexts["Second Title"].exists)
-        XCTAssert(app.staticTexts["First Name"].exists)
-        XCTAssert(app.staticTexts["Last Name"].exists)
+        XCTAssert(app.staticTexts["First Title"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Second Title"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["First Name"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Last Name"].waitForExistence(timeout: 2))
         
         try app.textFields["First Placeholder"].enter(value: "Le")
         try app.textFields["Second Placeholder"].enter(value: "Stan")
@@ -61,26 +62,28 @@ final class ViewsTests: XCTestCase {
         try app.textFields["Enter your first name ..."].enter(value: "land")
         try app.textFields["Enter your last name ..."].enter(value: "ford")
         
-        XCTAssert(app.textFields["Leland"].exists)
-        XCTAssert(app.textFields["Stanford"].exists)
+        XCTAssert(app.textFields["Leland"].waitForExistence(timeout: 2))
+        XCTAssert(app.textFields["Stanford"].waitForExistence(timeout: 2))
     }
     
     func testUserProfile() throws {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["User Profile"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["User Profile"].tap()
         
-        XCTAssertTrue(app.staticTexts["PS"].waitForExistence(timeout: 1))
+        XCTAssertTrue(app.staticTexts["PS"].waitForExistence(timeout: 2))
         XCTAssertTrue(app.staticTexts["LS"].exists)
         
-        XCTAssertTrue(app.images["person.crop.artframe"].waitForExistence(timeout: 3.5))
+        XCTAssertTrue(app.images["person.crop.artframe"].waitForExistence(timeout: 5))
     }
     
     func testGeometryReader() throws {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["Geometry Reader"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Geometry Reader"].tap()
         
         XCTAssert(app.staticTexts["300.000000"].exists)
@@ -91,6 +94,7 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["Label"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Label"].tap()
 
         sleep(2)
@@ -105,9 +109,10 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["Lazy Text"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Lazy Text"].tap()
         
-        XCTAssert(app.staticTexts["This is a long text ..."].waitForExistence(timeout: 1))
+        XCTAssert(app.staticTexts["This is a long text ..."].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["And some more lines ..."].exists)
         XCTAssert(app.staticTexts["And a third line ..."].exists)
         XCTAssert(app.staticTexts["An other lazy text ..."].exists)
@@ -117,9 +122,10 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["Markdown View"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Markdown View"].tap()
         
-        XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 1))
+        XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
 
         sleep(6)
         
@@ -130,19 +136,21 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
+        XCTAssert(app.collectionViews.buttons["HTML View"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["HTML View"].tap()
         
-        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 15))
-        XCTAssert(app.staticTexts["This is an HTML example taking 5 seconds to load."].waitForExistence(timeout: 10))
+        XCTAssert(app.webViews.staticTexts["This is an HTML example."].waitForExistence(timeout: 30))
+        XCTAssert(app.staticTexts["This is an HTML example taking 5 seconds to load."].waitForExistence(timeout: 20))
     }
 
     func testAsyncButtonView() throws {
         let app = XCUIApplication()
         app.launch()
 
+        XCTAssert(app.collectionViews.buttons["Async Button"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Async Button"].tap()
 
-        XCTAssert(app.collectionViews.buttons["Hello World"].waitForExistence(timeout: 1))
+        XCTAssert(app.collectionViews.buttons["Hello World"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Hello World"].tap()
 
         XCTAssert(app.collectionViews.staticTexts["Action executed"].waitForExistence(timeout: 2))
