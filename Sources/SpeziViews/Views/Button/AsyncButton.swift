@@ -112,7 +112,7 @@ public struct AsyncButton<Label: View>: View {
         action: @escaping () async throws -> Void
     ) where Label == Text {
         self.init(role: role, state: state, action: action) {
-            Text(title)
+            Text(verbatim: String(title))
         }
     }
     
@@ -211,7 +211,7 @@ public struct AsyncButton<Label: View>: View {
 #if DEBUG
 struct AsyncThrowingButton_Previews: PreviewProvider {
     struct PreviewButton: View {
-        var title: LocalizedStringResource = "Test Button"
+        var title: String = "Test Button"
         var role: ButtonRole?
         var duration: Duration = .seconds(1)
         var action: () async throws -> Void = {}

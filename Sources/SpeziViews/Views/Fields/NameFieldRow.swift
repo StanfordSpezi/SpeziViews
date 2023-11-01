@@ -15,9 +15,9 @@ struct FieldFocus<FocusedField: Hashable>: DynamicProperty {
 }
 
 
-struct NameFieldRow<Label: View, FocusedField: Hashable>: View {
+struct NameFieldRow<Label: View, Placeholder: View, FocusedField: Hashable>: View {
     private let label: Label
-    private let placeholder: LocalizedStringResource
+    private let placeholder: Placeholder
 
     private let nameComponent: WritableKeyPath<PersonNameComponents, String?>
     private let contentType: UITextContentType
@@ -41,7 +41,7 @@ struct NameFieldRow<Label: View, FocusedField: Hashable>: View {
             label
         } content: {
             TextField(text: componentBinding) {
-                Text(placeholder)
+                placeholder
             }
                 .autocorrectionDisabled(true)
                 .textInputAutocapitalization(.never)
@@ -67,8 +67,18 @@ struct NameFieldRow<Label: View, FocusedField: Hashable>: View {
         for nameComponent: WritableKeyPath<PersonNameComponents, String?>,
         content contentType: UITextContentType,
         @ViewBuilder label: () -> Label
-    ) where FocusedField == UUID {
+    ) where FocusedField == UUID, Placeholder == Text {
         self.init(placeholder, name: name, for: nameComponent, content: contentType, focus: nil, label: label)
+    }
+
+    init(
+        name: Binding<PersonNameComponents>,
+        for nameComponent: WritableKeyPath<PersonNameComponents, String?>,
+        content contentType: UITextContentType,
+        @ViewBuilder label: () -> Label,
+        @ViewBuilder placeholder: () -> Placeholder
+    ) where FocusedField == UUID {
+        self.init(name: name, for: nameComponent, content: contentType, focus: nil, label: label, placeholder: placeholder)
     }
 
     init(
@@ -78,13 +88,26 @@ struct NameFieldRow<Label: View, FocusedField: Hashable>: View {
         content contentType: UITextContentType,
         focus fieldFocus: FieldFocus<FocusedField>?,
         @ViewBuilder label: () -> Label
+    ) where Placeholder == Text {
+        self.init(name: name, for: nameComponent, content: contentType, focus: fieldFocus, label: label) {
+            Text(placeholder)
+        }
+    }
+
+    init(
+        name: Binding<PersonNameComponents>,
+        for nameComponent: WritableKeyPath<PersonNameComponents, String?>,
+        content contentType: UITextContentType,
+        focus fieldFocus: FieldFocus<FocusedField>?,
+        @ViewBuilder label: () -> Label,
+        @ViewBuilder placeholder: () -> Placeholder
     ) {
-        self.placeholder = placeholder
         self._name = name
         self.nameComponent = nameComponent
         self.contentType = contentType
         self.fieldFocus = fieldFocus
         self.label = label()
+        self.placeholder = placeholder()
     }
 }
 
@@ -95,8 +118,10 @@ struct NameFieldRow_Previews: PreviewProvider {
 
     static var previews: some View {
         Grid {
-            NameFieldRow("First Name", name: $name, for: \.givenName, content: .givenName) {
-                Text("Enter first name ...")
+            NameFieldRow(name: $name, for: \.givenName, content: .givenName) {
+                Text(verbatim: "Enter first name ...")
+            } placeholder: {
+                Text(verbatim: "First Name")
             }
         }
     }

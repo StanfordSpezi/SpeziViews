@@ -50,7 +50,7 @@ extension ViewState {
 
             return errorTitle
         default:
-            return String(localized: "VIEW_STATE_DEFAULT_ERROR_TITLE", bundle: .module)
+            return String(localized: "Error", bundle: .module, comment: "View State default error title")
         }
     }
 

@@ -14,16 +14,14 @@ public struct NameFields<GivenNameLabel: View, FamilyNameLabel: View, FocusedFie
     public enum LocalizationDefaults {
         public static var givenName: FieldLocalizationResource {
             FieldLocalizationResource(
-                title: "NAME_FIELD_GIVEN_NAME_TITLE",
-                placeholder: "NAME_FIELD_GIVEN_NAME_PLACEHOLDER",
-                bundle: .module
+                title: .init("First Name", bundle: .atURL(from: .module), comment: "Given name title"),
+                placeholder: .init("Enter your first name ...", bundle: .atURL(from: .module), comment: "Given name placeholder")
             )
         }
         public static var familyName: FieldLocalizationResource {
             FieldLocalizationResource(
-                title: "NAME_FIELD_FAMILY_NAME_TITLE",
-                placeholder: "NAME_FIELD_FAMILY_NAME_PLACEHOLDER",
-                bundle: .module
+                title: .init("Last Name", bundle: .atURL(from: .module), comment: "Family name title"),
+                placeholder: .init("Enter your last name ...", bundle: .atURL(from: .module), comment: "Family name placeholder")
             )
         }
     }

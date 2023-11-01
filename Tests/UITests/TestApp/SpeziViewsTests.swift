@@ -90,7 +90,7 @@ enum SpeziViewsTests: String, TestAppTests {
     private var lazyText: some View {
         ScrollView {
             LazyText(
-                text: """
+                verbatim: """
                 This is a long text ...
                 
                 And some more lines ...
@@ -98,7 +98,7 @@ enum SpeziViewsTests: String, TestAppTests {
                 And a third line ...
                 """
             )
-            LazyText(text: "LAZY_TEXT")
+            LazyText("LAZY_TEXT")
         }
     }
     

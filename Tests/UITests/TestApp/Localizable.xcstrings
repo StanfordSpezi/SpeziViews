@@ -53,6 +53,7 @@
       }
     },
     "LAZY_TEXT" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -78,9 +79,6 @@
 
     },
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
-
-    },
-    "This is a long text ...\n\nAnd some more lines ...\n\nAnd a third line ..." : {
 
     },
     "View State: %@" : {
