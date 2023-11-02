@@ -15,17 +15,20 @@
 		2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486029DE90720081C086 /* CanvasTestView.swift */; };
 		2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486229DE90720081C086 /* NameFieldsTestView.swift */; };
 		2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */; };
-		2FA9486B29DE90720081C086 /* HTMLViewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486429DE90720081C086 /* HTMLViewTestView.swift */; };
 		2FA9486D29DE91130081C086 /* ViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486C29DE91130081C086 /* ViewsTests.swift */; };
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
 		2FB099B82A8AD25300B20952 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB099B72A8AD25100B20952 /* Localizable.xcstrings */; };
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
+		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880962A4C4E6500150B2F /* ModelTests.swift */; };
 		A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */; };
 		A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A978809A2A4C52F100150B2F /* EnvironmentTests.swift */; };
 		A998A94F2A609A9E0030624D /* AsyncButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */; };
 		A9F9C4682AF2B9DD001122DD /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		A9F9C4692AF2B9DD001122DD /* XCTestExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55D2AD2B92C006D9B54 /* XCTestExtensions */; };
+		A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */; };
+		A9FBAE982AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBAE972AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift */; };
+		A9FBAE9C2AF44CCB001E4AF1 /* PersonalInfoViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBAE9B2AF44CCB001E4AF1 /* PersonalInfoViewsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +53,6 @@
 		2FA9486029DE90720081C086 /* CanvasTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasTestView.swift; sourceTree = "<group>"; };
 		2FA9486229DE90720081C086 /* NameFieldsTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameFieldsTestView.swift; sourceTree = "<group>"; };
 		2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeometryReaderTestView.swift; sourceTree = "<group>"; };
-		2FA9486429DE90720081C086 /* HTMLViewTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLViewTestView.swift; sourceTree = "<group>"; };
 		2FA9486C29DE91130081C086 /* ViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewsTests.swift; sourceTree = "<group>"; };
 		2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestApp.xctestplan; sourceTree = "<group>"; };
 		2FB099B72A8AD25100B20952 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -58,6 +60,9 @@
 		A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultErrorDescriptionTestView.swift; sourceTree = "<group>"; };
 		A978809A2A4C52F100150B2F /* EnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
 		A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButtonTestView.swift; sourceTree = "<group>"; };
+		A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziViewsTargetsTests.swift; sourceTree = "<group>"; };
+		A9FBAE972AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziPersonalInfoTests.swift; sourceTree = "<group>"; };
+		A9FBAE9B2AF44CCB001E4AF1 /* PersonalInfoViewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +72,7 @@
 			files = (
 				2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */,
 				977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */,
+				A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				2FA7382B290ADFAA007ACEB9 /* TestApp.swift */,
-				2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */,
+				A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */,
+				A9FBAE962AF446B2001E4AF1 /* PersonalInfoTests */,
 				2FA9485D29DE90710081C086 /* ViewsTests */,
 				2F6D139928F5F386007C25D6 /* Assets.xcassets */,
 				2FB099B72A8AD25100B20952 /* Localizable.xcstrings */,
@@ -118,9 +125,8 @@
 		2F6D13AF28F5F386007C25D6 /* TestAppUITests */ = {
 			isa = PBXGroup;
 			children = (
-				2FA9486C29DE91130081C086 /* ViewsTests.swift */,
-				A97880962A4C4E6500150B2F /* ModelTests.swift */,
-				A978809A2A4C52F100150B2F /* EnvironmentTests.swift */,
+				A9FBAE9A2AF44CB1001E4AF1 /* SpeziPersonalInfo */,
+				A9FBAE992AF44CAC001E4AF1 /* SpeziViews */,
 			);
 			path = TestAppUITests;
 			sourceTree = "<group>";
@@ -135,16 +141,42 @@
 		2FA9485D29DE90710081C086 /* ViewsTests */ = {
 			isa = PBXGroup;
 			children = (
+				2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */,
 				2FA9485E29DE90720081C086 /* ViewStateTestView.swift */,
 				2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */,
 				2FA9486029DE90720081C086 /* CanvasTestView.swift */,
-				2FA9486229DE90720081C086 /* NameFieldsTestView.swift */,
 				2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */,
-				2FA9486429DE90720081C086 /* HTMLViewTestView.swift */,
 				A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */,
 				A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */,
 			);
 			path = ViewsTests;
+			sourceTree = "<group>";
+		};
+		A9FBAE962AF446B2001E4AF1 /* PersonalInfoTests */ = {
+			isa = PBXGroup;
+			children = (
+				A9FBAE972AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift */,
+				2FA9486229DE90720081C086 /* NameFieldsTestView.swift */,
+			);
+			path = PersonalInfoTests;
+			sourceTree = "<group>";
+		};
+		A9FBAE992AF44CAC001E4AF1 /* SpeziViews */ = {
+			isa = PBXGroup;
+			children = (
+				2FA9486C29DE91130081C086 /* ViewsTests.swift */,
+				A97880962A4C4E6500150B2F /* ModelTests.swift */,
+				A978809A2A4C52F100150B2F /* EnvironmentTests.swift */,
+			);
+			path = SpeziViews;
+			sourceTree = "<group>";
+		};
+		A9FBAE9A2AF44CB1001E4AF1 /* SpeziPersonalInfo */ = {
+			isa = PBXGroup;
+			children = (
+				A9FBAE9B2AF44CCB001E4AF1 /* PersonalInfoViewsTests.swift */,
+			);
+			path = SpeziPersonalInfo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,6 +198,7 @@
 			packageProductDependencies = (
 				2FA9486E29DE91A30081C086 /* SpeziViews */,
 				977CF55B2AD2B92C006D9B54 /* XCTestApp */,
+				A95B6E642AF4298500919504 /* SpeziPersonalInfo */,
 			);
 			productName = Example;
 			productReference = 2F6D139228F5F384007C25D6 /* TestApp.app */;
@@ -258,12 +291,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FA9486B29DE90720081C086 /* HTMLViewTestView.swift in Sources */,
 				2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */,
+				A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */,
 				2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */,
 				A998A94F2A609A9E0030624D /* AsyncButtonTestView.swift in Sources */,
 				2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */,
 				2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */,
+				A9FBAE982AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift in Sources */,
 				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
 				2FA9486629DE90720081C086 /* MarkdownViewTestView.swift in Sources */,
 				A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */,
@@ -275,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9FBAE9C2AF44CCB001E4AF1 /* PersonalInfoViewsTests.swift in Sources */,
 				2FA9486D29DE91130081C086 /* ViewsTests.swift in Sources */,
 				A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */,
 				A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */,
@@ -681,6 +716,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */;
 			productName = XCTestExtensions;
+		};
+		A95B6E642AF4298500919504 /* SpeziPersonalInfo */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SpeziPersonalInfo;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

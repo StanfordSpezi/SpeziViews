@@ -25,7 +25,7 @@ public struct AnyLocalizedError: LocalizedError {
 
     /// Provides a best-effort approach to create a type erased version of `LocalizedError`.
     ///
-    /// - Note: Refer to the documentation of the ``DefaultErrorDescription`` environment key on how to pass a useful and
+    /// - Note: Refer to the documentation of the ``SwiftUI/EnvironmentValues/defaultErrorDescription`` environment key on how to pass a useful and
     /// environment-defined default error description.
     ///
     /// - Parameters:
@@ -37,7 +37,7 @@ public struct AnyLocalizedError: LocalizedError {
     
     /// Provides a best-effort approach to create a type erased version of `LocalizedError`.
     ///
-    /// - Note: Refer to the documentation of the ``DefaultErrorDescription`` environment key on how to pass a useful and
+    /// - Note: Refer to the documentation of the ``SwiftUI/EnvironmentValues/defaultErrorDescription`` environment key on how to pass a useful and
     /// environment-defined default error description.
     ///
     /// - Parameters:

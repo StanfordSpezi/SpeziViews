@@ -59,16 +59,4 @@ extension View {
     ) -> some View {
         modifier(OnTapFocus(focusedState: focusedField, fieldIdentifier: fieldIdentifier))
     }
-    
-    /// Modifies the view to be in a focused state (e.g., `TextFields`) if it is tapped.
-    /// - Parameters:
-    ///   - focusedField: The `FocusState` binding that should be set.
-    ///   - fieldIdentifier: The identifier that the `focusedField` should be set to.
-    @available(*, deprecated, message: "Please move to the onTapFocus(focusedField:fieldIdentifier:) that accepts the FocusState as a Binding.")
-    public func onTapFocus<FocusedField: Hashable>(
-        focusedField: FocusState<FocusedField?>,
-        fieldIdentifier: FocusedField
-    ) -> some View {
-        modifier(OnTapFocus(focusedState: focusedField.projectedValue, fieldIdentifier: fieldIdentifier))
-    }
 }

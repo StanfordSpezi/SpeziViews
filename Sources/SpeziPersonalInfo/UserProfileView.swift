@@ -63,37 +63,38 @@ public struct UserProfileView: View {
 
 
 #if DEBUG
-struct ProfilePictureView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 16) {
-            UserProfileView(
-                name: PersonNameComponents(givenName: "Paul", familyName: "Schmiedmayer")
-            )
-                .frame(width: 100, height: 50)
-                .padding()
-            UserProfileView(
-                name: PersonNameComponents(
-                    namePrefix: "Prof.",
-                    givenName: "Oliver",
-                    middleName: "Oppers",
-                    familyName: "Aalami"
-                )
-            )
-                .frame(width: 100, height: 100)
-                .padding()
-                .background(Color(.systemBackground))
-                .colorScheme(.dark)
-            UserProfileView(
-                name: PersonNameComponents(givenName: "Vishnu", familyName: "Ravi"),
-                imageLoader: {
-                    try? await Task.sleep(for: .seconds(2))
-                    return Image(systemName: "person.crop.artframe")
-                }
-            )
-                .frame(width: 50, height: 100)
-                .shadow(radius: 4)
-                .padding()
+#Preview {
+    UserProfileView(
+        name: PersonNameComponents(givenName: "Paul", familyName: "Schmiedmayer")
+    )
+    .frame(width: 100, height: 100)
+    .padding()
+}
+
+#Preview {
+    UserProfileView(
+        name: PersonNameComponents(
+            namePrefix: "Prof.",
+            givenName: "Oliver",
+            middleName: "Oppers",
+            familyName: "Aalami"
+        )
+    )
+    .frame(width: 100, height: 100)
+    .padding()
+    .background(Color(.systemBackground))
+    .colorScheme(.dark)
+}
+
+#Preview {
+    UserProfileView(
+        name: PersonNameComponents(givenName: "Vishnu", familyName: "Ravi"),
+        imageLoader: {
+            try? await Task.sleep(for: .seconds(2))
+            return Image(systemName: "person.crop.circle")
         }
-    }
+    )
+    .frame(width: 50, height: 100)
+    .padding()
 }
 #endif

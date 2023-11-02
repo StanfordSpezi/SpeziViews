@@ -13,13 +13,10 @@ import XCTestApp
 
 enum SpeziViewsTests: String, TestAppTests {
     case canvas = "Canvas"
-    case nameFields = "Name Fields"
-    case userProfile = "User Profile"
     case geometryReader = "Geometry Reader"
     case label = "Label"
     case lazyText = "Lazy Text"
     case markdownView = "Markdown View"
-    case htmlView = "HTML View"
     case viewState = "View State"
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
@@ -29,27 +26,6 @@ enum SpeziViewsTests: String, TestAppTests {
     @ViewBuilder
     private var canvas: some View {
         CanvasTestView()
-    }
-    
-    @ViewBuilder
-    private var nameFields: some View {
-        NameFieldsTestView()
-    }
-    
-    @ViewBuilder
-    private var userProfile: some View {
-        UserProfileView(
-            name: PersonNameComponents(givenName: "Paul", familyName: "Schmiedmayer")
-        )
-            .frame(width: 100)
-        UserProfileView(
-            name: PersonNameComponents(givenName: "Leland", familyName: "Stanford"),
-            imageLoader: {
-                try? await Task.sleep(for: .seconds(3))
-                return Image(systemName: "person.crop.artframe")
-            }
-        )
-            .frame(width: 200)
     }
     
     @ViewBuilder
@@ -79,11 +55,6 @@ enum SpeziViewsTests: String, TestAppTests {
     @ViewBuilder
     private var markdownView: some View {
         MarkdownViewTestView()
-    }
-
-    @ViewBuilder
-    private var htmlView: some View {
-        HTMLViewTestView()
     }
     
     @ViewBuilder
@@ -123,15 +94,10 @@ enum SpeziViewsTests: String, TestAppTests {
     }
     
 
-    // swiftlint:disable:next cyclomatic_complexity
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
         switch self {
         case .canvas:
             canvas
-        case .nameFields:
-            nameFields
-        case .userProfile:
-            userProfile
         case .geometryReader:
             geometryReader
         case .label:
@@ -140,8 +106,6 @@ enum SpeziViewsTests: String, TestAppTests {
             lazyText
         case .markdownView:
             markdownView
-        case .htmlView:
-            htmlView
         case .viewState:
             viewState
         case .defaultErrorOnly:
@@ -154,10 +118,9 @@ enum SpeziViewsTests: String, TestAppTests {
     }
 }
 
+
 #if DEBUG
-struct SpeziViewsTests_Previews: PreviewProvider {
-    static var previews: some View {
-        TestAppTestsView<SpeziViewsTests>()
-    }
+#Preview {
+    TestAppTestsView<SpeziViewsTests>()
 }
 #endif

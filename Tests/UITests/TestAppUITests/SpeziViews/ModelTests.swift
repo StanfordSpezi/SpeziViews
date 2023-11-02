@@ -11,9 +11,18 @@ import XCTestExtensions
 
 
 final class ModelTests: XCTestCase {
-    func testViewState() throws {
+    override func setUp() {
+        super.setUp()
         let app = XCUIApplication()
         app.launch()
+
+        XCTAssertTrue(app.navigationBars.staticTexts["Targets"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.buttons["SpeziViews"].waitForExistence(timeout: 0.5))
+        app.buttons["SpeziViews"].tap()
+    }
+
+    func testViewState() throws {
+        let app = XCUIApplication()
 
         XCTAssert(app.collectionViews.buttons["View State"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["View State"].tap()
@@ -33,7 +42,6 @@ final class ModelTests: XCTestCase {
 
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
-        app.launch()
 
         XCTAssert(app.collectionViews.buttons["Default Error Only"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Default Error Only"].tap()

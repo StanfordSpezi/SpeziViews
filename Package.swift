@@ -18,11 +18,18 @@ let package = Package(
         .iOS(.v17)
     ],
     products: [
-        .library(name: "SpeziViews", targets: ["SpeziViews"])
+        .library(name: "SpeziViews", targets: ["SpeziViews"]),
+        .library(name: "SpeziPersonalInfo", targets: ["SpeziPersonalInfo"])
     ],
     targets: [
         .target(
             name: "SpeziViews"
+        ),
+        .target(
+            name: "SpeziPersonalInfo",
+            dependencies: [
+                .target(name: "SpeziViews")
+            ]
         ),
         .testTarget(
             name: "SpeziViewsTests",

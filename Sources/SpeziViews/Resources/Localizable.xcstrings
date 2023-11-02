@@ -19,6 +19,7 @@
     },
     "Enter your first name ..." : {
       "comment" : "Given name placeholder",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -36,6 +37,7 @@
     },
     "Enter your last name ..." : {
       "comment" : "Family name placeholder",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -70,6 +72,7 @@
     },
     "First Name" : {
       "comment" : "Given name title",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -87,6 +90,7 @@
     },
     "Last Name" : {
       "comment" : "Family name title",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
