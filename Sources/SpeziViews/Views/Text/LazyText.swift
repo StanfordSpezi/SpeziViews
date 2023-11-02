@@ -44,7 +44,6 @@ public struct LazyText: View {
     
     /// A lazy loading text view that is especially useful for larger text files that should not be displayed all at once.
     /// - Parameter text: The text without localization that should be displayed in the ``LazyText`` view.
-    @_disfavoredOverload
     public init<Text: StringProtocol>(verbatim text: Text) {
         self.content = .string(String(text))
     }

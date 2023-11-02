@@ -101,7 +101,6 @@ public struct Label: View {
     ///   - textAlignment: The `NSTextAlignment` of the `UILabel`. Defaults to `.justified`.
     ///   - textColor: The `UIColor` of the `UILabel`. Defaults to `.label`.
     ///   - numberOfLines: The number of lines allowed of the `UILabel`. Defaults to 0 indicating no limit.
-    @_disfavoredOverload
     public init<Text: StringProtocol>(
         verbatim text: Text,
         textStyle: UIFont.TextStyle = .body,

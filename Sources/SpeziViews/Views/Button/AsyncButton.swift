@@ -77,7 +77,7 @@ public struct AsyncButton<Label: View>: View {
         action: @escaping () async -> Void
     ) where Label == Text {
         self.init(role: role, action: action) {
-            Text(title)
+            Text(verbatim: String(title))
         }
     }
 
