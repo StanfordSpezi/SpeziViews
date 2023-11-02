@@ -34,7 +34,8 @@ let package = Package(
         .testTarget(
             name: "SpeziViewsTests",
             dependencies: [
-                .target(name: "SpeziViews")
+                .target(name: "SpeziViews"),
+                .target(name: "SpeziPersonalInfo")
             ]
         )
     ]

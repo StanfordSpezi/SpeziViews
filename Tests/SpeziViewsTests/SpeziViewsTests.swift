@@ -10,7 +10,7 @@ import SpeziViews
 import XCTest
 
 
-final class LocalStorageTests: XCTestCase {
+final class SpeziViewsTests: XCTestCase {
     func testSpeziViews() async throws {
         XCTAssert(true)
     }
