@@ -25,23 +25,6 @@
     "Hello World" : {
 
     },
-    "HELLO_WORLD" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hallo Welt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hello World"
-          }
-        }
-      }
-    },
     "LABEL_TEXT" : {
       "localizations" : {
         "en" : {
@@ -53,7 +36,6 @@
       }
     },
     "LAZY_TEXT" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -36,7 +36,8 @@ final class ViewsTests: XCTestCase {
         
         XCTAssert(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
         canvasView.swipeLeft()
-        
+
+        sleep(1)
         app.buttons["Show Tool Picker"].tap()
         
         sleep(15) // waitForExistence will otherwise return immediately
