@@ -42,11 +42,6 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
                     SecureField(text: $text, label: { label })
                 }
             }
-                .onSubmit {
-                    // the validation modifier automatically submits the text,
-                    // here we just make sure that we submit it without a debounce
-                    validationEngine.submit(input: text)
-                }
 
             HStack {
                 ValidationResultsView(results: validationEngine.displayedValidationResults)

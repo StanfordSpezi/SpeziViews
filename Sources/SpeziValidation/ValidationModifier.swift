@@ -40,6 +40,10 @@ struct ValidationModifier<FocusValue: Hashable>: ViewModifier {
             .onChange(of: input) {
                 validation.submit(input: input, debounce: true)
             }
+            .onSubmit(of: .text) {
+                // here we just make sure that we submit it without a debounce
+                validation.submit(input: input)
+            }
     }
 }
 

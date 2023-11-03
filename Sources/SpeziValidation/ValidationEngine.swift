@@ -56,11 +56,13 @@ public class ValidationEngine: Identifiable {
 
     /// Flag that indicates if ``displayedValidationResults`` returns any ``FailedValidationResult``.
     @MainActor public var isDisplayingValidationErrors: Bool {
+        let gotResults = !validationResults.isEmpty
+
         if configuration.contains(.hideFailedValidationOnEmptySubmit) {
-            return !inputValid && (source == .manual || !inputWasEmpty)
+            return gotResults && (source == .manual || !inputWasEmpty)
         }
 
-        return !inputValid
+        return gotResults
     }
 
 
