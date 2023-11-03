@@ -16,4 +16,3 @@ extension XCUIApplication {
         app.buttons[target].tap()
     }
 }
-
