@@ -9,102 +9,108 @@
 import SwiftUI
 
 
-struct ValidationModifier<FieldIdentifier: Hashable>: ViewModifier {
-    private let inputValue: String
-    private let fieldIdentifier: FieldIdentifier?
+struct ValidationModifier<FocusValue: Hashable>: ViewModifier {
+    private let input: String
+    private let fieldIdentifier: FocusValue?
 
-    @Environment(\.validationEngineConfiguration) private var configuration // TODO allow to specify configuration inside?
+    @Environment(\.validationConfiguration) private var configuration
+    @Environment(\.validationDebounce) private var debounce
 
     @State private var validation: ValidationEngine
 
-    init(input value: String, for fieldIdentifier: FieldIdentifier?, rules: [ValidationRule]) {
-        self.inputValue = value
+    init(input: String, field fieldIdentifier: FocusValue?, rules: [ValidationRule]) {
+        self.input = input
         self.fieldIdentifier = fieldIdentifier
         self._validation = State(wrappedValue: ValidationEngine(rules: rules))
     }
 
     func body(content: Content) -> some View {
-        let _ = validation.configuration = configuration // swiftlint:disable:this redundant_discardable_let
-
         content
             .environment(validation)
-            .preference(key: ConfiguredValidationEngines.self, value: [ValidationContext(engine: validation, input: inputValue)])
+            .preference(
+                key: CapturedValidationStateKey<FocusValue>.self,
+                value: [CapturedValidationState(engine: validation, input: input, field: fieldIdentifier)]
+            )
+            .onChange(of: configuration, initial: true) {
+                validation.configuration = configuration
+            }
+            .onChange(of: debounce, initial: true) {
+                validation.debounceDuration = debounce
+            }
+            .onChange(of: input) {
+                validation.submit(input: input, debounce: true)
+            }
     }
 }
 
-
 extension View {
-    /// Automatically manage a ``ValidationEngine`` object.
+    /// Validate an input against a set of validation rules.
     ///
-    /// This modified creates and manages a ``ValidationEngine`` object and places it into the environment for subviews.
+    /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
     ///
-    /// The modifier can be used in ``DataEntryView``s or other views where a ``ValidationEngines`` object is present in the environment.
+    /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
+    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
     ///
     /// - Parameters:
     ///   - value: The current value to validate.
-    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
     ///   - rules: An array of ``ValidationRule``s.
     /// - Returns: The modified view.
-    public func managedValidation<FieldIdentifier: Hashable>(
-        input value: String,
-        for fieldIdentifier: FieldIdentifier,
-        rules: [ValidationRule]
-    ) -> some View {
-        modifier(ValidationModifier(input: value, for: fieldIdentifier, rules: rules))
+    public func validate(input value: String, rules: [ValidationRule]) -> some View {
+        modifier(ValidationModifier<Never>(input: value, field: nil, rules: rules))
     }
 
-    /// Automatically manage a ``ValidationEngine`` object.
+    /// Validate an input against a set of validation rules.
     ///
-    /// This modified creates and manages a ``ValidationEngine`` object and places it into the environment for subviews.
+    /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
     ///
-    /// The modifier can be used in ``DataEntryView``s or other views where a ``ValidationEngines`` object is present in the environment.
+    /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
+    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
     ///
     /// - Parameters:
     ///   - value: The current value to validate.
-    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
-    ///   - rules: An array of ``ValidationRule``s.
-    /// - Returns: The modified view.
-    public func validate( // TODO rethink whole thing about docs and naming in this extension
-        input value: String,
-        rules: [ValidationRule]
-    ) -> some View {
-        modifier(ValidationModifier<Never>(input: value, for: nil, rules: rules))
-    }
-
-    /// Automatically manage a ``ValidationEngine`` object.
-    ///
-    /// This modified creates and manages a ``ValidationEngine`` object and places it into the environment for subviews.
-    ///
-    /// The modifier can be used in ``DataEntryView``s or other views where a ``ValidationEngines`` object is present in the environment.
-    ///
-    /// - Parameters:
-    ///   - value: The current value to validate.
-    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
     ///   - rules: An variadic array of ``ValidationRule``s.
     /// - Returns: The modified view.
-    public func managedValidation<FieldIdentifier: Hashable>(
-        input value: String,
-        for fieldIdentifier: FieldIdentifier,
-        rules: ValidationRule...
-    ) -> some View {
-        managedValidation(input: value, for: fieldIdentifier, rules: rules)
-    }
-
-    /// Automatically manage a ``ValidationEngine`` object.
-    ///
-    /// This modified creates and manages a ``ValidationEngine`` object and places it into the environment for subviews.
-    ///
-    /// The modifier can be used in ``DataEntryView``s or other views where a ``ValidationEngines`` object is present in the environment.
-    ///
-    /// - Parameters:
-    ///   - value: The current value to validate.
-    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
-    ///   - rules: An variadic array of ``ValidationRule``s.
-    /// - Returns: The modified view.
-    public func managedValidation(
-        input value: String,
-        rules: ValidationRule...
-    ) -> some View {
+    public func validate(input value: String, rules: ValidationRule...) -> some View {
         validate(input: value, rules: rules)
+    }
+
+    /// Validate an input against a set of validation rules with automatic focus management.
+    ///
+    /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
+    ///
+    /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
+    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
+    ///
+    /// - Parameters:
+    ///   - value: The current value to validate.
+    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
+    ///   - rules: An array of ``ValidationRule``s.
+    /// - Returns: The modified view.
+    public func validate<FocusValue: Hashable>(
+        input value: String,
+        field fieldIdentifier: FocusValue,
+        rules: [ValidationRule]
+    ) -> some View {
+        modifier(ValidationModifier(input: value, field: fieldIdentifier, rules: rules))
+    }
+
+    /// Validate an input against a set of validation rules with automatic focus management.
+    ///
+    /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
+    ///
+    /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
+    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
+    ///
+    /// - Parameters:
+    ///   - value: The current value to validate.
+    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
+    ///   - rules: An variadic array of ``ValidationRule``s.
+    /// - Returns: The modified view.
+    public func validate<FocusValue: Hashable>(
+        input value: String,
+        field fieldIdentifier: FocusValue,
+        rules: ValidationRule...
+    ) -> some View {
+        validate(input: value, field: fieldIdentifier, rules: rules)
     }
 }

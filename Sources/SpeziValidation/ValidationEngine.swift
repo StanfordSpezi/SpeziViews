@@ -16,10 +16,12 @@ import SwiftUI
 /// to manage the evaluation of your ``ValidationRule``s. The Engine provides easy access to bindings for current validity state of a the
 /// processed input and a the respective recovery suggestions for failed ``ValidationRule``s.
 /// The state of the `ValidationEngine` is updated on each invocation of ``runValidation(input:)`` or ``submit(input:debounce:)``.
+///
+/// TODO: docs on how to use it directly?
+///
+/// TODO: docs on how to consume outputs!
 @Observable
-public class ValidationEngine: Identifiable, Equatable { // TODO: make this a modifier!
-    // TODO: what has to be changed for observable?
-
+public class ValidationEngine: Identifiable {
     /// Determines the source of the last validation run.
     private enum Source: Equatable {
         /// The last validation was run due to change in text field or keyboard submit.
@@ -29,51 +31,28 @@ public class ValidationEngine: Identifiable, Equatable { // TODO: make this a mo
     }
 
 
-    /// The configuration of a ``ValidationEngine``.
-    public struct Configuration: OptionSet, EnvironmentKey, Equatable {
-        /// This configuration controls the behavior of the ``ValidationEngine/displayedValidationResults`` property.
-        ///
-        /// If ``ValidationEngine/submit(input:debounce:)`` is called with empty input and this option is set, then the
-        ///  ``ValidationEngine/displayedValidationResults`` will display no failed validations. However,
-        ///  ``ValidationEngine/displayedValidationResults`` will still display all validations if validation is done through a manual call to ``ValidationEngine/runValidation(input:)``.
-        public static let hideFailedValidationOnEmptySubmit = Configuration(rawValue: 1 << 0)
-
-        /// Default value without any configuration options.
-        public static let defaultValue: Configuration = []
-
-
-        public let rawValue: UInt
-
-
-        public init(rawValue: UInt) {
-            self.rawValue = rawValue
-        }
-    }
-
-
     private static let logger = Logger(subsystem: "edu.stanford.spezi.validation", category: "ValidationEngine")
 
 
     /// Unique identifier for this validation engine.
-    public let id = UUID() // TODO we can remove that once ValidationEngines is gone!
+    public var id: ObjectIdentifier {
+        ObjectIdentifier(self)
+    }
 
     /// Access to the underlying validation rules.
     public let validationRules: [ValidationRule]
 
-    /// Access the configuration of the validation engine.
-    public var configuration: Configuration
-
     /// A property that indicates if the last processed input is considered valid given the supplied ``ValidationRule`` list.
     ///
     /// The value treats no input at all (a validation that was never executed) as being invalid. Meaning, the default value is `false`.
-    @MainActor public var inputValid = false
+    @MainActor public private(set) var inputValid = false
     /// A list of ``FailedValidationResult`` for the processed input, providing, e.g., recovery suggestions.
-    @MainActor public var validationResults: [FailedValidationResult] = []
+    @MainActor public private(set) var validationResults: [FailedValidationResult] = []
 
     /// Stores the source of the last validation execution. `nil` if validation was never run.
-    @MainActor private var source: Source?
+    private var source: Source?
     /// Input was empty. By default we consider no input as empty input.
-    @MainActor private var inputWasEmpty = true
+    private var inputWasEmpty = true
 
     /// Flag that indicates if ``displayedValidationResults`` returns any ``FailedValidationResult``.
     @MainActor public var isDisplayingValidationErrors: Bool {
@@ -97,7 +76,13 @@ public class ValidationEngine: Identifiable, Equatable { // TODO: make this a mo
         isDisplayingValidationErrors ? validationResults : []
     }
 
-    private let debounceDuration: Duration
+    /// Access the configuration of the validation engine.
+    public var configuration: Configuration
+    /// The configurable debounce duration for input submission.
+    ///
+    /// This duration is used to debounce repeated calls to ``submit(input:debounce:)`` where `debounce` is set to `true`.
+    public var debounceDuration: Duration
+
     private var debounceTask: Task<Void, Never>? {
         willSet {
             debounceTask?.cancel()
@@ -111,7 +96,11 @@ public class ValidationEngine: Identifiable, Equatable { // TODO: make this a mo
     ///   - validationRules: An array of validation rules.
     ///   - debounceDuration: The debounce duration used with ``submit(input:debounce:)`` and `debounce` set to `true`.
     ///   - configuration: The ``Configuration`` of the validation engine.
-    public init(rules validationRules: [ValidationRule], debounceFor debounceDuration: Duration = .seconds(0.5), configuration: Configuration = []) {
+    init(
+        rules validationRules: [ValidationRule],
+        debounceFor debounceDuration: Duration = ValidationDebounceDurationKey.defaultValue,
+        configuration: Configuration = []
+    ) {
         self.debounceDuration = debounceDuration
         self.validationRules = validationRules
         self.configuration = configuration
@@ -123,27 +112,12 @@ public class ValidationEngine: Identifiable, Equatable { // TODO: make this a mo
     ///   - validationRules: A variadic array of validation rules.
     ///   - debounceDuration: The debounce duration used with ``submit(input:debounce:)`` and `debounce` set to `true`.
     ///   - configuration: The ``Configuration`` of the validation engine.
-    public convenience init(
+    convenience init(
         rules validationRules: ValidationRule...,
-        debounceFor debounceDuration: Duration = .seconds(0.5),
+        debounceFor debounceDuration: Duration = ValidationDebounceDurationKey.defaultValue,
         configuration: Configuration = []
     ) {
         self.init(rules: validationRules, debounceFor: debounceDuration, configuration: configuration)
-    }
-
-    public static func == (lhs: ValidationEngine, rhs: ValidationEngine) -> Bool {
-        if lhs === rhs {
-            return true
-        }
-        return false // TODO: revise!
-        /*return lhs.id == rhs.id
-            && lhs.validationRules == rhs.validationRules
-            && lhs.configuration == rhs.configuration
-            && lhs.inputValid == rhs.inputValid
-            && lhs.validationResults == rhs.validationResults
-            && lhs.source == rhs.source
-            && lhs.inputWasEmpty == rhs.inputWasEmpty
-            && lhs.debounceDuration == rhs.debounceDuration*/
     }
 
     @MainActor
@@ -208,18 +182,5 @@ public class ValidationEngine: Identifiable, Equatable { // TODO: make this a mo
     @MainActor
     public func runValidation(input: String) {
         runValidation0(input: input, source: .manual)
-    }
-}
-
-
-extension EnvironmentValues {
-    /// Access the ``ValidationEngine/Configuration-swift.struct`` from the environment.
-    public var validationEngineConfiguration: ValidationEngine.Configuration {
-        get {
-            self[ValidationEngine.Configuration.self]
-        }
-        set {
-            self[ValidationEngine.Configuration.self] = newValue
-        }
     }
 }

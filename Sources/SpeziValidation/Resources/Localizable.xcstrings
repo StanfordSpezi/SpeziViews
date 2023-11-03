@@ -1,26 +1,115 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Password Text" : {
-
-    },
-    "Some Hint" : {
-
-    },
     "VALIDATION_RULE_MINIMAL_EMAIL" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese E-Mail ist ungültig."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The provided email is invalid."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El correo electrónico proporcionado no es válido."
+          }
+        }
+      }
     },
     "VALIDATION_RULE_NON_EMPTY" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Feld kann nicht leer sein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This field cannot be empty."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este espacio no puede estar vacío."
+          }
+        }
+      }
     },
     "VALIDATION_RULE_PASSWORD_LENGTH %lld" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Passwort muss mindestens %lld Zeichen lang sein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password must be at least %lld characters long."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu contraseña debe tener al menos %lld caracteres."
+          }
+        }
+      }
     },
     "VALIDATION_RULE_UNICODE_LETTERS" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kannst nur Zeichen verwenden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You must only use letters."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debes usar solo letras."
+          }
+        }
+      }
     },
     "VALIDATION_RULE_UNICODE_LETTERS_ASCII" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kannst nur Zeichen aus dem englischen Alphabet verwenden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You must only use standard English letters."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debes usar solo letras estándar en inglés."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

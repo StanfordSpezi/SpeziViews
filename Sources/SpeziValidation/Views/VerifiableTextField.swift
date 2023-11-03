@@ -43,7 +43,9 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
                 }
             }
                 .onSubmit {
-                    validationEngine.submit(input: text, debounce: false)
+                    // the validation modifier automatically submits the text,
+                    // here we just make sure that we submit it without a debounce
+                    validationEngine.submit(input: text)
                 }
 
             HStack {
@@ -54,9 +56,6 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
                 textFieldFooter
             }
         }
-            .onChange(of: text) {
-                validationEngine.submit(input: text, debounce: true)
-            }
     }
 
 
@@ -96,28 +95,17 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
 
 
 #if DEBUG
-// TODO: preview macro!
-struct VerifiableTextField_Previews: PreviewProvider {
-    private struct PreviewView: View {
-        @State var text = ""
-        @State var engine = ValidationEngine(rules: .nonEmpty)
+#Preview {
+    @State var text = ""
 
-        var body: some View {
-            VerifiableTextField(text: $text) {
-                Text("Password Text")
-            } footer: {
-                Text("Some Hint")
-                    .font(.footnote)
-            }
-                .environment(engine)
+    return Form {
+        VerifiableTextField(text: $text) {
+            Text(verbatim: "Password Text")
+        } footer: {
+            Text(verbatim: "Some Hint")
+                .font(.footnote)
         }
-    }
-    static var previews: some View {
-        Form {
-            PreviewView()
-        }
-
-        PreviewView()
+            .validate(input: text, rules: .nonEmpty)
     }
 }
 #endif
