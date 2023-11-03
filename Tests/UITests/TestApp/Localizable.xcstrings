@@ -13,10 +13,7 @@
     "Error Description" : {
 
     },
-    "First Placeholder" : {
-
-    },
-    "First Title" : {
+    "First Name" : {
 
     },
     "Hello Throwing World" : {
@@ -35,6 +32,9 @@
         }
       }
     },
+    "Last Name" : {
+
+    },
     "LAZY_TEXT" : {
       "localizations" : {
         "en" : {
@@ -48,13 +48,16 @@
     "Reset" : {
 
     },
-    "Second Placeholder" : {
-
-    },
-    "Second Title" : {
-
-    },
     "Show Tool Picker" : {
+
+    },
+    "SpeziPersonalInfo" : {
+
+    },
+    "SpeziViews" : {
+
+    },
+    "Targets" : {
 
     },
     "This is a default error description!" : {

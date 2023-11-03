@@ -11,8 +11,8 @@ import XCTest
 
 extension XCUIApplication {
     func open(target: String) {
-        XCTAssertTrue(app.navigationBars.staticTexts["Targets"].waitForExistence(timeout: 6.0))
-        XCTAssertTrue(app.buttons[target].waitForExistence(timeout: 0.5))
-        app.buttons[target].tap()
+        XCTAssertTrue(navigationBars.staticTexts["Targets"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(buttons[target].waitForExistence(timeout: 0.5))
+        buttons[target].tap()
     }
 }
