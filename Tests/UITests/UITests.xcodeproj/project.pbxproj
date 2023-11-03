@@ -21,6 +21,9 @@
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACB22AF4709400D745F2 /* XCUIApplication+Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */; };
+		A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */; };
+		A963ACAE2AF468E100D745F2 /* ValidationEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACAD2AF468E100D745F2 /* ValidationEngineTests.swift */; };
+		A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */ = {isa = PBXBuildFile; productRef = A963ACAF2AF4692500D745F2 /* SpeziValidation */; };
 		A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880962A4C4E6500150B2F /* ModelTests.swift */; };
 		A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */; };
 		A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A978809A2A4C52F100150B2F /* EnvironmentTests.swift */; };
@@ -58,6 +61,8 @@
 		2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestApp.xctestplan; sourceTree = "<group>"; };
 		2FB099B72A8AD25100B20952 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Targets.swift"; sourceTree = "<group>"; };
+		A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziValidationTests.swift; sourceTree = "<group>"; };
+		A963ACAD2AF468E100D745F2 /* ValidationEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationEngineTests.swift; sourceTree = "<group>"; };
 		A97880962A4C4E6500150B2F /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultErrorDescriptionTestView.swift; sourceTree = "<group>"; };
 		A978809A2A4C52F100150B2F /* EnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
@@ -69,10 +74,12 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		2F6D138F28F5F384007C25D6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
+			isa = PBXFrameworksBuildPhase;tus
+
 			buildActionMask = 2147483647;
 			files = (
 				2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */,
+				A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */,
 				977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */,
 				A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */,
 			);
@@ -118,6 +125,7 @@
 				A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */,
 				A9FBAE962AF446B2001E4AF1 /* PersonalInfoTests */,
 				2FA9485D29DE90710081C086 /* ViewsTests */,
+				A963ACAA2AF467F700D745F2 /* ValidationTests */,
 				2F6D139928F5F386007C25D6 /* Assets.xcassets */,
 				2FB099B72A8AD25100B20952 /* Localizable.xcstrings */,
 			);
@@ -153,6 +161,15 @@
 				A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */,
 			);
 			path = ViewsTests;
+			sourceTree = "<group>";
+		};
+		A963ACAA2AF467F700D745F2 /* ValidationTests */ = {
+			isa = PBXGroup;
+			children = (
+				A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */,
+				A963ACAD2AF468E100D745F2 /* ValidationEngineTests.swift */,
+			);
+			path = ValidationTests;
 			sourceTree = "<group>";
 		};
 		A9FBAE962AF446B2001E4AF1 /* PersonalInfoTests */ = {
@@ -202,6 +219,7 @@
 				2FA9486E29DE91A30081C086 /* SpeziViews */,
 				977CF55B2AD2B92C006D9B54 /* XCTestApp */,
 				A95B6E642AF4298500919504 /* SpeziPersonalInfo */,
+				A963ACAF2AF4692500D745F2 /* SpeziValidation */,
 			);
 			productName = Example;
 			productReference = 2F6D139228F5F384007C25D6 /* TestApp.app */;
@@ -297,9 +315,11 @@
 				2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */,
 				A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */,
 				2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */,
+				A963ACAE2AF468E100D745F2 /* ValidationEngineTests.swift in Sources */,
 				A998A94F2A609A9E0030624D /* AsyncButtonTestView.swift in Sources */,
 				2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */,
 				2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */,
+				A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */,
 				A9FBAE982AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift in Sources */,
 				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
 				2FA9486629DE90720081C086 /* MarkdownViewTestView.swift in Sources */,
@@ -724,6 +744,10 @@
 		A95B6E642AF4298500919504 /* SpeziPersonalInfo */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SpeziPersonalInfo;
+		};
+		A963ACAF2AF4692500D745F2 /* SpeziValidation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SpeziValidation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

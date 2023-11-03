@@ -16,10 +16,16 @@
     "First Name" : {
 
     },
+    "Has Engines: %@" : {
+
+    },
     "Hello Throwing World" : {
 
     },
     "Hello World" : {
+
+    },
+    "Input" : {
 
     },
     "LABEL_TEXT" : {
@@ -33,6 +39,9 @@
       }
     },
     "Last Name" : {
+
+    },
+    "Last state: %@" : {
 
     },
     "LAZY_TEXT" : {
@@ -54,6 +63,9 @@
     "SpeziPersonalInfo" : {
 
     },
+    "SpeziValidation" : {
+
+    },
     "SpeziViews" : {
 
     },
@@ -64,6 +76,9 @@
 
     },
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
+
+    },
+    "Validate" : {
 
     },
     "View State: %@" : {

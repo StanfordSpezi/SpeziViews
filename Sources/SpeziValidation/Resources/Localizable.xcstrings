@@ -1,0 +1,27 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Password Text" : {
+
+    },
+    "Some Hint" : {
+
+    },
+    "VALIDATION_RULE_MINIMAL_EMAIL" : {
+
+    },
+    "VALIDATION_RULE_NON_EMPTY" : {
+
+    },
+    "VALIDATION_RULE_PASSWORD_LENGTH %lld" : {
+
+    },
+    "VALIDATION_RULE_UNICODE_LETTERS" : {
+
+    },
+    "VALIDATION_RULE_UNICODE_LETTERS_ASCII" : {
+
+    }
+  },
+  "version" : "1.0"
+}

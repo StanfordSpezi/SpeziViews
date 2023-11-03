@@ -19,7 +19,11 @@ let package = Package(
     ],
     products: [
         .library(name: "SpeziViews", targets: ["SpeziViews"]),
-        .library(name: "SpeziPersonalInfo", targets: ["SpeziPersonalInfo"])
+        .library(name: "SpeziPersonalInfo", targets: ["SpeziPersonalInfo"]),
+        .library(name: "SpeziValidation", targets: ["SpeziValidation"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.0.4"))
     ],
     targets: [
         .target(
@@ -31,11 +35,17 @@ let package = Package(
                 .target(name: "SpeziViews")
             ]
         ),
+        .target(
+            name: "SpeziValidation",
+            dependencies: [
+                .target(name: "SpeziViews"),
+                .product(name: "OrderedCollections", package: "swift-collections")
+            ]
+        ),
         .testTarget(
             name: "SpeziViewsTests",
             dependencies: [
-                .target(name: "SpeziViews"),
-                .target(name: "SpeziPersonalInfo")
+                .target(name: "SpeziViews")
             ]
         )
     ]
