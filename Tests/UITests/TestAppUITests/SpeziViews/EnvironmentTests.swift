@@ -11,9 +11,19 @@ import XCTestExtensions
 
 
 final class EnvironmentTests: XCTestCase {
-    func testDefaultErrorDescription() throws {
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+
+        continueAfterFailure = false
+
         let app = XCUIApplication()
         app.launch()
+
+        app.open(target: "SpeziViews")
+    }
+
+    func testDefaultErrorDescription() throws {
+        let app = XCUIApplication()
 
         XCTAssert(app.collectionViews.buttons["Default Error Description"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Default Error Description"].tap()

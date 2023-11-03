@@ -13,10 +13,7 @@
     "Error Description" : {
 
     },
-    "First Placeholder" : {
-
-    },
-    "First Title" : {
+    "First Name" : {
 
     },
     "Hello Throwing World" : {
@@ -24,23 +21,6 @@
     },
     "Hello World" : {
 
-    },
-    "HELLO_WORLD" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hallo Welt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hello World"
-          }
-        }
-      }
     },
     "LABEL_TEXT" : {
       "localizations" : {
@@ -51,6 +31,9 @@
           }
         }
       }
+    },
+    "Last Name" : {
+
     },
     "LAZY_TEXT" : {
       "localizations" : {
@@ -65,22 +48,22 @@
     "Reset" : {
 
     },
-    "Second Placeholder" : {
-
-    },
-    "Second Title" : {
-
-    },
     "Show Tool Picker" : {
+
+    },
+    "SpeziPersonalInfo" : {
+
+    },
+    "SpeziViews" : {
+
+    },
+    "Targets" : {
 
     },
     "This is a default error description!" : {
 
     },
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
-
-    },
-    "This is a long text ...\n\nAnd some more lines ...\n\nAnd a third line ..." : {
 
     },
     "View State: %@" : {

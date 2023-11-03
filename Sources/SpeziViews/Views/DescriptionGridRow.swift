@@ -48,34 +48,34 @@ struct DescriptionGridRow_Previews: PreviewProvider {
             Form {
                 Grid(horizontalSpacing: 8, verticalSpacing: 8) {
                     DescriptionGridRow {
-                        Text("Description")
+                        Text(verbatim: "Description")
                     } content: {
-                        Text("Content")
+                        Text(verbatim: "Content")
                     }
                     Divider()
                     DescriptionGridRow {
-                        Text("Description")
+                        Text(verbatim: "Description")
                     } content: {
-                        Text("Content")
+                        Text(verbatim: "Content")
                     }
                     DescriptionGridRow {
-                        Text("Description")
+                        Text(verbatim: "Description")
                     } content: {
-                        Text("Content")
+                        Text(verbatim: "Content")
                     }
                 }
             }
             Grid(horizontalSpacing: 8, verticalSpacing: 8) {
                 DescriptionGridRow {
-                    Text("Description")
+                    Text(verbatim: "Description")
                 } content: {
-                    Text("Content")
+                    Text(verbatim: "Content")
                 }
                 Divider()
                 DescriptionGridRow {
-                    Text("Description")
+                    Text(verbatim: "Description")
                 } content: {
-                    Text("Content")
+                    Text(verbatim: "Content")
                 }
             }
                 .padding(32)

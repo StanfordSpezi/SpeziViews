@@ -6,28 +6,37 @@
 // SPDX-License-Identifier: MIT
 //
 
-import SpeziViews
+import SpeziPersonalInfo
 import SwiftUI
 
 
 struct NameFieldsTestView: View {
     @State var name = PersonNameComponents()
-
-    @FocusState var focus: String?
     
     var body: some View {
         VStack {
-            NameFields(
-                name: $name,
-                givenNameField: FieldLocalizationResource(title: "First Title", placeholder: "First Placeholder"),
-                familyNameField: FieldLocalizationResource(title: "Second Title", placeholder: "Second Placeholder")
-            )
-                .padding(32)
             Form {
-                NameFields(name: $name, givenNameFieldIdentifier: "givenName", familyNameFieldIdentifier: "familyName", focusedState: $focus)
+                nameFields
             }
         }
             .navigationBarTitleDisplayMode(.inline)
+    }
+
+
+    @ViewBuilder
+    private var nameFields: some View {
+        Grid {
+            NameFieldRow("First Name", name: $name, for: \.givenName) {
+                Text(verbatim: "enter your first name")
+            }
+
+            Divider()
+                .gridCellUnsizedAxes(.horizontal)
+
+            NameFieldRow("Last Name", name: $name, for: \.familyName) {
+                Text(verbatim: "enter your last name")
+            }
+        }
     }
 }
 

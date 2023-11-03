@@ -32,8 +32,8 @@ struct CanvasTestView: View {
                 showToolPicker: $showToolPicker
             )
         }
-            .onChange(of: isDrawing) { newValue in
-                if newValue {
+            .onChange(of: isDrawing) {
+                if isDrawing {
                     didDrawAnything = true
                 }
             }

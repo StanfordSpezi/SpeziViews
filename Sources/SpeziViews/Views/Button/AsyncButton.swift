@@ -17,6 +17,23 @@ enum AsyncButtonState {
 
 
 /// A SwiftUI `Button` that initiates an asynchronous (throwing) action.
+///
+/// The `AsyncButton` closely works together with the ``ViewState`` to control processing and error states.
+///
+/// Below is a short code example on how to use `ViewState` in conjunction with the `AsyncButton` to spin of a
+/// async throwing action. It relies on the ``SwiftUI/View/viewStateAlert(state:)`` modifier to present any
+/// potential `LocalizedErrors` to the user.
+///
+/// ```swift
+/// @State private var viewState: ViewState = .idle
+///
+/// var body: some View {
+///     AsyncButton("Press Me", state: $viewState) {
+///
+///     }
+///         .viewStateAlert(state: $viewState)
+/// }
+/// ```
 @MainActor
 public struct AsyncButton<Label: View>: View {
     private let role: ButtonRole?
@@ -50,7 +67,7 @@ public struct AsyncButton<Label: View>: View {
             }
     }
 
-    /// Creates am async button that generates its label from a provided localized string.
+    /// Creates an async button that generates its label from a provided localized string.
     /// - Parameters:
     ///   - title: The localized string used to generate the Label.
     ///   - role: An optional button role that is passed onto the underlying `Button`.
@@ -65,7 +82,7 @@ public struct AsyncButton<Label: View>: View {
         }
     }
     
-    /// Creates am async button that generates its label from a provided without localization.
+    /// Creates an async button that generates its label from a provided without localization.
     /// - Parameters:
     ///   - title: The string used to generate the Label without localization.
     ///   - role: An optional button role that is passed onto the underlying `Button`.
@@ -77,7 +94,7 @@ public struct AsyncButton<Label: View>: View {
         action: @escaping () async -> Void
     ) where Label == Text {
         self.init(role: role, action: action) {
-            Text(title)
+            Text(verbatim: String(title))
         }
     }
 
@@ -112,7 +129,7 @@ public struct AsyncButton<Label: View>: View {
         action: @escaping () async throws -> Void
     ) where Label == Text {
         self.init(role: role, state: state, action: action) {
-            Text(title)
+            Text(verbatim: String(title))
         }
     }
     
@@ -211,7 +228,7 @@ public struct AsyncButton<Label: View>: View {
 #if DEBUG
 struct AsyncThrowingButton_Previews: PreviewProvider {
     struct PreviewButton: View {
-        var title: LocalizedStringResource = "Test Button"
+        var title: String = "Test Button"
         var role: ButtonRole?
         var duration: Duration = .seconds(1)
         var action: () async throws -> Void = {}

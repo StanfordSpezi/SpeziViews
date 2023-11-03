@@ -47,7 +47,7 @@ private struct _Label: UIViewRepresentable {
 
 /// A ``Label`` is a SwiftUI-based wrapper around a `UILabel` that allows the usage of an `NSTextAlignment` to e.g. justify the text.
 public struct Label: View {
-    private let text: LocalizedStringResource
+    private let text: TextContent
     private let textStyle: UIFont.TextStyle
     private let textAlignment: NSTextAlignment
     private let textColor: UIColor
@@ -68,7 +68,7 @@ public struct Label: View {
             )
         }
             .accessibilityRepresentation {
-                Text(text)
+                Text(verbatim: text.localizedString(for: locale))
             }
     }
     
@@ -87,7 +87,7 @@ public struct Label: View {
         textColor: UIColor = .label,
         numberOfLines: Int = 0
     ) {
-        self.text = text
+        self.text = .localized(text)
         self.textStyle = textStyle
         self.textAlignment = textAlignment
         self.textColor = textColor
@@ -101,15 +101,14 @@ public struct Label: View {
     ///   - textAlignment: The `NSTextAlignment` of the `UILabel`. Defaults to `.justified`.
     ///   - textColor: The `UIColor` of the `UILabel`. Defaults to `.label`.
     ///   - numberOfLines: The number of lines allowed of the `UILabel`. Defaults to 0 indicating no limit.
-    @_disfavoredOverload
     public init<Text: StringProtocol>(
-        _ text: Text,
+        verbatim text: Text,
         textStyle: UIFont.TextStyle = .body,
         textAlignment: NSTextAlignment = .justified,
         textColor: UIColor = .label,
         numberOfLines: Int = 0
     ) {
-        self.text = LocalizedStringResource("\(String(text))")
+        self.text = .string(String(text))
         self.textStyle = textStyle
         self.textAlignment = textAlignment
         self.textColor = textColor
@@ -121,7 +120,7 @@ public struct Label: View {
 #if DEBUG
 struct Label_Previews: PreviewProvider {
     static var previews: some View {
-        Label("This is very long text that wraps around multiple lines and adjusts the spacing between words accordingly.")
+        Label(verbatim: "This is very long text that wraps around multiple lines and adjusts the spacing between words accordingly.")
     }
 }
 #endif

@@ -14,7 +14,7 @@ import XCTestApp
 struct UITestsApp: App {
     var body: some Scene {
         WindowGroup {
-            TestAppTestsView<SpeziViewsTests>()
+            SpeziViewsTargetsTests()
         }
     }
 }

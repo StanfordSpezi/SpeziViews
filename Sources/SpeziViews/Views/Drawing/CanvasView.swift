@@ -11,7 +11,7 @@ import SwiftUI
 
 
 private struct _CanvasView: UIViewRepresentable {
-    class Coordinator: NSObject, ObservableObject, PKCanvasViewDelegate {
+    class Coordinator: NSObject, PKCanvasViewDelegate {
         let canvasView: _CanvasView
         
         
@@ -178,7 +178,7 @@ struct SignatureView_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
-            Text("\(isDrawing.description)")
+            Text(verbatim: "\(isDrawing.description)")
             CanvasView(isDrawing: $isDrawing)
         }
     }
