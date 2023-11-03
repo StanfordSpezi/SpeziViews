@@ -32,11 +32,11 @@ struct ValidationEngineTests: View {
 
             VerifiableTextField("Input", text: $input)
                 .validate(input: input, rules: [.minimalPassword])
-                .receiveValidationEngines { engines in
-                    self.engines = engines
-                    print("Received engines \(engines)")
-                }
         }
+            .receiveValidationEngines { engines in
+                self.engines = engines
+                print("Received engines \(engines)")
+            }
     }
 }
 

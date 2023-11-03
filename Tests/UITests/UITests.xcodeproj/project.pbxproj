@@ -74,7 +74,7 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		2F6D138F28F5F384007C25D6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;tus
+			isa = PBXFrameworksBuildPhase;
 
 			buildActionMask = 2147483647;
 			files = (
