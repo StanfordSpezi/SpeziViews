@@ -27,6 +27,12 @@ extension View {
         }
     }
 
+    public func receiveValidation<Value>(in state: ValidationState<Value>.Binding) -> some View {
+        onPreferenceChange(CapturedValidationStateKey<Value>.self) { entries in
+            state.wrappedValue = ValidationContext(entries: entries)
+        }
+    }
+
     public func receiveValidation<Value>(in state: ValidationState<Value>.Binding, focus: FocusState<Value?>.Binding) -> some View {
         onPreferenceChange(CapturedValidationStateKey<Value>.self) { entries in
             state.wrappedValue = ValidationContext(entries: entries, focus: focus)

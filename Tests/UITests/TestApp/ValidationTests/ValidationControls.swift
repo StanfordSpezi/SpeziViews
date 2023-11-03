@@ -17,7 +17,7 @@ struct ValidationControls<FocusValue: Hashable>: View {
 
     var body: some View {
         Text("Has Engines: \(!validation.isEmpty ? "Yes" : "No")")
-        Text("Input Valid: \(validation.inputValid ? "Yes" : "No")")
+        Text("Input Valid: \(validation.allInputValid ? "Yes" : "No")")
         if let lastValid {
             Text("Last state: \(lastValid ? "valid" : "invalid")")
         }

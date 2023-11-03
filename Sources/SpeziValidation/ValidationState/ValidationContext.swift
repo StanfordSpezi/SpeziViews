@@ -23,7 +23,7 @@ public struct ValidationContext<FocusValue: Hashable> {
     ///
     /// Please refer to the documentation of ``ValidationEngine/inputValid``.
     @MainActor
-    public var inputValid: Bool {
+    public var allInputValid: Bool {
         entries.allSatisfy { $0.inputValid }
     }
 
@@ -45,6 +45,14 @@ public struct ValidationContext<FocusValue: Hashable> {
         entries.reduce(into: []) { result, state in
             result.append(contentsOf: state.displayedValidationResults)
         }
+    }
+
+    /// Flag that indicates if ``displayedValidationResults`` returns any ``FailedValidationResult``.
+    ///
+    /// Please refer to the documentation of ``ValidationEngine/isDisplayingValidationErrors``.
+    @MainActor
+    public var isDisplayingValidationErrors: Bool {
+        entries.contains { $0.isDisplayingValidationErrors }
     }
     
 
@@ -76,15 +84,17 @@ public struct ValidationContext<FocusValue: Hashable> {
     /// If provided, the `FocusState` will be automatically set to the first field
     /// that reported a failed validation result.
     ///
+    /// - Parameter switchFocus: Flag that controls the automatic focus switching mechanisms. Default turned on.
     /// - Returns: Returns `true` if all subviews reported valid data. Returns `false` if at least one
     ///     subview reported invalid data.
     @MainActor
     @discardableResult
-    public func validateSubviews() -> Bool {
+    public func validateSubviews(switchFocus: Bool = true) -> Bool {
         let failedFields = collectFailedFields()
 
         if let first = failedFields.first {
-            if let focusState,
+            if switchFocus,
+               let focusState,
                let field = first.field {
                 focusState.wrappedValue = field
             }
