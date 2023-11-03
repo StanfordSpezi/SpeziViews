@@ -11,14 +11,15 @@ import XCTestExtensions
 
 
 final class ModelTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+
+        continueAfterFailure = false
+
         let app = XCUIApplication()
         app.launch()
 
-        XCTAssertTrue(app.navigationBars.staticTexts["Targets"].waitForExistence(timeout: 6.0))
-        XCTAssertTrue(app.buttons["SpeziViews"].waitForExistence(timeout: 0.5))
-        app.buttons["SpeziViews"].tap()
+        app.open(target: "SpeziViews")
     }
 
     func testViewState() throws {

@@ -11,14 +11,15 @@ import XCTestExtensions
 
 
 final class ViewsTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+
+        continueAfterFailure = false
+
         let app = XCUIApplication()
         app.launch()
 
-        XCTAssertTrue(app.navigationBars.staticTexts["Targets"].waitForExistence(timeout: 6.0))
-        XCTAssertTrue(app.buttons["SpeziViews"].waitForExistence(timeout: 0.5))
-        app.buttons["SpeziViews"].tap()
+        app.open(target: "SpeziViews")
     }
 
     func testCanvas() throws {
@@ -27,7 +28,7 @@ final class ViewsTests: XCTestCase {
 #endif
         
         let app = XCUIApplication()
-        
+
         XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Canvas"].tap()
         

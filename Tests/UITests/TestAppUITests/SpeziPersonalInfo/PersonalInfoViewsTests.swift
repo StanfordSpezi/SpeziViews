@@ -11,14 +11,15 @@ import XCTestExtensions
 
 
 final class PersonalInfoViewsTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+
+        continueAfterFailure = false
+
         let app = XCUIApplication()
         app.launch()
 
-        XCTAssertTrue(app.navigationBars.staticTexts["Targets"].waitForExistence(timeout: 6.0))
-        XCTAssertTrue(app.buttons["SpeziPersonalInfo"].waitForExistence(timeout: 0.5))
-        app.buttons["SpeziPersonalInfo"].tap()
+        app.open(target: "SpeziPersonalInfo")
     }
 
     func testNameFields() throws {
