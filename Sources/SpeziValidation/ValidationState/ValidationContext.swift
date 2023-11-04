@@ -9,11 +9,6 @@
 import SwiftUI
 
 
-private struct FailedFieldResult<FocusValue> {
-    let field: FocusValue? // we store an optional as it might be Never
-}
-
-
 /// The validation context managed by a validation state modifier.
 ///
 /// The `ValidationContext` is the state managed by the ``ValidationState`` property wrapper.
