@@ -13,11 +13,14 @@ import XCTestApp
 
 enum SpeziValidationTests: String, TestAppTests {
     case validation = "Validation"
+    case validationRules = "ValidationRules"
 
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
         switch self {
         case .validation:
             FocusedValidationTests()
+        case .validationRules:
+            DefaultValidationRules()
         }
     }
 }

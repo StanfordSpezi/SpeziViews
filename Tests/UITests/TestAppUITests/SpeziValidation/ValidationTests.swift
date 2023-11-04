@@ -22,6 +22,13 @@ final class ValidationTests: XCTestCase {
         app.open(target: "SpeziValidation")
     }
 
+    func testDefaultRules() {
+        let app = XCUIApplication()
+
+        XCTAssert(app.buttons["ValidationRules"].waitForExistence(timeout: 2))
+        app.buttons["ValidationRules"].tap()
+    }
+
     func testValidationWithFocus() throws {
         let app = XCUIApplication()
 
