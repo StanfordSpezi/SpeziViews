@@ -67,6 +67,10 @@ extension View {
     /// }
     /// ```
     ///
+    /// - Important: You shouldn't place multiple validate modifiers into the same view hierarchy branch. This creates
+    ///     visibility problems in both direction. Both displaying validation results in the child view and receiving
+    ///     validation state from the parent view.
+    ///
     /// - Parameters:
     ///   - value: The current value to validate.
     ///   - rules: An array of ``ValidationRule``s.
@@ -93,6 +97,10 @@ extension View {
     ///     }
     /// }
     /// ```
+    ///
+    /// - Important: You shouldn't place multiple validate modifiers into the same view hierarchy branch. This creates
+    ///     visibility problems in both direction. Both displaying validation results in the child view and receiving
+    ///     validation state from the parent view.
     ///
     /// - Parameters:
     ///   - value: The current value to validate.
