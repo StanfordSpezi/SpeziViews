@@ -11,7 +11,7 @@ import SwiftUI
 
 extension ValidationEngine {
     /// The configuration of a ``ValidationEngine``.
-    public struct Configuration: OptionSet, EnvironmentKey, Equatable { // TODO do we have to test those?
+    public struct Configuration: OptionSet, EnvironmentKey, Equatable {
         /// This configuration controls the behavior of the ``ValidationEngine/displayedValidationResults`` property.
         ///
         /// If ``ValidationEngine/submit(input:debounce:)`` is called with empty input and this option is set, then the

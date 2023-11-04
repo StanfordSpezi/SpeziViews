@@ -54,7 +54,7 @@ public struct ValidationContext {
         }
     }
 
-    /// Flag that indicates if ``displayedValidationResults`` returns any ``FailedValidationResult``.
+    /// Flag that indicates if ``allDisplayedValidationResults`` returns any results.
     ///
     /// Please refer to the documentation of ``ValidationEngine/isDisplayingValidationErrors``.
     @MainActor

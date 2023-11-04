@@ -50,5 +50,4 @@ SPDX-License-Identifier: MIT
 
 ### Managing Focus
 
-- ``SwiftUI/View/onTapFocus()``
-- ``SwiftUI/View/onTapFocus(focusedField:fieldIdentifier:)-1rxxf``
+- ``SwiftUI/View/focusOnTap()``

@@ -31,9 +31,38 @@ enum CascadingValidationEffect {
 /// )
 /// ```
 ///
+/// Use the ``SwiftUI/View/validate(input:rules:)-5dac4`` modifier to apply a validation rule to a given `String` input.
+///
+/// ### Discussion on security-related client-side Validation
+///
+/// This discussion section briefly touches on important aspects when doing security-related, client-side validation and highlights
+/// the importance of server-side validation to properly enforce restrictions.
+///
 /// - Important: Never rely on security-relevant validations with `ValidationRule`. These are client-side validations only!
 ///     Security-related validations MUST be checked at the server side (e.g., password length) and are just checked
 ///     on client-side for visualization.
+///
+/// #### Password Validation
+///
+/// An application must make sure that users choose sufficiently secure passwords
+/// while ensuring at the same time that usability is not affected due to too complex restrictions.
+/// This basic motivation stems from the section `ORP.4.A22 Regulating Password Quality`
+/// of the [IT-Grundschutz Compendium](https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/IT-Grundschutz/it-grundschutz_node.html)
+/// of the German Federal Office for Information Security.
+/// We propose to use the password length as the sole factor to determine password complexity. We rely on the
+/// recommendations of NIST who discuss the [Strength of Memorized Secrets](https://pages.nist.gov/800-63-3/sp800-63b.html#appA)
+/// in great detail and recommend against password rules that mandated a certain mix of character types.
+///
+/// ## Topics
+///
+/// ### Builtin Rules
+/// - ``nonEmpty``
+/// - ``unicodeLettersOnly``
+/// - ``asciiLettersOnly``
+/// - ``minimalEmail``
+/// - ``minimalPassword``
+/// - ``mediumPassword``
+/// - ``strongPassword``
 public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     // we guarantee that the closure is only executed on the main thread
     /// A unique identifier for the ``ValidationRule``. Can be used to, e.g., match a ``FailedValidationResult`` to the ValidationRule.

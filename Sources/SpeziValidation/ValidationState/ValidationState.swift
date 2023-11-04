@@ -8,20 +8,16 @@
 
 import SwiftUI
 
-/// It provides access to the ``ValidationEngine``s of all subviews by capturing them with
-/// ``CapturedValidationState``.
-///
-/// You can use this structure to retrieve the state of all ``ValidationEngine``s of a subview or manually
-/// initiate validation by calling ``validateSubviews(switchFocus:)``. E.g., when pressing on a submit button of a form.
 
-
-/// Property wrapper to retrieve validation state of all subviews.
+/// Property wrapper to retrieve validation state of subviews.
 ///
 /// The `ValidationState` property wrapper can be used to retrieve the validation state of
-/// all subviews and manually initiate validation (e.g., when pressing the submit button of a form).
+/// subviews and manually initiate validation (e.g., when pressing the submit button of a form).
+/// To do so, you would typically call ``ValidationContext/validateSubviews(switchFocus:)`` within the `Button`
+/// action. This call can be used to automatically switch focus to the first field that failed validation.
 ///
-/// The `ValidationState` property wrapper works in conjunction with the ``SwiftUI/View/receiveValidation(in:)` modifier
-/// to receive all validation state from the child views.
+/// The `ValidationState` property wrapper works in conjunction with the ``SwiftUI/View/receiveValidation(in:)`` modifier
+/// to receive validation state from the child views.
 ///
 /// Below is a short code example of a typical setup:
 /// ```swift
@@ -43,16 +39,22 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// - Note: `ValidationState` deeply integrates with [FocusState](https://developer.apple.com/documentation/SwiftUI/FocusState)
-///     and supports to automatically
+/// ## Topics
+///
+/// ### Inspecting Validation State
+/// - ``ValidationContext``
+/// - ``CapturedValidationState``
+/// - ``ValidationEngine``
 @propertyWrapper
 public struct ValidationState: DynamicProperty {
     @State private var state = ValidationContext()
 
+    /// Access the captured validation context.
     public var wrappedValue: ValidationContext {
         state
     }
 
+    /// Creates a binding that you can pass around.
     public var projectedValue: ValidationState.Binding {
         Binding(binding: $state)
     }
@@ -63,10 +65,12 @@ public struct ValidationState: DynamicProperty {
 
 
 extension ValidationState {
+    /// A binding to a ``ValidationState``.
     @propertyWrapper
     public struct Binding {
         private let binding: SwiftUI.Binding<ValidationContext>
 
+        /// The validation context.
         public var wrappedValue: ValidationContext {
             get {
                 binding.wrappedValue
@@ -76,6 +80,7 @@ extension ValidationState {
             }
         }
 
+        /// Creates a binding.
         public var projectedValue: Binding {
             self
         }

@@ -59,13 +59,7 @@ extension ValidationRule {
 
     /// A `ValidationRule` that requires a password of at least 8 characters for minimal password complexity.
     ///
-    /// An application must make sure that users choose sufficiently secure passwords while at the same time ensuring that
-    /// usability is not affected due to too complex restrictions. This basic motivation stems from `ORP.4.A22 Regulating Password Quality`
-    /// of the [IT-Grundschutz Compendium](https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/IT-Grundschutz/it-grundschutz_node.html)
-    /// of the German Federal Office for Information Security.
-    /// We propose to use the password length as the sole factor to determine password complexity. We rely on the
-    /// recommendations of NIST who discuss the [Strength of Memorized Secrets](https://pages.nist.gov/800-63-3/sp800-63b.html#appA)
-    /// great detail and recommend against password rules that mandated a certain mix of character types.
+    /// See ``ValidationRule`` for a discussion and recommendation on password complexity rules.
     public static let minimalPassword: ValidationRule = {
         guard let regex = try? Regex(#".{8,}"#) else {
             fatalError("Failed to build the minimalPassword validation rule!")
@@ -80,7 +74,7 @@ extension ValidationRule {
 
     /// A `ValidationRule` that requires a password of at least 10 characters for improved password complexity.
     ///
-    /// See ``minimalPassword`` for a discussion and recommendation on password complexity rules.
+    /// See ``ValidationRule`` for a discussion and recommendation on password complexity rules.
     public static let mediumPassword: ValidationRule = {
         guard let regex = try? Regex(#".{10,}"#) else {
             fatalError("Failed to build the mediumPassword validation rule!")
@@ -95,7 +89,7 @@ extension ValidationRule {
 
     /// A `ValidationRule` that requires a password of at least 10 characters for extended password complexity.
     ///
-    /// See ``minimalPassword`` for a discussion and recommendation on password complexity rules.
+    /// See ``ValidationRule`` for a discussion and recommendation on password complexity rules.
     public static let strongPassword: ValidationRule = {
         guard let regex = try? Regex(#".{12,}"#) else {
             fatalError("Failed to build the strongPassword validation rule!")

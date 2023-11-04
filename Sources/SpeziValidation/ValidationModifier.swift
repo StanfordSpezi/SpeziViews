@@ -53,7 +53,19 @@ extension View {
     /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
     ///
     /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
-    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
+    /// environment.
+    ///
+    /// Below is a short code example on how to use the modifier. We rely on ``VerifiableTextField`` to visualize potential validation errors.
+    /// ```swift
+    /// @State var phrase: String = ""
+    ///
+    /// var body: some View {
+    ///     Form {
+    ///         VerifiableTextView("your favorite phrase", text: $phrase)
+    ///             .validate(input: phrase, rules: .nonEmpty)
+    ///     }
+    /// }
+    /// ```
     ///
     /// - Parameters:
     ///   - value: The current value to validate.
@@ -68,7 +80,19 @@ extension View {
     /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
     ///
     /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
-    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
+    /// environment.
+    ///
+    /// Below is a short code example on how to use the modifier. We rely on ``VerifiableTextField`` to visualize potential validation errors.
+    /// ```swift
+    /// @State var phrase: String = ""
+    ///
+    /// var body: some View {
+    ///     Form {
+    ///         VerifiableTextView("your favorite phrase", text: $phrase)
+    ///             .validate(input: phrase, rules: .nonEmpty)
+    ///     }
+    /// }
+    /// ```
     ///
     /// - Parameters:
     ///   - value: The current value to validate.
@@ -77,47 +101,4 @@ extension View {
     public func validate(input value: String, rules: ValidationRule...) -> some View {
         validate(input: value, rules: rules)
     }
-
-    /*
-     TODO: remove?
-    /// Validate an input against a set of validation rules with automatic focus management.
-    ///
-    /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
-    ///
-    /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
-    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
-    ///
-    /// - Parameters:
-    ///   - value: The current value to validate.
-    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
-    ///   - rules: An array of ``ValidationRule``s.
-    /// - Returns: The modified view.
-    public func validate<FocusValue: Hashable>(
-        input value: String,
-        field fieldIdentifier: FocusValue,
-        rules: [ValidationRule]
-    ) -> some View {
-        modifier(ValidationModifier(input: value, field: fieldIdentifier, rules: rules))
-    }
-
-    /// Validate an input against a set of validation rules with automatic focus management.
-    ///
-    /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
-    ///
-    /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
-    /// environment. The modifier automatically calls ``ValidationEngine/submit(input:debounce:)`` on a change of the input.
-    ///
-    /// - Parameters:
-    ///   - value: The current value to validate.
-    ///   - fieldIdentifier: The field identifier of the field that receives focus if validation fails.
-    ///   - rules: An variadic array of ``ValidationRule``s.
-    /// - Returns: The modified view.
-    public func validate<FocusValue: Hashable>(
-        input value: String,
-        field fieldIdentifier: FocusValue,
-        rules: ValidationRule...
-    ) -> some View {
-        validate(input: value, field: fieldIdentifier, rules: rules)
-    }
-    */
 }

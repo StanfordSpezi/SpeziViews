@@ -74,6 +74,6 @@ final class ValidationTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Last state: valid"].waitForExistence(timeout: 1.0))
 
         XCTAssertTrue(app.textFields["Hello World!"].exists)
-        XCTAssertTrue(app.textFields["Word!"].exists)
+        XCTAssertTrue(app.textFields["Word"].exists)
     }
 }

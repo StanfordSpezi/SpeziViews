@@ -32,12 +32,10 @@ public struct ValidationResultsView: View {
 
 
 #if DEBUG
-struct ValidationResultsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ValidationResultsView(results: [
-            .init(from: .nonEmpty),
-            .init(from: .mediumPassword)
-        ])
-    }
+#Preview {
+    ValidationResultsView(results: [
+        .init(from: .nonEmpty),
+        .init(from: .mediumPassword)
+    ])
 }
 #endif

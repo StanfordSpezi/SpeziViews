@@ -37,7 +37,7 @@ struct FocusedValidationTests: View {
                 }
                 Button("Validate", action: {
                     // validating without direct access to the input value
-                    lastValid = validation.validateSubviews(switchFocus: switchFocus) // TODO test the focus switch?
+                    lastValid = validation.validateSubviews(switchFocus: switchFocus)
                 })
                 Toggle("Switch Focus", isOn: $switchFocus)
             }
@@ -53,6 +53,7 @@ struct FocusedValidationTests: View {
             .receiveValidation(in: $validation)
     }
 }
+
 
 #Preview {
     FocusedValidationTests()
