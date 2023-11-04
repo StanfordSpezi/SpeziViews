@@ -22,49 +22,14 @@ final class ValidationTests: XCTestCase {
         app.open(target: "SpeziValidation")
     }
 
-    func testValidation() throws {
-        let app = XCUIApplication()
-
-        let message = "Your password must be at least 8 characters long."
-
-        XCTAssert(app.buttons["Validation"].waitForExistence(timeout: 2))
-        app.buttons["Validation"].tap()
-
-        XCTAssertTrue(app.staticTexts["Has Engines: Yes"].waitForExistence(timeout: 2.0))
-        XCTAssertTrue(app.staticTexts["Input Valid: No"].exists)
-        XCTAssertFalse(app.staticTexts[message].exists)
-
-        XCTAssertTrue(app.buttons["Validate"].exists)
-        app.buttons["Validate"].tap()
-        XCTAssertTrue(app.staticTexts["Last state: invalid"].waitForExistence(timeout: 1.0))
-        XCTAssertTrue(app.staticTexts[message].exists)
-
-        try app.textFields["Input"].enter(value: "Hello World")
-
-
-        XCTAssertTrue(app.staticTexts["Input Valid: Yes"].waitForExistence(timeout: 2.0))
-        XCTAssertTrue(app.staticTexts["Last state: invalid"].exists)
-
-        XCTAssertTrue(app.buttons["Validate"].exists)
-        app.buttons["Validate"].tap()
-        XCTAssertTrue(app.staticTexts["Last state: valid"].waitForExistence(timeout: 1.0))
-        XCTAssertFalse(app.staticTexts[message].exists)
-
-
-        try app.textFields["Input"].delete(count: 6)
-
-        XCTAssertTrue(app.staticTexts["Input Valid: No"].waitForExistence(timeout: 2.0))
-        XCTAssertTrue(app.staticTexts[message].exists)
-    }
-
     func testValidationWithFocus() throws {
         let app = XCUIApplication()
 
         let passwordMessage = "Your password must be at least 8 characters long."
         let emptyMessage = "This field cannot be empty."
 
-        XCTAssert(app.buttons["FocusedValidation"].waitForExistence(timeout: 2))
-        app.buttons["FocusedValidation"].tap()
+        XCTAssert(app.buttons["Validation"].waitForExistence(timeout: 2))
+        app.buttons["Validation"].tap()
 
         XCTAssertTrue(app.staticTexts["Has Engines: Yes"].waitForExistence(timeout: 2.0))
         XCTAssertTrue(app.staticTexts["Input Valid: No"].exists)
@@ -78,11 +43,24 @@ final class ValidationTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[emptyMessage].exists)
 
         // we verify the contract. Testing that the first field receives input!
-        app.typeText("Hello World")
-        app.dismissKeyboard()
+        app.typeText("Hello World") // do not dismiss keyboard here
 
+        XCTAssertTrue(app.textFields["Hello World"].waitForExistence(timeout: 0.5))
         XCTAssertFalse(app.staticTexts[passwordMessage].exists)
         XCTAssertTrue(app.staticTexts[emptyMessage].exists)
+
+        print(app.switches["Switch Focus"].debugDescription)
+        XCTAssertTrue(app.switches["Switch Focus"].exists)
+        app.switches.allElementsBoundByIndex[1].tap() // toggles automatic focus switch off
+
+        app.buttons["Validate"].tap()
+
+        app.typeText("!")
+        app.dismissKeyboard()
+
+        XCTAssertTrue(app.textFields["Hello World!"].waitForExistence(timeout: 0.5))
+        app.switches.allElementsBoundByIndex[1].tap() // toggles automatic focus switch on
+
         app.buttons["Validate"].tap()
 
         app.typeText("Word")
@@ -94,5 +72,8 @@ final class ValidationTests: XCTestCase {
         XCTAssertTrue(app.buttons["Validate"].exists)
         app.buttons["Validate"].tap()
         XCTAssertTrue(app.staticTexts["Last state: valid"].waitForExistence(timeout: 1.0))
+
+        XCTAssertTrue(app.textFields["Hello World!"].exists)
+        XCTAssertTrue(app.textFields["Word!"].exists)
     }
 }

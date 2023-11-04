@@ -43,7 +43,7 @@ private struct OnTapFocus<FocusedField: Hashable>: ViewModifier {
 }
 
 
-extension View {
+extension View { // TODO document usefulness!
     /// Modifies the view to be in a focused state (e.g., `TextFields`) if it is tapped.
     public func onTapFocus() -> some View {
         modifier(UUIDOnTapFocus())

@@ -9,34 +9,48 @@
 import SpeziValidation
 import SwiftUI
 
-enum Field: Hashable {
-    case input
-    case nonEmptyInput
+enum Field: String, Hashable {
+    case input = "Input"
+    case nonEmptyInput = "Non-Empty Input"
 }
 
 
 struct FocusedValidationTests: View {
+    // CHILD VIEW CONTENT
     @State var input: String = ""
     @State var nonEmptyInput: String = ""
 
+    // PARENT VIEW CONTENT
+    @ValidationState var validation
+
+    @State var lastValid: Bool? // swiftlint:disable:this discouraged_optional_boolean
+    @State var switchFocus = true
     @FocusState var focus: Field?
-    @ValidationState(Field.self) var validation
 
     var body: some View {
         Form {
             Section {
-                ValidationControls(validation: $validation)
+                Text("Has Engines: \(!validation.isEmpty ? "Yes" : "No")")
+                Text("Input Valid: \(validation.allInputValid ? "Yes" : "No")")
+                if let lastValid {
+                    Text("Last state: \(lastValid ? "valid" : "invalid")")
+                }
+                Button("Validate", action: {
+                    // validating without direct access to the input value
+                    lastValid = validation.validateSubviews(switchFocus: switchFocus) // TODO test the focus switch?
+                })
+                Toggle("Switch Focus", isOn: $switchFocus)
             }
 
-            VerifiableTextField("Input", text: $input)
+            VerifiableTextField("\(Field.input.rawValue)", text: $input)
                 .focused($focus, equals: .input)
-                .validate(input: input, field: Field.input, rules: .minimalPassword)
+                .validate(input: input, rules: .minimalPassword)
 
-            VerifiableTextField("Non-Empty Input", text: $nonEmptyInput)
+            VerifiableTextField("\(Field.nonEmptyInput.rawValue)", text: $nonEmptyInput)
                 .focused($focus, equals: .nonEmptyInput)
-                .validate(input: nonEmptyInput, field: Field.nonEmptyInput, rules: .nonEmpty)
+                .validate(input: nonEmptyInput, rules: .nonEmpty)
         }
-            .receiveValidation(in: $validation, focus: $focus)
+            .receiveValidation(in: $validation)
     }
 }
 

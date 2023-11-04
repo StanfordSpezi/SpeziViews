@@ -8,32 +8,66 @@
 
 import SwiftUI
 
+/// It provides access to the ``ValidationEngine``s of all subviews by capturing them with
+/// ``CapturedValidationState``.
+///
+/// You can use this structure to retrieve the state of all ``ValidationEngine``s of a subview or manually
+/// initiate validation by calling ``validateSubviews(switchFocus:)``. E.g., when pressing on a submit button of a form.
 
+
+/// Property wrapper to retrieve validation state of all subviews.
+///
+/// The `ValidationState` property wrapper can be used to retrieve the validation state of
+/// all subviews and manually initiate validation (e.g., when pressing the submit button of a form).
+///
+/// The `ValidationState` property wrapper works in conjunction with the ``SwiftUI/View/receiveValidation(in:)` modifier
+/// to receive all validation state from the child views.
+///
+/// Below is a short code example of a typical setup:
+/// ```swift
+/// @ValidationState var validation
+///
+/// var body: some View {
+///     Form {
+///         // all subviews that collect data ...
+///
+///         Button("Submit") {
+///             guard validation.validateSubviews() else {
+///                 return
+///             }
+///
+///             // save data ...
+///         }
+///     }
+///         .receiveValidation(in: $validation)
+/// }
+/// ```
+///
+/// - Note: `ValidationState` deeply integrates with [FocusState](https://developer.apple.com/documentation/SwiftUI/FocusState)
+///     and supports to automatically
 @propertyWrapper
-public struct ValidationState<FocusValue: Hashable>: DynamicProperty {
-    @State private var state = ValidationContext<FocusValue>()
+public struct ValidationState: DynamicProperty {
+    @State private var state = ValidationContext()
 
-    public var wrappedValue: ValidationContext<FocusValue> {
+    public var wrappedValue: ValidationContext {
         state
     }
 
-    public var projectedValue: ValidationState<FocusValue>.Binding {
+    public var projectedValue: ValidationState.Binding {
         Binding(binding: $state)
     }
 
 
-    public init() where FocusValue == Never {}
-
-    public init(_ focusValueType: FocusValue.Type = FocusValue.self) where FocusValue: Hashable {}
+    public init() {}
 }
 
 
 extension ValidationState {
     @propertyWrapper
     public struct Binding {
-        private let binding: SwiftUI.Binding<ValidationContext<FocusValue>>
+        private let binding: SwiftUI.Binding<ValidationContext>
 
-        public var wrappedValue: ValidationContext<FocusValue> {
+        public var wrappedValue: ValidationContext {
             get {
                 binding.wrappedValue
             }
@@ -47,7 +81,7 @@ extension ValidationState {
         }
 
         
-        init(binding: SwiftUI.Binding<ValidationContext<FocusValue>>) {
+        init(binding: SwiftUI.Binding<ValidationContext>) {
             self.binding = binding
         }
     }

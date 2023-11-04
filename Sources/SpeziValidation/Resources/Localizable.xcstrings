@@ -1,6 +1,24 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "A" : {
+
+    },
+    "B" : {
+
+    },
+    "Focus State: %@" : {
+
+    },
+    "Has Focus: %@" : {
+
+    },
+    "Input A" : {
+
+    },
+    "Set Focus" : {
+
+    },
     "VALIDATION_RULE_MINIMAL_EMAIL" : {
       "localizations" : {
         "de" : {

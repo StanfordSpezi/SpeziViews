@@ -21,7 +21,6 @@
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */; };
-		A963ACAE2AF468E100D745F2 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACAD2AF468E100D745F2 /* ValidationTests.swift */; };
 		A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */ = {isa = PBXBuildFile; productRef = A963ACAF2AF4692500D745F2 /* SpeziValidation */; };
 		A963ACB22AF4709400D745F2 /* XCUIApplication+Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */; };
 		A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880962A4C4E6500150B2F /* ModelTests.swift */; };
@@ -30,7 +29,6 @@
 		A998A94F2A609A9E0030624D /* AsyncButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */; };
 		A99A65122AF57CA200E63582 /* FocusedValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A65112AF57CA200E63582 /* FocusedValidationTests.swift */; };
 		A99A65152AF5923800E63582 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A65142AF5923800E63582 /* ValidationTests.swift */; };
-		A99A65172AF5926E00E63582 /* ValidationControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A65162AF5926E00E63582 /* ValidationControls.swift */; };
 		A9F9C4692AF2B9DD001122DD /* XCTestExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55D2AD2B92C006D9B54 /* XCTestExtensions */; };
 		A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */; };
 		A9FBAE982AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBAE972AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift */; };
@@ -63,7 +61,6 @@
 		2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestApp.xctestplan; sourceTree = "<group>"; };
 		2FB099B72A8AD25100B20952 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziValidationTests.swift; sourceTree = "<group>"; };
-		A963ACAD2AF468E100D745F2 /* ValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
 		A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Targets.swift"; sourceTree = "<group>"; };
 		A97880962A4C4E6500150B2F /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultErrorDescriptionTestView.swift; sourceTree = "<group>"; };
@@ -71,7 +68,6 @@
 		A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButtonTestView.swift; sourceTree = "<group>"; };
 		A99A65112AF57CA200E63582 /* FocusedValidationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusedValidationTests.swift; sourceTree = "<group>"; };
 		A99A65142AF5923800E63582 /* ValidationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
-		A99A65162AF5926E00E63582 /* ValidationControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationControls.swift; sourceTree = "<group>"; };
 		A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziViewsTargetsTests.swift; sourceTree = "<group>"; };
 		A9FBAE972AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziPersonalInfoTests.swift; sourceTree = "<group>"; };
 		A9FBAE9B2AF44CCB001E4AF1 /* PersonalInfoViewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewsTests.swift; sourceTree = "<group>"; };
@@ -172,8 +168,6 @@
 			children = (
 				A99A65112AF57CA200E63582 /* FocusedValidationTests.swift */,
 				A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */,
-				A963ACAD2AF468E100D745F2 /* ValidationTests.swift */,
-				A99A65162AF5926E00E63582 /* ValidationControls.swift */,
 			);
 			path = ValidationTests;
 			sourceTree = "<group>";
@@ -329,7 +323,6 @@
 				2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */,
 				A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */,
 				2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */,
-				A963ACAE2AF468E100D745F2 /* ValidationTests.swift in Sources */,
 				A99A65122AF57CA200E63582 /* FocusedValidationTests.swift in Sources */,
 				A998A94F2A609A9E0030624D /* AsyncButtonTestView.swift in Sources */,
 				2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */,
@@ -337,7 +330,6 @@
 				A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */,
 				A9FBAE982AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift in Sources */,
 				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
-				A99A65172AF5926E00E63582 /* ValidationControls.swift in Sources */,
 				2FA9486629DE90720081C086 /* MarkdownViewTestView.swift in Sources */,
 				A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */,
 				2F2D338729DE52EA00081B1D /* SpeziViewsTests.swift in Sources */,

@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// Represents the result of a ``ValidationRule``.
+/// A failed validation result of a ``ValidationRule`` for a particular input.
 ///
 /// For more information see ``ValidationRule/validate(_:)``.
 public struct FailedValidationResult: Identifiable, Equatable, CustomLocalizedStringResourceConvertible {

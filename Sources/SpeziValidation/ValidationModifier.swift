@@ -9,27 +9,27 @@
 import SwiftUI
 
 
-struct ValidationModifier<FocusValue: Hashable>: ViewModifier {
+struct ValidationModifier: ViewModifier {
     private let input: String
-    private let fieldIdentifier: FocusValue?
 
     @Environment(\.validationConfiguration) private var configuration
     @Environment(\.validationDebounce) private var debounce
 
     @State private var validation: ValidationEngine
+    @FocusState private var hasFocus: Bool
 
-    init(input: String, field fieldIdentifier: FocusValue?, rules: [ValidationRule]) {
+    init(input: String, rules: [ValidationRule]) {
         self.input = input
-        self.fieldIdentifier = fieldIdentifier
         self._validation = State(wrappedValue: ValidationEngine(rules: rules))
     }
 
     func body(content: Content) -> some View {
         content
             .environment(validation)
+            .focused($hasFocus)
             .preference(
-                key: CapturedValidationStateKey<FocusValue>.self,
-                value: [CapturedValidationState(engine: validation, input: input, field: fieldIdentifier)]
+                key: CapturedValidationStateKey.self,
+                value: [CapturedValidationState(engine: validation, input: input, focus: $hasFocus)]
             )
             .onChange(of: configuration, initial: true) {
                 validation.configuration = configuration
@@ -60,7 +60,7 @@ extension View {
     ///   - rules: An array of ``ValidationRule``s.
     /// - Returns: The modified view.
     public func validate(input value: String, rules: [ValidationRule]) -> some View {
-        modifier(ValidationModifier<Never>(input: value, field: nil, rules: rules))
+        modifier(ValidationModifier(input: value, rules: rules))
     }
 
     /// Validate an input against a set of validation rules.
@@ -78,6 +78,8 @@ extension View {
         validate(input: value, rules: rules)
     }
 
+    /*
+     TODO: remove?
     /// Validate an input against a set of validation rules with automatic focus management.
     ///
     /// This modifier can be used to validate a `String` input against a set of ``ValidationRule``s.
@@ -117,4 +119,5 @@ extension View {
     ) -> some View {
         validate(input: value, field: fieldIdentifier, rules: rules)
     }
+    */
 }

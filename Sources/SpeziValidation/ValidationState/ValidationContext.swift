@@ -14,9 +14,16 @@ private struct FailedFieldResult<FocusValue> {
 }
 
 
-public struct ValidationContext<FocusValue: Hashable> {
-    private let entries: [CapturedValidationState<FocusValue>]
-    private let focusState: FocusState<FocusValue?>.Binding?
+/// The validation context managed by a validation state modifier.
+///
+/// The `ValidationContext` is the state managed by the ``ValidationState`` property wrapper.
+/// It provides access to the ``ValidationEngine``s of all subviews by capturing them with
+/// ``CapturedValidationState``.
+///
+/// You can use this structure to retrieve the state of all ``ValidationEngine``s of a subview or manually
+/// initiate validation by calling ``validateSubviews(switchFocus:)``. E.g., when pressing on a submit button of a form.
+public struct ValidationContext {
+    private let entries: [CapturedValidationState]
 
 
     /// Indicates if all input is currently considered valid.
@@ -61,13 +68,12 @@ public struct ValidationContext<FocusValue: Hashable> {
     }
 
 
-    init(entries: [CapturedValidationState<FocusValue>], focus: FocusState<FocusValue?>.Binding? = nil) {
+    init(entries: [CapturedValidationState]) {
         self.entries = entries
-        self.focusState = focus
     }
 
 
-    @MainActor private func collectFailedFields() -> [FailedFieldResult<FocusValue>] {
+    @MainActor private func collectFailedValidations() -> [CapturedValidationState] {
         compactMap { state in
             state.runValidation()
 
@@ -75,7 +81,7 @@ public struct ValidationContext<FocusValue: Hashable> {
                 return nil
             }
 
-            return FailedFieldResult(field: state.fieldIdentifier)
+            return state
         }
     }
 
@@ -90,13 +96,12 @@ public struct ValidationContext<FocusValue: Hashable> {
     @MainActor
     @discardableResult
     public func validateSubviews(switchFocus: Bool = true) -> Bool {
-        let failedFields = collectFailedFields()
+        let failedFields = collectFailedValidations()
 
-        if let first = failedFields.first {
-            if switchFocus,
-               let focusState,
-               let field = first.field {
-                focusState.wrappedValue = field
+        if let field = failedFields.first {
+            if switchFocus {
+                // move focus to the first field that failed validation
+                field.moveFocus()
             }
 
             return false
@@ -107,12 +112,7 @@ public struct ValidationContext<FocusValue: Hashable> {
 }
 
 
-extension ValidationContext: Equatable {
-    public static func == (lhs: ValidationContext<FocusValue>, rhs: ValidationContext<FocusValue>) -> Bool {
-        lhs.entries == rhs.entries
-            && ((lhs.focusState == nil && rhs.focusState == nil) || (lhs.focusState != nil && rhs.focusState != nil))
-    }
-}
+extension ValidationContext: Equatable {}
 
 
 extension ValidationContext: Collection {
@@ -128,7 +128,7 @@ extension ValidationContext: Collection {
         entries.index(after: index)
     }
 
-    public subscript(position: Int) -> CapturedValidationState<FocusValue> {
+    public subscript(position: Int) -> CapturedValidationState {
         entries[position]
     }
 }
