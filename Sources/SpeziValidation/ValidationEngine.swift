@@ -49,7 +49,7 @@ public class ValidationEngine: Identifiable {
     /// The behavior when no input was provided yet (a validation that was never executed) is being
     /// can be influenced using the ``ValidationEngine/Configuration-swift.struct/considerNoInputAsValid`` configuration.
     /// By default no input is treated as being invalid.
-    @MainActor public private(set) var inputValid: Bool {
+    @MainActor public var inputValid: Bool {
         if let computedInputValid {
             return computedInputValid
         }
