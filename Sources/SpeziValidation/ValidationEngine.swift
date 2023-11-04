@@ -42,10 +42,21 @@ public class ValidationEngine: Identifiable {
     /// Access to the underlying validation rules.
     public let validationRules: [ValidationRule]
 
+    @MainActor private var computedInputValid: Bool? // swiftlint:disable:this discouraged_optional_boolean
+
     /// A property that indicates if the last processed input is considered valid given the supplied ``ValidationRule`` list.
     ///
-    /// The value treats no input at all (a validation that was never executed) as being invalid. Meaning, the default value is `false`.
-    @MainActor public private(set) var inputValid = false
+    /// The behavior when no input was provided yet (a validation that was never executed) is being
+    /// can be influenced using the ``ValidationEngine/Configuration-swift.struct/considerNoInputAsValid`` configuration.
+    /// By default no input is treated as being invalid.
+    @MainActor public private(set) var inputValid: Bool {
+        if let computedInputValid {
+            return computedInputValid
+        }
+
+        return configuration.contains(.considerNoInputAsValid)
+    }
+
     /// A list of ``FailedValidationResult`` for the processed input, providing, e.g., recovery suggestions.
     @MainActor public private(set) var validationResults: [FailedValidationResult] = []
 
@@ -144,7 +155,7 @@ public class ValidationEngine: Identifiable {
         self.inputWasEmpty = input.isEmpty
 
         computeFailedValidations(input: input)
-        inputValid = validationResults.isEmpty
+        computedInputValid = validationResults.isEmpty
     }
 
     /// Runs all validations for a given input on text field submission or value change.

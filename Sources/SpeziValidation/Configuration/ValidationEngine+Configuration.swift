@@ -19,6 +19,12 @@ extension ValidationEngine {
         ///  ``ValidationEngine/displayedValidationResults`` will still display all validations if validation is done through a manual call to ``ValidationEngine/runValidation(input:)``.
         public static let hideFailedValidationOnEmptySubmit = Configuration(rawValue: 1 << 0)
 
+        /// This configuration controls the behavior of the ``ValidationEngine/inputValid`` property.
+        ///
+        /// If this configuration is set, the Validation Engine will treat no input (a validation engine
+        /// that was never run) as being valid. Otherwise, invalid.
+        public static let considerNoInputAsValid = Configuration(rawValue: 1 << 1)
+
         /// Default value without any configuration options.
         public static let defaultValue: Configuration = []
 
@@ -40,7 +46,7 @@ extension EnvironmentValues {
             self[ValidationEngine.Configuration.self]
         }
         set {
-            self[ValidationEngine.Configuration.self] = newValue
+            self[ValidationEngine.Configuration.self].formUnion(newValue)
         }
     }
 }
