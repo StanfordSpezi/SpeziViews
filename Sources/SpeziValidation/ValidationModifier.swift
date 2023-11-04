@@ -61,7 +61,7 @@ extension View {
     ///
     /// var body: some View {
     ///     Form {
-    ///         VerifiableTextView("your favorite phrase", text: $phrase)
+    ///         VerifiableTextField("your favorite phrase", text: $phrase)
     ///             .validate(input: phrase, rules: .nonEmpty)
     ///     }
     /// }
@@ -88,7 +88,7 @@ extension View {
     ///
     /// var body: some View {
     ///     Form {
-    ///         VerifiableTextView("your favorite phrase", text: $phrase)
+    ///         VerifiableTextField("your favorite phrase", text: $phrase)
     ///             .validate(input: phrase, rules: .nonEmpty)
     ///     }
     /// }
