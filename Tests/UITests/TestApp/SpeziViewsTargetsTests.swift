@@ -13,6 +13,7 @@ import XCTestApp
 struct SpeziViewsTargetsTests: View {
     @State var presentingSpeziViews = false
     @State var presentingSpeziPersonalInfo = false
+    @State var presentingSpeziValidation = false
 
 
     var body: some View {
@@ -24,6 +25,9 @@ struct SpeziViewsTargetsTests: View {
                 Button("SpeziPersonalInfo") {
                     presentingSpeziPersonalInfo = true
                 }
+                Button("SpeziValidation") {
+                    presentingSpeziValidation = true
+                }
             }
                 .navigationTitle("Targets")
         }
@@ -32,6 +36,9 @@ struct SpeziViewsTargetsTests: View {
             }
             .sheet(isPresented: $presentingSpeziPersonalInfo) {
                 TestAppTestsView<SpeziPersonalInfoTests>()
+            }
+            .sheet(isPresented: $presentingSpeziValidation) {
+                TestAppTestsView<SpeziValidationTests>()
             }
     }
 }

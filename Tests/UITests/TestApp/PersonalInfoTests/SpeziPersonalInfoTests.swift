@@ -47,8 +47,7 @@ enum SpeziPersonalInfoTests: String, TestAppTests {
     }
 }
 
-#if DEBUG
+
 #Preview {
     TestAppTestsView<SpeziPersonalInfoTests>()
 }
-#endif
