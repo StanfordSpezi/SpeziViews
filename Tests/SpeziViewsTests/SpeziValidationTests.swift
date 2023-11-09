@@ -12,7 +12,7 @@ import XCTest
 
 final class SpeziValidationTests: XCTestCase {
     @MainActor
-    func testValidationDebounce() async throws {
+    func testValidationDebounce() {
         let engine = ValidationEngine(rules: .nonEmpty)
 
         engine.submit(input: "Valid")
