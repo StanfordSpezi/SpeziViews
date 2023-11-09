@@ -135,8 +135,9 @@ public class ValidationEngine: Identifiable {
     }
 
     @MainActor
-    private func computeFailedValidations(input: String) {
+    private func computeFailedValidations(input: String) -> [FailedValidationResult] {
         var results: [FailedValidationResult] = []
+
         for rule in validationRules {
             if let failedValidation = rule.validate(input) {
                 results.append(failedValidation)
@@ -147,16 +148,18 @@ public class ValidationEngine: Identifiable {
                 }
             }
         }
-        validationResults = results
+
+        return results
     }
 
+
     @MainActor
-    private func runValidation0(input: String, source: Source) {
-        self.source = source // assign it first, as this isn't published
+    private func computeValidation(input: String, source: Source) {
+        self.source = source
         self.inputWasEmpty = input.isEmpty
 
-        computeFailedValidations(input: input)
-        computedInputValid = validationResults.isEmpty
+        self.validationResults = computeFailedValidations(input: input)
+        self.computedInputValid = validationResults.isEmpty
     }
 
     /// Runs all validations for a given input on text field submission or value change.
@@ -167,25 +170,20 @@ public class ValidationEngine: Identifiable {
     ///
     /// - Parameters:
     ///   - input: The input to validate.
-    ///   - debounce: If set to `true` calls to this method will be "debounced". The validation will not run as long as
+    ///   - debounce: If set to `true`, calls to this method will be "debounced". The validation will not run as long as
     ///     there not further calls to this method for the configured `debounceDuration`. If set to `false` the method
-    ///     will run immediately.
+    ///     will run immediately. Note that the validation will still run instantly, if we are currently in an invalid state
+    ///     to ensure input validity is reported immediately.
     @MainActor
     public func submit(input: String, debounce: Bool = false) {
-        guard debounce else {
-            runValidation0(input: input, source: .submit)
-            return
-        }
-
-        debounceTask = Task {
-            try? await Task.sleep(for: debounceDuration)
-
-            guard !Task.isCancelled else {
-                return
+        if !debounce || computedInputValid == false {
+            // we compute instantly, if debounce is false or if we are in a invalid state
+            computeValidation(input: input, source: .submit)
+        } else {
+            // otherwise, we debounce the debounce operation
+            self.debounce {
+                self.computeValidation(input: input, source: .submit)
             }
-
-            runValidation0(input: input, source: .submit)
-            self.debounceTask = nil
         }
     }
 
@@ -195,6 +193,19 @@ public class ValidationEngine: Identifiable {
     /// - Parameter input: The input to validate.
     @MainActor
     public func runValidation(input: String) {
-        runValidation0(input: input, source: .manual)
+        computeValidation(input: input, source: .manual)
+    }
+
+    private func debounce(_ task: @escaping () -> Void) {
+        debounceTask = Task {
+            try? await Task.sleep(for: debounceDuration)
+
+            guard !Task.isCancelled else {
+                return
+            }
+
+            task()
+            debounceTask = nil
+        }
     }
 }
