@@ -36,7 +36,7 @@ struct ViewStateMapperTestView: View {
         var recoverySuggestion: String?
     }
 
-    var testError = TestError(
+    let testError = TestError(
         errorDescription: nil,
         failureReason: "Failure Reason",
         helpAnchor: "Help Anchor",

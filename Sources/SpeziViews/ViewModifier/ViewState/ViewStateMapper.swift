@@ -53,6 +53,11 @@ extension View {
     ///
     /// - Note: The ``OperationState`` documentation contains a complete example using the ``SwiftUI/View/map(state:to:)`` view modifier.
     ///
+    /// > Tip:
+    /// > In the case that no SwiftUI `Binding` to the ``ViewState`` of the ``OperationState`` (so ``OperationState/representation``)
+    /// > is required (e.g., no use of the ``SwiftUI/View/viewStateAlert(state:)`` view modifier), one is able to omit the separately defined ``ViewState``
+    /// > within a SwiftUI `View` and directly access the ``OperationState/representation`` property.
+    ///
     /// - Parameters:
     ///    - operationState: The source ``OperationState`` that should be mapped to the SpeziViews ``ViewState``.
     ///    - viewState: A `Binding` to the to-be-written-to ``ViewState``.
