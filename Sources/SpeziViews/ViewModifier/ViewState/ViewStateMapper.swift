@@ -22,38 +22,36 @@ private struct ViewStateMapper<T: OperationState>: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .onChange(of: operationState.viewState) {
-                viewState = operationState.viewState
+            .onChange(of: operationState.representation) {
+                viewState = operationState.representation
             }
     }
 }
 
 
 extension View {
-    /// Maps a state conforming to the ``OperationState`` protocol to a SpeziViews ``ViewState``.
+    /// Continuously maps a state conforming to the ``OperationState`` protocol to a ``ViewState``.
+    /// Used to propagate the ``ViewState`` representation of the ``OperationState`` to a ``ViewState`` that lives within a SwiftUI `View`.
     ///
-    /// # Usage
+    /// ### Usage
     /// ```swift
-    /// struct StateTestView: View {
-    ///     @State private var downloadState: DownloadState = .ready    // Conforms to the ``OperationState`` protocol
+    /// struct OperationStateTestView: View {
+    ///     @State private var downloadState: DownloadState = .ready    // `DownloadState` conforms to `OperationState`
     ///     @State private var viewState: ViewState = .idle
     ///
     ///     var body: some View {
-    ///         EmptyView()
-    ///             // Map the `DownloadState` to the `ViewState`
-    ///             .map(state: downloadState, to: $viewState)
-    ///             // Show alerts based on the `ViewState`
-    ///             .viewStateAlert(state: $viewState)
+    ///         Text("Operation State: \(String(describing: operationState))")
+    ///             .map(state: downloadState, to: $viewState)  // Map the `DownloadState` to the `ViewState`
+    ///             .viewStateAlert(state: $viewState)  // Show alerts based on the derived `ViewState`
     ///             .task {
-    ///                 // Changes to the `DownloadState`
-    ///                 ...
+    ///                 // Changes to the `DownloadState` which are automatically mapped to the `ViewState`
+    ///                 // ...
     ///             }
     ///     }
     /// }
     /// ```
     ///
-    /// # Note
-    /// The ``OperationState`` documentation contains a complete example using the ``SwiftUI/View/map(state:to:)`` view modifier.
+    /// - Note: The ``OperationState`` documentation contains a complete example using the ``SwiftUI/View/map(state:to:)`` view modifier.
     ///
     /// - Parameters:
     ///    - operationState: The source ``OperationState`` that should be mapped to the SpeziViews ``ViewState``.

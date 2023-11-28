@@ -60,6 +60,9 @@
         }
       }
     },
+    "Operation State: %@" : {
+
+    },
     "Reset" : {
 
     },

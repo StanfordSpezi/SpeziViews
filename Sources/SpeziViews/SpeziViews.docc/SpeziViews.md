@@ -18,6 +18,7 @@ SPDX-License-Identifier: MIT
 ### Managing State
 
 - ``ViewState``
+- ``OperationState``
 - ``SwiftUI/View/viewStateAlert(state:)``
 - ``SwiftUI/View/map(state:to:)``
 - ``SwiftUI/View/processingOverlay(isProcessing:overlay:)-5xplv``

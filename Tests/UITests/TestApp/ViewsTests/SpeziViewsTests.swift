@@ -18,6 +18,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case lazyText = "Lazy Text"
     case markdownView = "Markdown View"
     case viewState = "View State"
+    case viewStateMapper = "View State Mapper"
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
     case asyncButton = "Async Button"
@@ -82,6 +83,11 @@ enum SpeziViewsTests: String, TestAppTests {
     private var defaultErrorOnly: some View {
         ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"))
     }
+    
+    @ViewBuilder
+    private var viewStateMapper: some View {
+        ViewStateMapperTestView()
+    }
 
     @ViewBuilder
     private var defaultErrorDescription: some View {
@@ -108,6 +114,8 @@ enum SpeziViewsTests: String, TestAppTests {
             markdownView
         case .viewState:
             viewState
+        case .viewStateMapper:
+            viewStateMapper
         case .defaultErrorOnly:
             defaultErrorOnly
         case .defaultErrorDescription:
