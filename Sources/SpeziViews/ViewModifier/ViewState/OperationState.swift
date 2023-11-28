@@ -58,5 +58,6 @@
 /// }
 /// ```
 public protocol OperationState {
+    /// Requires the implementation of mapping logic from the ``OperationState`` to the ``ViewState``.
     var viewState: ViewState { get }
 }
