@@ -30,8 +30,8 @@ private struct ViewStateMapper<T: OperationState>: ViewModifier {
 
 
 extension View {
-    /// Continuously maps a state conforming to the ``OperationState`` protocol to a ``ViewState``.
-    /// Used to propagate the ``ViewState`` representation of the ``OperationState`` to a ``ViewState`` that lives within a SwiftUI `View`.
+    /// Continuously maps a state conforming to the ``OperationState`` protocol to a separately stored ``ViewState``.
+    /// Used to propagate the ``ViewState`` representation of the ``OperationState`` (so ``OperationState/representation``) to a ``ViewState`` that lives within a SwiftUI `View`.
     ///
     /// ### Usage
     /// ```swift
