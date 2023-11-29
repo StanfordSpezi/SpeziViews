@@ -40,6 +40,26 @@ final class ModelTests: XCTestCase {
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
     }
     
+    func testOperationState() throws {
+        let app = XCUIApplication()
+
+        XCTAssert(app.collectionViews.buttons["Operation State"].waitForExistence(timeout: 2))
+        app.collectionViews.buttons["Operation State"].tap()
+
+        XCTAssert(app.staticTexts["Operation State: someOperationStep"].waitForExistence(timeout: 2))
+
+        sleep(12)
+
+        let alert = app.alerts.firstMatch.scrollViews.otherElements
+        XCTAssert(alert.staticTexts["Error Description"].exists)
+        XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        alert.buttons["OK"].tap()
+        
+        sleep(2)
+
+        XCTAssert(app.staticTexts["operationState"].label.contains("Operation State: error"))
+    }
+    
     func testViewStateMapper() throws {
         let app = XCUIApplication()
 
