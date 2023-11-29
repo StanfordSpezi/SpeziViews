@@ -106,7 +106,7 @@ enum SpeziViewsTests: String, TestAppTests {
     }
     
 
-    func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
+    func view(withNavigationPath path: Binding<NavigationPath>) -> some View {  // swiftlint:disable:this cyclomatic_complexity
         switch self {
         case .canvas:
             canvas
