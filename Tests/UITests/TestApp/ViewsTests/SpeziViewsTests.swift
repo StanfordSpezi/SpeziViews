@@ -18,6 +18,8 @@ enum SpeziViewsTests: String, TestAppTests {
     case lazyText = "Lazy Text"
     case markdownView = "Markdown View"
     case viewState = "View State"
+    case operationState = "Operation State"
+    case viewStateMapper = "View State Mapper"
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
     case asyncButton = "Async Button"
@@ -77,6 +79,16 @@ enum SpeziViewsTests: String, TestAppTests {
     private var viewState: some View {
         ViewStateTestView()
     }
+    
+    @ViewBuilder
+    private var operationState: some View {
+        OperationStateTestView()
+    }
+    
+    @ViewBuilder
+    private var viewStateMapper: some View {
+        ViewStateMapperTestView()
+    }
 
     @ViewBuilder
     private var defaultErrorOnly: some View {
@@ -94,7 +106,7 @@ enum SpeziViewsTests: String, TestAppTests {
     }
     
 
-    func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
+    func view(withNavigationPath path: Binding<NavigationPath>) -> some View {  // swiftlint:disable:this cyclomatic_complexity
         switch self {
         case .canvas:
             canvas
@@ -108,6 +120,10 @@ enum SpeziViewsTests: String, TestAppTests {
             markdownView
         case .viewState:
             viewState
+        case .operationState:
+            operationState
+        case .viewStateMapper:
+            viewStateMapper
         case .defaultErrorOnly:
             defaultErrorOnly
         case .defaultErrorDescription:
