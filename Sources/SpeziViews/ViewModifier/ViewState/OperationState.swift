@@ -23,9 +23,9 @@
 ///
 /// ### Representation as a ViewState
 ///
-/// The ``OperationState`` encapsulates the core state of an application's behaviour, which directly impacts the user interface and interaction.
+/// The ``OperationState`` encapsulates the core state of an application's behavior, which directly impacts the user interface and interaction.
 /// To effectively manage the UI's state in the Spezi framework, the ``OperationState`` can be represented as a ``ViewState``.
-/// This bridging mechanism allows Spezi to monitor and respond to changes in the view's state, for example via the ``SwiftUI/View/viewStateAlert(state:)`` view modifier.
+/// This bridging mechanism allows Spezi to monitor and respond to changes in the view's state, for example via the ``SwiftUI/View/viewStateAlert(state:)-27a86`` view modifier.
 ///
 /// - Note: It's important to note that this conversion is a lossy process, where a potentially intricate ``OperationState`` is
 /// distilled into a simpler ``ViewState``.
@@ -65,7 +65,7 @@
 ///
 /// > Tip: 
 /// > In the case that no SwiftUI `Binding` to the ``ViewState`` of the ``OperationState`` (so ``OperationState/representation``)
-/// > is required (e.g., no use of the ``SwiftUI/View/viewStateAlert(state:)`` view modifier), one is able to omit the separately defined ``ViewState``
+/// > is required (e.g., no use of the ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier), one is able to omit the separately defined ``ViewState``
 /// > within a SwiftUI `View` and directly access the ``OperationState/representation`` property.
 public protocol OperationState {
     /// Defines the lossy abstraction logic from the possibly complex ``OperationState`` to the simple ``ViewState``.

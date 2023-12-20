@@ -11,7 +11,30 @@ SPDX-FileCopyrightText: 2023 Stanford University and the project authors (see CO
 SPDX-License-Identifier: MIT
 
 -->
+## Overview
 
+SpeziViews provides easy-to-use and easily-reusable UI components that makes the everyday life of developing Spezi applications easier.
+
+@Row {
+    @Column {
+        @Image(source: "ViewState", alt: "A SwiftUI alert displayed using the SpeziViews ViewState.") {
+            Easily manage view state and display erroneous state using ``ViewState``.
+        }
+    }
+    @Column {
+        @Image(source: "NameFields", alt: "Three text fields to input your first, middle and last name.") {
+            The [SpeziPersonalInfo](https://swiftpackageindex.com/StanfordSpezi/SpeziViews/documentation/spezipersonalinfo)
+            provides easy to use abstractions for dealing with personal information.
+            For example collecting the input for multiple [`PersonNameComponents`](https://developer.apple.com/documentation/foundation/personnamecomponents)
+            fields using [`NameFieldRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo/namefieldrow).
+        }
+    }
+    @Column {
+        @Image(source: "Validation", alt: "Three different kinds of text fields showing validation errors in red text.") {
+            Perform and visualize input validation with ease using [SpeziValidation](https://swiftpackageindex.com/StanfordSpezi/SpeziViews/documentation/spezivalidation).
+        }
+    }
+}
 
 ## Topics
 
