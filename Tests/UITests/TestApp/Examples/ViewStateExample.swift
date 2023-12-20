@@ -11,6 +11,19 @@ import SpeziViews
 import SwiftUI
 
 
+struct CustomViewStateError: LocalizedError {
+    var errorDescription: String? {
+        "Failed Password Reset"
+    }
+
+    var failureReason: String? {
+        "There was an issue sending out your password reset link. Please try again!"
+    }
+
+    init() {}
+}
+
+
 struct ViewStateExample: View {
     @State var emailAddress = ""
     @State var viewState: ViewState = .idle
@@ -23,7 +36,6 @@ struct ViewStateExample: View {
                 VStack {
                     form
                         .padding()
-
                 }
                     .navigationTitle("Reset Password")
                     .navigationBarTitleDisplayMode(.inline)
@@ -37,7 +49,6 @@ struct ViewStateExample: View {
     @MainActor @ViewBuilder var form: some View {
         Text("Please enter your email address of your account. A email with an link to reset your password will be sent to the email address.")
             .multilineTextAlignment(.center)
-        // TODO: top padding
 
         VerifiableTextField("E-Mail Address", text: $emailAddress)
             .validate(input: emailAddress, rules: .minimalEmail)
@@ -55,8 +66,7 @@ struct ViewStateExample: View {
                 try await Task.sleep(for: .seconds(10))
                 backButtonHidden = false
             }
-            // TODO: some useful localized error!
-            throw CancellationError()
+            throw CustomViewStateError()
         } label: {
             Text("Reset Password")
                 .padding(8)
@@ -64,7 +74,6 @@ struct ViewStateExample: View {
         }
             .buttonStyle(.borderedProminent)
             .padding(8)
-
     }
 }
 
