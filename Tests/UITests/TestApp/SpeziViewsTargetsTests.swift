@@ -28,6 +28,22 @@ struct SpeziViewsTargetsTests: View {
                 Button("SpeziValidation") {
                     presentingSpeziValidation = true
                 }
+
+                Section {
+                    NavigationLink("ViewState") {
+                        ViewStateExample()
+                    }
+                    NavigationLink("NameFields") {
+                        NameFieldsExample()
+                    }
+                    NavigationLink("Validation") {
+                        ValidationExample()
+                    }
+                } header: {
+                    Text("Examples")
+                } footer: {
+                    Text("Example Views to take screenshots for SpeziViews")
+                }
             }
                 .navigationTitle("Targets")
         }

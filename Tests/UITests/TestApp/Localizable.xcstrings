@@ -10,13 +10,37 @@
     "Action executed" : {
 
     },
+    "Credentials" : {
+
+    },
     "Did Draw Anything: %@" : {
+
+    },
+    "Done" : {
+
+    },
+    "E-Mail Address" : {
+
+    },
+    "Email" : {
+
+    },
+    "Enter your details" : {
 
     },
     "Error Description" : {
 
     },
+    "Example Views to take screenshots for SpeziViews" : {
+
+    },
+    "Examples" : {
+
+    },
     "Field" : {
+
+    },
+    "First" : {
 
     },
     "First Name" : {
@@ -44,6 +68,9 @@
         }
       }
     },
+    "Last" : {
+
+    },
     "Last Name" : {
 
     },
@@ -61,12 +88,32 @@
       }
     },
     "Operation State: %@" : {
+    },
+    "Middle" : {
+
+    },
+    "Name" : {
+
+    },
+    "NameFields" : {
+
+    },
+    "Password" : {
+
+    },
+    "Please enter your email address of your account. A email with an link to reset your password will be sent to the email address." : {
 
     },
     "Reset" : {
 
     },
+    "Reset Password" : {
+
+    },
     "Show Tool Picker" : {
+
+    },
+    "Signup" : {
 
     },
     "SpeziPersonalInfo" : {
@@ -90,10 +137,22 @@
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
 
     },
+    "Username" : {
+
+    },
     "Validate" : {
 
     },
+    "Validation" : {
+
+    },
     "View State: %@" : {
+
+    },
+    "ViewState" : {
+
+    },
+    "Your username is displayed to other users." : {
 
     }
   },
