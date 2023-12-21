@@ -36,7 +36,7 @@ struct SpeziViewsTargetsTests: View {
                     NavigationLink("NameFields") {
                         NameFieldsExample()
                     }
-                    NavigationLink("Validation") {
+                    NavigationLink("Validation TextField") {
                         ValidationExample()
                     }
                 } header: {
