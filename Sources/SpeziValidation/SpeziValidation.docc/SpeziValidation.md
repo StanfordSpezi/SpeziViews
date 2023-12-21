@@ -18,6 +18,12 @@ SPDX-License-Identifier: MIT
 mechanism to communicate validation feedback back to the user.
 The library is based on a rule-based approach using ``ValidationRule``s.
 
+@Column {
+    @Image(source: "Validation", alt: "Three different kinds of text fields showing validation errors in red text.") {
+        Perform and visualize input validation with ease using ``SwiftUI/View/validate(input:rules:)-9vks0`` and ``VerifiableTextField``.
+    }
+}
+
 ### Performing Validation
 
 The only thing you have to do, is to set up the ``SwiftUI/View/validate(input:rules:)-5dac4`` modifier for your

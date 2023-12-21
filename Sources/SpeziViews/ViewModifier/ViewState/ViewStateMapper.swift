@@ -55,7 +55,7 @@ extension View {
     ///
     /// > Tip:
     /// > In the case that no SwiftUI `Binding` to the ``ViewState`` of the ``OperationState`` (so ``OperationState/representation``)
-    /// > is required (e.g., no use of the ``SwiftUI/View/viewStateAlert(state:)`` view modifier), one is able to omit the separately defined ``ViewState``
+    /// > is required (e.g., no use of the ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier), one is able to omit the separately defined ``ViewState``
     /// > within a SwiftUI `View` and directly access the ``OperationState/representation`` property.
     ///
     /// - Parameters:
