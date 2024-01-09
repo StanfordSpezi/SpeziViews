@@ -8,7 +8,9 @@
 
 import SwiftUI
 
-/// A view that displays the results of a ``ValidationEngine`` (see ``FailedValidationResult``).
+/// A view that displays the results of a ``ValidationEngine``.
+///
+/// For more information on the content this view displays, refer to ``FailedValidationResult``.
 public struct ValidationResultsView: View {
     private let results: [FailedValidationResult]
 

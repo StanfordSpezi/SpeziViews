@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// The ``ViewState`` allows SwiftUI views to keep track of their state and possible communicate it to outside views, e.g., using `Binding`s.
+/// Allows SwiftUI views to keep track of their state and communicate to outside views.
 public enum ViewState {
     /// The view is idle and displaying content.
     case idle
