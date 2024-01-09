@@ -7,8 +7,9 @@
 //
 
 
-/// The ``OperationState`` protocol provides a broad meta model for the current state of a specific action or task conducted within the Spezi ecosystem.
-/// An ``OperationState`` is based upon a state of a typical finite automata which has a well-defined start and end state, such as an error state or a result state.
+/// Provides a meta model for the current state of a specific action or task conducted within the Spezi ecosystem.
+///
+/// An `OperationState` is based upon a state of a typical finite automata which has a well-defined start and end state, such as an error state or a result state.
 ///
 /// An example conformance to the ``OperationState`` protocol is showcased in the code snippet below which presents the state of a download task.
 ///
