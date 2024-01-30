@@ -9,7 +9,10 @@
 import SwiftUI
 
 
-/// A ``DescriptionGridRow`` provides a layout to align a description next to content element in a `Grid`-based layout.
+/// Attach a leading description label to your content.
+///
+/// The `DescriptionGridRow` provides a layout to attach a leading description label to a content element
+/// in a [`Grid`](https://developer.apple.com/documentation/swiftui/grid)-based layout.
 public struct DescriptionGridRow<Description: View, Content: View>: View {
     private let description: Description
     private let content: Content
@@ -27,7 +30,7 @@ public struct DescriptionGridRow<Description: View, Content: View>: View {
     }
     
     
-    /// Creates a new ``DescriptionGridRow`` instance providing a layout to align a desription next to content element in a `Grid`-based layout.
+    /// Creates a new ``DescriptionGridRow`` instance providing a layout to align a description next to content element in a `Grid`-based layout.
     /// - Parameters:
     ///   - description: The description `View` of the `DescriptionGridRow``
     ///   - content: The content `View` of the `DescriptionGridRow``

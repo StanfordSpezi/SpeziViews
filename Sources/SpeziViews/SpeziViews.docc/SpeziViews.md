@@ -38,17 +38,22 @@ SpeziViews provides easy-to-use and easily-reusable UI components that makes the
 
 ## Topics
 
-### Managing State
+### Manage and communicate View State
 
 - ``ViewState``
-- ``OperationState``
 - ``SwiftUI/View/viewStateAlert(state:)-4wzs4``
 - ``SwiftUI/View/viewStateAlert(state:)-27a86``
+- ``OperationState``
 - ``SwiftUI/View/map(state:to:)``
 - ``SwiftUI/View/processingOverlay(isProcessing:overlay:)-5xplv``
 - ``SwiftUI/View/processingOverlay(isProcessing:overlay:)-3df8d``
-- ``SwiftUI/EnvironmentValues/defaultErrorDescription``
-- ``AnyLocalizedError``
+
+### Manage Layout
+Automatically adapt your view layouts to dynamic type sizes, device orientation, and device size classes.
+
+- ``DynamicHStack``
+- ``ListRow``
+- ``DescriptionGridRow``
 
 ### User Input
 
@@ -56,24 +61,31 @@ SpeziViews provides easy-to-use and easily-reusable UI components that makes the
 - ``SwiftUI/EnvironmentValues/processingDebounceDuration``
 - ``CanvasView``
 
-### Displaying Content
+### Displaying Text
 
 - ``Label``
 - ``LazyText``
 - ``MarkdownView``
-- ``DescriptionGridRow``
+- ``NoInformationText``
+
+### Interact with the View Environment
+
+- ``SwiftUI/View/focusOnTap()``
+- ``SwiftUI/View/observeOrientationChanges(_:)``
+
+### Localization
+
+- ``Foundation/LocalizedStringResource/BundleDescription/atURL(from:)``
+- ``Foundation/LocalizedStringResource/localizedString(for:)``
+- ``Swift/StringProtocol/localized(_:)``
+
 
 ### Readers
 
 - ``HorizontalGeometryReader``
 - ``WidthPreferenceKey``
 
-### Localization
+### Error Handling
 
-- ``Foundation/LocalizedStringResource/localizedString(for:)``
-- ``Swift/StringProtocol/localized(_:)``
-- ``Foundation/LocalizedStringResource/BundleDescription/atURL(from:)``
-
-### Managing Focus
-
-- ``SwiftUI/View/focusOnTap()``
+- ``AnyLocalizedError``
+- ``SwiftUI/EnvironmentValues/defaultErrorDescription``

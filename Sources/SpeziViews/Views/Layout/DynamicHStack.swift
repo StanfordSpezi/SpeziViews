@@ -10,8 +10,9 @@ import SwiftUI
 
 
 /// Access the alignment of a dynamic layout component.
-/// // TODO: demonstrate how to access it via preference keys
-public enum Alignment { // TODO: better name? (topics docc section)
+///
+/// Refer to the documentation of ``DynamicHStack`` on how to retrieve the current layout.
+public enum Alignment {
     /// The layout is horizontal.
     case horizontal
     /// The layout is vertical.
@@ -19,14 +20,60 @@ public enum Alignment { // TODO: better name? (topics docc section)
 }
 
 
-/// Dynamically layout horizontal content based on dynamic type sizes and size classes.
+/// Dynamically layout horizontal content based on dynamic type sizes, device orientation, and size classes.
 ///
-/// // TODO: how to use! pics?
+/// This dynamic `HStack` automatically transform its row-based content to wrap around the next line
+/// in circumstances where there isn't enough vertical screen space available.
+/// It accommodates for dynamic type sizes, device orientation and device size classes.
 ///
+/// The `HStack` automatically transform into a `VStack` if the content is considered too wide.
+/// This check is done based on the [`dynamicTypeSize`](https://developer.apple.com/documentation/swiftui/environmentvalues/dynamictypesize)
+/// of the view. This check won't apply if the [`horizontalSizeClass`](https://developer.apple.com/documentation/swiftui/environmentvalues/horizontalsizeclass)
+/// is `regular` (not `compact`) or if the device is in landscape orientation (refer to [`UIDeviceOrientation`](https://developer.apple.com/documentation/uikit/uideviceorientation)).
+///
+/// ### Checking the current alignment
+///
+/// You can retrieve the current `DynamicHStack` alignment using the ``Alignment`` preference key.
+/// This is useful if you want to conditionally change the layout of your View depending on the current
+/// layout of your content (e.g., only render a `Spacer` if the view is horizontally aligned).
+/// You can retrieve the current alignment using the [`onPreferenceChange(_:perform:)`](https://developer.apple.com/documentation/swiftui/view/onpreferencechange(_:perform:))
+/// modifier.
+///
+/// Below is a short code example that demonstrates this capability.
+///
+/// - Tip: The ``ListRow`` view might be helpful for scenarios like the one below, where you want to show
+///     a value for a specific element within a `List`. It deals covers additional text layout properties
+///     to make sure your view looks good in any dynamic type size.
+///
+/// ```swift
+/// /// Display the current temperature for a city.
+/// struct TemperatureRow: View {
+///     private let city: LocalizedStringResource
+///     private let temperature: Int
+///
+///     @State var currentAlignment: Alignment?
+///
+///     var body: some View {
+///         DynamicHStack {
+///             Text(city)
+///
+///             if alignment == .horizontal {
+///                 Spacer()
+///             }
+///
+///             Text(verbatim: "\(temperature) °C")
+///                 .foregroundColor(.secondary)
+///         }
+///             .onPreferenceChange(Alignment.self) { alignment in
+///                 currentAlignment = alignment
+///             }
+///     }
+/// }
+/// ```
 ///
 /// ## Topics
 ///
-/// ### Accessing the Alignment
+/// ### Checking the current alignment
 /// - ``Alignment``
 public struct DynamicHStack<Content: View>: View {
     private let realignAfter: DynamicTypeSize
@@ -40,7 +87,7 @@ public struct DynamicHStack<Content: View>: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass // for iPad or landscape we want to stay horizontal
 
-    @State private var orientation: UIDeviceOrientation = UIDevice.current.orientation
+    @State private var orientation = UIDevice.current.orientation
 
 
     public var body: some View {
@@ -61,11 +108,17 @@ public struct DynamicHStack<Content: View>: View {
     }
 
 
-    // TODO: docs!
+    /// Create a new dynamically adjusting `HStack` for row-based content-
+    /// - Parameters:
+    ///   - realignAfter: The dynamic type size threshold after the view we re-layout to a `VStack`.
+    ///   - horizontalAlignment: The alignment used for the `HStack`.
+    ///   - verticalAlignment: The alignment used for the `VStack`.
+    ///   - spacing: The spacing between elements.
+    ///   - content: The content to display.
     public init(
         realignAfter: DynamicTypeSize = .xxLarge,
         horizontalAlignment: VerticalAlignment = .center,
-        verticalAlignment: HorizontalAlignment = .center,
+        verticalAlignment: HorizontalAlignment = .leading,
         spacing: CGFloat? = nil,
         @ViewBuilder content: () -> Content
     ) {
@@ -93,8 +146,8 @@ extension Alignment: PreferenceKey {
 #Preview {
     List {
         DynamicHStack(verticalAlignment: .leading) {
-            Text("Hello World")
-            Text("How are you")
+            Text("Hello World:")
+            Text("How are you doing?")
                 .foregroundColor(.secondary)
         }
     }

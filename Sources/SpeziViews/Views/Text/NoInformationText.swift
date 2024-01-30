@@ -54,16 +54,36 @@ public struct NoInformationText<Header: View, Caption: View>: View {
             .frame(maxWidth: .infinity)
     }
 
-    // TODO: docs
-    public init(header: LocalizedStringResource, caption: LocalizedStringResource) where Header == Text, Caption == Text {
-        self.init {
-            Text(header)
-        } caption: {
-            Text(header)
-        }
+
+    /// Create a new no-information text.
+    /// - Parameters:
+    ///   - verbatim: The header string.
+    ///   - caption: The descriptive caption view.
+    public init(verbatim header: String, @ViewBuilder caption: () -> Caption) where Header == Text {
+        self.init(header, caption: caption)
     }
 
-    // TODO: docs
+    /// Create a new no-information text.
+    /// - Parameters:
+    ///   - header: The header string.
+    ///   - caption: The descriptive caption view.
+    @_disfavoredOverload
+    public init(_ header: String, @ViewBuilder caption: () -> Caption) where Header == Text {
+        self.init(header: { Text(verbatim: header) }, caption: caption)
+    }
+
+    /// Create a new no-information text.
+    /// - Parameters:
+    ///   - header: The localized header text.
+    ///   - caption: The descriptive caption view.
+    public init(_ header: LocalizedStringResource, @ViewBuilder caption: () -> Caption) where Header == Text {
+        self.init(header: { Text(header) }, caption: caption)
+    }
+
+    /// Create a new no-information text.
+    /// - Parameters:
+    ///   - header: The header view.
+    ///   - caption: The descriptive caption view.
     public init(@ViewBuilder header: () -> Header, @ViewBuilder caption: () -> Caption) {
         self.header = header()
         self.caption = caption()
