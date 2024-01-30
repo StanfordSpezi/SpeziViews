@@ -6,10 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+import SnapshotTesting
 @testable import SpeziViews
 import SwiftUI
-import UIKit
-import SnapshotTesting
 import XCTest
 
 
