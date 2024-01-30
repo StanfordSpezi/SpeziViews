@@ -1,0 +1,41 @@
+//
+// This source file is part of the Stanford Spezi open-source project
+//
+// SPDX-FileCopyrightText: 2024 Stanford University and the project authors (see CONTRIBUTORS.md)
+//
+// SPDX-License-Identifier: MIT
+//
+
+@testable import SpeziViews
+import SwiftUI
+import UIKit
+import SnapshotTesting
+import XCTest
+
+
+final class SnapshotTests: XCTestCase {
+    func testNoInformationText() {
+        let view = NoInformationText(verbatim: "No Contacts") {
+            Text(verbatim: "Newly added contacts will appear here.")
+        }
+
+        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)))
+    }
+
+    func testListRow() {
+        let row = List {
+            ListRow(verbatim: "San Francisco") {
+                Text(verbatim: "20 °C, Sunny")
+            }
+        }
+
+        let largeRow = row
+            .dynamicTypeSize(.accessibility3)
+
+        assertSnapshot(of: row, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+        assertSnapshot(of: row, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
+
+        assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-XA3")
+        assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-XA3")
+    }
+}
