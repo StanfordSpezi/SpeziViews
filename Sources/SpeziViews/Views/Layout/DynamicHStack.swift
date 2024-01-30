@@ -9,10 +9,10 @@
 import SwiftUI
 
 
-/// Access the alignment of a dynamic layout component.
+/// Access the dynamic layout of a child view.
 ///
 /// Refer to the documentation of ``DynamicHStack`` on how to retrieve the current layout.
-public enum Alignment {
+public enum DynamicLayout {
     /// The layout is horizontal.
     case horizontal
     /// The layout is vertical.
@@ -31,12 +31,12 @@ public enum Alignment {
 /// of the view. This check won't apply if the [`horizontalSizeClass`](https://developer.apple.com/documentation/swiftui/environmentvalues/horizontalsizeclass)
 /// is `regular` (not `compact`) or if the device is in landscape orientation (refer to [`UIDeviceOrientation`](https://developer.apple.com/documentation/uikit/uideviceorientation)).
 ///
-/// ### Checking the current alignment
+/// ### Checking the current layout
 ///
-/// You can retrieve the current `DynamicHStack` alignment using the ``Alignment`` preference key.
+/// You can retrieve the current `DynamicHStack` layout using the ``DynamicLayout`` preference key.
 /// This is useful if you want to conditionally change the layout of your View depending on the current
 /// layout of your content (e.g., only render a `Spacer` if the view is horizontally aligned).
-/// You can retrieve the current alignment using the [`onPreferenceChange(_:perform:)`](https://developer.apple.com/documentation/swiftui/view/onpreferencechange(_:perform:))
+/// You can retrieve the current layout using the [`onPreferenceChange(_:perform:)`](https://developer.apple.com/documentation/swiftui/view/onpreferencechange(_:perform:))
 /// modifier.
 ///
 /// Below is a short code example that demonstrates this capability.
@@ -51,21 +51,21 @@ public enum Alignment {
 ///     private let city: LocalizedStringResource
 ///     private let temperature: Int
 ///
-///     @State var currentAlignment: Alignment?
+///     @State var currentLayout: DynamicLayout?
 ///
 ///     var body: some View {
 ///         DynamicHStack {
 ///             Text(city)
 ///
-///             if alignment == .horizontal {
+///             if currentLayout == .horizontal {
 ///                 Spacer()
 ///             }
 ///
 ///             Text(verbatim: "\(temperature) °C")
 ///                 .foregroundColor(.secondary)
 ///         }
-///             .onPreferenceChange(Alignment.self) { alignment in
-///                 currentAlignment = alignment
+///             .onPreferenceChange(DynamicLayout.self) { layout in
+///                 currentLayout = layout
 ///             }
 ///     }
 /// }
@@ -73,8 +73,8 @@ public enum Alignment {
 ///
 /// ## Topics
 ///
-/// ### Checking the current alignment
-/// - ``Alignment``
+/// ### Checking the current layout
+/// - ``DynamicLayout``
 public struct DynamicHStack<Content: View>: View {
     private let realignAfter: DynamicTypeSize
     private let horizontalAlignment: VerticalAlignment
@@ -96,12 +96,12 @@ public struct DynamicHStack<Content: View>: View {
                 HStack(alignment: horizontalAlignment, spacing: spacing) {
                     content
                 }
-                .preference(key: Alignment.self, value: .horizontal)
+                    .preference(key: DynamicLayout.self, value: .horizontal)
             } else {
                 VStack(alignment: verticalAlignment, spacing: spacing) {
                     content
                 }
-                .preference(key: Alignment.self, value: .vertical)
+                .   preference(key: DynamicLayout.self, value: .vertical)
             }
         }
             .observeOrientationChanges($orientation)
@@ -131,7 +131,7 @@ public struct DynamicHStack<Content: View>: View {
 }
 
 
-extension Alignment: PreferenceKey {
+extension DynamicLayout: PreferenceKey {
     public typealias Value = Self?
 
     public static func reduce(value: inout Self?, nextValue: () -> Self?) {

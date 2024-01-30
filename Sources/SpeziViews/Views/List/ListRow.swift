@@ -37,7 +37,7 @@ public struct ListRow<Label: View, Content: View>: View {
     private let label: Label
     private let content: Content
 
-    @State private var alignment: Alignment?
+    @State private var layout: DynamicLayout?
 
 
     public var body: some View {
@@ -45,25 +45,24 @@ public struct ListRow<Label: View, Content: View>: View {
             DynamicHStack {
                 label
                     .foregroundColor(.primary)
-                    .lineLimit(alignment == .horizontal ? 1 : nil)
+                    .lineLimit(layout == .horizontal ? 1 : nil)
 
-                if alignment == .horizontal {
+                if layout == .horizontal {
                     Spacer()
                 }
 
                 content
-                    .lineLimit(alignment == .horizontal ? 1 : nil)
+                    .lineLimit(layout == .horizontal ? 1 : nil)
                     .layoutPriority(1)
                     .foregroundColor(.secondary)
             }
 
-            if alignment == .vertical {
+            if layout == .vertical {
                 Spacer()
             }
         }
-            // .accessibilityElement(children: .combine)
-            .onPreferenceChange(Alignment.self) { value in
-                alignment = value
+            .onPreferenceChange(DynamicLayout.self) { value in
+                layout = value
             }
     }
 
