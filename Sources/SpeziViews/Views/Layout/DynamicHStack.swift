@@ -146,8 +146,8 @@ extension Alignment: PreferenceKey {
 #Preview {
     List {
         DynamicHStack(verticalAlignment: .leading) {
-            Text("Hello World:")
-            Text("How are you doing?")
+            Text(verbatim: "Hello World:")
+            Text(verbatim: "How are you doing?")
                 .foregroundColor(.secondary)
         }
     }

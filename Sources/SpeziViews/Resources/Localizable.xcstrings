@@ -17,42 +17,6 @@
         }
       }
     },
-    "Enter your first name ..." : {
-      "comment" : "Given name placeholder",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vornamen eingeben ..."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter your first name ..."
-          }
-        }
-      }
-    },
-    "Enter your last name ..." : {
-      "comment" : "Family name placeholder",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Familienname eingeben ..."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter your last name ..."
-          }
-        }
-      }
-    },
     "Error" : {
       "comment" : "View State default error title",
       "localizations" : {
@@ -66,48 +30,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error"
-          }
-        }
-      }
-    },
-    "First Name" : {
-      "comment" : "Given name title",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vorname"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "First Name"
-          }
-        }
-      }
-    },
-    "Hello World" : {
-
-    },
-    "How are you" : {
-
-    },
-    "Last Name" : {
-      "comment" : "Family name title",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Familienname"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last Name"
           }
         }
       }
