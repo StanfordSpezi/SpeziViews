@@ -23,7 +23,8 @@ let package = Package(
         .library(name: "SpeziValidation", targets: ["SpeziValidation"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.0.4"))
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.0.4"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.15.1")
     ],
     targets: [
         .target(
@@ -46,7 +47,8 @@ let package = Package(
             name: "SpeziViewsTests",
             dependencies: [
                 .target(name: "SpeziViews"),
-                .target(name: "SpeziValidation")
+                .target(name: "SpeziValidation"),
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ]
         )
     ]
