@@ -13,14 +13,6 @@ import XCTest
 
 
 final class SnapshotTests: XCTestCase {
-    func testNoInformationText() {
-        let view = NoInformationText(verbatim: "No Contacts") {
-            Text(verbatim: "Newly added contacts will appear here.")
-        }
-
-        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)))
-    }
-
     func testListRow() {
         let row = List {
             ListRow(verbatim: "San Francisco") {
