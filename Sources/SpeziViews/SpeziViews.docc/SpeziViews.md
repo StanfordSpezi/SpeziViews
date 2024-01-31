@@ -66,7 +66,6 @@ Automatically adapt your view layouts to dynamic type sizes, device orientation,
 - ``Label``
 - ``LazyText``
 - ``MarkdownView``
-- ``NoInformationText``
 
 ### Interact with the View Environment
 
