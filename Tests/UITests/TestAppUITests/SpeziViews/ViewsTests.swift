@@ -126,4 +126,13 @@ final class ViewsTests: XCTestCase {
 
         XCTAssert(app.collectionViews.buttons["Hello Throwing World"].isEnabled)
     }
+
+    func testListRowAccessibility() throws {
+        let app = XCUIApplication()
+
+        XCTAssert(app.collectionViews.buttons["List Row"].waitForExistence(timeout: 2))
+        app.collectionViews.buttons["List Row"].tap()
+
+        XCTAssert(app.collectionViews.staticTexts["Hello, World"].waitForExistence(timeout: 2))
+    }
 }
