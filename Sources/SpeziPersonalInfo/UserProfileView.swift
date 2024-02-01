@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if !os(tvOS)
 import SwiftUI
 
 
@@ -98,3 +99,5 @@ public struct UserProfileView: View {
     .padding()
 }
 #endif
+#endif
+

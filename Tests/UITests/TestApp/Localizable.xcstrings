@@ -87,8 +87,6 @@
         }
       }
     },
-    "Operation State: %@" : {
-    },
     "Middle" : {
 
     },
@@ -96,6 +94,9 @@
 
     },
     "NameFields" : {
+
+    },
+    "Operation State: %@" : {
 
     },
     "Password" : {
@@ -144,6 +145,9 @@
 
     },
     "Validation" : {
+
+    },
+    "Validation TextField" : {
 
     },
     "View State: %@" : {

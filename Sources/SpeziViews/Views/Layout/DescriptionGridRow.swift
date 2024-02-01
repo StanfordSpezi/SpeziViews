@@ -83,7 +83,9 @@ struct DescriptionGridRow_Previews: PreviewProvider {
             }
                 .padding(32)
         }
+        #if !os(tvOS)
             .background(Color(.systemGroupedBackground))
+        #endif
     }
 }
 #endif

@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if canImport(PencilKit) && !os(macOS)
 import PencilKit
 import SwiftUI
 
@@ -183,4 +184,5 @@ struct SignatureView_Previews: PreviewProvider {
         }
     }
 }
+#endif
 #endif

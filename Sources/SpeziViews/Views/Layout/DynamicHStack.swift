@@ -87,12 +87,21 @@ public struct DynamicHStack<Content: View>: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass // for iPad or landscape we want to stay horizontal
 
+#if !(os(visionOS) || os(tvOS))
     @State private var orientation = UIDevice.current.orientation
+#endif
 
+    var isLandscape: Bool {
+#if !(os(visionOS) || os(tvOS))
+        orientation.isLandscape
+#else
+        true
+#endif
+    }
 
     public var body: some View {
         ZStack {
-            if horizontalSizeClass == .regular || orientation.isLandscape || dynamicTypeSize <= realignAfter {
+            if horizontalSizeClass == .regular || isLandscape || dynamicTypeSize <= realignAfter {
                 HStack(alignment: horizontalAlignment, spacing: spacing) {
                     content
                 }
@@ -104,7 +113,9 @@ public struct DynamicHStack<Content: View>: View {
                 .   preference(key: DynamicLayout.self, value: .vertical)
             }
         }
+#if !(os(visionOS) || os(tvOS))
             .observeOrientationChanges($orientation)
+#endif
     }
 
 
