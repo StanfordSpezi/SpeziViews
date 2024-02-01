@@ -106,6 +106,7 @@ enum SpeziViewsTests: String, TestAppTests {
         AsyncButtonTestView()
     }
 
+    @MainActor
     @ViewBuilder
     private var listRow: some View {
         List {
