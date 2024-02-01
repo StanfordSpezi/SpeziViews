@@ -61,6 +61,7 @@ public struct ListRow<Label: View, Content: View>: View {
                 Spacer()
             }
         }
+            .accessibilityElement(children: .combine)
             .onPreferenceChange(DynamicLayout.self) { value in
                 layout = value
             }

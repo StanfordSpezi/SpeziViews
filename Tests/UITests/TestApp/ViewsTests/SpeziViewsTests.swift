@@ -23,6 +23,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
     case asyncButton = "Async Button"
+    case listRow = "List Row"
     
     
     @ViewBuilder
@@ -104,7 +105,15 @@ enum SpeziViewsTests: String, TestAppTests {
     private var asyncButton: some View {
         AsyncButtonTestView()
     }
-    
+
+    @ViewBuilder
+    private var listRow: some View {
+        List {
+            ListRow(verbatim: "Hello") {
+                Text(verbatim: "World")
+            }
+        }
+    }
 
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {  // swiftlint:disable:this cyclomatic_complexity
         switch self {
@@ -130,6 +139,8 @@ enum SpeziViewsTests: String, TestAppTests {
             defaultErrorDescription
         case .asyncButton:
             asyncButton
+        case .listRow:
+            listRow
         }
     }
 }
