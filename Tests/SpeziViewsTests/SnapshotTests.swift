@@ -30,6 +30,8 @@ final class SnapshotTests: XCTestCase {
 
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-XA3")
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-XA3")
+#elseif os(visionOS)
+
 #endif
     }
 }

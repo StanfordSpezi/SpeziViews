@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+// TODO: support this on tvOS!
 #if !os(tvOS)
 import SwiftUI
 
@@ -16,9 +17,11 @@ public struct UserProfileView: View {
     private let imageLoader: () async -> Image?
     
     @State private var image: Image?
-    
-    
-    // TODO: doesnt look good on visionOS
+
+    @Environment(\.colorScheme)
+    private var colorScheme
+
+
     public var body: some View {
         GeometryReader { context in
             ZStack {
@@ -31,7 +34,7 @@ public struct UserProfileView: View {
                     Circle()
                         .foregroundColor(Color(.systemGray3))
                     Text(name.formatted(.name(style: .abbreviated)))
-                        .foregroundColor(.init(UIColor.systemBackground))
+                        .foregroundColor(colorScheme == .dark ? .secondary : Color(.systemBackground))
                         .font(
                             .system(
                                 size: min(context.size.height, context.size.width) * 0.45,
@@ -69,8 +72,8 @@ public struct UserProfileView: View {
     UserProfileView(
         name: PersonNameComponents(givenName: "Paul", familyName: "Schmiedmayer")
     )
-    .frame(width: 100, height: 100)
-    .padding()
+        .frame(width: 100, height: 100)
+        .padding()
 }
 
 #Preview {
@@ -82,10 +85,9 @@ public struct UserProfileView: View {
             familyName: "Aalami"
         )
     )
-    .frame(width: 100, height: 100)
-    .padding()
-    .background(Color(.systemBackground))
-    .colorScheme(.dark)
+        .frame(width: 100, height: 100)
+        .padding()
+        .preferredColorScheme(.dark)
 }
 
 #Preview {
@@ -96,9 +98,8 @@ public struct UserProfileView: View {
             return Image(systemName: "person.crop.circle")
         }
     )
-    .frame(width: 50, height: 100)
-    .padding()
+        .frame(width: 50, height: 100)
+        .padding()
 }
 #endif
 #endif
-
