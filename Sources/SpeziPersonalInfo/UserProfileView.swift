@@ -18,6 +18,7 @@ public struct UserProfileView: View {
     @State private var image: Image?
     
     
+    // TODO: doesnt look good on visionOS
     public var body: some View {
         GeometryReader { context in
             ZStack {

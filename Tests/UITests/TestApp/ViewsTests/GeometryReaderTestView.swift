@@ -15,22 +15,22 @@ struct GeometryReaderTestView: View {
     
     var body: some View {
         VStack {
-            HorizontalGeometryReader { wight in
+            HorizontalGeometryReader { width in
                 ZStack {
                     Rectangle()
                         .foregroundColor(.gray)
                         .border(.red)
-                    Text("\(wight)")
+                    Text("\(width)")
                 }
             }
                 .frame(width: 200)
                 .border(.blue)
-            HorizontalGeometryReader { wight in
+            HorizontalGeometryReader { width in
                 ZStack {
                     Rectangle()
                         .foregroundColor(.gray)
                         .border(.red)
-                    Text("\(wight)")
+                    Text("\(width)")
                 }
             }
                 .frame(width: 300)

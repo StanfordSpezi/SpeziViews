@@ -17,23 +17,65 @@ on:
 
 jobs:
   buildandtest:
-    name: Build and Test Swift Package
+    name: Build and Test Swift Package iOS
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
     with:
       artifactname: SpeziViews-Package.xcresult
       runsonlabels: '["macOS", "self-hosted"]'
       scheme: SpeziViews-Package
+  buildandtestwatchos:
+    name: Build and Test Swift Package watchOS
+    uses: StanfordBDHG/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
+    with:
+      artifactname: SpeziViews-Package-watchOS.xcresult
+      runsonlabels: '["macOS", "self-hosted"]'
+      scheme: SpeziViews-Package
+      destination: 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)'
+  buildandtestvisionos:
+    name: Build and Test Swift Package visionOS
+    uses: StanfordBDHG/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
+    with:
+      artifactname: SpeziViews-Package-visionOS.xcresult
+      runsonlabels: '["macOS", "self-hosted"]'
+      scheme: SpeziViews-Package
+      destination: 'platform=visionOS Simulator,name=Apple Vision Pro'
+  buildandtesttvos:
+    name: Build and Test Swift Package tvOS
+    uses: StanfordBDHG/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
+    with:
+      artifactname: SpeziViews-Package-tvOS.xcresult
+      runsonlabels: '["macOS", "self-hosted"]'
+      scheme: SpeziViews-Package
+      destination: 'platform=tvOS Simulator,name=Apple TV 4K (3rd generation)'
   buildandtestuitests:
-    name: Build and Test UI Tests
+    name: Build and Test UI Tests iOS
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
     with:
       artifactname: TestApp.xcresult
       runsonlabels: '["macOS", "self-hosted"]'
       path: 'Tests/UITests'
       scheme: TestApp
+  buildandtestuitestsipad:
+    name: Build and Test UI Tests iPadOS
+    uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
+    with:
+      artifactname: TestApp-iPad.xcresult
+      runsonlabels: '["macOS", "self-hosted"]'
+      path: 'Tests/UITests'
+      scheme: TestApp
+      destination: 'platform=iOS Simulator,name=iPad Air (5th generation)'
+  buildandtestuitestsvisionos:
+    name: Build and Test UI Tests visionOS
+    uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
+    with:
+      artifactname: TestApp-visionOS.xcresult
+      runsonlabels: '["macOS", "self-hosted"]'
+      path: 'Tests/UITests'
+      scheme: TestApp
+      destination: 'platform=visionOS Simulator,name=Apple Vision Pro'
   uploadcoveragereport:
     name: Upload Coverage Report
-    needs: [buildandtest, buildandtestuitests]
+    needs: [buildandtest, buildandtestwatchos, buildandtestvisionos, buildandtesttvos, buildandtestuitests, buildandtestuitestsvisionos]
     uses: StanfordSpezi/.github/.github/workflows/create-and-upload-coverage-report.yml@v2
     with:
-      coveragereports: SpeziViews-Package.xcresult TestApp.xcresult
+      coveragereports: SpeziViews-Package.xcresult SpeziViews-Package-watchOS.xcresult SpeziViews-Package-visionOS.xcresult SpeziViews-Package-tvOS.xcresult TestApp.xcresult TestApp-iPad.xcresult TestApp-visionOS.xcresult

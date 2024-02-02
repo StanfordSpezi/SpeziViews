@@ -26,15 +26,22 @@ final class ViewsTests: XCTestCase {
 #if targetEnvironment(simulator) && (arch(i386) || arch(x86_64))
         throw XCTSkip("PKCanvas view-related tests are currently skipped on Intel-based iOS simulators due to a metal bug on the simulator.")
 #endif
-        
+
         let app = XCUIApplication()
+
+        #if os(visionOS)
+        let paletteToolPencil = "palette_tool_pencil_band"
+        #else
+        let paletteToolPencil = "palette_tool_pencil_base"
+        #endif
+
 
         XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Canvas"].tap()
-        
+
         XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
-        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 2))
-        
+        XCTAssertFalse(app.images[paletteToolPencil].waitForExistence(timeout: 2))
+
         let canvasView = app.scrollViews.firstMatch
         canvasView.swipeRight()
         canvasView.swipeDown()
@@ -43,15 +50,19 @@ final class ViewsTests: XCTestCase {
         
         XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
-        
-        XCTAssert(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
+
+        XCTAssert(app.images[paletteToolPencil].waitForExistence(timeout: 10))
         canvasView.swipeLeft()
 
         sleep(1)
         app.buttons["Show Tool Picker"].tap()
         
+        #if os(visionOS)
+        return // currently the pencilKit toolbar cannot be hidden anymore
+        #endif
+
         sleep(15) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(app.scrollViews.otherElements.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.images[paletteToolPencil].waitForExistence(timeout: 10))
         canvasView.swipeUp()
     }
     
@@ -107,22 +118,23 @@ final class ViewsTests: XCTestCase {
     func testAsyncButtonView() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["Async Button"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Async Button"].tap()
+        app.buttons["View State"].swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
 
-        XCTAssert(app.collectionViews.buttons["Hello World"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Hello World"].tap()
+        XCTAssert(app.buttons["Async Button"].waitForExistence(timeout: 2))
+        app.buttons["Async Button"].tap()
 
-        XCTAssert(app.collectionViews.staticTexts["Action executed"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Reset"].tap()
+        XCTAssert(app.buttons["Hello World"].waitForExistence(timeout: 2))
+        app.buttons["Hello World"].tap()
 
-        XCTAssert(app.collectionViews.buttons["Hello Throwing World"].exists)
-        app.collectionViews.buttons["Hello Throwing World"].tap()
+        XCTAssert(app.staticTexts["Action executed"].waitForExistence(timeout: 2))
+        app.buttons["Reset"].tap()
 
-        let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["Custom Error"].waitForExistence(timeout: 1))
-        XCTAssert(alert.staticTexts["Error was thrown!"].waitForExistence(timeout: 1))
-        alert.buttons["OK"].tap()
+        XCTAssert(app.buttons["Hello Throwing World"].exists)
+        app.buttons["Hello Throwing World"].tap()
+
+        XCTAssert(app.alerts.staticTexts["Custom Error"].waitForExistence(timeout: 1))
+        XCTAssert(app.alerts.staticTexts["Error was thrown!"].waitForExistence(timeout: 1))
+        app.alerts.buttons["OK"].tap()
 
         XCTAssert(app.collectionViews.buttons["Hello Throwing World"].isEnabled)
     }
@@ -130,9 +142,11 @@ final class ViewsTests: XCTestCase {
     func testListRowAccessibility() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["List Row"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["List Row"].tap()
+        app.buttons["View State"].swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
 
-        XCTAssert(app.collectionViews.staticTexts["Hello, World"].waitForExistence(timeout: 2))
+        XCTAssert(app.buttons["List Row"].waitForExistence(timeout: 2))
+        app.buttons["List Row"].tap()
+
+        XCTAssert(app.staticTexts["Hello, World"].waitForExistence(timeout: 2))
     }
 }
