@@ -31,7 +31,6 @@ final class PersonalInfoViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["First Name"].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["Last Name"].waitForExistence(timeout: 2))
 
-        // TODO: this takes forever!
         try app.textFields["enter your first name"].enter(value: "Leland")
         try app.textFields["enter your last name"].enter(value: "Stanford")
 
