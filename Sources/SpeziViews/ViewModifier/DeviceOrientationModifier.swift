@@ -12,7 +12,6 @@ import SwiftUI
 
 @available(visionOS, unavailable)
 @available(tvOS, unavailable)
-@available(macOS, unavailable)
 struct DeviceOrientationModifier: ViewModifier {
     @Binding private var orientation: UIDeviceOrientation
 
