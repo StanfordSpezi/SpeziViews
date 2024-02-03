@@ -6,8 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-// TODO: support this on tvOS!
-#if !os(tvOS)
+
 import SwiftUI
 
 
@@ -21,20 +20,40 @@ public struct UserProfileView: View {
     @Environment(\.colorScheme)
     private var colorScheme
 
+    private var systemBackgroundWhite: Color {
+        #if os(macOS)
+        return Color(nsColor: .windowBackgroundColor)
+        #elseif os(watchOS) || os(tvOS)
+        return Color(uiColor: .gray)
+        #else
+        return Color(uiColor: .systemBackground)
+        #endif
+    }
+
+    private var letterCircleColor: Color {
+        #if os(macOS)
+        return .gray
+        #elseif os(watchOS) || os(tvOS)
+        return Color(uiColor: .darkGray)
+        #else
+        return Color(uiColor: .systemGray2)
+        #endif
+    }
+
 
     public var body: some View {
         GeometryReader { context in
             ZStack {
                 if let image {
                     Circle()
-                        .foregroundColor(Color(.systemBackground))
+                        .foregroundColor(systemBackgroundWhite)
                     image.resizable()
                         .clipShape(Circle())
                 } else {
                     Circle()
-                        .foregroundColor(Color(.systemGray3))
+                        .foregroundColor(letterCircleColor)
                     Text(name.formatted(.name(style: .abbreviated)))
-                        .foregroundColor(colorScheme == .dark ? .secondary : Color(.systemBackground))
+                        .foregroundColor(colorScheme == .dark ? .secondary : systemBackgroundWhite)
                         .font(
                             .system(
                                 size: min(context.size.height, context.size.width) * 0.45,
@@ -101,5 +120,4 @@ public struct UserProfileView: View {
         .frame(width: 50, height: 100)
         .padding()
 }
-#endif
 #endif

@@ -68,24 +68,22 @@ struct DescriptionGridRow_Previews: PreviewProvider {
                     }
                 }
             }
-            Grid(horizontalSpacing: 8, verticalSpacing: 8) {
-                DescriptionGridRow {
-                    Text(verbatim: "Description")
-                } content: {
-                    Text(verbatim: "Content")
-                }
-                Divider()
-                DescriptionGridRow {
-                    Text(verbatim: "Description")
-                } content: {
-                    Text(verbatim: "Content")
-                }
-            }
-                .padding(32)
         }
-        #if !os(tvOS)
-            .background(Color(.systemGroupedBackground))
-        #endif
+
+        Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+            DescriptionGridRow {
+                Text(verbatim: "Description")
+            } content: {
+                Text(verbatim: "Content")
+            }
+            Divider()
+            DescriptionGridRow {
+                Text(verbatim: "Description")
+            } content: {
+                Text(verbatim: "Content")
+            }
+        }
+            .padding(32)
     }
 }
 #endif

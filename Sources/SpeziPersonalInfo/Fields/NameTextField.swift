@@ -43,7 +43,8 @@ public struct NameTextField<Label: View>: View {
         }
     }
 
-    private var contentType: UITextContentType? {
+    #if os(watchOS)
+    private var contentType: WKTextContentType? {
         switch nameComponent {
         case \.namePrefix:
             return .namePrefix
@@ -61,6 +62,45 @@ public struct NameTextField<Label: View>: View {
             return .name // general, catch all content type
         }
     }
+    #elseif os(macOS)
+    private var contentType: NSTextContentType? {
+        switch nameComponent {
+        case \.namePrefix:
+            return .namePrefix
+        case \.nameSuffix:
+            return .nameSuffix
+        case \.givenName:
+            return .givenName
+        case \.middleName:
+            return .middleName
+        case \.familyName:
+            return .familyName
+        case \.nickname:
+            return .nickname
+        default:
+            return .name // general, catch all content type
+        }
+    }
+    #else
+    private var contentType: UITextContentType {
+        switch nameComponent {
+        case \.namePrefix:
+            return .namePrefix
+        case \.nameSuffix:
+            return .nameSuffix
+        case \.givenName:
+            return .givenName
+        case \.middleName:
+            return .middleName
+        case \.familyName:
+            return .familyName
+        case \.nickname:
+            return .nickname
+        default:
+            return .name // general, catch all content type
+        }
+    }
+    #endif
 
 
     public var body: some View {
@@ -68,7 +108,9 @@ public struct NameTextField<Label: View>: View {
             label
         }
             .autocorrectionDisabled()
+            #if !os(macOS)
             .textInputAutocapitalization(.words)
+            #endif
             .textContentType(contentType)
     }
 

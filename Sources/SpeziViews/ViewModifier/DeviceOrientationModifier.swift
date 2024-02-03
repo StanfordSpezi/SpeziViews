@@ -8,10 +8,10 @@
 
 import SwiftUI
 
+#if !os(macOS) && !os(watchOS)
 
 @available(visionOS, unavailable)
 @available(tvOS, unavailable)
-@available(macOS, unavailable)
 struct DeviceOrientationModifier: ViewModifier {
     @Binding private var orientation: UIDeviceOrientation
 
@@ -60,3 +60,5 @@ extension View {
         modifier(DeviceOrientationModifier(orientation: orientation))
     }
 }
+
+#endif

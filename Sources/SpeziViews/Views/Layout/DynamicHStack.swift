@@ -87,12 +87,12 @@ public struct DynamicHStack<Content: View>: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass // for iPad or landscape we want to stay horizontal
 
-#if !(os(visionOS) || os(tvOS))
+#if os(iOS)
     @State private var orientation = UIDevice.current.orientation
 #endif
 
     var isLandscape: Bool {
-#if !(os(visionOS) || os(tvOS))
+#if os(iOS)
         orientation.isLandscape
 #else
         true
@@ -113,7 +113,7 @@ public struct DynamicHStack<Content: View>: View {
                 .   preference(key: DynamicLayout.self, value: .vertical)
             }
         }
-#if !(os(visionOS) || os(tvOS))
+#if os(iOS)
             .observeOrientationChanges($orientation)
 #endif
     }
