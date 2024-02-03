@@ -75,7 +75,7 @@ jobs:
       destination: 'platform=visionOS Simulator,name=Apple Vision Pro'
   uploadcoveragereport:
     name: Upload Coverage Report
-    needs: [buildandtest, buildandtestwatchos, buildandtestvisionos, buildandtesttvos, buildandtestuitests, buildandtestuitestsvisionos]
+    needs: [buildandtest, buildandtestwatchos, buildandtestvisionos, buildandtesttvos, buildandtestuitests, buildandtestuitestsipad, buildandtestuitestsvisionos]
     uses: StanfordSpezi/.github/.github/workflows/create-and-upload-coverage-report.yml@v2
     with:
       coveragereports: SpeziViews-Package.xcresult SpeziViews-Package-watchOS.xcresult SpeziViews-Package-visionOS.xcresult SpeziViews-Package-tvOS.xcresult TestApp.xcresult TestApp-iPad.xcresult TestApp-visionOS.xcresult
