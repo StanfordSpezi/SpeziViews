@@ -32,10 +32,9 @@ final class EnvironmentTests: XCTestCase {
 
         sleep(12)
 
-        let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["This is a default error description!"].exists)
-        XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        alert.buttons["OK"].tap()
+        XCTAssert(app.alerts.staticTexts["This is a default error description!"].exists)
+        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        app.alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
         app.staticTexts["View State: idle"].tap()

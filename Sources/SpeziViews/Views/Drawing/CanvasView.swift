@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if canImport(PencilKit) && !os(macOS)
 import PencilKit
 import SwiftUI
 
@@ -115,6 +116,8 @@ private struct _CanvasView: UIViewRepresentable {
 ///     )
 /// }
 /// ```
+@available(macOS, unavailable)
+@available(watchOS, unavailable)
 public struct CanvasView: View {
     /// The ``CanvasSizePreferenceKey`` enables outer views to get access to the current canvas size of the ``CanvasView``
     /// using the SwiftUI preference mechanisms.
@@ -183,4 +186,5 @@ struct SignatureView_Previews: PreviewProvider {
         }
     }
 }
+#endif
 #endif

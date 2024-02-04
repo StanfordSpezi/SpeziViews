@@ -23,10 +23,12 @@ final class SnapshotTests: XCTestCase {
         let largeRow = row
             .dynamicTypeSize(.accessibility3)
 
+#if os(iOS)
         assertSnapshot(of: row, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
         assertSnapshot(of: row, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
 
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-XA3")
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-XA3")
+#endif
     }
 }

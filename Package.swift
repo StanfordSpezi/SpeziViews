@@ -15,7 +15,11 @@ let package = Package(
     name: "SpeziViews",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v17)
+        .iOS(.v17),
+        .visionOS(.v1),
+        .tvOS(.v17),
+        .watchOS(.v10),
+        .macOS(.v14)
     ],
     products: [
         .library(name: "SpeziViews", targets: ["SpeziViews"]),

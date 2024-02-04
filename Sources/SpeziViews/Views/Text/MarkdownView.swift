@@ -119,7 +119,7 @@ public struct MarkdownView: View {
 #if DEBUG
 struct PrivacyPolicyView_Previews: PreviewProvider {
     static var previews: some View {
-        MarkdownView(markdown: Data())
+        MarkdownView(markdown: Data("This is a *markdown* **example**!".utf8))
     }
 }
 #endif

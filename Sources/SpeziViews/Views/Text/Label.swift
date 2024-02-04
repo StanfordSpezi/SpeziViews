@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-
+#if !os(macOS) && !os(watchOS)
 private struct _Label: UIViewRepresentable {
     let text: String
     let textStyle: UIFont.TextStyle
@@ -123,4 +123,5 @@ struct Label_Previews: PreviewProvider {
         Label(verbatim: "This is very long text that wraps around multiple lines and adjusts the spacing between words accordingly.")
     }
 }
+#endif
 #endif

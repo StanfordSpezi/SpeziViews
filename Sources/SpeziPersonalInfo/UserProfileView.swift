@@ -15,21 +15,44 @@ public struct UserProfileView: View {
     private let imageLoader: () async -> Image?
     
     @State private var image: Image?
-    
-    
+
+    @Environment(\.colorScheme)
+    private var colorScheme
+
+    private var systemBackgroundWhite: Color {
+        #if os(macOS)
+        return Color(nsColor: .windowBackgroundColor)
+        #elseif os(watchOS) || os(tvOS)
+        return Color(uiColor: .gray)
+        #else
+        return Color(uiColor: .systemBackground)
+        #endif
+    }
+
+    private var letterCircleColor: Color {
+        #if os(macOS)
+        return .gray
+        #elseif os(watchOS) || os(tvOS)
+        return Color(uiColor: .darkGray)
+        #else
+        return Color(uiColor: .systemGray2)
+        #endif
+    }
+
+
     public var body: some View {
         GeometryReader { context in
             ZStack {
                 if let image {
                     Circle()
-                        .foregroundColor(Color(.systemBackground))
+                        .foregroundColor(systemBackgroundWhite)
                     image.resizable()
                         .clipShape(Circle())
                 } else {
                     Circle()
-                        .foregroundColor(Color(.systemGray3))
+                        .foregroundColor(letterCircleColor)
                     Text(name.formatted(.name(style: .abbreviated)))
-                        .foregroundColor(.init(UIColor.systemBackground))
+                        .foregroundColor(colorScheme == .dark ? .secondary : systemBackgroundWhite)
                         .font(
                             .system(
                                 size: min(context.size.height, context.size.width) * 0.45,
@@ -67,8 +90,8 @@ public struct UserProfileView: View {
     UserProfileView(
         name: PersonNameComponents(givenName: "Paul", familyName: "Schmiedmayer")
     )
-    .frame(width: 100, height: 100)
-    .padding()
+        .frame(width: 100, height: 100)
+        .padding()
 }
 
 #Preview {
@@ -80,10 +103,9 @@ public struct UserProfileView: View {
             familyName: "Aalami"
         )
     )
-    .frame(width: 100, height: 100)
-    .padding()
-    .background(Color(.systemBackground))
-    .colorScheme(.dark)
+        .frame(width: 100, height: 100)
+        .padding()
+        .preferredColorScheme(.dark)
 }
 
 #Preview {
@@ -94,7 +116,7 @@ public struct UserProfileView: View {
             return Image(systemName: "person.crop.circle")
         }
     )
-    .frame(width: 50, height: 100)
-    .padding()
+        .frame(width: 50, height: 100)
+        .padding()
 }
 #endif

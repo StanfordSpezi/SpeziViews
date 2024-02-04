@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+import SpeziViews
 import SwiftUI
 
 
@@ -43,7 +44,7 @@ public struct NameTextField<Label: View>: View {
         }
     }
 
-    private var contentType: UITextContentType? {
+    private var contentType: TextContentType {
         switch nameComponent {
         case \.namePrefix:
             return .namePrefix
@@ -68,7 +69,9 @@ public struct NameTextField<Label: View>: View {
             label
         }
             .autocorrectionDisabled()
+            #if !os(macOS)
             .textInputAutocapitalization(.words)
+            #endif
             .textContentType(contentType)
     }
 

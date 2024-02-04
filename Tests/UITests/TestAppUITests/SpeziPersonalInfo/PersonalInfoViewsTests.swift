@@ -31,8 +31,19 @@ final class PersonalInfoViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["First Name"].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["Last Name"].waitForExistence(timeout: 2))
 
+        #if os(visionOS)
+        app.textFields["enter your first name"].tap()
+        sleep(1)
+        app.typeText("Leland")
+
+        app.textFields["enter your last name"].tap()
+        sleep(1)
+        app.typeText("Stanford")
+
+        #else
         try app.textFields["enter your first name"].enter(value: "Leland")
         try app.textFields["enter your last name"].enter(value: "Stanford")
+        #endif
 
         XCTAssert(app.textFields["Leland"].waitForExistence(timeout: 2))
         XCTAssert(app.textFields["Stanford"].waitForExistence(timeout: 2))

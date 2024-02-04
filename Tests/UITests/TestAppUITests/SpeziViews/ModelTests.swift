@@ -32,10 +32,9 @@ final class ModelTests: XCTestCase {
 
         sleep(12)
 
-        let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["Error Description"].exists)
-        XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        alert.buttons["OK"].tap()
+        XCTAssert(app.alerts.staticTexts["Error Description"].exists)
+        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        app.alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
     }
@@ -50,11 +49,10 @@ final class ModelTests: XCTestCase {
 
         sleep(12)
 
-        let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["Error Description"].exists)
-        XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        alert.buttons["OK"].tap()
-        
+        XCTAssert(app.alerts.staticTexts["Error Description"].exists)
+        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        app.alerts.buttons["OK"].tap()
+
         sleep(2)
 
         XCTAssert(app.staticTexts["operationState"].label.contains("Operation State: error"))
@@ -71,11 +69,10 @@ final class ModelTests: XCTestCase {
 
         sleep(12)
 
-        let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["Error Description"].exists)
-        XCTAssert(alert.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        alert.buttons["OK"].tap()
-        
+        XCTAssert(app.alerts.staticTexts["Error Description"].exists)
+        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        app.alerts.buttons["OK"].tap()
+
         sleep(2)
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
@@ -94,10 +91,9 @@ final class ModelTests: XCTestCase {
 
         sleep(12)
 
-        let alert = app.alerts.firstMatch.scrollViews.otherElements
-        XCTAssert(alert.staticTexts["Error"].exists)
-        XCTAssert(alert.staticTexts["Some error occurred!"].exists)
-        alert.buttons["OK"].tap()
+        XCTAssert(app.alerts.staticTexts["Error"].exists)
+        XCTAssert(app.alerts.staticTexts["Some error occurred!"].exists)
+        app.alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
     }

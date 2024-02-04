@@ -58,7 +58,7 @@ final class ValidationTests: XCTestCase {
 
         print(app.switches["Switch Focus"].debugDescription)
         XCTAssertTrue(app.switches["Switch Focus"].exists)
-        app.switches.allElementsBoundByIndex[1].tap() // toggles automatic focus switch off
+        try XCTUnwrap(app.switches.allElementsBoundByIndex.last).tap() // toggles automatic focus switch off
 
         app.buttons["Validate"].tap()
 
@@ -66,7 +66,7 @@ final class ValidationTests: XCTestCase {
         app.dismissKeyboard()
 
         XCTAssertTrue(app.textFields["Hello World!"].waitForExistence(timeout: 0.5))
-        app.switches.allElementsBoundByIndex[1].tap() // toggles automatic focus switch on
+        try XCTUnwrap(app.switches.allElementsBoundByIndex.last).tap() // toggles automatic focus switch on
 
         app.buttons["Validate"].tap()
 
