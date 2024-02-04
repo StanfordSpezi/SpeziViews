@@ -28,6 +28,7 @@ jobs:
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
     with:
       artifactname: SpeziViews-Package-watchOS.xcresult
+      resultBundle: SpeziViews-Package-watchOS.xcresult
       runsonlabels: '["macOS", "self-hosted"]'
       scheme: SpeziViews-Package
       destination: 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)'
@@ -36,6 +37,7 @@ jobs:
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
     with:
       artifactname: SpeziViews-Package-visionOS.xcresult
+      resultBundle: SpeziViews-Package-visionOS.xcresult
       runsonlabels: '["macOS", "self-hosted"]'
       scheme: SpeziViews-Package
       destination: 'platform=visionOS Simulator,name=Apple Vision Pro'
@@ -44,6 +46,7 @@ jobs:
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
     with:
       artifactname: SpeziViews-Package-tvOS.xcresult
+      resultBundle: SpeziViews-Package-tvOS.xcresult
       runsonlabels: '["macOS", "self-hosted"]'
       scheme: SpeziViews-Package
       destination: 'platform=tvOS Simulator,name=Apple TV 4K (3rd generation)'
@@ -60,6 +63,7 @@ jobs:
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
     with:
       artifactname: TestApp-iPad.xcresult
+      resultBundle: TestApp-iPad.xcresult
       runsonlabels: '["macOS", "self-hosted"]'
       path: 'Tests/UITests'
       scheme: TestApp
@@ -69,6 +73,7 @@ jobs:
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
     with:
       artifactname: TestApp-visionOS.xcresult
+      resultBundle: TestApp-visionOS.xcresult
       runsonlabels: '["macOS", "self-hosted"]'
       path: 'Tests/UITests'
       scheme: TestApp
