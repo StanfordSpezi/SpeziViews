@@ -85,7 +85,7 @@ public struct DynamicHStack<Content: View>: View {
     @Environment(\.dynamicTypeSize)
     private var dynamicTypeSize
     @Environment(\.horizontalSizeClass)
-    private var horizontalSizeClass // for iPad or landscape we want to stay horizontal
+    private var horizontalSizeClass
 
 #if os(iOS)
     @State private var orientation = UIDevice.current.orientation
@@ -99,23 +99,24 @@ public struct DynamicHStack<Content: View>: View {
 #endif
     }
 
+    private var isHorizontalLayout: Bool {
+        horizontalSizeClass == .regular || isLandscape || dynamicTypeSize <= realignAfter
+    }
+
     public var body: some View {
-        ZStack {
-            if horizontalSizeClass == .regular || isLandscape || dynamicTypeSize <= realignAfter {
-                HStack(alignment: horizontalAlignment, spacing: spacing) {
-                    content
-                }
-                    .preference(key: DynamicLayout.self, value: .horizontal)
-            } else {
-                VStack(alignment: verticalAlignment, spacing: spacing) {
-                    content
-                }
-                .   preference(key: DynamicLayout.self, value: .vertical)
-            }
+        let layout = isHorizontalLayout
+            ? AnyLayout(HStackLayout(alignment: horizontalAlignment, spacing: spacing))
+            : AnyLayout(VStackLayout(alignment: verticalAlignment, spacing: spacing))
+
+        // Use of `AnyLayout` allows us to dynamically change the type of layout container
+        // without destroying the state of the subviews!
+        layout {
+            content
+                .preference(key: DynamicLayout.self, value: isHorizontalLayout ? .horizontal : .vertical)
         }
-#if os(iOS)
+            #if os(iOS)
             .observeOrientationChanges($orientation)
-#endif
+            #endif
     }
 
 
