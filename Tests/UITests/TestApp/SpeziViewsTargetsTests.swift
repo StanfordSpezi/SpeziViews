@@ -28,6 +28,11 @@ struct SpeziViewsTargetsTests: View {
                 Button("SpeziValidation") {
                     presentingSpeziValidation = true
                 }
+                #if canImport(PencilKit) && !os(macOS)
+                NavigationLink("CanvasTest") {
+                    CanvasTestView()
+                }
+                #endif
 
                 Section {
                     NavigationLink("ViewState") {
@@ -48,13 +53,13 @@ struct SpeziViewsTargetsTests: View {
                 .navigationTitle("Targets")
         }
             .sheet(isPresented: $presentingSpeziViews) {
-                TestAppTestsView<SpeziViewsTests>()
+                TestAppTestsView<SpeziViewsTests>(showCloseButton: true)
             }
             .sheet(isPresented: $presentingSpeziPersonalInfo) {
-                TestAppTestsView<SpeziPersonalInfoTests>()
+                TestAppTestsView<SpeziPersonalInfoTests>(showCloseButton: true)
             }
             .sheet(isPresented: $presentingSpeziValidation) {
-                TestAppTestsView<SpeziValidationTests>()
+                TestAppTestsView<SpeziValidationTests>(showCloseButton: true)
             }
     }
 }

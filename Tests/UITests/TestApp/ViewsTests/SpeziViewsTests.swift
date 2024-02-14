@@ -12,9 +12,13 @@ import XCTestApp
 
 
 enum SpeziViewsTests: String, TestAppTests {
+    #if canImport(PencilKit) && !os(macOS)
     case canvas = "Canvas"
+    #endif
     case geometryReader = "Geometry Reader"
+    #if !os(macOS)
     case label = "Label"
+    #endif
     case lazyText = "Lazy Text"
     case markdownView = "Markdown View"
     case viewState = "View State"
@@ -26,16 +30,19 @@ enum SpeziViewsTests: String, TestAppTests {
     case listRow = "List Row"
     
     
+    #if canImport(PencilKit) && !os(macOS)
     @ViewBuilder
     private var canvas: some View {
         CanvasTestView()
     }
-    
+    #endif
+
     @ViewBuilder
     private var geometryReader: some View {
         GeometryReaderTestView()
     }
     
+    #if !os(macOS)
     @ViewBuilder
     private var label: some View {
         Label(
@@ -54,7 +61,8 @@ enum SpeziViewsTests: String, TestAppTests {
         )
             .border(.red)
     }
-    
+    #endif
+
     @ViewBuilder
     private var markdownView: some View {
         MarkdownViewTestView()
@@ -118,12 +126,16 @@ enum SpeziViewsTests: String, TestAppTests {
 
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {  // swiftlint:disable:this cyclomatic_complexity
         switch self {
+        #if canImport(PencilKit) && !os(macOS)
         case .canvas:
             canvas
+        #endif
         case .geometryReader:
             geometryReader
+        #if !os(macOS)
         case .label:
             label
+        #endif
         case .lazyText:
             lazyText
         case .markdownView:

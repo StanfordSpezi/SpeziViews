@@ -25,25 +25,15 @@ final class PersonalInfoViewsTests: XCTestCase {
     func testNameFields() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["Name Fields"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Name Fields"].tap()
+        XCTAssert(app.buttons["Name Fields"].waitForExistence(timeout: 2))
+        app.buttons["Name Fields"].tap()
 
         XCTAssert(app.staticTexts["First Name"].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["Last Name"].waitForExistence(timeout: 2))
 
-        #if os(visionOS)
-        app.textFields["enter your first name"].tap()
-        sleep(1)
-        app.typeText("Leland")
-
-        app.textFields["enter your last name"].tap()
-        sleep(1)
-        app.typeText("Stanford")
-
-        #else
+        print(app.textFields.debugDescription) // TODO: name fields don't look good on macOS
         try app.textFields["enter your first name"].enter(value: "Leland")
         try app.textFields["enter your last name"].enter(value: "Stanford")
-        #endif
 
         XCTAssert(app.textFields["Leland"].waitForExistence(timeout: 2))
         XCTAssert(app.textFields["Stanford"].waitForExistence(timeout: 2))
@@ -52,8 +42,8 @@ final class PersonalInfoViewsTests: XCTestCase {
     func testUserProfile() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["User Profile"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["User Profile"].tap()
+        XCTAssert(app.buttons["User Profile"].waitForExistence(timeout: 2))
+        app.buttons["User Profile"].tap()
 
         XCTAssertTrue(app.staticTexts["PS"].waitForExistence(timeout: 2))
         XCTAssertTrue(app.staticTexts["LS"].exists)

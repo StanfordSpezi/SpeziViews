@@ -25,8 +25,8 @@ final class ModelTests: XCTestCase {
     func testViewState() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["View State"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["View State"].tap()
+        XCTAssert(app.buttons["View State"].waitForExistence(timeout: 2))
+        app.buttons["View State"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
@@ -42,8 +42,8 @@ final class ModelTests: XCTestCase {
     func testOperationState() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["Operation State"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Operation State"].tap()
+        XCTAssert(app.buttons["Operation State"].waitForExistence(timeout: 2))
+        app.buttons["Operation State"].tap()
 
         XCTAssert(app.staticTexts["Operation State: someOperationStep"].waitForExistence(timeout: 2))
 
@@ -61,8 +61,8 @@ final class ModelTests: XCTestCase {
     func testViewStateMapper() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["View State Mapper"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["View State Mapper"].tap()
+        XCTAssert(app.buttons["View State Mapper"].waitForExistence(timeout: 2))
+        app.buttons["View State Mapper"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["Operation State: someOperationStep"].waitForExistence(timeout: 2))
@@ -84,8 +84,8 @@ final class ModelTests: XCTestCase {
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["Default Error Only"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Default Error Only"].tap()
+        XCTAssert(app.buttons["Default Error Only"].waitForExistence(timeout: 2))
+        app.buttons["Default Error Only"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 

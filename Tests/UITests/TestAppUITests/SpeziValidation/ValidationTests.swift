@@ -56,9 +56,13 @@ final class ValidationTests: XCTestCase {
         XCTAssertFalse(app.staticTexts[passwordMessage].exists)
         XCTAssertTrue(app.staticTexts[emptyMessage].exists)
 
-        print(app.switches["Switch Focus"].debugDescription)
+        #if os(macOS)
+        XCTAssertTrue(app.checkBoxes["Switch Focus"].exists)
+        app.checkBoxes["Switch Focus"].tap()
+        #else
         XCTAssertTrue(app.switches["Switch Focus"].exists)
         try XCTUnwrap(app.switches.allElementsBoundByIndex.last).tap() // toggles automatic focus switch off
+        #endif
 
         app.buttons["Validate"].tap()
 
@@ -66,7 +70,11 @@ final class ValidationTests: XCTestCase {
         app.dismissKeyboard()
 
         XCTAssertTrue(app.textFields["Hello World!"].waitForExistence(timeout: 0.5))
+        #if os(macOS)
+        app.checkBoxes["Switch Focus"].tap()
+        #else
         try XCTUnwrap(app.switches.allElementsBoundByIndex.last).tap() // toggles automatic focus switch on
+        #endif
 
         app.buttons["Validate"].tap()
 

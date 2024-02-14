@@ -10,6 +10,25 @@
     "Action executed" : {
 
     },
+    "Background text?" : {
+
+    },
+    "Canvas Size: none" : {
+
+    },
+    "Canvas Size: width %lf, height %lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Canvas Size: width %1$lf, height %2$lf"
+          }
+        }
+      }
+    },
+    "CanvasTest" : {
+
+    },
     "Credentials" : {
 
     },

@@ -23,6 +23,9 @@ final class ViewsTests: XCTestCase {
     }
 
     func testCanvas() throws {
+        #if !canImport(PencilKit) || os(macOS)
+        throw XCTSkip("PencilKit is not supported on this platform")
+        #endif
 #if targetEnvironment(simulator) && (arch(i386) || arch(x86_64))
         throw XCTSkip("PKCanvas view-related tests are currently skipped on Intel-based iOS simulators due to a metal bug on the simulator.")
 #endif
@@ -69,14 +72,17 @@ final class ViewsTests: XCTestCase {
     func testGeometryReader() throws {
         let app = XCUIApplication()
         
-        XCTAssert(app.collectionViews.buttons["Geometry Reader"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Geometry Reader"].tap()
+        XCTAssert(app.buttons["Geometry Reader"].waitForExistence(timeout: 2))
+        app.buttons["Geometry Reader"].tap()
         
         XCTAssert(app.staticTexts["300.000000"].exists)
         XCTAssert(app.staticTexts["200.000000"].exists)
     }
     
     func testLabel() throws {
+        #if os(macOS)
+        throw XCTSkip("Label is not supported on non-UIKit platforms")
+        #endif
         let app = XCUIApplication()
         
         XCTAssert(app.collectionViews.buttons["Label"].waitForExistence(timeout: 2))
@@ -93,8 +99,8 @@ final class ViewsTests: XCTestCase {
     func testLazyText() throws {
         let app = XCUIApplication()
         
-        XCTAssert(app.collectionViews.buttons["Lazy Text"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Lazy Text"].tap()
+        XCTAssert(app.buttons["Lazy Text"].waitForExistence(timeout: 2))
+        app.buttons["Lazy Text"].tap()
         
         XCTAssert(app.staticTexts["This is a long text ..."].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["And some more lines ..."].exists)
@@ -105,8 +111,8 @@ final class ViewsTests: XCTestCase {
     func testMarkdownView() throws {
         let app = XCUIApplication()
         
-        XCTAssert(app.collectionViews.buttons["Markdown View"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Markdown View"].tap()
+        XCTAssert(app.buttons["Markdown View"].waitForExistence(timeout: 2))
+        app.buttons["Markdown View"].tap()
         
         XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
 

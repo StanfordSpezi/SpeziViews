@@ -29,7 +29,9 @@ struct ValidationExample: View {
                 VerifiableTextField("Password", text: $password, type: .secure)
                     .validate(input: password, rules: .minimalPassword)
             }
+                #if !os(macOS)
                 .textInputAutocapitalization(.never)
+                #endif
                 .autocorrectionDisabled(true)
 
             Section {
@@ -40,7 +42,9 @@ struct ValidationExample: View {
             }
         }
             .navigationTitle("Signup")
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .navigationBarBackButtonHidden(backButtonHidden)
             .receiveValidation(in: $validation)
             .toolbar {

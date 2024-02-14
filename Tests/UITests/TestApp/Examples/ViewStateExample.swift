@@ -38,7 +38,9 @@ struct ViewStateExample: View {
                         .padding()
                 }
                     .navigationTitle("Reset Password")
+                    #if !os(macOS)
                     .navigationBarTitleDisplayMode(.inline)
+                    #endif
                     .viewStateAlert(state: $viewState)
                     .frame(maxWidth: .infinity, minHeight: proxy.size.height)
             }
@@ -54,9 +56,11 @@ struct ViewStateExample: View {
             .validate(input: emailAddress, rules: .minimalEmail)
             .textFieldStyle(.roundedBorder)
             .autocorrectionDisabled(true)
+            #if !os(macOS)
             .textInputAutocapitalization(.never)
-            .textContentType(.username)
             .keyboardType(.emailAddress)
+            #endif
+            .textContentType(.username)
             .font(.title3)
 
         Spacer()
