@@ -20,6 +20,7 @@ final class SnapshotTests: XCTestCase {
             }
         }
 
+
         let largeRow = row
             .dynamicTypeSize(.accessibility3)
 
