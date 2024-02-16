@@ -94,4 +94,4 @@ jobs:
     needs: [buildandtest_ios, buildandtest_visionos, buildandtest_watchos, buildandtest_tvos, buildandtest_macos, buildandtestuitests_ios, buildandtestuitests_ipad, buildandtestuitests_visionos]
     uses: StanfordSpezi/.github/.github/workflows/create-and-upload-coverage-report.yml@v2
     with:
-      coveragereports: SpeziViews-iOS.xcresult SpeziViews-watchOS.xcresult SpeziViews-visionOS.xcresult SpeziViews-tvOS.xcresult TestApp-iOS.xcresult TestApp-iPad.xcresult TestApp-visionOS.xcresult TestApp-macOS.xcresult
+      coveragereports: SpeziViews-iOS.xcresult SpeziViews-watchOS.xcresult SpeziViews-visionOS.xcresult SpeziViews-tvOS.xcresult TestApp-iOS.xcresult TestApp-iPad.xcresult TestApp-visionOS.xcresult
