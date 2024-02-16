@@ -23,9 +23,10 @@ final class ViewsTests: XCTestCase {
     }
 
     func testCanvas() throws {
-        #if !canImport(PencilKit) || os(macOS)
+#if !canImport(PencilKit) || os(macOS)
         throw XCTSkip("PencilKit is not supported on this platform")
-        #endif
+#endif
+        
 #if targetEnvironment(simulator) && (arch(i386) || arch(x86_64))
         throw XCTSkip("PKCanvas view-related tests are currently skipped on Intel-based iOS simulators due to a metal bug on the simulator.")
 #endif
@@ -138,11 +139,17 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.buttons["Hello Throwing World"].exists)
         app.buttons["Hello Throwing World"].tap()
 
-        XCTAssert(app.alerts.staticTexts["Custom Error"].waitForExistence(timeout: 1))
-        XCTAssert(app.alerts.staticTexts["Error was thrown!"].waitForExistence(timeout: 1))
-        app.alerts.buttons["OK"].tap()
+#if os(macOS)
+        let alerts = app.sheets
+#else
+        let alerts = app.alerts
+#endif
 
-        XCTAssert(app.collectionViews.buttons["Hello Throwing World"].isEnabled)
+        XCTAssert(alerts.staticTexts["Custom Error"].waitForExistence(timeout: 1))
+        XCTAssert(alerts.staticTexts["Error was thrown!"].waitForExistence(timeout: 1))
+        alerts.buttons["OK"].tap()
+
+        XCTAssert(app.buttons["Hello Throwing World"].isEnabled)
     }
 
     func testListRowAccessibility() throws {

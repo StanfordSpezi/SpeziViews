@@ -49,11 +49,17 @@ public struct NameFieldRow<Description: View, Label: View>: View {
 
 
     public var body: some View {
-        DescriptionGridRow {
-            description
-        } content: {
-            NameTextField(name: $name, for: component) {
-                label
+        if #available(macOS 12, *), let label = label as? Text {
+            NameTextField(name: $name, for: component, prompt: label) {
+                description
+            }
+        } else {
+            DescriptionGridRow {
+                description
+            } content: {
+                NameTextField(name: $name, for: component) {
+                    label
+                }
             }
         }
     }

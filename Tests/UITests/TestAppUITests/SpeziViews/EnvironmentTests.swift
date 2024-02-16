@@ -32,10 +32,14 @@ final class EnvironmentTests: XCTestCase {
 
         sleep(12)
 
-        print(app.alerts.debugDescription)
-        XCTAssert(app.alerts.staticTexts["This is a default error description!"].exists)
-        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        app.alerts.buttons["OK"].tap()
+#if os(macOS)
+        let alerts = app.sheets
+#else
+        let alerts = app.alerts
+#endif
+        XCTAssert(alerts.staticTexts["This is a default error description!"].exists)
+        XCTAssert(alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
         app.staticTexts["View State: idle"].tap()

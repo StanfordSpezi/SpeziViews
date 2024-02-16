@@ -15,6 +15,24 @@ struct SpeziViewsTargetsTests: View {
     @State var presentingSpeziPersonalInfo = false
     @State var presentingSpeziValidation = false
 
+#if os(macOS)
+    @MainActor
+    private var idealWidth: CGFloat {
+        guard let width = NSApp.keyWindow?.contentView?.bounds.width else {
+            return 500
+        }
+        return max(width - 100, 300)
+    }
+
+    @MainActor
+    private var idealHeight: CGFloat {
+        guard let height = NSApp.keyWindow?.contentView?.bounds.height else {
+            return 400
+        }
+        return max(height - 50, 250)
+    }
+#endif
+
 
     var body: some View {
         NavigationStack {
@@ -54,12 +72,21 @@ struct SpeziViewsTargetsTests: View {
         }
             .sheet(isPresented: $presentingSpeziViews) {
                 TestAppTestsView<SpeziViewsTests>(showCloseButton: true)
+#if os(macOS)
+                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+#endif
             }
             .sheet(isPresented: $presentingSpeziPersonalInfo) {
                 TestAppTestsView<SpeziPersonalInfoTests>(showCloseButton: true)
+#if os(macOS)
+                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+#endif
             }
             .sheet(isPresented: $presentingSpeziValidation) {
                 TestAppTestsView<SpeziValidationTests>(showCloseButton: true)
+#if os(macOS)
+                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+#endif
             }
     }
 }

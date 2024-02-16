@@ -84,7 +84,7 @@ struct DescriptionGridRow_Previews: PreviewProvider {
             }
         }
             .padding(32)
-        #if !os(tvOS)
+        #if !os(tvOS) && !os(macOS)
             .background(Color(.systemGroupedBackground))
         #endif
     }
