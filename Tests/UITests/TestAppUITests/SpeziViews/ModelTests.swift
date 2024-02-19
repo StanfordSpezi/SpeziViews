@@ -25,16 +25,27 @@ final class ModelTests: XCTestCase {
     func testViewState() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["View State"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["View State"].tap()
+        XCTAssert(app.buttons["View State"].waitForExistence(timeout: 2))
+        app.buttons["View State"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
+        addUIInterruptionMonitor(withDescription: "Alerts") { element in
+            print("There is a alert?")
+            print(element.debugDescription)
+            return false
+        }
         sleep(12)
 
-        XCTAssert(app.alerts.staticTexts["Error Description"].exists)
-        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        app.alerts.buttons["OK"].tap()
+        #if os(macOS)
+        let alerts = app.sheets
+        #else
+        let alerts = app.alerts
+        #endif
+
+        XCTAssert(alerts.staticTexts["Error Description"].exists)
+        XCTAssert(alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
     }
@@ -42,58 +53,89 @@ final class ModelTests: XCTestCase {
     func testOperationState() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["Operation State"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Operation State"].tap()
+        XCTAssert(app.buttons["Operation State"].waitForExistence(timeout: 2))
+        app.buttons["Operation State"].tap()
 
         XCTAssert(app.staticTexts["Operation State: someOperationStep"].waitForExistence(timeout: 2))
 
         sleep(12)
 
-        XCTAssert(app.alerts.staticTexts["Error Description"].exists)
-        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        app.alerts.buttons["OK"].tap()
+#if os(macOS)
+        let alerts = app.sheets
+#else
+        let alerts = app.alerts
+#endif
+
+        XCTAssert(alerts.staticTexts["Error Description"].exists)
+        XCTAssert(alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        alerts.buttons["OK"].tap()
 
         sleep(2)
 
-        XCTAssert(app.staticTexts["operationState"].label.contains("Operation State: error"))
+        let textField = app.staticTexts["operationState"]
+#if os(macOS)
+        let content = try XCTUnwrap(XCTUnwrap(textField.value) as? String)
+#else
+        let content = textField.label
+#endif
+        XCTAssert(content.contains("Operation State: error"))
     }
     
     func testViewStateMapper() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["View State Mapper"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["View State Mapper"].tap()
+        XCTAssert(app.buttons["View State Mapper"].waitForExistence(timeout: 2))
+        app.buttons["View State Mapper"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
         XCTAssert(app.staticTexts["Operation State: someOperationStep"].waitForExistence(timeout: 2))
 
         sleep(12)
 
-        XCTAssert(app.alerts.staticTexts["Error Description"].exists)
-        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        app.alerts.buttons["OK"].tap()
+#if os(macOS)
+        let alerts = app.sheets
+#else
+        let alerts = app.alerts
+#endif
+
+        XCTAssert(alerts.staticTexts["Error Description"].exists)
+        XCTAssert(alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        alerts.buttons["OK"].tap()
 
         sleep(2)
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
         // Operation state must stay in the old state as it is not influenced by the dismissal
         // of the error alert (which moves the ViewState back to idle)
-        XCTAssert(app.staticTexts["operationState"].label.contains("Operation State: error"))
+
+        let textField = app.staticTexts["operationState"]
+        #if os(macOS)
+        let content = try XCTUnwrap(XCTUnwrap(textField.value) as? String)
+        #else
+        let content = textField.label
+        #endif
+        XCTAssert(content.contains("Operation State: error"))
     }
 
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["Default Error Only"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Default Error Only"].tap()
+        XCTAssert(app.buttons["Default Error Only"].waitForExistence(timeout: 2))
+        app.buttons["Default Error Only"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
         sleep(12)
 
-        XCTAssert(app.alerts.staticTexts["Error"].exists)
-        XCTAssert(app.alerts.staticTexts["Some error occurred!"].exists)
-        app.alerts.buttons["OK"].tap()
+#if os(macOS)
+        let alerts = app.sheets
+#else
+        let alerts = app.alerts
+#endif
+
+        XCTAssert(alerts.staticTexts["Error"].exists)
+        XCTAssert(alerts.staticTexts["Some error occurred!"].exists)
+        alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
     }

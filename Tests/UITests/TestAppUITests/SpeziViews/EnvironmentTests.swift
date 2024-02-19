@@ -25,16 +25,21 @@ final class EnvironmentTests: XCTestCase {
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
 
-        XCTAssert(app.collectionViews.buttons["Default Error Description"].waitForExistence(timeout: 2))
-        app.collectionViews.buttons["Default Error Description"].tap()
+        XCTAssert(app.buttons["Default Error Description"].waitForExistence(timeout: 2))
+        app.buttons["Default Error Description"].tap()
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
         sleep(12)
 
-        XCTAssert(app.alerts.staticTexts["This is a default error description!"].exists)
-        XCTAssert(app.alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
-        app.alerts.buttons["OK"].tap()
+#if os(macOS)
+        let alerts = app.sheets
+#else
+        let alerts = app.alerts
+#endif
+        XCTAssert(alerts.staticTexts["This is a default error description!"].exists)
+        XCTAssert(alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
         app.staticTexts["View State: idle"].tap()

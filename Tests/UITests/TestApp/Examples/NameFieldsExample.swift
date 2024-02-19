@@ -39,7 +39,9 @@ struct NameFieldsExample: View {
             }
         }
             .navigationTitle("Enter your details")
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .navigationBarBackButtonHidden(hideBackButton)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
