@@ -24,6 +24,10 @@ final class EnvironmentTests: XCTestCase {
 
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
+ 
+#if os(visionOS)
+        app.buttons["View State"].swipeUp()
+#endif
 
         XCTAssert(app.buttons["Default Error Description"].waitForExistence(timeout: 2))
         app.buttons["Default Error Description"].tap()
