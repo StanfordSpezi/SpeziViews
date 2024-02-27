@@ -26,6 +26,12 @@
     "CanvasTest" : {
 
     },
+    "Closure Condition present" : {
+
+    },
+    "Condition present" : {
+
+    },
     "Credentials" : {
 
     },
@@ -152,6 +158,12 @@
 
     },
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
+
+    },
+    "Toggle Closure Condition" : {
+
+    },
+    "Toggle Condition" : {
 
     },
     "Username" : {
