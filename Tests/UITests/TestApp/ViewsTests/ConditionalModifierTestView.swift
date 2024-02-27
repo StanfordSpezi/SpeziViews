@@ -41,7 +41,7 @@ struct ConditionalModifierTestView: View {
                 .padding(.top, 20)
             
             Button("Toggle Closure Condition") {
-                condition.toggle()
+                closureCondition.toggle()
             }
                 .buttonStyle(.borderedProminent)
         }
