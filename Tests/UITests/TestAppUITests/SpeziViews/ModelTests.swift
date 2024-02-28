@@ -116,6 +116,38 @@ final class ModelTests: XCTestCase {
         #endif
         XCTAssert(content.contains("Operation State: error"))
     }
+    
+    func testConditionalModifier() throws {
+        let app = XCUIApplication()
+
+        XCTAssert(app.buttons["Conditional Modifier"].waitForExistence(timeout: 2))
+        app.buttons["Conditional Modifier"].tap()
+
+        XCTAssert(app.staticTexts["Condition present"].waitForExistence(timeout: 1))
+        XCTAssert(app.staticTexts["Closure Condition present"].waitForExistence(timeout: 1))
+        
+        // Check regular condition
+        XCTAssert(app.buttons["Toggle Condition"].waitForExistence(timeout: 1))
+        app.buttons["Toggle Condition"].tap()
+        
+        XCTAssert(!app.staticTexts["Condition present"].waitForExistence(timeout: 2))
+        
+        XCTAssert(app.buttons["Toggle Condition"].waitForExistence(timeout: 1))
+        app.buttons["Toggle Condition"].tap()
+        
+        XCTAssert(app.staticTexts["Condition present"].waitForExistence(timeout: 2))
+        
+        // Check closure condition
+        XCTAssert(app.buttons["Toggle Closure Condition"].waitForExistence(timeout: 1))
+        app.buttons["Toggle Closure Condition"].tap()
+        
+        XCTAssert(!app.staticTexts["Closure Condition present"].waitForExistence(timeout: 2))
+        
+        XCTAssert(app.buttons["Toggle Closure Condition"].waitForExistence(timeout: 1))
+        app.buttons["Toggle Closure Condition"].tap()
+        
+        XCTAssert(app.staticTexts["Closure Condition present"].waitForExistence(timeout: 2))
+    }
 
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()

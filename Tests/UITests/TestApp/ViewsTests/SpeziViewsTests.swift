@@ -24,6 +24,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case viewState = "View State"
     case operationState = "Operation State"
     case viewStateMapper = "View State Mapper"
+    case conditionalModifier = "Conditional Modifier"
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
     case asyncButton = "Async Button"
@@ -98,6 +99,11 @@ enum SpeziViewsTests: String, TestAppTests {
     private var viewStateMapper: some View {
         ViewStateMapperTestView()
     }
+    
+    @ViewBuilder
+    private var conditionalModifier: some View {
+        ConditionalModifierTestView()
+    }
 
     @ViewBuilder
     private var defaultErrorOnly: some View {
@@ -146,6 +152,8 @@ enum SpeziViewsTests: String, TestAppTests {
             operationState
         case .viewStateMapper:
             viewStateMapper
+        case .conditionalModifier:
+            conditionalModifier
         case .defaultErrorOnly:
             defaultErrorOnly
         case .defaultErrorDescription:

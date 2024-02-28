@@ -21,6 +21,9 @@ authors:
 - family-names: "Bauer"
   given-names: "Andreas"
   orcid: "https://orcid.org/0000-0002-1680-237X"
+- family-names: "Zagar"
+  given-names: "Philipp"
+  orcid: "https://orcid.org/0009-0001-5934-2078"
 title: "SpeziViews"
 doi: 10.5281/zenodo.7806475
 url: "https://github.com/StanfordSpezi/SpeziViews"
