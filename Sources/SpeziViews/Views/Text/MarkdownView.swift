@@ -96,16 +96,18 @@ public struct MarkdownView: View {
     /// Parses the incoming markdown and handles the view's error state management.
     /// - Parameters:
     ///   - markdown: A `Data` instance containing the markdown file in an utf8 representation.
-    ///   Example: Data(
-    ///   " # This is a markdown example
+    ///   ```swift
+    ///   // Example
+    ///   Data(" # This is a markdown example
     ///    *This should be italiced* and **this bolded**").utf8
+    ///    ```
     /// - Returns: Parsed Markdown as an `AttributedString`
     @MainActor private func parse(markdown: Data) -> AttributedString {
         state = .processing
         
         guard let markdownString = try? AttributedString(
                 markdown: markdown,
-                options: .init(interpretedSyntax: .full)
+                options: .init(interpretedSyntax: .inlineOnly)
               ) else {
             state = .error(Error.markdownLoadingError)
             return AttributedString(
