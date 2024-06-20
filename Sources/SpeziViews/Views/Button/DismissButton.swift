@@ -42,6 +42,8 @@ public struct DismissButton: View {
             .buttonStyle(.plain)
 #endif
     }
+
+    public init() {}
 }
 
 
