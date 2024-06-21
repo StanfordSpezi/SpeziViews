@@ -95,3 +95,5 @@ jobs:
     uses: StanfordSpezi/.github/.github/workflows/create-and-upload-coverage-report.yml@v2
     with:
       coveragereports: SpeziViews-iOS.xcresult SpeziViews-watchOS.xcresult SpeziViews-visionOS.xcresult SpeziViews-tvOS.xcresult TestApp-iOS.xcresult TestApp-iPad.xcresult TestApp-visionOS.xcresult
+    secrets:
+      token: ${{ secrets.CODECOV_TOKEN }}
