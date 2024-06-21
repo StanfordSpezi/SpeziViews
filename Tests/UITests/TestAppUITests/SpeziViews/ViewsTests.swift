@@ -33,18 +33,12 @@ final class ViewsTests: XCTestCase {
 
         let app = XCUIApplication()
 
-        #if os(visionOS)
-        let paletteToolPencil = "palette_tool_pencil_band"
-        #else
-        let paletteToolPencil = "palette_tool_pencil_base"
-        #endif
-
 
         XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Canvas"].tap()
 
         XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
-        XCTAssertFalse(app.images[paletteToolPencil].waitForExistence(timeout: 2))
+        XCTAssertFalse(app.images["palette_tool_pencil_base"].waitForExistence(timeout: 2))
 
         let canvasView = app.scrollViews.firstMatch
         canvasView.swipeRight()
@@ -55,7 +49,12 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
 
-        XCTAssert(app.images[paletteToolPencil].waitForExistence(timeout: 10))
+        #if os(visionOS)
+        // visionOS doesn't have the image anymore, this should be enough to check
+        XCTAssert(app.scrollViews.otherElements["Pen, black"].waitForExistence(timeout: 2.0))
+        #else
+        XCTAssert(app.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
+        #endif
         canvasView.swipeLeft()
 
         sleep(1)
@@ -66,7 +65,7 @@ final class ViewsTests: XCTestCase {
         #endif
 
         sleep(15) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(app.images[paletteToolPencil].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
         canvasView.swipeUp()
     }
     
