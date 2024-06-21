@@ -32,4 +32,23 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-XA3")
 #endif
     }
+
+    func testReverseLabelStyle() {
+        let label = SwiftUI.Label("100 %", image: "battery.100")
+            .labelStyle(.reverse)
+
+#if os(iOS)
+        assertSnapshot(of: label, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+        assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
+#endif
+    }
+
+    func testDismissButton() {
+        let dismissButton = DismissButton()
+
+#if os(iOS)
+        assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+        assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
+#endif
+    }
 }
