@@ -30,6 +30,5 @@ struct UITestsApp: App {
             SpeziViewsTargetsTests()
                 .spezi(delegate)
         }
-
     }
 }
