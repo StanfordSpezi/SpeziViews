@@ -11,6 +11,7 @@ import XCTestExtensions
 
 
 final class EnvironmentTests: XCTestCase {
+    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
@@ -22,6 +23,7 @@ final class EnvironmentTests: XCTestCase {
         app.open(target: "SpeziViews")
     }
 
+    @MainActor
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
  

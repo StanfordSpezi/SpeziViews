@@ -11,6 +11,7 @@ import XCTestExtensions
 
 
 final class PersonalInfoViewsTests: XCTestCase {
+    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
@@ -22,6 +23,7 @@ final class PersonalInfoViewsTests: XCTestCase {
         app.open(target: "SpeziPersonalInfo")
     }
 
+    @MainActor
     func testNameFields() throws {
         let app = XCUIApplication()
 
@@ -38,6 +40,7 @@ final class PersonalInfoViewsTests: XCTestCase {
         XCTAssert(app.textFields["Stanford"].waitForExistence(timeout: 2))
     }
 
+    @MainActor
     func testUserProfile() throws {
         let app = XCUIApplication()
 

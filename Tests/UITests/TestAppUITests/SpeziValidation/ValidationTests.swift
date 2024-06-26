@@ -11,6 +11,7 @@ import XCTestExtensions
 
 
 final class ValidationTests: XCTestCase {
+    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
@@ -22,6 +23,7 @@ final class ValidationTests: XCTestCase {
         app.open(target: "SpeziValidation")
     }
 
+    @MainActor
     func testDefaultRules() {
         let app = XCUIApplication()
 
@@ -29,6 +31,7 @@ final class ValidationTests: XCTestCase {
         app.buttons["ValidationRules"].tap()
     }
 
+    @MainActor
     func testValidationWithFocus() throws {
         let app = XCUIApplication()
 
