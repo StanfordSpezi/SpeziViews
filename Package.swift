@@ -12,6 +12,13 @@ import class Foundation.ProcessInfo
 import PackageDescription
 
 
+#if swift(<6)
+let swiftConcurrency: SwiftSetting = .enableExperimentalFeature("SwiftConcurrency")
+#else
+let swiftConcurrency: SwiftSetting = .enableUpcomingFeature("SwiftConcurrency")
+#endif
+
+
 let package = Package(
     name: "SpeziViews",
     defaultLocalization: "en",
@@ -39,7 +46,7 @@ let package = Package(
                 .product(name: "Spezi", package: "Spezi")
             ],
             swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
+                swiftConcurrency
             ],
             plugins: [] + swiftLintPlugin()
         ),
@@ -49,7 +56,7 @@ let package = Package(
                 .target(name: "SpeziViews")
             ],
             swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
+                swiftConcurrency
             ],
             plugins: [] + swiftLintPlugin()
         ),
@@ -60,7 +67,7 @@ let package = Package(
                 .product(name: "OrderedCollections", package: "swift-collections")
             ],
             swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
+                swiftConcurrency
             ],
             plugins: [] + swiftLintPlugin()
         ),
@@ -72,7 +79,7 @@ let package = Package(
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ],
             swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
+                swiftConcurrency
             ],
             plugins: [] + swiftLintPlugin()
         )
