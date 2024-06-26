@@ -95,3 +95,10 @@ Automatically adapt your view layouts to dynamic type sizes, device orientation,
 
 - ``AnyLocalizedError``
 - ``SwiftUI/EnvironmentValues/defaultErrorDescription``
+
+### Modules
+
+- ``ConfigureTipKit``
+
+### System Programming Interfaces
+- <doc:SPI>

@@ -11,6 +11,7 @@ import XCTestExtensions
 
 
 final class ViewsTests: XCTestCase {
+    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
@@ -22,6 +23,7 @@ final class ViewsTests: XCTestCase {
         app.open(target: "SpeziViews")
     }
 
+    @MainActor
     func testCanvas() throws {
 #if !canImport(PencilKit) || os(macOS)
         throw XCTSkip("PencilKit is not supported on this platform")
@@ -69,6 +71,7 @@ final class ViewsTests: XCTestCase {
         canvasView.swipeUp()
     }
     
+    @MainActor
     func testGeometryReader() throws {
         let app = XCUIApplication()
         
@@ -79,6 +82,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["200.000000"].exists)
     }
     
+    @MainActor
     func testLabel() throws {
         #if os(macOS)
         throw XCTSkip("Label is not supported on non-UIKit platforms")
@@ -96,6 +100,7 @@ final class ViewsTests: XCTestCase {
         XCTAssertEqual(app.staticTexts.allElementsBoundByIndex.filter { $0.label.replacingOccurrences(of: "\n", with: " ").contains(text) }.count, 2)
     }
     
+    @MainActor
     func testLazyText() throws {
         let app = XCUIApplication()
         
@@ -108,6 +113,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["An other lazy text ..."].exists)
     }
     
+    @MainActor
     func testMarkdownView() throws {
         let app = XCUIApplication()
         
@@ -121,6 +127,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["This is a markdown example taking 5 seconds to load."].exists)
     }
 
+    @MainActor
     func testAsyncButtonView() throws {
         let app = XCUIApplication()
 
@@ -151,6 +158,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.buttons["Hello Throwing World"].isEnabled)
     }
 
+    @MainActor
     func testListRowAccessibility() throws {
         let app = XCUIApplication()
 

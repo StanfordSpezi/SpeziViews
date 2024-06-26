@@ -33,6 +33,7 @@
 		A99A65122AF57CA200E63582 /* FocusedValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A65112AF57CA200E63582 /* FocusedValidationTests.swift */; };
 		A99A65152AF5923800E63582 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A65142AF5923800E63582 /* ValidationTests.swift */; };
 		A9A3535B2AF60A9E00661848 /* DefaultValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3535A2AF60A9E00661848 /* DefaultValidationRules.swift */; };
+		A9BA82B42C29FF7C00472FF3 /* Spezi in Frameworks */ = {isa = PBXBuildFile; productRef = A9BA82B32C29FF7C00472FF3 /* Spezi */; };
 		A9F85B702B32A041005F16E6 /* ValidationExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F85B6F2B32A041005F16E6 /* ValidationExample.swift */; };
 		A9F85B722B32A052005F16E6 /* NameFieldsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F85B712B32A052005F16E6 /* NameFieldsExample.swift */; };
 		A9F85B742B32A05C005F16E6 /* ViewStateExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F85B732B32A05C005F16E6 /* ViewStateExample.swift */; };
@@ -93,6 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */,
+				A9BA82B42C29FF7C00472FF3 /* Spezi in Frameworks */,
 				A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */,
 				977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */,
 				A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */,
@@ -257,6 +259,7 @@
 				977CF55B2AD2B92C006D9B54 /* XCTestApp */,
 				A95B6E642AF4298500919504 /* SpeziPersonalInfo */,
 				A963ACAF2AF4692500D745F2 /* SpeziValidation */,
+				A9BA82B32C29FF7C00472FF3 /* Spezi */,
 			);
 			productName = Example;
 			productReference = 2F6D139228F5F384007C25D6 /* TestApp.app */;
@@ -291,7 +294,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					2F6D139128F5F384007C25D6 = {
 						CreatedOnToolsVersion = 14.1;
@@ -314,6 +317,7 @@
 			mainGroup = 2F6D138928F5F384007C25D6;
 			packageReferences = (
 				977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */,
+				A9BA82B22C29FF7C00472FF3 /* XCRemoteSwiftPackageReference "Spezi" */,
 			);
 			productRefGroup = 2F6D139328F5F384007C25D6 /* Products */;
 			projectDirPath = "";
@@ -433,6 +437,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -454,6 +459,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TVOS_DEPLOYMENT_TARGET = 17.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
@@ -496,6 +502,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -510,6 +517,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TVOS_DEPLOYMENT_TARGET = 17.0;
 				VALIDATE_PRODUCT = YES;
 				XROS_DEPLOYMENT_TARGET = 1.0;
@@ -671,6 +679,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -692,6 +701,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TVOS_DEPLOYMENT_TARGET = 17.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
@@ -800,6 +810,14 @@
 				minimumVersion = 0.4.9;
 			};
 		};
+		A9BA82B22C29FF7C00472FF3 /* XCRemoteSwiftPackageReference "Spezi" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/StanfordSpezi/Spezi.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -824,6 +842,11 @@
 		A963ACAF2AF4692500D745F2 /* SpeziValidation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SpeziValidation;
+		};
+		A9BA82B32C29FF7C00472FF3 /* Spezi */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9BA82B22C29FF7C00472FF3 /* XCRemoteSwiftPackageReference "Spezi" */;
+			productName = Spezi;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

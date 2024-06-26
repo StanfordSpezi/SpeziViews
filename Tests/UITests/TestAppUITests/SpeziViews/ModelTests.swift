@@ -11,6 +11,7 @@ import XCTestExtensions
 
 
 final class ModelTests: XCTestCase {
+    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
@@ -22,6 +23,7 @@ final class ModelTests: XCTestCase {
         app.open(target: "SpeziViews")
     }
 
+    @MainActor
     func testViewState() throws {
         let app = XCUIApplication()
 
@@ -50,6 +52,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))
     }
     
+    @MainActor
     func testOperationState() throws {
         let app = XCUIApplication()
 
@@ -81,6 +84,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(content.contains("Operation State: error"))
     }
     
+    @MainActor
     func testViewStateMapper() throws {
         let app = XCUIApplication()
 
@@ -117,6 +121,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(content.contains("Operation State: error"))
     }
     
+    @MainActor
     func testConditionalModifier() throws {
         let app = XCUIApplication()
 
@@ -149,6 +154,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(app.staticTexts["Closure Condition present"].waitForExistence(timeout: 2))
     }
 
+    @MainActor
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
 
