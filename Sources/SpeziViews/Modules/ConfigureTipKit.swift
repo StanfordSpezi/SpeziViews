@@ -13,9 +13,13 @@ import TipKit
 
 /// Configure TipKit.
 ///
-/// This module allows to easily and globally configure TipKit by calling `Tips/configure(_:)`.
+/// This module allows to easily and globally configure [TipKit](https://developer.apple.com/documentation/TipKit) by calling
+/// [`Tips/configure(_:)`](https://developer.apple.com/documentation/tipkit/tips/configure(_:)).
 /// You can use the Spezi Dependency system to require TipKit to be configured or can use the `@Environment` property wrapper in your
 /// SwiftUI views to verify that TipKit was configured when using TipKit-based View components.
+///
+/// - Note: The Module will automatically [`showAllTipsForTesting()`](https://developer.apple.com/documentation/tipkit/tips/showalltipsfortesting())
+///     if either the Module is initialized within a SwiftUI preview or the `testingTips` <doc:SPI#RuntimeConfig> is supplied via the command line. 
 public class ConfigureTipKit: Module, DefaultInitializable, EnvironmentAccessible {
     private let configuration: [Tips.ConfigurationOption]
 

@@ -8,6 +8,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+import class Foundation.ProcessInfo
 import PackageDescription
 
 
@@ -29,23 +30,28 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/StanfordSpezi/Spezi.git", from: "1.3.0"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.0"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.15.3"),
-        .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMinor(from: "0.55.1"))
-    ],
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.15.3")
+    ] + swiftLintPackage(),
     targets: [
         .target(
             name: "SpeziViews",
             dependencies: [
                 .product(name: "Spezi", package: "Spezi")
             ],
-            plugins: [.swiftLintPlugin]
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ],
+            plugins: [] + swiftLintPlugin()
         ),
         .target(
             name: "SpeziPersonalInfo",
             dependencies: [
                 .target(name: "SpeziViews")
             ],
-            plugins: [.swiftLintPlugin]
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ],
+            plugins: [] + swiftLintPlugin()
         ),
         .target(
             name: "SpeziValidation",
@@ -53,7 +59,10 @@ let package = Package(
                 .target(name: "SpeziViews"),
                 .product(name: "OrderedCollections", package: "swift-collections")
             ],
-            plugins: [.swiftLintPlugin]
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ],
+            plugins: [] + swiftLintPlugin()
         ),
         .testTarget(
             name: "SpeziViewsTests",
@@ -62,14 +71,28 @@ let package = Package(
                 .target(name: "SpeziValidation"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ],
-            plugins: [.swiftLintPlugin]
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ],
+            plugins: [] + swiftLintPlugin()
         )
     ]
 )
 
 
-extension Target.PluginUsage {
-    static var swiftLintPlugin: Target.PluginUsage {
-        .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLint")
+func swiftLintPlugin() -> [Target.PluginUsage] {
+    // Fully quit Xcode and open again with `open --env SPEZI_DEVELOPMENT_SWIFTLINT /Applications/Xcode.app`
+    if ProcessInfo.processInfo.environment["SPEZI_DEVELOPMENT_SWIFTLINT"] != nil {
+        [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLint")]
+    } else {
+        []
+    }
+}
+
+func swiftLintPackage() -> [PackageDescription.Package.Dependency] {
+    if ProcessInfo.processInfo.environment["SPEZI_DEVELOPMENT_SWIFTLINT"] != nil {
+        [.package(url: "https://github.com/realm/SwiftLint.git", .upToNextMinor(from: "0.55.1"))]
+    } else {
+        []
     }
 }
