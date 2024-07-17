@@ -39,6 +39,9 @@ extension ValidationEngine {
 }
 
 
+extension ValidationEngine.Configuration: Sendable {}
+
+
 extension EnvironmentValues {
     /// Access the ``ValidationEngine/Configuration-swift.struct`` of a ValidationEngine through the environment.
     ///
