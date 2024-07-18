@@ -13,6 +13,7 @@ import XCTest
 
 
 final class SnapshotTests: XCTestCase {
+    @MainActor
     func testListRow() {
         let row = List {
             ListRow(verbatim: "San Francisco") {
@@ -33,6 +34,7 @@ final class SnapshotTests: XCTestCase {
 #endif
     }
 
+    @MainActor
     func testReverseLabelStyle() {
         let label = SwiftUI.Label("100 %", image: "battery.100")
             .labelStyle(.reverse)
@@ -43,6 +45,7 @@ final class SnapshotTests: XCTestCase {
 #endif
     }
 
+    @MainActor
     func testDismissButton() {
         let dismissButton = DismissButton()
 

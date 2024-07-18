@@ -63,11 +63,11 @@ enum CascadingValidationEffect {
 /// - ``minimalPassword``
 /// - ``mediumPassword``
 /// - ``strongPassword``
-public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
+public struct ValidationRule: Identifiable, Sendable, Equatable {
     // we guarantee that the closure is only executed on the main thread
     /// A unique identifier for the ``ValidationRule``. Can be used to, e.g., match a ``FailedValidationResult`` to the ValidationRule.
     public let id: UUID
-    private let rule: (String) -> Bool
+    private let rule: @Sendable (String) -> Bool
     /// A localized message that describes a recovery suggestion if the validation rule fails.
     public let message: LocalizedStringResource
     let effect: CascadingValidationEffect
@@ -76,7 +76,7 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     // swiftlint:disable:next function_default_parameter_at_end
     init(
         id: UUID = UUID(),
-        ruleClosure: @escaping (String) -> Bool,
+        ruleClosure: @escaping @Sendable (String) -> Bool,
         message: LocalizedStringResource,
         effect: CascadingValidationEffect = .continue
     ) {
@@ -92,7 +92,7 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     /// - Parameters:
     ///   - rule: An escaping closure that validates a `String` and returns a boolean result.
     ///   - message: A `String` message to display if validation fails.
-    public init(rule: @escaping (String) -> Bool, message: LocalizedStringResource) {
+    public init(rule: @escaping @Sendable (String) -> Bool, message: LocalizedStringResource) {
         self.init(ruleClosure: rule, message: message)
     }
 
@@ -102,7 +102,7 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     ///   - rule: An escaping closure that validates a `String` and returns a boolean result.
     ///   - message: A `String` message to display if validation fails.
     ///   - bundle: The Bundle to localize for.
-    public init(rule: @escaping (String) -> Bool, message: String.LocalizationValue, bundle: Bundle) {
+    public init(rule: @escaping @Sendable (String) -> Bool, message: String.LocalizationValue, bundle: Bundle) {
         self.init(ruleClosure: rule, message: LocalizedStringResource(message, bundle: .atURL(from: bundle)))
     }
     

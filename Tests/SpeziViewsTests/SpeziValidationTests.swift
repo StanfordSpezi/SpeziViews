@@ -12,7 +12,7 @@ import XCTest
 
 final class SpeziValidationTests: XCTestCase {
     @MainActor
-    func testValidationDebounce() {
+    func testValidationDebounce() async throws {
         let engine = ValidationEngine(rules: .nonEmpty)
 
         engine.submit(input: "Valid")
@@ -23,7 +23,7 @@ final class SpeziValidationTests: XCTestCase {
         XCTAssertTrue(engine.inputValid)
         XCTAssertEqual(engine.validationResults, [])
 
-        sleep(1)
+        try await Task.sleep(for: .seconds(1))
         XCTAssertFalse(engine.inputValid)
         XCTAssertEqual(engine.validationResults.count, 1)
 
