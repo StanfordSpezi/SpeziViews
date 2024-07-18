@@ -37,7 +37,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/StanfordSpezi/Spezi.git", from: "1.3.0"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.0"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", .upToNextMinor(from: "1.15.0"))
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.17.0")
     ] + swiftLintPackage(),
     targets: [
         .target(
