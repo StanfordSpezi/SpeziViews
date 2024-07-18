@@ -131,7 +131,8 @@ final class ViewsTests: XCTestCase {
     func testAsyncButtonView() throws {
         let app = XCUIApplication()
 
-        app.buttons["View State"].swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
+        app.buttons["View State"].swipeUp(velocity: .fast) // on visionOS the AsyncButton is out of the frame due to the window size
 
         XCTAssert(app.buttons["Async Button"].waitForExistence(timeout: 2))
         app.buttons["Async Button"].tap()
@@ -162,7 +163,8 @@ final class ViewsTests: XCTestCase {
     func testListRowAccessibility() throws {
         let app = XCUIApplication()
 
-        app.buttons["View State"].swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
+        app.buttons["View State"].swipeUp(velocity: .fast) // on visionOS the AsyncButton is out of the frame due to the window size
 
         XCTAssert(app.buttons["List Row"].waitForExistence(timeout: 2))
         app.buttons["List Row"].tap()
