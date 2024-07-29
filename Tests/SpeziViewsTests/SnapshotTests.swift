@@ -49,6 +49,7 @@ final class SnapshotTests: XCTestCase {
     func testDismissButton() {
         let dismissButton = DismissButton()
 
+
 #if os(iOS)
         assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
         assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
