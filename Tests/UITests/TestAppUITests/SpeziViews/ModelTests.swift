@@ -85,7 +85,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(app.buttons["View State Mapper"].waitForExistence(timeout: 2))
         app.buttons["View State Mapper"].tap()
 
-        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 1.0))
         XCTAssert(app.staticTexts["Operation State: someOperationStep"].exists)
 
 
