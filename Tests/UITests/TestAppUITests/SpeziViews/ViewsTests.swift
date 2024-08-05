@@ -67,7 +67,7 @@ final class ViewsTests: XCTestCase {
         #endif
 
         sleep(15) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(app.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.images["palette_tool_pencil_base"].exists)
         canvasView.swipeUp()
     }
     
@@ -121,10 +121,7 @@ final class ViewsTests: XCTestCase {
         app.buttons["Markdown View"].tap()
         
         XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
-
-        sleep(6)
-        
-        XCTAssert(app.staticTexts["This is a markdown example taking 5 seconds to load."].exists)
+        XCTAssert(app.staticTexts["This is a markdown example taking 5 seconds to load."].waitForExistence(timeout: 10))
     }
 
     @MainActor
