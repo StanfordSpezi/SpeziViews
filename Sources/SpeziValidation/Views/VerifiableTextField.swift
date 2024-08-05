@@ -30,7 +30,7 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
     @Binding private var text: String
 
     @Environment(ValidationEngine.self)
-    var validationEngine
+    var validationEngine: ValidationEngine?
 
     public var body: some View {
         VStack {
@@ -44,9 +44,11 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
             }
 
             HStack {
-                ValidationResultsView(results: validationEngine.displayedValidationResults)
+                if let validationEngine {
+                    ValidationResultsView(results: validationEngine.displayedValidationResults)
 
-                Spacer()
+                    Spacer()
+                }
 
                 textFieldFooter
             }
