@@ -59,6 +59,12 @@ final class ValidationTests: XCTestCase {
         XCTAssertFalse(app.staticTexts[passwordMessage].exists)
         XCTAssertTrue(app.staticTexts[emptyMessage].exists)
 
+#if os(visionOS)
+        throw XCTSkip(
+            "This test is flakey on visionOS as the keyboard might be in front of the application and taps below will trigger keyboard buttons!"
+        )
+#endif
+
         #if os(macOS)
         XCTAssertTrue(app.checkBoxes["Switch Focus"].exists)
         app.checkBoxes["Switch Focus"].tap()
