@@ -111,8 +111,12 @@ public struct ValidationRule: Identifiable, Sendable, Equatable {
     /// - Parameters:
     ///   - regex: A `Regex` regular expression to match for validating text. Note, the `wholeMatch` operation is used.
     ///   - message: A `LocalizedStringResource` message to display if validation fails.
-    public init(regex: Regex<AnyRegexOutput>, message: LocalizedStringResource) {
-        self.init(ruleClosure: { (try? regex.wholeMatch(in: $0) != nil) ?? false }, message: message)
+    public init<Output>(regex: Regex<Output>, message: LocalizedStringResource) {
+        // Regex might not be Sendable, depending how it was constructed (e.g., might capture a non-Sendable transform closure).
+        // This is still an issue that is actively discussed https://forums.swift.org/t/should-regex-be-sendable/69529
+        // so we are ignoring it for now.
+        nonisolated(unsafe) let regexTmp = regex
+        self.init(ruleClosure: { ( try? regexTmp.wholeMatch(in: $0) != nil) ?? false }, message: message)
     }
 
     /// Creates a validation rule from a regular expression.
@@ -121,7 +125,7 @@ public struct ValidationRule: Identifiable, Sendable, Equatable {
     ///   - regex: A `Regex` regular expression to match for validating text. Note, the `wholeMatch` operation is used.
     ///   - message: A `String` message to display if validation fails.
     ///   - bundle: The Bundle to localize for.
-    public init(regex: Regex<AnyRegexOutput>, message: String.LocalizationValue, bundle: Bundle) {
+    public init<Output>(regex: Regex<Output>, message: String.LocalizationValue, bundle: Bundle) {
         self.init(regex: regex, message: LocalizedStringResource(message, bundle: .atURL(from: bundle)))
     }
 
