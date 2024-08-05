@@ -132,7 +132,9 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
-        app.buttons["View State"].swipeUp(velocity: .fast) // on visionOS the AsyncButton is out of the frame due to the window size
+#if os(visionOS)
+        app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+#endif
 
         XCTAssert(app.buttons["Async Button"].waitForExistence(timeout: 2))
         app.buttons["Async Button"].tap()
@@ -164,7 +166,9 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
-        app.buttons["View State"].swipeUp(velocity: .fast) // on visionOS the AsyncButton is out of the frame due to the window size
+#if os(visionOS)
+        app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+#endif
 
         XCTAssert(app.buttons["List Row"].waitForExistence(timeout: 2))
         app.buttons["List Row"].tap()
