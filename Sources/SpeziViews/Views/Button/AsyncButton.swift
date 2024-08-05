@@ -37,8 +37,8 @@ enum AsyncButtonState {
 @MainActor
 public struct AsyncButton<Label: View>: View {
     private let role: ButtonRole?
-    private let action: () async throws -> Void
-    private let label: () -> Label
+    private let action: @MainActor () async throws -> Void
+    private let label: Label
 
     @Environment(\.defaultErrorDescription)
     var defaultErrorDescription
@@ -58,7 +58,7 @@ public struct AsyncButton<Label: View>: View {
 
     public var body: some View {
         Button(role: role, action: submitAction) {
-            label()
+            label
                 .processingOverlay(isProcessing: buttonState == .disabledAndProcessing || externallyProcessing)
         }
             .disabled(buttonState != .idle || externallyProcessing)
@@ -106,11 +106,11 @@ public struct AsyncButton<Label: View>: View {
     public init(
         role: ButtonRole? = nil,
         action: @escaping () async -> Void,
-        @ViewBuilder label: @escaping () -> Label
+        @ViewBuilder label: () -> Label
     ) {
         self.role = role
         self.action = action
-        self.label = label
+        self.label = label()
         self._viewState = .constant(.idle)
     }
 
@@ -167,7 +167,7 @@ public struct AsyncButton<Label: View>: View {
         self.role = role
         self._viewState = state
         self.action = action
-        self.label = label
+        self.label = label()
     }
 
 
