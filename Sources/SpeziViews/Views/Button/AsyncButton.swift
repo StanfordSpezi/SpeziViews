@@ -162,7 +162,7 @@ public struct AsyncButton<Label: View>: View {
         role: ButtonRole? = nil,
         state: Binding<ViewState>,
         action: @escaping () async throws -> Void,
-        @ViewBuilder label: @escaping () -> Label
+        @ViewBuilder label: () -> Label
     ) {
         self.role = role
         self._viewState = state
