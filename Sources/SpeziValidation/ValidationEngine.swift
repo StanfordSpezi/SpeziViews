@@ -196,6 +196,7 @@ public class ValidationEngine: Identifiable {
         computeValidation(input: input, source: .manual)
     }
 
+    @MainActor
     private func debounce(_ task: @escaping () -> Void) {
         debounceTask = Task {
             try? await Task.sleep(for: debounceDuration)

@@ -67,7 +67,7 @@ final class ViewsTests: XCTestCase {
         #endif
 
         sleep(15) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(app.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.images["palette_tool_pencil_base"].exists)
         canvasView.swipeUp()
     }
     
@@ -121,17 +121,17 @@ final class ViewsTests: XCTestCase {
         app.buttons["Markdown View"].tap()
         
         XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
-
-        sleep(6)
-        
-        XCTAssert(app.staticTexts["This is a markdown example taking 5 seconds to load."].exists)
+        XCTAssert(app.staticTexts["This is a markdown example taking 5 seconds to load."].waitForExistence(timeout: 10))
     }
 
     @MainActor
     func testAsyncButtonView() throws {
         let app = XCUIApplication()
 
-        app.buttons["View State"].swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
+#if os(visionOS)
+        app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+#endif
 
         XCTAssert(app.buttons["Async Button"].waitForExistence(timeout: 2))
         app.buttons["Async Button"].tap()
@@ -162,7 +162,10 @@ final class ViewsTests: XCTestCase {
     func testListRowAccessibility() throws {
         let app = XCUIApplication()
 
-        app.buttons["View State"].swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
+#if os(visionOS)
+        app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
+#endif
 
         XCTAssert(app.buttons["List Row"].waitForExistence(timeout: 2))
         app.buttons["List Row"].tap()

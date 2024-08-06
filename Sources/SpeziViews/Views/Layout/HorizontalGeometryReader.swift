@@ -12,7 +12,7 @@ import SwiftUI
 /// Enables outer views to get access to the current width calculated by the ``HorizontalGeometryReader``
 /// using the SwiftUI preference mechanisms.
 public struct WidthPreferenceKey: PreferenceKey, Equatable {
-    public static var defaultValue: CGFloat = 0
+    public static let defaultValue: CGFloat = 0
     
     
     public static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { }
