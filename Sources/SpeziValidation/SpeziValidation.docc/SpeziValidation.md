@@ -81,6 +81,7 @@ var body: some View {
 - ``ValidationRule``
 - ``SwiftUI/View/validate(input:rules:)-5dac4``
 - ``SwiftUI/View/validate(input:rules:)-9vks0``
+- ``SwiftUI/View/validate(_:message:)``
 
 ### Managing Validation
 
