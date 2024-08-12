@@ -11,21 +11,18 @@ import XCTestExtensions
 
 
 final class ValidationTests: XCTestCase {
-    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
         continueAfterFailure = false
-
-        let app = XCUIApplication()
-        app.launch()
-
-        app.open(target: "SpeziValidation")
     }
 
     @MainActor
     func testDefaultRules() {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziValidation")
 
         XCTAssert(app.buttons["ValidationRules"].waitForExistence(timeout: 2))
         app.buttons["ValidationRules"].tap()
@@ -34,6 +31,9 @@ final class ValidationTests: XCTestCase {
     @MainActor
     func testValidationWithFocus() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziValidation")
 
         let passwordMessage = "Your password must be at least 8 characters long."
         let emptyMessage = "This field cannot be empty."
@@ -99,5 +99,31 @@ final class ValidationTests: XCTestCase {
 
         XCTAssertTrue(app.textFields["Hello World!"].exists)
         XCTAssertTrue(app.textFields["Word"].exists)
+    }
+
+    @MainActor
+    func testValidationPredicate() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziValidation")
+
+        XCTAssert(app.buttons["Validation Picker"].waitForExistence(timeout: 2))
+        app.buttons["Validation Picker"].tap()
+
+        XCTAssertTrue(app.buttons["Cookies, Nothing selected"].waitForExistence(timeout: 2.0))
+        app.buttons["Cookies, Nothing selected"].tap()
+
+        XCTAssertTrue(app.buttons["Accept"].waitForExistence(timeout: 2.0))
+        app.buttons["Accept"].tap()
+
+        XCTAssertTrue(app.buttons["Cookies, Accept"].waitForExistence(timeout: 2.0))
+        app.buttons["Cookies, Accept"].tap()
+
+        XCTAssertTrue(app.buttons["Nothing selected"].waitForExistence(timeout: 2.0))
+        app.buttons["Nothing selected"].tap()
+
+        XCTAssertTrue(app.buttons["Cookies, Nothing selected"].waitForExistence(timeout: 2.0))
+        XCTAssertTrue(app.staticTexts["This field must be selected."].waitForExistence(timeout: 2.0))
     }
 }
