@@ -32,7 +32,6 @@ final class ValidationTests: XCTestCase {
     func testValidationWithFocus() throws {
         let app = XCUIApplication()
         app.launch()
-
         app.open(target: "SpeziValidation")
 
         let passwordMessage = "Your password must be at least 8 characters long."
@@ -60,9 +59,7 @@ final class ValidationTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[emptyMessage].exists)
 
 #if os(visionOS)
-        throw XCTSkip(
-            "This test is flakey on visionOS as the keyboard might be in front of the application and taps below will trigger keyboard buttons!"
-        )
+        throw XCTSkip("Test is flakey on visionOS as the keyboard might be in front of the application and taps below will trigger keyboard buttons!")
 #endif
 
         #if os(macOS)
