@@ -11,16 +11,10 @@ import XCTestExtensions
 
 
 final class ViewsTests: XCTestCase {
-    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
         continueAfterFailure = false
-
-        let app = XCUIApplication()
-        app.launch()
-
-        app.open(target: "SpeziViews")
     }
 
     @MainActor
@@ -34,47 +28,59 @@ final class ViewsTests: XCTestCase {
 #endif
 
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
+
+        #if os(visionOS)
+        // visionOS doesn't have the image anymore, this should be enough to check
+        let paletteView = app.scrollViews.otherElements["Pen, black"]
+        #else
+        let paletteView = app.images["palette_tool_pencil_base"]
+        #endif
 
 
         XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Canvas"].tap()
 
         XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
-        XCTAssertFalse(app.images["palette_tool_pencil_base"].waitForExistence(timeout: 2))
+        XCTAssertFalse(paletteView.exists)
 
         let canvasView = app.scrollViews.firstMatch
         canvasView.swipeRight()
         canvasView.swipeDown()
-        
+
         XCTAssert(app.staticTexts["Did Draw Anything: true"].waitForExistence(timeout: 2))
-        
+
         XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
 
-        #if os(visionOS)
-        // visionOS doesn't have the image anymore, this should be enough to check
-        XCTAssert(app.scrollViews.otherElements["Pen, black"].waitForExistence(timeout: 2.0))
-        #else
-        XCTAssert(app.images["palette_tool_pencil_base"].waitForExistence(timeout: 10))
-        #endif
+        XCTAssertTrue(paletteView.waitForExistence(timeout: 5))
         canvasView.swipeLeft()
 
-        sleep(1)
+        XCTAssertTrue(canvasView.waitForExistence(timeout: 2.0))
         app.buttons["Show Tool Picker"].tap()
         
         #if os(visionOS)
-        return // currently the pencilKit toolbar cannot be hidden anymore
+        return // the pencilKit toolbar cannot be hidden anymore on visionOS
         #endif
 
+#if compiler(>=6)
+        XCTAssertTrue(paletteView.waitForNonExistence(withTimeout: 15))
+#else
         sleep(15) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(app.images["palette_tool_pencil_base"].exists)
+        XCTAssertFalse(paletteView.exists)
+#endif
         canvasView.swipeUp()
     }
     
     @MainActor
     func testGeometryReader() throws {
         let app = XCUIApplication()
-        
+        app.launch()
+
+        app.open(target: "SpeziViews")
+
         XCTAssert(app.buttons["Geometry Reader"].waitForExistence(timeout: 2))
         app.buttons["Geometry Reader"].tap()
         
@@ -88,12 +94,15 @@ final class ViewsTests: XCTestCase {
         throw XCTSkip("Label is not supported on non-UIKit platforms")
         #endif
         let app = XCUIApplication()
-        
+        app.launch()
+
+        app.open(target: "SpeziViews")
+
         XCTAssert(app.collectionViews.buttons["Label"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Label"].tap()
 
         sleep(2)
-        
+
         // The string value needs to be searched for in the UI.
         // swiftlint:disable:next line_length
         let text = "This is a label ... An other text. This is longer and we can check if the justified text works as expected. This is a very long text."
@@ -103,7 +112,10 @@ final class ViewsTests: XCTestCase {
     @MainActor
     func testLazyText() throws {
         let app = XCUIApplication()
-        
+        app.launch()
+
+        app.open(target: "SpeziViews")
+
         XCTAssert(app.buttons["Lazy Text"].waitForExistence(timeout: 2))
         app.buttons["Lazy Text"].tap()
         
@@ -116,17 +128,23 @@ final class ViewsTests: XCTestCase {
     @MainActor
     func testMarkdownView() throws {
         let app = XCUIApplication()
-        
+        app.launch()
+
+        app.open(target: "SpeziViews")
+
         XCTAssert(app.buttons["Markdown View"].waitForExistence(timeout: 2))
         app.buttons["Markdown View"].tap()
         
         XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
-        XCTAssert(app.staticTexts["This is a markdown example taking 5 seconds to load."].waitForExistence(timeout: 10))
+        XCTAssert(app.staticTexts["This is a markdown example taking 2 seconds to load."].waitForExistence(timeout: 5))
     }
 
     @MainActor
     func testAsyncButtonView() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 #if os(visionOS)
@@ -161,6 +179,9 @@ final class ViewsTests: XCTestCase {
     @MainActor
     func testListRowAccessibility() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 #if os(visionOS)

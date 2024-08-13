@@ -11,21 +11,18 @@ import XCTestExtensions
 
 
 final class ModelTests: XCTestCase {
-    @MainActor
     override func setUpWithError() throws {
         try super.setUpWithError()
 
         continueAfterFailure = false
-
-        let app = XCUIApplication()
-        app.launch()
-
-        app.open(target: "SpeziViews")
     }
 
     @MainActor
     func testViewState() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
 
         XCTAssert(app.buttons["View State"].waitForExistence(timeout: 2))
         app.buttons["View State"].tap()
@@ -50,6 +47,9 @@ final class ModelTests: XCTestCase {
     @MainActor
     func testOperationState() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
 
         XCTAssert(app.buttons["Operation State"].waitForExistence(timeout: 2))
         app.buttons["Operation State"].tap()
@@ -81,6 +81,9 @@ final class ModelTests: XCTestCase {
     @MainActor
     func testViewStateMapper() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
 
         XCTAssert(app.buttons["View State Mapper"].waitForExistence(timeout: 2))
         app.buttons["View State Mapper"].tap()
@@ -116,6 +119,9 @@ final class ModelTests: XCTestCase {
     @MainActor
     func testConditionalModifier() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
 
         XCTAssert(app.buttons["Conditional Modifier"].waitForExistence(timeout: 2))
         app.buttons["Conditional Modifier"].tap()
@@ -149,6 +155,9 @@ final class ModelTests: XCTestCase {
     @MainActor
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
 
         XCTAssert(app.buttons["Default Error Only"].waitForExistence(timeout: 2))
         app.buttons["Default Error Only"].tap()

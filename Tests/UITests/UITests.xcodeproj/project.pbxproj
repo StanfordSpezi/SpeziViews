@@ -22,6 +22,7 @@
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		97A0A5102B8D7FD7006102EF /* ConditionalModifierTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */; };
 		97EE16AC2B16D5AB004D25A3 /* OperationStateTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */; };
+		A91E4DE62C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91E4DE52C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */; };
 		A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */ = {isa = PBXBuildFile; productRef = A963ACAF2AF4692500D745F2 /* SpeziValidation */; };
@@ -71,6 +72,7 @@
 		9731B58E2B167053007676C0 /* ViewStateMapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStateMapperView.swift; sourceTree = "<group>"; };
 		97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalModifierTestView.swift; sourceTree = "<group>"; };
 		97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStateTestView.swift; sourceTree = "<group>"; };
+		A91E4DE52C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationPredicateTests.swift; sourceTree = "<group>"; };
 		A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziValidationTests.swift; sourceTree = "<group>"; };
 		A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Targets.swift"; sourceTree = "<group>"; };
 		A97880962A4C4E6500150B2F /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			children = (
 				A99A65112AF57CA200E63582 /* FocusedValidationTests.swift */,
 				A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */,
+				A91E4DE52C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift */,
 				A9A3535A2AF60A9E00661848 /* DefaultValidationRules.swift */,
 			);
 			path = ValidationTests;
@@ -365,6 +368,7 @@
 				A9F85B722B32A052005F16E6 /* NameFieldsExample.swift in Sources */,
 				2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */,
 				97A0A5102B8D7FD7006102EF /* ConditionalModifierTestView.swift in Sources */,
+				A91E4DE62C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift in Sources */,
 				A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */,
 				A9FBAE982AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift in Sources */,
 				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
