@@ -14,6 +14,18 @@ import Foundation
 /// A `ViewState` provides a built-in mechanism for tracking the state of a Spezi UI component.
 /// A view can be in either an `idle`, `processing`, or `error` `ViewState`.
 ///
+/// The ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier can be used to automatically notify users with an
+/// [`Alert`](https://developer.apple.com/documentation/swiftui/view/alert(_:ispresented:actions:)-3npin) when the
+/// `ViewState` enters an error state.
+///
+/// This is why the `error` state takes a
+/// [`LocalizedError`](https://developer.apple.com/documentation/foundation/localizederror) as an associated value;
+/// it provides a localized error description for the alert that is presented to users.
+///
+/// > Tip:
+/// > Use ``AnyLocalizedError`` for handling localized and non-localized errors at the same time. Non-localized
+/// > errors are handled on a best-effort basis, meaning that not always a description for them may be available.
+///
 /// ```swift
 /// import SpeziViews
 /// import SwiftUI
@@ -46,10 +58,6 @@ import Foundation
 ///     }
 /// }
 /// ```
-///
-/// The ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier can be used to automatically notify users with an
-/// [`Alert`](https://developer.apple.com/documentation/swiftui/view/alert(_:ispresented:actions:)-3npin) when the
-/// `ViewState` enters an error state.
 ///
 /// > Tip:
 /// > To avoid having to handle state changes manually (as seen above), a `ViewState` can be mapped to an
