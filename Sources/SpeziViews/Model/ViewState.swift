@@ -37,10 +37,8 @@ import Foundation
 ///                 do {
 ///                     try doSomeProcessing()
 ///                     viewState = .idle
-///                 } catch let error as LocalizedError {
-///                     viewState = .error(error)
 ///                 } catch {
-///                     print("An unknown error occurred: \(error)")
+///                     viewState = .error(AnyLocalizedError(error: error))
 ///                 }
 ///             }
 ///             .viewStateAlert(state: $viewState)
