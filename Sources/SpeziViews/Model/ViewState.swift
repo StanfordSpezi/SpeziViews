@@ -60,9 +60,10 @@ import Foundation
 /// ```
 ///
 /// > Tip:
-/// > To avoid having to handle state changes manually (as seen above), a `ViewState` can be mapped to an
-/// > `OperationState`, allowing the `ViewState` to change automatically when the application's internal state changes.
-/// > For instruction on how to define such a mapping, see the ``OperationState`` documentation.
+/// > To avoid having to handle state changes manually (as seen above), an `OperationState` can be mapped to a
+/// > `ViewState`, allowing the `ViewState` to react to changes in the application's `OperationState` as defined by the
+/// > ``OperationState/representation`` property. For instruction on how to define such a mapping, see the
+/// > ``OperationState`` documentation.
 public enum ViewState {
     /// The view is idle and displaying content.
     case idle
