@@ -30,15 +30,6 @@ import Foundation
 /// import SpeziViews
 /// import SwiftUI
 ///
-/// enum ProcessingError: LocalizedError {
-///     case resourceError
-/// }
-///
-/// func doSomeProcessing() throws {
-///     // Function may throw an error
-///     throw ProcessingError.resourceError
-/// }
-///
 /// struct ViewStateExample: View {
 ///     @State private var viewState: ViewState = .idle
 ///
@@ -47,7 +38,7 @@ import Foundation
 ///             Button("Action") {
 ///                 viewState = .processing
 ///                 do {
-///                     try doSomeProcessing()
+///                     // Call an asynchronouse function that may throw an error ...
 ///                     viewState = .idle
 ///                 } catch {
 ///                     viewState = .error(AnyLocalizedError(error: error))
