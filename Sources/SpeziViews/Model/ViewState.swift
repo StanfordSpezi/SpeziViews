@@ -49,7 +49,8 @@ import Foundation
 /// }
 /// ```
 ///
-/// The ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier can be used to automatically notify users when the
+/// The ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier can be used to automatically notify users with an
+/// [`Alert`](https://developer.apple.com/documentation/swiftui/view/alert(_:ispresented:actions:)-3npin) when the
 /// `ViewState` enters an error state.
 ///
 /// > Tip:
