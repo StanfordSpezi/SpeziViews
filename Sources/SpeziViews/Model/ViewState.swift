@@ -27,7 +27,7 @@ import Foundation
 ///     throw ProcessingError.resourceError
 /// }
 ///
-/// struct OperationStateTestView: View {
+/// struct ViewStateExample: View {
 ///     @State private var viewState: ViewState = .idle
 ///
 ///     var body: some View {
