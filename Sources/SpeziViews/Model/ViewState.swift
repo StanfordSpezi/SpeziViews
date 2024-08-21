@@ -9,22 +9,22 @@
 import Foundation
 
 
-/// Allows SwiftUI views to keep track of their state and communicate to outside views.
+/// Allows SwiftUI views to track their state and communicate with other views.
 ///
 /// A `ViewState` provides a built-in mechanism for tracking the state of a Spezi UI component.
-/// A view can be in either an `idle`, `processing`, or `error` `ViewState`.
+/// A view can be in one of three states: `idle`, `processing`, or `error`.
 ///
 /// The ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier can be used to automatically notify users with an
 /// [`Alert`](https://developer.apple.com/documentation/swiftui/view/alert(_:ispresented:actions:)-3npin) when the
-/// `ViewState` enters an error state.
+/// `ViewState` transitions into an error state.
 ///
 /// This is why the `error` state takes a
-/// [`LocalizedError`](https://developer.apple.com/documentation/foundation/localizederror) as an associated value;
+/// [`LocalizedError`](https://developer.apple.com/documentation/foundation/localizederror) as an associated value:
 /// it provides a localized error description for the alert that is presented to users.
 ///
 /// > Tip:
-/// > Use ``AnyLocalizedError`` for handling localized and non-localized errors at the same time. Non-localized
-/// > errors are handled on a best-effort basis, meaning that not always a description for them may be available.
+/// > Use ``AnyLocalizedError`` to handle both localized and non-localized errors simultaneously. Non-localized
+/// > errors are handled on a best-effort basis, meaning a description may not always be available.
 ///
 /// ```swift
 /// import SpeziViews
@@ -38,7 +38,7 @@ import Foundation
 ///             Button("Action") {
 ///                 viewState = .processing
 ///                 do {
-///                     // Call an asynchronouse function that may throw an error ...
+///                     // Call an asynchronous function that may throw an error...
 ///                     viewState = .idle
 ///                 } catch {
 ///                     viewState = .error(AnyLocalizedError(error: error))
@@ -51,10 +51,9 @@ import Foundation
 /// ```
 ///
 /// > Tip:
-/// > To avoid having to handle state changes manually (as seen above), an `OperationState` can be mapped to a
-/// > `ViewState`, allowing the `ViewState` to react to changes in the application's `OperationState` as defined by the
-/// > ``OperationState/representation`` property. For instruction on how to define such a mapping, see the
-/// > ``OperationState`` documentation.
+/// > To handle more complex view states, you can use the ``OperationState`` protocol to map a more sophisticated state machine to `ViewState` instances, as defined
+/// > by the ``OperationState/representation`` property. This allows you to benefit from the same built-in behavior and modifiers that `ViewState` provides.
+/// > For instructions on defining such a mapping, refer to the ``OperationState`` documentation.
 public enum ViewState {
     /// The view is idle and displaying content.
     case idle
