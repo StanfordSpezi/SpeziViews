@@ -42,4 +42,4 @@ extension ImageReference {
 }
 
 
-extension ImageReference: Hashable {}
+extension ImageReference: Hashable, Sendable {}
