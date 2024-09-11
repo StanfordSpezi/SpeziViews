@@ -55,4 +55,19 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
 #endif
     }
+
+    @MainActor
+    func testImageReference() throws {
+        let eraser: ImageReference = .system("eraser.fill")
+
+        let image = try XCTUnwrap(eraser.image)
+
+#if os(iOS)
+        assertSnapshot(of: image, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
+
+        let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
+
+        XCTAssertNil(nonExistingImage.image)
+    }
 }
