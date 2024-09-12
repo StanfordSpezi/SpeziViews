@@ -93,11 +93,13 @@ private final class UIUpdate {
 @propertyWrapper
 public struct ManagedViewUpdate {
     private let uiUpdate = UIUpdate()
-
+    
+    /// Access the instance.
     public var wrappedValue: Self {
         self
     }
-
+    
+    /// Create a new managed interface for managing view updates.
     public init() {}
     
     /// Schedule a view update to occur at a specific point in time.
