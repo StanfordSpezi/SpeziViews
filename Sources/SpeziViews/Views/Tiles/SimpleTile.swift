@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// TODO: snapshot testing!
-
 
 /// A tile-like view with header, footer and an optional action.
 ///
@@ -73,7 +71,7 @@ public struct SimpleTile<Header: View, Body: View, Footer: View>: View {
     ///   - header: The header view of the tile. Refer to ``TileHeader`` for a great default layout for tile headers.
     ///   - body: The body of the tile.
     ///   - footer: A footer that can be used to place buttons or other actions.
-    public init( // swiftlint:disable:this function_default_parameter_at_end
+    public init(
         alignment: HorizontalAlignment = .leading,
         @ViewBuilder header: () -> Header,
         @ViewBuilder body: () -> Body = { EmptyView() },
@@ -90,7 +88,7 @@ public struct SimpleTile<Header: View, Body: View, Footer: View>: View {
     ///   - alignment: The alignment of the tile.
     ///   - header: The header view of the tile. Refer to ``TileHeader`` for a great default layout for tile headers.
     ///   - body: The body of the tile.
-    public init( // swiftlint:disable:this function_default_parameter_at_end
+    public init(
         alignment: HorizontalAlignment = .leading,
         @ViewBuilder header: () -> Header,
         @ViewBuilder body: () -> Body
@@ -98,14 +96,13 @@ public struct SimpleTile<Header: View, Body: View, Footer: View>: View {
         self.init(alignment: alignment, header: header, body: body) {
             EmptyView()
         }
-
     }
 
     /// Create a new tile view.
     /// - Parameters:
     ///   - alignment: The alignment of the tile.
     ///   - header: The header view of the tile. Refer to ``TileHeader`` for a great default layout for tile headers.
-    public init( // swiftlint:disable:this function_default_parameter_at_end
+    public init(
         alignment: HorizontalAlignment = .leading,
         @ViewBuilder header: () -> Header
     ) where Body == EmptyView, Footer == EmptyView {

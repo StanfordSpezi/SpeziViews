@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// TODO: snapshot testing!
-
 
 /// A header layout for tiles.
 ///

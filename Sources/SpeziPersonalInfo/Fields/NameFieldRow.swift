@@ -89,7 +89,6 @@ public struct NameFieldRow<Description: View, Label: View>: View {
     /// - Parameters:
     ///   - name: The name to display and edit.
     ///   - component: The `KeyPath` to the property of the provided `PersonNameComponents` to display and edit.
-    ///   - prompt: An optional `Text` prompt. Refer to the documentation of `TextField` for more information.
     ///   - description: The description label displayed before the text field.
     ///   - label: A view that describes the purpose of the text field.
     public init(
