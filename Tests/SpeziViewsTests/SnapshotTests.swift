@@ -68,7 +68,9 @@ final class SnapshotTests: XCTestCase {
 
         let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
 
+#if !os(watchOS)
         XCTAssertNil(nonExistingImage.image)
+#endif
     }
 
     @MainActor
