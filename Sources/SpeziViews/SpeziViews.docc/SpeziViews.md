@@ -48,9 +48,11 @@ SpeziViews provides easy-to-use and easily-reusable UI components that makes the
 - ``SwiftUI/View/processingOverlay(isProcessing:overlay:)-5xplv``
 - ``SwiftUI/View/processingOverlay(isProcessing:overlay:)-3df8d``
 
-### Manage Layout
-Automatically adapt your view layouts to dynamic type sizes, device orientation, and device size classes.
+### Layout
+Default layouts and utilities to automatically adapt your view layouts to dynamic type sizes, device orientation, and device size classes.
 
+- ``SimpleTile``
+- ``TileHeader``
 - ``DynamicHStack``
 - ``ListRow``
 - ``DescriptionGridRow``
@@ -69,10 +71,23 @@ Automatically adapt your view layouts to dynamic type sizes, device orientation,
 - ``MarkdownView``
 - ``TextContentType``
 
+### Images
+
+- ``ImageReference``
+
+### Conditional Modifiers
+
+- ``SwiftUI/View/if(_:transform:)``
+- ``SwiftUI/View/if(condition:transform:)``
+
 ### Interact with the View Environment
 
 - ``SwiftUI/View/focusOnTap()``
 - ``SwiftUI/View/observeOrientationChanges(_:)``
+
+### View Management
+
+- ``ManagedViewUpdate``
 
 ### Styles
 
@@ -84,7 +99,6 @@ Automatically adapt your view layouts to dynamic type sizes, device orientation,
 - ``Foundation/LocalizedStringResource/BundleDescription/atURL(from:)``
 - ``Foundation/LocalizedStringResource/localizedString(for:)``
 - ``Swift/StringProtocol/localized(_:)``
-
 
 ### Readers
 

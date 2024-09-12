@@ -14,7 +14,7 @@ import SwiftUI
 /// This might be helpful for views that rely on ``AnyLocalizedError``. Outer views can define a
 /// sensible default for a localized default error description in the case that a sub-view has to display
 /// an ``AnyLocalizedError`` for a generic error.
-struct DefaultErrorDescription: EnvironmentKey {
+private struct DefaultErrorDescription: EnvironmentKey {
     static let defaultValue: LocalizedStringResource? = nil
 }
 
