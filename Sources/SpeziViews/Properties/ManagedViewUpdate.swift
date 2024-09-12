@@ -11,13 +11,25 @@ import SwiftUI
 
 @Observable
 private final class UIUpdate {
-    @MainActor private var dateTimer: Timer? {
+    private var dateTimer: Timer? {
         willSet {
             dateTimer?.invalidate()
         }
     }
 
+    private var trigger: UInt64 = 0
+
     nonisolated init() {}
+
+    func access() {
+        access(keyPath: \.dateTimer)
+        access(keyPath: \.trigger)
+    }
+
+    @MainActor
+    func manualUpdate() {
+        trigger &+= 1
+    }
 
     @MainActor
     func scheduleUpdate(at date: Date) {
@@ -50,6 +62,10 @@ private final class UIUpdate {
 
 /// A property wrapper that allows to manually manage view updates for SwiftUI views.
 ///
+/// This property wrapper allows to perform manual view updates based on external events.
+///
+/// ### Based on Time
+///
 /// ```swift
 /// struct DueLabel: View {
 ///     let dueDate: Date
@@ -75,8 +91,8 @@ private final class UIUpdate {
 ///     (e.g., a button becoming enabled once a start date is reached).
 /// ```
 @propertyWrapper
-public struct ManagedViewUpdate: DynamicProperty {
-    private let update = UIUpdate()
+public struct ManagedViewUpdate {
+    private let uiUpdate = UIUpdate()
 
     public var wrappedValue: Self {
         self
@@ -88,6 +104,20 @@ public struct ManagedViewUpdate: DynamicProperty {
     /// - Parameter date: The time at which the view should be redrawn.
     @MainActor
     public func schedule(at date: Date) {
-        update.scheduleUpdate(at: date)
+        uiUpdate.scheduleUpdate(at: date)
+    }
+
+
+    /// Manually trigger a view update now.
+    @MainActor
+    public func refresh() {
+        uiUpdate.manualUpdate()
+    }
+}
+
+
+extension ManagedViewUpdate: DynamicProperty {
+    public func update() {
+        uiUpdate.access() // track access to the state
     }
 }
