@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Completed" : {
+      "comment" : "Completed Tile. Subtitle"
+    },
     "DEFAULT_ERROR_DESCRIPTION" : {
       "localizations" : {
         "de" : {

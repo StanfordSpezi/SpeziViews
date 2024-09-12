@@ -66,7 +66,7 @@ final class ViewsTests: XCTestCase {
         #endif
 
 #if compiler(>=6)
-        XCTAssertTrue(paletteView.waitForNonExistence(withTimeout: 15))
+        XCTAssertTrue(paletteView.waitForNonExistence(timeout: 15))
 #else
         sleep(15) // waitForExistence will otherwise return immediately
         XCTAssertFalse(paletteView.exists)
@@ -180,10 +180,10 @@ final class ViewsTests: XCTestCase {
     func testListRowAccessibility() throws {
         let app = XCUIApplication()
         app.launch()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 
         app.open(target: "SpeziViews")
 
-        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 #if os(visionOS)
         app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
 #endif
@@ -192,5 +192,41 @@ final class ViewsTests: XCTestCase {
         app.buttons["List Row"].tap()
 
         XCTAssert(app.staticTexts["Hello, World"].waitForExistence(timeout: 2))
+    }
+
+    @MainActor
+    func testManagedViewUpdateTests() {
+        let app = XCUIApplication()
+        app.launch()
+
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
+        app.open(target: "SpeziViews")
+
+#if os(visionOS)
+        app.collectionViews.firstMatch.swipeUp() // on visionOS the element is out of the frame due to the window size
+#endif
+
+        XCTAssert(app.buttons["Managed View Update"].waitForExistence(timeout: 2.0))
+        app.buttons["Managed View Update"].tap()
+
+        XCTAssert(app.navigationBars.staticTexts["Managed View Update"].waitForExistence(timeout: 2.0))
+        XCTAssert(app.staticTexts["Value, 0"].exists)
+        XCTAssert(app.buttons["Increment"].exists)
+
+        app.buttons["Increment"].tap()
+        XCTAssert(app.staticTexts["Value, 0"].waitForExistence(timeout: 2.0))
+        XCTAssertFalse(app.staticTexts["Value, 1"].exists)
+
+        XCTAssert(app.buttons["Refresh"].exists)
+        app.buttons["Refresh"].tap()
+        XCTAssert(app.staticTexts["Value, 1"].waitForExistence(timeout: 2.0))
+
+        app.buttons["Increment"].tap()
+        XCTAssert(app.staticTexts["Value, 1"].waitForExistence(timeout: 2.0))
+        XCTAssertFalse(app.staticTexts["Value, 2"].exists)
+
+        XCTAssert(app.buttons["Refresh in 2s"].exists)
+        app.buttons["Refresh in 2s"].tap()
+        XCTAssert(app.staticTexts["Value, 2"].waitForExistence(timeout: 4.0))
     }
 }

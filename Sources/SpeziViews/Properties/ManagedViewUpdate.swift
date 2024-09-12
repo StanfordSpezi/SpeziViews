@@ -51,7 +51,7 @@ private final class UIUpdate {
         }
         RunLoop.main.add(timer, forMode: .common)
 
-        self.dateTimer = timer // triggers observable access
+        self._dateTimer = timer // do not trigger mutation
     }
 
     deinit {

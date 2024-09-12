@@ -19,10 +19,11 @@ import SwiftUI
 /// }
 /// ```
 public struct CompletedTileHeader<Title: View>: View {
+    private let alignment: HorizontalAlignment
     private let title: Title
 
     public var body: some View {
-        TileHeader {
+        TileHeader(alignment: alignment) {
             Image(systemName: "checkmark.circle.fill")
                 .foregroundColor(.green)
                 .font(.custom("Completed Icon", size: 30, relativeTo: .title))
@@ -36,7 +37,8 @@ public struct CompletedTileHeader<Title: View>: View {
     
     /// Create a new completed tile header.
     /// - Parameter title: The view that is shown as the title.
-    public init(@ViewBuilder title: () -> Title) {
+    public init(alignment: HorizontalAlignment = .leading, @ViewBuilder title: () -> Title) {
+        self.alignment = alignment
         self.title = title()
     }
 }

@@ -143,4 +143,15 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(of: tileTraining, as: .image(layout: .device(config: .iPhone13Pro)), named: "trailing")
 #endif
     }
+
+    @MainActor
+    func testCompletedTileHeader() {
+        let view = CompletedTileHeader {
+            Text("Some Title")
+        }
+
+#if os(iOS)
+        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
+#endif
+    }
 }

@@ -7,6 +7,9 @@
     "%lf" : {
 
     },
+    "%lld" : {
+
+    },
     "Action executed" : {
 
     },
@@ -80,6 +83,9 @@
     "Hello World" : {
 
     },
+    "Increment" : {
+
+    },
     "Input Valid: %@" : {
 
     },
@@ -112,6 +118,9 @@
         }
       }
     },
+    "Managed View Update" : {
+
+    },
     "Middle" : {
 
     },
@@ -128,6 +137,12 @@
 
     },
     "Please enter your email address of your account. A email with an link to reset your password will be sent to the email address." : {
+
+    },
+    "Refresh" : {
+
+    },
+    "Refresh in 2s" : {
 
     },
     "Reset" : {
@@ -149,6 +164,9 @@
 
     },
     "SpeziViews" : {
+
+    },
+    "State" : {
 
     },
     "Switch Focus" : {
@@ -182,6 +200,9 @@
 
     },
     "Validation TextField" : {
+
+    },
+    "Value" : {
 
     },
     "View State: %@" : {
