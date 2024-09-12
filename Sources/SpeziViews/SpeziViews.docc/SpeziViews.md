@@ -53,6 +53,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 
 - ``SimpleTile``
 - ``TileHeader``
+- ``CompletedTileHeader``
 - ``DynamicHStack``
 - ``ListRow``
 - ``DescriptionGridRow``
