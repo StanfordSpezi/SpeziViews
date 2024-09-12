@@ -52,16 +52,7 @@ public struct SimpleTile<Header: View, Body: View, Footer: View>: View {
         }
             .containerShape(Rectangle())
 #if !TEST && !targetEnvironment(simulator) // it's easier to UI test for us without the accessibility representation
-            .accessibilityRepresentation {
-                if let action {
-                    Button(action: action.action) {
-                        tileLabel
-                    }
-                } else {
-                    tileLabel
-                        .accessibilityElement(children: .combine)
-                }
-            }
+            .accessibilityElement(children: .combine)
 #endif
     }
     
