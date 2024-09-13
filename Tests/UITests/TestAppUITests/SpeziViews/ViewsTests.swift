@@ -66,7 +66,7 @@ final class ViewsTests: XCTestCase {
         #endif
 
 #if compiler(>=6)
-        XCTAssertTrue(paletteView.waitForNonExistence(timeout: 15))
+        XCTAssertTrue(paletteView.waitForNonExistence(withTimeout: 15))
 #else
         sleep(15) // waitForExistence will otherwise return immediately
         XCTAssertFalse(paletteView.exists)
