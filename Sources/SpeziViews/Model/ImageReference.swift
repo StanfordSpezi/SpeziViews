@@ -21,7 +21,7 @@ public enum ImageReference {
 extension ImageReference {
     /// Retrieve Image.
     ///
-    /// Returns nil if the image resource could not be located.
+    /// Returns `nil` if the image resource could not be located.
     public var image: Image? {
         switch self {
         case let .system(name):
@@ -37,6 +37,18 @@ extension ImageReference {
             }
 #endif
             return Image(name, bundle: bundle)
+        }
+    }
+    
+    /// Retrieve the UIImage.
+    ///
+    /// Returns `nil` if the image resource could not be located.
+    @available(iOS 17, visionOS 1, tvOS 17, *) public var uiImage: UIImage? {
+        switch self {
+        case let .system(name):
+            UIImage(systemName: name)
+        case let .asset(name, bundle):
+            UIImage(named: name, in: bundle, with: nil)
         }
     }
 }

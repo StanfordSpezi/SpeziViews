@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 
 //
 // This source file is part of the Stanford Spezi open-source project
@@ -10,13 +10,6 @@
 
 import class Foundation.ProcessInfo
 import PackageDescription
-
-
-#if swift(<6)
-let swiftConcurrency: SwiftSetting = .enableExperimentalFeature("StrictConcurrency")
-#else
-let swiftConcurrency: SwiftSetting = .enableUpcomingFeature("StrictConcurrency")
-#endif
 
 
 let package = Package(
@@ -45,18 +38,12 @@ let package = Package(
             dependencies: [
                 .product(name: "Spezi", package: "Spezi")
             ],
-            swiftSettings: [
-                swiftConcurrency
-            ],
             plugins: [] + swiftLintPlugin()
         ),
         .target(
             name: "SpeziPersonalInfo",
             dependencies: [
                 .target(name: "SpeziViews")
-            ],
-            swiftSettings: [
-                swiftConcurrency
             ],
             plugins: [] + swiftLintPlugin()
         ),
@@ -66,9 +53,6 @@ let package = Package(
                 .target(name: "SpeziViews"),
                 .product(name: "OrderedCollections", package: "swift-collections")
             ],
-            swiftSettings: [
-                swiftConcurrency
-            ],
             plugins: [] + swiftLintPlugin()
         ),
         .testTarget(
@@ -77,9 +61,6 @@ let package = Package(
                 .target(name: "SpeziViews"),
                 .target(name: "SpeziValidation"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
-            ],
-            swiftSettings: [
-                swiftConcurrency
             ],
             plugins: [] + swiftLintPlugin()
         )
