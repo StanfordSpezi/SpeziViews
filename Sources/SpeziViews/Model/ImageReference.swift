@@ -43,12 +43,13 @@ extension ImageReference {
     /// Retrieve the UIImage.
     ///
     /// Returns `nil` if the image resource could not be located.
-    @available(iOS 17, visionOS 1, tvOS 17, *) public var uiImage: UIImage? {
+    @available(iOS 17, visionOS 1, tvOS 17, *)
+    public func uiImage(with configuration: UIImage.Configuration? = nil) -> UIImage? {
         switch self {
         case let .system(name):
-            UIImage(systemName: name)
+            UIImage(systemName: name, withConfiguration: configuration)
         case let .asset(name, bundle):
-            UIImage(named: name, in: bundle, with: nil)
+            UIImage(named: name, in: bundle, with: configuration)
         }
     }
 }
