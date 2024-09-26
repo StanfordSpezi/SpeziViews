@@ -15,6 +15,16 @@ public enum ImageReference {
     case system(String)
     /// Reference an image from the asset catalog of a bundle.
     case asset(String, bundle: Bundle? = nil)
+
+
+    /// A system image is referenced.
+    public var isSystemImage: Bool {
+        if case .system = self {
+            true
+        } else {
+            false
+        }
+    }
 }
 
 
@@ -43,13 +53,12 @@ extension ImageReference {
     /// Retrieve the UIImage.
     ///
     /// Returns `nil` if the image resource could not be located.
-    @available(iOS 17, visionOS 1, tvOS 17, *)
-    public func uiImage(with configuration: UIImage.Configuration? = nil) -> UIImage? {
+    @available(iOS 17, visionOS 1, tvOS 17, *) public var uiImage: UIImage? {
         switch self {
         case let .system(name):
-            UIImage(systemName: name, withConfiguration: configuration)
+            UIImage(systemName: name)
         case let .asset(name, bundle):
-            UIImage(named: name, in: bundle, with: configuration)
+            UIImage(named: name, in: bundle, with: nil)
         }
     }
 }
