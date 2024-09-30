@@ -89,7 +89,6 @@ public struct NameFieldRow<Description: View, Label: View>: View {
     /// - Parameters:
     ///   - name: The name to display and edit.
     ///   - component: The `KeyPath` to the property of the provided `PersonNameComponents` to display and edit.
-    ///   - prompt: An optional `Text` prompt. Refer to the documentation of `TextField` for more information.
     ///   - description: The description label displayed before the text field.
     ///   - label: A view that describes the purpose of the text field.
     public init(
@@ -108,7 +107,7 @@ public struct NameFieldRow<Description: View, Label: View>: View {
 
 #if DEBUG
 #Preview {
-    @State var name = PersonNameComponents()
+    @Previewable @State var name = PersonNameComponents()
     return Grid(horizontalSpacing: 15) {
         NameFieldRow(name: $name, for: \.familyName) {
             Text(verbatim: "First")
@@ -127,7 +126,7 @@ public struct NameFieldRow<Description: View, Label: View>: View {
     }
 }
 #Preview {
-    @State var name = PersonNameComponents()
+    @Previewable @State var name = PersonNameComponents()
     return Form {
         Grid(horizontalSpacing: 15) {
             NameFieldRow(name: $name, for: \.givenName) {
