@@ -38,6 +38,7 @@ extension ImageReference {
             return Image(systemName: name)
         case let .asset(name, bundle: bundle):
 #if canImport(UIKit)
+            // also available on watchOS
             guard UIImage(named: name, in: bundle, with: nil) != nil else {
                 return nil
             }
@@ -50,8 +51,8 @@ extension ImageReference {
         }
     }
 
-#if canImport(UIKit)
-    /// Retrieve the UIImage.
+#if canImport(UIKit) // also available on watchOS
+    /// Retrieve an UIImage.
     ///
     /// Returns `nil` if the image resource could not be located.
     public var uiImage: UIImage? {
@@ -62,8 +63,17 @@ extension ImageReference {
             UIImage(named: name, in: bundle, with: nil)
         }
     }
+
+#if canImport(WatchKit)
+    /// Retrieve a WKImage.
+    ///
+    /// Returns `nil` if the image resource could not be located.
+    public var wkImage: WKImage? {
+        uiImage.map { WKImage(image: $0) }
+    }
+#endif
 #elseif canImport(AppKit)
-    /// Retrieve the NSImage.
+    /// Retrieve a NSImage.
     ///
     /// Returns `nil` if the image resource could not be located.
     public var uiImage: NSImage? {
