@@ -93,7 +93,7 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
 
 #if DEBUG
 #Preview {
-    @State var text = ""
+    @Previewable @State var text = ""
     return Form {
         VerifiableTextField(text: $text) {
             Text(verbatim: "Password Text")

@@ -107,7 +107,7 @@ public struct NameFieldRow<Description: View, Label: View>: View {
 
 #if DEBUG
 #Preview {
-    @State var name = PersonNameComponents()
+    @Previewable @State var name = PersonNameComponents()
     return Grid(horizontalSpacing: 15) {
         NameFieldRow(name: $name, for: \.familyName) {
             Text(verbatim: "First")
@@ -126,7 +126,7 @@ public struct NameFieldRow<Description: View, Label: View>: View {
     }
 }
 #Preview {
-    @State var name = PersonNameComponents()
+    @Previewable @State var name = PersonNameComponents()
     return Form {
         Grid(horizontalSpacing: 15) {
             NameFieldRow(name: $name, for: \.givenName) {

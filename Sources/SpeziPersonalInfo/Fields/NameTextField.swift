@@ -115,7 +115,7 @@ public struct NameTextField<Label: View>: View {
 
 #if DEBUG
 #Preview {
-    @State var name = PersonNameComponents()
+    @Previewable @State var name = PersonNameComponents()
     return List {
         NameTextField(name: $name, for: \.givenName) {
             Text(verbatim: "enter first name")
