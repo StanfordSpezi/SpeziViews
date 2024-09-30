@@ -37,11 +37,11 @@ extension ImageReference {
         case let .system(name):
             return Image(systemName: name)
         case let .asset(name, bundle: bundle):
-#if os(iOS) || os(visionOS) || os(tvOS)
+#if canImport(UIKit)
             guard UIImage(named: name, in: bundle, with: nil) != nil else {
                 return nil
             }
-#elseif os(macOS)
+#elseif canImport(AppKit)
             guard NSImage(named: name) != nil else {
                 return nil
             }
@@ -49,11 +49,12 @@ extension ImageReference {
             return Image(name, bundle: bundle)
         }
     }
-    
+
+#if canImport(UIKit)
     /// Retrieve the UIImage.
     ///
     /// Returns `nil` if the image resource could not be located.
-    @available(iOS 17, visionOS 1, tvOS 17, *) public var uiImage: UIImage? {
+    public var uiImage: UIImage? {
         switch self {
         case let .system(name):
             UIImage(systemName: name)
@@ -61,6 +62,19 @@ extension ImageReference {
             UIImage(named: name, in: bundle, with: nil)
         }
     }
+#elseif canImport(AppKit)
+    /// Retrieve the NSImage.
+    ///
+    /// Returns `nil` if the image resource could not be located.
+    public var uiImage: NSImage? {
+        switch self {
+        case let .system(name):
+            NSImage(systemSymbolName: name, accessibilityDescription: nil)
+        case let .asset(name, _):
+            NSImage(named: name)
+        }
+    }
+#endif
 }
 
 
