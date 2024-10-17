@@ -48,10 +48,18 @@ extension LabeledContent where Content: View {
             Text(verbatim: "World")
         }
 
+        LabeledContent {
+            Text("2")
+        } label: {
+            Text("Value")
+            Text("The magic value")
+        }
+
         HStack {
             LabeledContent(verbatim: "Device") {
                 EmptyView()
             }
+            Spacer()
             ProgressView()
         }
 
@@ -59,6 +67,7 @@ extension LabeledContent where Content: View {
             LabeledContent(verbatim: "Device") {
                 Text(verbatim: "World")
             }
+            Spacer()
             ProgressView()
                 .padding(.leading, 6)
         }
@@ -67,6 +76,7 @@ extension LabeledContent where Content: View {
             LabeledContent(verbatim: "Long Device Name") {
                 Text(verbatim: "Long Description")
             }
+            Spacer()
             ProgressView()
                 .padding(.leading, 4)
         }
