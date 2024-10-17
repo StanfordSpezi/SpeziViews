@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "A" : {
+
+    },
+    "B" : {
+
+    },
     "Completed" : {
       "comment" : "Completed Tile. Subtitle"
     },
@@ -87,6 +93,9 @@
           }
         }
       }
+    },
+    "None" : {
+
     }
   },
   "version" : "1.0"

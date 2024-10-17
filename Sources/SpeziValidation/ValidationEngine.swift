@@ -87,13 +87,13 @@ public class ValidationEngine: Identifiable {
 
     /// Access the configuration of the validation engine.
     ///
-    /// You may use the ``SwiftUI/EnvironmentValues/validationConfiguration`` environment key to configure this value from
+    /// You may use the ``SwiftUICore/EnvironmentValues/validationConfiguration`` environment key to configure this value from
     /// the environment.
     public var configuration: Configuration
     /// The configurable debounce duration for input submission.
     ///
     /// This duration is used to debounce repeated calls to ``submit(input:debounce:)`` where `debounce` is set to `true`.
-    /// You may use the ``SwiftUI/EnvironmentValues/validationDebounce`` environment key to configure this value from
+    /// You may use the ``SwiftUICore/EnvironmentValues/validationDebounce`` environment key to configure this value from
     /// the environment.
     public var debounceDuration: Duration
 

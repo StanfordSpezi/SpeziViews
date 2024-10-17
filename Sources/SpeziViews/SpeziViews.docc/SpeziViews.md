@@ -41,12 +41,12 @@ SpeziViews provides easy-to-use and easily-reusable UI components that makes the
 ### Manage and communicate View State
 
 - ``ViewState``
-- ``SwiftUI/View/viewStateAlert(state:)-4wzs4``
-- ``SwiftUI/View/viewStateAlert(state:)-27a86``
+- ``SwiftUICore/View/viewStateAlert(state:)-4wzs4``
+- ``SwiftUICore/View/viewStateAlert(state:)-27a86``
 - ``OperationState``
-- ``SwiftUI/View/map(state:to:)``
-- ``SwiftUI/View/processingOverlay(isProcessing:overlay:)-5xplv``
-- ``SwiftUI/View/processingOverlay(isProcessing:overlay:)-3df8d``
+- ``SwiftUICore/View/map(state:to:)``
+- ``SwiftUICore/View/processingOverlay(isProcessing:overlay:)-5xplv``
+- ``SwiftUICore/View/processingOverlay(isProcessing:overlay:)-3df8d``
 
 ### Layout
 Default layouts and utilities to automatically adapt your view layouts to dynamic type sizes, device orientation, and device size classes.
@@ -58,12 +58,13 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``ListRow``
 - ``DescriptionGridRow``
 
-### User Input
+### Controls
 
 - ``AsyncButton``
-- ``SwiftUI/EnvironmentValues/processingDebounceDuration``
+- ``SwiftUICore/EnvironmentValues/processingDebounceDuration``
 - ``CanvasView``
 - ``DismissButton``
+- ``CaseIterablePicker``
 
 ### Displaying Text
 
@@ -78,13 +79,13 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 
 ### Conditional Modifiers
 
-- ``SwiftUI/View/if(_:transform:)``
-- ``SwiftUI/View/if(condition:transform:)``
+- ``SwiftUICore/View/if(_:transform:)``
+- ``SwiftUICore/View/if(condition:transform:)``
 
 ### Interact with the View Environment
 
-- ``SwiftUI/View/focusOnTap()``
-- ``SwiftUI/View/observeOrientationChanges(_:)``
+- ``SwiftUICore/View/focusOnTap()``
+- ``SwiftUICore/View/observeOrientationChanges(_:)``
 
 ### View Management
 
@@ -109,7 +110,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 ### Error Handling
 
 - ``AnyLocalizedError``
-- ``SwiftUI/EnvironmentValues/defaultErrorDescription``
+- ``SwiftUICore/EnvironmentValues/defaultErrorDescription``
 
 ### Modules
 

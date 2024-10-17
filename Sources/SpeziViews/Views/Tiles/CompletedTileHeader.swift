@@ -36,7 +36,9 @@ public struct CompletedTileHeader<Title: View>: View {
     }
     
     /// Create a new completed tile header.
-    /// - Parameter title: The view that is shown as the title.
+    /// - Parameters:
+    ///   - alignment: The alignment of the tile header.
+    ///   - title: The view that is shown as the title.
     public init(alignment: HorizontalAlignment = .leading, @ViewBuilder title: () -> Title) {
         self.alignment = alignment
         self.title = title()
