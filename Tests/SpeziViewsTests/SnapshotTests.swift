@@ -16,7 +16,7 @@ final class SnapshotTests: XCTestCase {
     @MainActor
     func testListRow() {
         let row = List {
-            ListRow(verbatim: "San Francisco") {
+            LabeledContent(verbatim: "San Francisco") {
                 Text(verbatim: "20 °C, Sunny")
             }
         }
