@@ -31,7 +31,7 @@ enum CascadingValidationEffect {
 /// )
 /// ```
 ///
-/// Use the ``SwiftUI/View/validate(input:rules:)-5dac4`` modifier to apply a validation rule to a given `String` input.
+/// Use the ``SwiftUICore/View/validate(input:rules:)-5dac4`` modifier to apply a validation rule to a given `String` input.
 ///
 /// ### Discussion on security-related client-side Validation
 ///

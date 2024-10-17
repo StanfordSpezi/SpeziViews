@@ -24,16 +24,6 @@ jobs:
       scheme: SpeziViews-Package
       resultBundle: SpeziViews-iOS.xcresult
       artifactname: SpeziViews-iOS.xcresult
-  buildandtest_ios_latest:
-    name: Build and Test Swift Package iOS Latest
-    uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
-    with:
-      runsonlabels: '["macOS", "self-hosted"]'
-      scheme: SpeziViews-Package
-      xcodeversion: latest
-      swiftVersion: 6
-      resultBundle: SpeziViews-iOS-Latest.xcresult
-      artifactname: SpeziViews-iOS-Latest.xcresult
   buildandtest_watchos:
     name: Build and Test Swift Package watchOS
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
@@ -79,17 +69,6 @@ jobs:
       scheme: TestApp
       resultBundle: TestApp-iOS.xcresult
       artifactname: TestApp-iOS.xcresult
-  buildandtestuitests_ios_latest:
-    name: Build and Test UI Tests iOS Latest
-    uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
-    with:
-      runsonlabels: '["macOS", "self-hosted"]'
-      path: Tests/UITests
-      scheme: TestApp
-      xcodeversion: latest
-      swiftVersion: 6
-      resultBundle: TestApp-iOS-Latest.xcresult
-      artifactname: TestApp-iOS-Latest.xcresult
   buildandtestuitests_ipad:
     name: Build and Test UI Tests iPadOS
     uses: StanfordSpezi/.github/.github/workflows/xcodebuild-or-fastlane.yml@v2
@@ -97,7 +76,7 @@ jobs:
       runsonlabels: '["macOS", "self-hosted"]'
       path: Tests/UITests
       scheme: TestApp
-      destination: 'platform=iOS Simulator,name=iPad Pro 11-inch (M4)'
+      destination: 'platform=iOS Simulator,name=iPad Pro 13-inch (M4)'
       resultBundle: TestApp-iPad.xcresult
       artifactname: TestApp-iPad.xcresult
   buildandtestuitests_visionos:

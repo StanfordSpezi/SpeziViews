@@ -29,7 +29,8 @@ enum SpeziViewsTests: String, TestAppTests {
     case defaultErrorDescription = "Default Error Description"
     case asyncButton = "Async Button"
     case listRow = "List Row"
-    
+    case managedViewUpdate = "Managed View Update"
+
     
     #if canImport(PencilKit) && !os(macOS)
     @ViewBuilder
@@ -174,6 +175,8 @@ enum SpeziViewsTests: String, TestAppTests {
             asyncButton
         case .listRow:
             listRow
+        case .managedViewUpdate:
+            ManagedViewStateTests()
         }
     }
 }
