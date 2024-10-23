@@ -33,6 +33,7 @@ extension LabeledContent where Content: View {
     /// - Parameters:
     ///   - label: The localized text label.
     ///   - content: The content view.
+    @_disfavoredOverload
     public init(_ label: LocalizedStringResource, @ViewBuilder content: () -> Content) where Label == Text {
         self.init(content: content) {
             Text(label)
@@ -42,10 +43,14 @@ extension LabeledContent where Content: View {
 
 
 #if DEBUG
-#Preview {
+#Preview { // swiftlint:disable:this closure_body_length
     List {
         LabeledContent(verbatim: "Hello") {
             Text(verbatim: "World")
+        }
+
+        LabeledContent("Hello World") {
+            Text("There")
         }
 
         LabeledContent {
