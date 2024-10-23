@@ -79,7 +79,7 @@ public struct MarkdownView: View {
     
     /// Creates a ``MarkdownView`` that displays the content of a markdown file
     /// - Parameters:
-    ///   - asyncMarkdown: A `Data` instance containing the markdown file in an utf8 representation.
+    ///   - markdown: A `Data` instance containing the markdown file in an utf8 representation.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
     public init(
         markdown: Data,

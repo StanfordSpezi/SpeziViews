@@ -26,7 +26,7 @@ The library is based on a rule-based approach using ``ValidationRule``s.
 
 ### Performing Validation
 
-The only thing you have to do, is to set up the ``SwiftUI/View/validate(input:rules:)-5dac4`` modifier for your
+The only thing you have to do, is to set up the ``SwiftUICore/View/validate(input:rules:)-5dac4`` modifier for your
 text input.
 Supply your input and validation rules.
 
@@ -50,7 +50,7 @@ property wrapper.
 ### Managing Validation
 
 Parent views can access the validation state of their child views using the ``ValidationState`` property wrapper
-and the ``SwiftUI/View/receiveValidation(in:)`` modifier.
+and the ``SwiftUICore/View/receiveValidation(in:)`` modifier.
 
 The code example below shows
 how you can use the validation state of your subview to perform final validation on a button press.
@@ -79,19 +79,19 @@ var body: some View {
 ### Performing Validation
 
 - ``ValidationRule``
-- ``SwiftUI/View/validate(input:rules:)-5dac4``
-- ``SwiftUI/View/validate(input:rules:)-9vks0``
-- ``SwiftUI/View/validate(_:message:)``
+- ``SwiftUICore/View/validate(input:rules:)-5dac4``
+- ``SwiftUICore/View/validate(input:rules:)-9vks0``
+- ``SwiftUICore/View/validate(_:message:)``
 
 ### Managing Validation
 
 - ``ValidationState``
-- ``SwiftUI/View/receiveValidation(in:)``
+- ``SwiftUICore/View/receiveValidation(in:)``
 
 ### Configuration
 
-- ``SwiftUI/EnvironmentValues/validationConfiguration``
-- ``SwiftUI/EnvironmentValues/validationDebounce``
+- ``SwiftUICore/EnvironmentValues/validationConfiguration``
+- ``SwiftUICore/EnvironmentValues/validationDebounce``
 
 ### Visualizing Validation
 
