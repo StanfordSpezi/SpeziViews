@@ -42,47 +42,93 @@ public struct MarkdownView: View {
     }
     
     
-    private let asyncMarkdown: () async -> Data
+    private let buildMarkdown: () async throws -> AttributedString
     
-    @State private var markdownString: AttributedString?
+    @State private var markdownContent: AttributedString?
     @Binding private var state: ViewState
     
     
     public var body: some View {
         VStack {
-            if let markdownString {
-                Text(markdownString)
+            if let markdownContent {
+                Text(markdownContent)
             } else {
                 ProgressView()
                     .padding()
             }
         }
             .task {
-                markdownString = parse(
-                    markdown: await asyncMarkdown()
-                )
+                markdownContent = await updateMarkdown()
             }
     }
     
     
     /// Creates a ``MarkdownView`` that displays the content of a markdown file as an utf8 representation that is loaded asynchronously.
     /// - Parameters:
-    ///   - asyncMarkdown: An async closure to load the markdown in an utf8 representation.
+    ///   - asyncMarkdown: An async throwing closure to load the markdown in an utf8 representation.
+    ///   - options: Options on how to parse the markdown into an attributed string.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
     public init(
-        asyncMarkdown: @escaping () async -> Data,
+        asyncMarkdown: @escaping () async throws -> Data,
+        options: AttributedString.MarkdownParsingOptions = .init(interpretedSyntax: .inlineOnlyPreservingWhitespace),
         state: Binding<ViewState> = .constant(.idle)
     ) {
-        self.asyncMarkdown = asyncMarkdown
-        self._state = state
+        self.init(
+            attributedString: {
+                try AttributedString(
+                    markdown: try await asyncMarkdown(),
+                    options: options
+                )
+            },
+            state: state
+        )
     }
     
     /// Creates a ``MarkdownView`` that displays the content of a markdown file
     /// - Parameters:
     ///   - asyncMarkdown: A `Data` instance containing the markdown file in an utf8 representation.
+    ///   - options: Options on how to parse the markdown into an attributed string.
     ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
     public init(
         markdown: Data,
+        options: AttributedString.MarkdownParsingOptions = .init(interpretedSyntax: .inlineOnlyPreservingWhitespace),
+        state: Binding<ViewState> = .constant(.idle)
+    ) {
+        self.init(
+            asyncMarkdown: { markdown },
+            state: state
+        )
+    }
+    
+    /// Creates a ``MarkdownView`` that displays the content of a markdown string that is loaded asynchronously.
+    /// - Parameters:
+    ///   - asyncMarkdown: An async throwing closure to load the markdown as a string.
+    ///   - options: Options on how to parse the markdown into an attributed string.
+    ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
+    public init(
+        asyncMarkdown: @escaping () async throws -> String,
+        options: AttributedString.MarkdownParsingOptions = .init(interpretedSyntax: .inlineOnlyPreservingWhitespace),
+        state: Binding<ViewState> = .constant(.idle)
+    ) {
+        self.init(
+            attributedString: {
+                try AttributedString(
+                    markdown: try await asyncMarkdown(),
+                    options: options
+                )
+            },
+            state: state
+        )
+    }
+    
+    /// Creates a ``MarkdownView`` that displays the content of a markdown file
+    /// - Parameters:
+    ///   - asyncMarkdown: A `String` instance containing the markdown file.
+    ///   - options: Options on how to parse the markdown into an attributed string.
+    ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
+    public init(
+        markdown: String,
+        options: AttributedString.MarkdownParsingOptions = .init(interpretedSyntax: .inlineOnlyPreservingWhitespace),
         state: Binding<ViewState> = .constant(.idle)
     ) {
         self.init(
@@ -92,18 +138,28 @@ public struct MarkdownView: View {
     }
     
     
+    /// Creates a ``MarkdownView`` that displays the content of a markdown file
+    /// - Parameters:
+    ///   - asyncMarkdown: An `AttributedString` built from markdown data or a string.
+    ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
+    public init(
+        attributedString: @escaping () async throws -> AttributedString,
+        state: Binding<ViewState> = .constant(.idle)
+    ) {
+        self.buildMarkdown = attributedString
+        self._state = state
+    }
+    
+    
     /// Parses the incoming markdown and handles the view's error state management.
     /// - Parameters:
     ///   - markdown: A `Data` instance containing the markdown file in an utf8 representation.
     ///
     /// - Returns: Parsed Markdown as an `AttributedString`
-    @MainActor private func parse(markdown: Data) -> AttributedString {
+    @MainActor private func updateMarkdown() async -> AttributedString {
         state = .processing
         
-        guard let markdownString = try? AttributedString(
-                markdown: markdown,
-                options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
-              ) else {
+        guard let markdownString = try? await buildMarkdown() else {
             state = .error(Error.markdownLoadingError)
             return AttributedString(
                 String(localized: "MARKDOWN_LOADING_ERROR", bundle: .module)
