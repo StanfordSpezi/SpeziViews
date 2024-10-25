@@ -122,7 +122,7 @@ public struct CanvasView: View {
     /// The ``CanvasSizePreferenceKey`` enables outer views to get access to the current canvas size of the ``CanvasView``
     /// using the SwiftUI preference mechanisms.
     public struct CanvasSizePreferenceKey: PreferenceKey, Equatable {
-        public static var defaultValue: CGSize = .zero
+        public static let defaultValue: CGSize = .zero
         
         
         public static func reduce(value: inout CGSize, nextValue: () -> CGSize) {

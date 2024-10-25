@@ -15,16 +15,15 @@ final class EnvironmentTests: XCTestCase {
         try super.setUpWithError()
 
         continueAfterFailure = false
+    }
 
+    @MainActor
+    func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
         app.launch()
 
         app.open(target: "SpeziViews")
-    }
 
-    func testDefaultErrorDescription() throws {
-        let app = XCUIApplication()
- 
 #if os(visionOS)
         app.buttons["View State"].swipeUp()
 #endif
@@ -34,15 +33,14 @@ final class EnvironmentTests: XCTestCase {
 
         XCTAssert(app.staticTexts["View State: processing"].waitForExistence(timeout: 2))
 
-        sleep(12)
-
 #if os(macOS)
         let alerts = app.sheets
 #else
         let alerts = app.alerts
 #endif
-        XCTAssert(alerts.staticTexts["This is a default error description!"].exists)
+        XCTAssert(alerts.staticTexts["This is a default error description!"].waitForExistence(timeout: 6.0))
         XCTAssert(alerts.staticTexts["Failure Reason\n\nHelp Anchor\n\nRecovery Suggestion"].exists)
+        XCTAssertTrue(alerts.buttons["OK"].exists)
         alerts.buttons["OK"].tap()
 
         XCTAssert(app.staticTexts["View State: idle"].waitForExistence(timeout: 2))

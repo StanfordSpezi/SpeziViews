@@ -15,15 +15,14 @@ final class PersonalInfoViewsTests: XCTestCase {
         try super.setUpWithError()
 
         continueAfterFailure = false
+    }
 
+    @MainActor
+    func testNameFields() throws {
         let app = XCUIApplication()
         app.launch()
 
         app.open(target: "SpeziPersonalInfo")
-    }
-
-    func testNameFields() throws {
-        let app = XCUIApplication()
 
         XCTAssert(app.buttons["Name Fields"].waitForExistence(timeout: 2))
         app.buttons["Name Fields"].tap()
@@ -38,8 +37,12 @@ final class PersonalInfoViewsTests: XCTestCase {
         XCTAssert(app.textFields["Stanford"].waitForExistence(timeout: 2))
     }
 
+    @MainActor
     func testUserProfile() throws {
         let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziPersonalInfo")
 
         XCTAssert(app.buttons["User Profile"].waitForExistence(timeout: 2))
         app.buttons["User Profile"].tap()

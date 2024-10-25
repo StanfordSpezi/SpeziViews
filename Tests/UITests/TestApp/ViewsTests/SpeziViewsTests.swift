@@ -33,18 +33,21 @@ enum SpeziViewsTests: String, TestAppTests {
     
     #if canImport(PencilKit) && !os(macOS)
     @ViewBuilder
+    @MainActor
     private var canvas: some View {
         CanvasTestView()
     }
     #endif
 
     @ViewBuilder
+    @MainActor
     private var geometryReader: some View {
         GeometryReaderTestView()
     }
     
     #if !os(macOS)
     @ViewBuilder
+    @MainActor
     private var label: some View {
         Label(
             "LABEL_TEXT",
@@ -65,11 +68,13 @@ enum SpeziViewsTests: String, TestAppTests {
     #endif
 
     @ViewBuilder
+    @MainActor
     private var markdownView: some View {
         MarkdownViewTestView()
     }
     
     @ViewBuilder
+    @MainActor
     private var lazyText: some View {
         ScrollView {
             LazyText(
@@ -86,36 +91,43 @@ enum SpeziViewsTests: String, TestAppTests {
     }
     
     @ViewBuilder
+    @MainActor
     private var viewState: some View {
         ViewStateTestView()
     }
     
     @ViewBuilder
+    @MainActor
     private var operationState: some View {
         OperationStateTestView()
     }
     
     @ViewBuilder
+    @MainActor
     private var viewStateMapper: some View {
         ViewStateMapperTestView()
     }
     
     @ViewBuilder
+    @MainActor
     private var conditionalModifier: some View {
         ConditionalModifierTestView()
     }
 
     @ViewBuilder
+    @MainActor
     private var defaultErrorOnly: some View {
         ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"))
     }
 
     @ViewBuilder
+    @MainActor
     private var defaultErrorDescription: some View {
         DefaultErrorDescriptionTestView()
     }
 
     @ViewBuilder
+    @MainActor
     private var asyncButton: some View {
         AsyncButtonTestView()
     }

@@ -9,7 +9,51 @@
 import Foundation
 
 
-/// Allows SwiftUI views to keep track of their state and communicate to outside views.
+/// Allows SwiftUI views to track their state and communicate with other views.
+///
+/// A `ViewState` provides a built-in mechanism for tracking the state of a Spezi UI component.
+/// A view can be in one of three states: `idle`, `processing`, or `error`.
+///
+/// The ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` view modifier can be used to automatically notify users with an
+/// [`Alert`](https://developer.apple.com/documentation/swiftui/view/alert(_:ispresented:actions:)-3npin) when the
+/// `ViewState` transitions into an error state.
+///
+/// This is why the `error` state takes a
+/// [`LocalizedError`](https://developer.apple.com/documentation/foundation/localizederror) as an associated value:
+/// it provides a localized error description for the alert that is presented to users.
+///
+/// > Tip:
+/// > Use ``AnyLocalizedError`` to handle both localized and non-localized errors simultaneously. Non-localized
+/// > errors are handled on a best-effort basis, meaning a description may not always be available.
+///
+/// ```swift
+/// import SpeziViews
+/// import SwiftUI
+///
+/// struct ViewStateExample: View {
+///     @State private var viewState: ViewState = .idle
+///
+///     var body: some View {
+///         VStack {
+///             Button("Action") {
+///                 viewState = .processing
+///                 do {
+///                     // Call an asynchronous function that may throw an error...
+///                     viewState = .idle
+///                 } catch {
+///                     viewState = .error(AnyLocalizedError(error: error))
+///                 }
+///             }
+///             .viewStateAlert(state: $viewState)
+///         }
+///     }
+/// }
+/// ```
+///
+/// > Tip:
+/// > To handle more complex view states, you can use the ``OperationState`` protocol to map a more sophisticated state machine to `ViewState` instances, as defined
+/// > by the ``OperationState/representation`` property. This allows you to benefit from the same built-in behavior and modifiers that `ViewState` provides.
+/// > For instructions on defining such a mapping, refer to the ``OperationState`` documentation.
 public enum ViewState {
     /// The view is idle and displaying content.
     case idle

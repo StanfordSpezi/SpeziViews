@@ -17,6 +17,9 @@
         }
       }
     },
+    "Dismiss" : {
+
+    },
     "Error" : {
       "comment" : "View State default error title",
       "localizations" : {

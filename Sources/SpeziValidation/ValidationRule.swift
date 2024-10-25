@@ -63,11 +63,11 @@ enum CascadingValidationEffect {
 /// - ``minimalPassword``
 /// - ``mediumPassword``
 /// - ``strongPassword``
-public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
+public struct ValidationRule: Identifiable, Sendable, Equatable {
     // we guarantee that the closure is only executed on the main thread
     /// A unique identifier for the ``ValidationRule``. Can be used to, e.g., match a ``FailedValidationResult`` to the ValidationRule.
     public let id: UUID
-    private let rule: (String) -> Bool
+    private let rule: @Sendable (String) -> Bool
     /// A localized message that describes a recovery suggestion if the validation rule fails.
     public let message: LocalizedStringResource
     let effect: CascadingValidationEffect
@@ -76,7 +76,7 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     // swiftlint:disable:next function_default_parameter_at_end
     init(
         id: UUID = UUID(),
-        ruleClosure: @escaping (String) -> Bool,
+        ruleClosure: @escaping @Sendable (String) -> Bool,
         message: LocalizedStringResource,
         effect: CascadingValidationEffect = .continue
     ) {
@@ -92,7 +92,7 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     /// - Parameters:
     ///   - rule: An escaping closure that validates a `String` and returns a boolean result.
     ///   - message: A `String` message to display if validation fails.
-    public init(rule: @escaping (String) -> Bool, message: LocalizedStringResource) {
+    public init(rule: @escaping @Sendable (String) -> Bool, message: LocalizedStringResource) {
         self.init(ruleClosure: rule, message: message)
     }
 
@@ -102,7 +102,7 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     ///   - rule: An escaping closure that validates a `String` and returns a boolean result.
     ///   - message: A `String` message to display if validation fails.
     ///   - bundle: The Bundle to localize for.
-    public init(rule: @escaping (String) -> Bool, message: String.LocalizationValue, bundle: Bundle) {
+    public init(rule: @escaping @Sendable (String) -> Bool, message: String.LocalizationValue, bundle: Bundle) {
         self.init(ruleClosure: rule, message: LocalizedStringResource(message, bundle: .atURL(from: bundle)))
     }
     
@@ -111,8 +111,12 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     /// - Parameters:
     ///   - regex: A `Regex` regular expression to match for validating text. Note, the `wholeMatch` operation is used.
     ///   - message: A `LocalizedStringResource` message to display if validation fails.
-    public init(regex: Regex<AnyRegexOutput>, message: LocalizedStringResource) {
-        self.init(ruleClosure: { (try? regex.wholeMatch(in: $0) != nil) ?? false }, message: message)
+    public init<Output>(regex: Regex<Output>, message: LocalizedStringResource) {
+        // Regex might not be Sendable, depending how it was constructed (e.g., might capture a non-Sendable transform closure).
+        // This is still an issue that is actively discussed https://forums.swift.org/t/should-regex-be-sendable/69529
+        // so we are ignoring it for now.
+        nonisolated(unsafe) let regexTmp = regex
+        self.init(ruleClosure: { ( try? regexTmp.wholeMatch(in: $0) != nil) ?? false }, message: message)
     }
 
     /// Creates a validation rule from a regular expression.
@@ -121,7 +125,7 @@ public struct ValidationRule: Identifiable, @unchecked Sendable, Equatable {
     ///   - regex: A `Regex` regular expression to match for validating text. Note, the `wholeMatch` operation is used.
     ///   - message: A `String` message to display if validation fails.
     ///   - bundle: The Bundle to localize for.
-    public init(regex: Regex<AnyRegexOutput>, message: String.LocalizationValue, bundle: Bundle) {
+    public init<Output>(regex: Regex<Output>, message: String.LocalizationValue, bundle: Bundle) {
         self.init(regex: regex, message: LocalizedStringResource(message, bundle: .atURL(from: bundle)))
     }
 

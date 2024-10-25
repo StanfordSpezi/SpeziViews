@@ -60,6 +60,7 @@ Automatically adapt your view layouts to dynamic type sizes, device orientation,
 - ``AsyncButton``
 - ``SwiftUI/EnvironmentValues/processingDebounceDuration``
 - ``CanvasView``
+- ``DismissButton``
 
 ### Displaying Text
 
@@ -72,6 +73,11 @@ Automatically adapt your view layouts to dynamic type sizes, device orientation,
 
 - ``SwiftUI/View/focusOnTap()``
 - ``SwiftUI/View/observeOrientationChanges(_:)``
+
+### Styles
+
+- ``ReverseLabelStyle``
+- ``SwiftUI/LabelStyle/reverse``
 
 ### Localization
 
@@ -89,3 +95,10 @@ Automatically adapt your view layouts to dynamic type sizes, device orientation,
 
 - ``AnyLocalizedError``
 - ``SwiftUI/EnvironmentValues/defaultErrorDescription``
+
+### Modules
+
+- ``ConfigureTipKit``
+
+### System Programming Interfaces
+- <doc:SPI>

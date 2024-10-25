@@ -109,4 +109,59 @@ extension View {
     public func validate(input value: String, rules: ValidationRule...) -> some View {
         validate(input: value, rules: rules)
     }
+
+
+    /// Validate a `Bool` expression.
+    ///
+    /// This modifier can be used to validate a `Bool` predicate. If the expression doesn't evaluate to `true`, the `message`
+    /// is shown as a validation error.
+    ///
+    /// Validation is managed through a ``ValidationEngine`` instance that is injected as an `Observable` into the
+    /// environment.
+    ///
+    /// Below is an example that uses the `validate(_:message:)` modifier to validate the selection of a `Picker`.
+    /// - Note: The example uses the ``receiveValidation(in:)`` modifier to retrieve the validation results of the subview.
+    ///     The ``ValidationResultsView`` is used to render the failure reason in red text below the picker.
+    ///
+    /// ```swift
+    /// struct MyView: View {
+    ///     enum Selection: String, CaseIterable, Hashable {
+    ///         case none = "Nothing selected"
+    ///         case accept = "Accept"
+    ///         case deny = "Deny"
+    ///     }
+    ///
+    ///     @State private var selection: Selection = .none
+    ///     @ValidationState private var validationState
+    ///
+    ///     var body: some View {
+    ///         VStack(alignment: .leading) {
+    ///             Picker(selection: $selection) {
+    ///                 ForEach(Selection.allCases, id: \.rawValue) { selection in
+    ///                     Text(selection.rawValue)
+    ///                         .tag(selection)
+    ///                 }
+    ///             } label: {
+    ///                 Text("Cookies")
+    ///             }
+    ///             ValidationResultsView(results: validationState.allDisplayedValidationResults)
+    ///         }
+    ///             .validate(selection != .none, message: "This field must be selected")
+    ///             .receiveValidation(in: $validationState)
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// - Important: You shouldn't place multiple validate modifiers into the same view hierarchy branch. This creates
+    ///     visibility problems in both direction. Both displaying validation results in the child view and receiving
+    ///     validation state from the parent view.
+    ///
+    /// - Parameters:
+    ///   - predicate: The predicate to validate.
+    ///   - message: The validation message that is used as an failure reason, if the predicate evaluates to `false`.
+    /// - Returns: The modified view.
+    public func validate(_ predicate: Bool, message: LocalizedStringResource) -> some View {
+        let rule = ValidationRule(rule: { $0.isEmpty }, message: message)
+        return validate(input: predicate ? "" : "FALSE", rules: [rule])
+    }
 }

@@ -6,7 +6,6 @@
 // SPDX-License-Identifier: MIT
 //
 
-import SpeziPersonalInfo
 import SwiftUI
 import XCTestApp
 
@@ -14,6 +13,7 @@ import XCTestApp
 enum SpeziValidationTests: String, TestAppTests {
     case validation = "Validation"
     case validationRules = "ValidationRules"
+    case validationPredicate = "Validation Picker"
 
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {
         switch self {
@@ -21,6 +21,8 @@ enum SpeziValidationTests: String, TestAppTests {
             FocusedValidationTests()
         case .validationRules:
             DefaultValidationRules()
+        case .validationPredicate:
+            ValidationPredicateTests()
         }
     }
 }

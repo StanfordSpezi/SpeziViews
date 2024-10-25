@@ -16,10 +16,12 @@ enum SpeziPersonalInfoTests: String, TestAppTests {
     case userProfile = "User Profile"
 
     @ViewBuilder
+    @MainActor
     private var nameFields: some View {
         NameFieldsTestView()
     }
 
+    @MainActor
     @ViewBuilder
     private var userProfile: some View {
         UserProfileView(

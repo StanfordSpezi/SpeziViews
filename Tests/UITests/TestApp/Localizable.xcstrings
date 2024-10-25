@@ -32,6 +32,9 @@
     "Condition present" : {
 
     },
+    "Cookies" : {
+
+    },
     "Credentials" : {
 
     },
@@ -152,6 +155,9 @@
 
     },
     "Targets" : {
+
+    },
+    "This field must be selected." : {
 
     },
     "This is a default error description!" : {

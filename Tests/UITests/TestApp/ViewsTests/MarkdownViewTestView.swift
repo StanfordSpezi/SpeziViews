@@ -16,8 +16,8 @@ struct MarkdownViewTestView: View {
     var body: some View {
         MarkdownView(
             asyncMarkdown: {
-                try? await Task.sleep(for: .seconds(5))
-                return Data("This is a *markdown* **example** taking 5 seconds to load.".utf8)
+                try? await Task.sleep(for: .seconds(2))
+                return Data("This is a *markdown* **example** taking 2 seconds to load.".utf8)
             }
         )
         MarkdownView(
