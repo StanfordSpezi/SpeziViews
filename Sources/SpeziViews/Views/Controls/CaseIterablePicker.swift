@@ -74,14 +74,14 @@ public struct CaseIterablePicker<Value: PickerValue, Label: View>: View where Va
     
     /// Create a new case-iterable picker.
     /// - Parameters:
-    ///   - value: The value binding.
+    ///   - selection: The selection binding.
     ///   - label: The picker label.
     @_disfavoredOverload
     public init(
-        value: Binding<Value>,
+        selection: Binding<Value>,
         @ViewBuilder label: () -> Label
     ) {
-        self._value = value
+        self._value = selection
         self.noneValue = nil
         self.label = label()
     }
@@ -89,25 +89,25 @@ public struct CaseIterablePicker<Value: PickerValue, Label: View>: View where Va
     /// Create a new case-iterable picker.
     /// - Parameters:
     ///   - titleKey: The picker label.
-    ///   - value: The value binding.
+    ///   - selection: The selection binding.
     @_disfavoredOverload
-    public init(_ titleKey: LocalizedStringResource, value: Binding<Value>) where Label == Text {
-        self.init(value: value) {
+    public init(_ titleKey: LocalizedStringResource, selection: Binding<Value>) where Label == Text {
+        self.init(selection: selection) {
             Text(titleKey)
         }
     }
     
     /// Create a new case-iterable picker.
     /// - Parameters:
-    ///   - value: The value binding.
+    ///   - selection: The selection binding.
     ///   - noneValue: The value that represents the none value.
     ///   - label: The picker label.
     public init(
-        value: Binding<Value>,
+        selection: Binding<Value>,
         none noneValue: Value,
         @ViewBuilder label: () -> Label
     ) {
-        self._value = value
+        self._value = selection
         self.noneValue = noneValue
         self.label = label()
     }
@@ -115,10 +115,10 @@ public struct CaseIterablePicker<Value: PickerValue, Label: View>: View where Va
     /// Create a new case-iterable picker.
     /// - Parameters:
     ///   - titleKey: The picker label.
-    ///   - value: The value binding.
+    ///   - selection: The value binding.
     ///   - noneValue: The value that represents the none value.
-    public init(_ titleKey: LocalizedStringResource, value: Binding<Value>, none noneValue: Value) where Label == Text {
-        self.init(value: value, none: noneValue) {
+    public init(_ titleKey: LocalizedStringResource, selection: Binding<Value>, none noneValue: Value) where Label == Text {
+        self.init(selection: selection, none: noneValue) {
             Text(titleKey)
         }
     }
@@ -128,13 +128,13 @@ public struct CaseIterablePicker<Value: PickerValue, Label: View>: View where Va
 extension CaseIterablePicker where Value: AnyOptional { // swiftlint:disable:this file_types_order
     /// Create a new case-iterable picker.
     /// - Parameters:
-    ///   - value: The value binding.
+    ///   - selection: The selection binding.
     ///   - label: The picker label.
     public init(
-        value: Binding<Value>,
+        selection: Binding<Value>,
         @ViewBuilder label: () -> Label
     ) {
-        self._value = value
+        self._value = selection
         self.noneValue = Value(nilLiteral: ())
         self.label = label()
     }
@@ -143,8 +143,8 @@ extension CaseIterablePicker where Value: AnyOptional { // swiftlint:disable:thi
     /// - Parameters:
     ///   - titleKey: The picker label.
     ///   - value: The value binding.
-    public init(_ titleKey: LocalizedStringResource, value: Binding<Value>) where Label == Text {
-        self.init(value: value) {
+    public init(_ titleKey: LocalizedStringResource, selection: Binding<Value>) where Label == Text {
+        self.init(selection: selection) {
             Text(titleKey)
         }
     }
@@ -169,7 +169,7 @@ private enum Version: PickerValue {
 #Preview {
     @Previewable @State var version: Version? = .versionA
     List {
-        CaseIterablePicker("Version", value: $version)
+        CaseIterablePicker("Version", selection: $version)
     }
 }
 #endif

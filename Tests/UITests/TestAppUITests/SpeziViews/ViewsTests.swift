@@ -227,4 +227,32 @@ final class ViewsTests: XCTestCase {
         app.buttons["Refresh in 2s"].tap()
         XCTAssert(app.staticTexts["Value, 2"].waitForExistence(timeout: 4.0))
     }
+
+    @MainActor
+    func testCaseIterablePicker() {
+        let app = XCUIApplication()
+        app.launch()
+
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
+        app.open(target: "SpeziViews")
+
+        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOs
+
+        XCTAssert(app.buttons["Case Iterable Picker"].waitForExistence(timeout: 2.0))
+        app.buttons["Case Iterable Picker"].tap()
+
+        XCTAssert(app.navigationBars.staticTexts["Case Iterable Picker"].waitForExistence(timeout: 2.0))
+
+        print(app.debugDescription)
+        XCTAssert(app.buttons["Selection, None"].exists)
+        app.buttons["Selection, None"].tap()
+
+        XCTAssert(app.buttons["None"].waitForExistence(timeout: 2.0))
+        XCTAssert(app.buttons["First"].exists)
+        XCTAssert(app.buttons["Second"].exists)
+
+        app.buttons["First"].tap()
+
+        XCTAssert(app.buttons["Selection, First"].waitForExistence(timeout: 2.0))
+    }
 }

@@ -23,6 +23,7 @@
 		97A0A5102B8D7FD7006102EF /* ConditionalModifierTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */; };
 		97EE16AC2B16D5AB004D25A3 /* OperationStateTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */; };
 		A90575B02CD02E1500B94001 /* TileExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90575AF2CD02E1000B94001 /* TileExample.swift */; };
+		A90575B42CD03B2E00B94001 /* CaseIterablePickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90575B32CD03B2C00B94001 /* CaseIterablePickerTests.swift */; };
 		A91E4DE62C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91E4DE52C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */; };
@@ -75,6 +76,7 @@
 		97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalModifierTestView.swift; sourceTree = "<group>"; };
 		97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStateTestView.swift; sourceTree = "<group>"; };
 		A90575AF2CD02E1000B94001 /* TileExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileExample.swift; sourceTree = "<group>"; };
+		A90575B32CD03B2C00B94001 /* CaseIterablePickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterablePickerTests.swift; sourceTree = "<group>"; };
 		A91E4DE52C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationPredicateTests.swift; sourceTree = "<group>"; };
 		A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziValidationTests.swift; sourceTree = "<group>"; };
 		A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Targets.swift"; sourceTree = "<group>"; };
@@ -175,17 +177,18 @@
 		2FA9485D29DE90710081C086 /* ViewsTests */ = {
 			isa = PBXGroup;
 			children = (
-				A977F67F2C9347860071A1D1 /* ManagedViewStateTests.swift */,
-				2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */,
-				2FA9485E29DE90720081C086 /* ViewStateTestView.swift */,
-				9731B58E2B167053007676C0 /* ViewStateMapperView.swift */,
-				97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */,
-				97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */,
-				2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */,
-				2FA9486029DE90720081C086 /* CanvasTestView.swift */,
-				2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */,
-				A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */,
 				A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */,
+				2FA9486029DE90720081C086 /* CanvasTestView.swift */,
+				A90575B32CD03B2C00B94001 /* CaseIterablePickerTests.swift */,
+				97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */,
+				A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */,
+				2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */,
+				A977F67F2C9347860071A1D1 /* ManagedViewStateTests.swift */,
+				2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */,
+				97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */,
+				2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */,
+				9731B58E2B167053007676C0 /* ViewStateMapperView.swift */,
+				2FA9485E29DE90720081C086 /* ViewStateTestView.swift */,
 			);
 			path = ViewsTests;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */,
 				2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */,
 				A99A65122AF57CA200E63582 /* FocusedValidationTests.swift in Sources */,
+				A90575B42CD03B2E00B94001 /* CaseIterablePickerTests.swift in Sources */,
 				97EE16AC2B16D5AB004D25A3 /* OperationStateTestView.swift in Sources */,
 				9731B58F2B167053007676C0 /* ViewStateMapperView.swift in Sources */,
 				A9F85B742B32A05C005F16E6 /* ViewStateExample.swift in Sources */,
