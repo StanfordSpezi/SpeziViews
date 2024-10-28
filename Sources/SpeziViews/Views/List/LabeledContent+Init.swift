@@ -60,7 +60,7 @@ extension LabeledContent where Label == Text, Content == Text {
     
     /// Creates a labeled informational view from a formatted value.
     /// - Parameters:
-    ///   - title: A string that describes the purpose of the view.
+    ///   - titleKey: A string that describes the purpose of the view.
     ///   - value: The value being labeled.
     ///   - format: A format style to convert the underlying value to a string representation.
     @_disfavoredOverload

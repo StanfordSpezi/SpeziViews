@@ -12,7 +12,6 @@ import SwiftUI
 /// A header layout for tiles.
 ///
 /// A header layout that consists of an icon, a title and an optional subheadline.
-/// The view automatically adapts it layout based on the  `HorizontalAlignment` and the available space.
 ///
 /// ```swift
 /// TileHeader(alignment: .center) {
@@ -26,6 +25,26 @@ import SwiftUI
 ///     Text("by Robert C. Martin")
 /// }
 /// ```
+///
+/// The view automatically adapts it layout based on the  `HorizontalAlignment` and the available space.
+///
+/// @Row {
+///     @Column {
+///         @Image(source: "Tile-Leading", alt: "A `SimpleTile` view with a `TileHeader` view with `leading` alignment.") {
+///             A `TileHeader` used with the ``SimpleTile`` view and `leading` alignment.
+///         }
+///     }
+///     @Column {
+///     @Image(source: "Tile-Center", alt: "A `SimpleTile` view with a `TileHeader` view with `center` alignment.") {
+///             A `TileHeader` used with the ``SimpleTile`` view and `center` alignment.
+///         }
+///     }
+///     @Column {
+///         @Image(source: "Tile-Trailing", alt: "A `SimpleTile` view with a `TileHeader` view with `center` alignment.") {
+///             A `TileHeader` used with the ``SimpleTile`` view and `trailing` alignment.
+///         }
+///     }
+/// }
 public struct TileHeader<Icon: View, Title: View, Subheadline: View>: View {
     private let alignment: HorizontalAlignment
     private let icon: Icon

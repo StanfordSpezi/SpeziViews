@@ -102,7 +102,7 @@ extension ListRow where Label == Text, Content == Text { // swiftlint:disable:th
 
     /// Create a list row with a string value.
     /// - Parameters:
-    ///   - titleKey: The string label.
+    ///   - title: The string label.
     ///   - value: The string value being labeled.
     public init<S1: StringProtocol, S2: StringProtocol>(_ title: S1, value: S2) {
         self.labeledContent = LabeledContent(title, value: value)
@@ -110,7 +110,7 @@ extension ListRow where Label == Text, Content == Text { // swiftlint:disable:th
 
     /// Creates a labeled list row from a formatted value.
     /// - Parameters:
-    ///   - title: The localized label.
+    ///   - titleKey: The localized label.
     ///   - value: The value being labeled.
     ///   - format: A format style to convert the underlying value to a string representation.
     public init<F: FormatStyle>(
@@ -123,7 +123,7 @@ extension ListRow where Label == Text, Content == Text { // swiftlint:disable:th
 
     /// Creates a labeled list row from a formatted value.
     /// - Parameters:
-    ///   - title: The localized label.
+    ///   - titleKey: The localized label.
     ///   - value: The value being labeled.
     ///   - format: A format style to convert the underlying value to a string representation.
     @_disfavoredOverload

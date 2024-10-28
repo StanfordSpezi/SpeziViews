@@ -11,6 +11,8 @@ import SwiftUI
 
 /// A tile-like view with header, footer and an optional action.
 ///
+/// Below is a code example on how to use a tile view with specifying a body and a footer.
+///
 /// ```swift
 /// SimpleTile {
 ///     Text("Clean Code")
@@ -27,6 +29,8 @@ import SwiftUI
 ///         .buttonStyle(.borderedProminent)
 /// }
 /// ```
+///
+/// A tile can be rendered with three different layouts: `leading`, `center` and `trailing`.
 ///
 /// @Row {
 ///     @Column {
@@ -45,7 +49,7 @@ import SwiftUI
 ///         }
 ///     }
 /// }
-public struct SimpleTile<Header: View, Body: View, Footer: View>: View { // TODO: add images to TileHeader as well
+public struct SimpleTile<Header: View, Body: View, Footer: View>: View {
     private let alignment: HorizontalAlignment
     private let header: Header
     private let bodyView: Body
