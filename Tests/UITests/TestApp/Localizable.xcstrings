@@ -10,7 +10,19 @@
     "%lld" : {
 
     },
+    "A book by Robert C. Martin" : {
+
+    },
     "Action executed" : {
+
+    },
+    "Alignment" : {
+
+    },
+    "Buy" : {
+
+    },
+    "by Robert C. Martin" : {
 
     },
     "Canvas Size: none" : {
@@ -27,6 +39,12 @@
       }
     },
     "CanvasTest" : {
+
+    },
+    "Center" : {
+
+    },
+    "Clean Code" : {
 
     },
     "Closure Condition present" : {
@@ -118,6 +136,9 @@
         }
       }
     },
+    "Leading" : {
+
+    },
     "Managed View Update" : {
 
     },
@@ -137,6 +158,9 @@
 
     },
     "Please enter your email address of your account. A email with an link to reset your password will be sent to the email address." : {
+
+    },
+    "Recommendations" : {
 
     },
     "Refresh" : {
@@ -184,10 +208,16 @@
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
 
     },
+    "Tiles" : {
+
+    },
     "Toggle Closure Condition" : {
 
     },
     "Toggle Condition" : {
+
+    },
+    "Trailing" : {
 
     },
     "Username" : {

@@ -46,7 +46,7 @@ public struct ListRow<Label: View, Content: View>: View { // swiftlint:disable:t
     /// - Parameters:
     ///   - label: The string label.
     ///   - content: The content view.
-    public init(verbatim label: String, @ViewBuilder content: () -> Content) where Label == Text {
+    public init<S: StringProtocol>(verbatim label: S, @ViewBuilder content: () -> Content) where Label == Text {
         self.labeledContent = .init(verbatim: label, content: content)
     }
 
@@ -55,7 +55,7 @@ public struct ListRow<Label: View, Content: View>: View { // swiftlint:disable:t
     ///   - label: The string label.
     ///   - content: The content view.
     @_disfavoredOverload
-    public init(_ label: String, @ViewBuilder content: () -> Content) where Label == Text {
+    public init<S: StringProtocol>(_ label: S, @ViewBuilder content: () -> Content) where Label == Text {
         self.labeledContent = .init(label, content: content)
     }
 
@@ -74,6 +74,82 @@ public struct ListRow<Label: View, Content: View>: View { // swiftlint:disable:t
     ///   - content: The content view.
     public init(@ViewBuilder _ label: () -> Label, @ViewBuilder content: () -> Content) {
         self.labeledContent = LabeledContent(content: content, label: label)
+    }
+}
+
+
+extension ListRow where Label == Text, Content == Text { // swiftlint:disable:this file_types_order
+    /// Create a list row with a string value.
+    /// - Parameters:
+    ///   - titleKey: The localized label.
+    ///   - value: The string value.
+    public init<S: StringProtocol>(_ titleKey: LocalizedStringKey, value: S) {
+        self.labeledContent = LabeledContent(titleKey, value: value)
+    }
+
+    /// Create a list row with a string value.
+    /// - Parameters:
+    ///   - titleKey: The localized label.
+    ///   - value: The string value being labeled.
+    @_disfavoredOverload
+    public init<S: StringProtocol>(_ titleKey: LocalizedStringResource, value: S) {
+        self.labeledContent = LabeledContent {
+            Text(value)
+        } label: {
+            Text(titleKey)
+        }
+    }
+
+    /// Create a list row with a string value.
+    /// - Parameters:
+    ///   - titleKey: The string label.
+    ///   - value: The string value being labeled.
+    public init<S1: StringProtocol, S2: StringProtocol>(_ title: S1, value: S2) {
+        self.labeledContent = LabeledContent(title, value: value)
+    }
+
+    /// Creates a labeled list row from a formatted value.
+    /// - Parameters:
+    ///   - title: The localized label.
+    ///   - value: The value being labeled.
+    ///   - format: A format style to convert the underlying value to a string representation.
+    public init<F: FormatStyle>(
+        _ titleKey: LocalizedStringKey,
+        value: F.FormatInput,
+        format: F
+    ) where F.FormatInput: Equatable, F.FormatOutput == String {
+        self.labeledContent = LabeledContent(titleKey, value: value, format: format)
+    }
+
+    /// Creates a labeled list row from a formatted value.
+    /// - Parameters:
+    ///   - title: The localized label.
+    ///   - value: The value being labeled.
+    ///   - format: A format style to convert the underlying value to a string representation.
+    @_disfavoredOverload
+    public init<F: FormatStyle>(
+        _ titleKey: LocalizedStringResource,
+        value: F.FormatInput,
+        format: F
+    ) where F.FormatInput: Equatable, F.FormatOutput == String {
+        self.labeledContent = LabeledContent {
+            Text(value, format: format)
+        } label: {
+            Text(titleKey)
+        }
+    }
+
+    /// Creates a labeled list row from a formatted value.
+    /// - Parameters:
+    ///   - title: The string label.
+    ///   - value: The value being labeled.
+    ///   - format: A format style to convert the underlying value to a string representation.
+    public init<S: StringProtocol, F: FormatStyle>(
+        _ title: S,
+        value: F.FormatInput,
+        format: F
+    ) where F.FormatInput: Equatable, F.FormatOutput == String {
+        self.labeledContent = LabeledContent(title, value: value, format: format)
     }
 }
 

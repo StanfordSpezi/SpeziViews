@@ -62,6 +62,9 @@ struct SpeziViewsTargetsTests: View {
                     NavigationLink("Validation TextField") {
                         ValidationExample()
                     }
+                    NavigationLink("Tiles") {
+                        TileExample()
+                    }
                 } header: {
                     Text("Examples")
                 } footer: {

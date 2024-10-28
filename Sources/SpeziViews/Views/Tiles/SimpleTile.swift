@@ -27,7 +27,25 @@ import SwiftUI
 ///         .buttonStyle(.borderedProminent)
 /// }
 /// ```
-public struct SimpleTile<Header: View, Body: View, Footer: View>: View {
+///
+/// @Row {
+///     @Column {
+///         @Image(source: "Tile-Leading", alt: "A `SimpleTile` view with a `TileHeader` view with `leading` alignment.") {
+///             Using the `SimpleTile` view with the default ``TileHeader`` and `leading` alignment.
+///         }
+///     }
+///     @Column {
+///     @Image(source: "Tile-Center", alt: "A `SimpleTile` view with a `TileHeader` view with `center` alignment.") {
+///             Using the `SimpleTile` view with the default ``TileHeader`` and `center` alignment.
+///         }
+///     }
+///     @Column {
+///         @Image(source: "Tile-Trailing", alt: "A `SimpleTile` view with a `TileHeader` view with `center` alignment.") {
+///             Using the `SimpleTile` view with the default ``TileHeader`` and `trailing` alignment.
+///         }
+///     }
+/// }
+public struct SimpleTile<Header: View, Body: View, Footer: View>: View { // TODO: add images to TileHeader as well
     private let alignment: HorizontalAlignment
     private let header: Header
     private let bodyView: Body
