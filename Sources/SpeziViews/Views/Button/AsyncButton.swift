@@ -21,7 +21,7 @@ enum AsyncButtonState {
 /// The `AsyncButton` closely works together with the ``ViewState`` to control processing and error states.
 ///
 /// Below is a short code example on how to use `ViewState` in conjunction with the `AsyncButton` to spin of a
-/// async throwing action. It relies on the ``SwiftUI/View/viewStateAlert(state:)-4wzs4`` modifier to present any
+/// async throwing action. It relies on the ``SwiftUICore/View/viewStateAlert(state:)-4wzs4`` modifier to present any
 /// potential `LocalizedErrors` to the user.
 ///
 /// ```swift
@@ -75,7 +75,7 @@ public struct AsyncButton<Label: View>: View {
     public init(
         _ title: LocalizedStringResource,
         role: ButtonRole? = nil,
-        action: @escaping () async -> Void
+        action: @MainActor @escaping () async -> Void
     ) where Label == Text {
         self.init(role: role, action: action) {
             Text(title)
@@ -91,7 +91,7 @@ public struct AsyncButton<Label: View>: View {
     public init<Title: StringProtocol>(
         _ title: Title,
         role: ButtonRole? = nil,
-        action: @escaping () async -> Void
+        action: @MainActor @escaping () async -> Void
     ) where Label == Text {
         self.init(role: role, action: action) {
             Text(verbatim: String(title))
@@ -105,7 +105,7 @@ public struct AsyncButton<Label: View>: View {
     ///   - label: The Button label.
     public init(
         role: ButtonRole? = nil,
-        action: @escaping () async -> Void,
+        action: @MainActor @escaping () async -> Void,
         @ViewBuilder label: () -> Label
     ) {
         self.role = role
@@ -126,7 +126,7 @@ public struct AsyncButton<Label: View>: View {
         _ title: Title,
         role: ButtonRole? = nil,
         state: Binding<ViewState>,
-        action: @escaping () async throws -> Void
+        action: @MainActor @escaping () async throws -> Void
     ) where Label == Text {
         self.init(role: role, state: state, action: action) {
             Text(verbatim: String(title))
@@ -144,7 +144,7 @@ public struct AsyncButton<Label: View>: View {
         _ title: LocalizedStringResource,
         role: ButtonRole? = nil,
         state: Binding<ViewState>,
-        action: @escaping () async throws -> Void
+        action: @MainActor @escaping () async throws -> Void
     ) where Label == Text {
         self.init(role: role, state: state, action: action) {
             Text(title)
@@ -161,7 +161,7 @@ public struct AsyncButton<Label: View>: View {
     public init( // swiftlint:disable:this function_default_parameter_at_end
         role: ButtonRole? = nil,
         state: Binding<ViewState>,
-        action: @escaping () async throws -> Void,
+        action: @MainActor @escaping () async throws -> Void,
         @ViewBuilder label: () -> Label
     ) {
         self.role = role

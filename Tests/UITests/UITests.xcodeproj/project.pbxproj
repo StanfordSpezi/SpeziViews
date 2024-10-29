@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,11 +22,14 @@
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		97A0A5102B8D7FD7006102EF /* ConditionalModifierTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */; };
 		97EE16AC2B16D5AB004D25A3 /* OperationStateTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */; };
+		A90575B02CD02E1500B94001 /* TileExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90575AF2CD02E1000B94001 /* TileExample.swift */; };
+		A90575B42CD03B2E00B94001 /* CaseIterablePickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90575B32CD03B2C00B94001 /* CaseIterablePickerTests.swift */; };
 		A91E4DE62C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91E4DE52C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */; };
 		A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */ = {isa = PBXBuildFile; productRef = A963ACAF2AF4692500D745F2 /* SpeziValidation */; };
 		A963ACB22AF4709400D745F2 /* XCUIApplication+Targets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */; };
+		A977F6802C93478D0071A1D1 /* ManagedViewStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A977F67F2C9347860071A1D1 /* ManagedViewStateTests.swift */; };
 		A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880962A4C4E6500150B2F /* ModelTests.swift */; };
 		A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */; };
 		A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A978809A2A4C52F100150B2F /* EnvironmentTests.swift */; };
@@ -72,9 +75,12 @@
 		9731B58E2B167053007676C0 /* ViewStateMapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStateMapperView.swift; sourceTree = "<group>"; };
 		97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalModifierTestView.swift; sourceTree = "<group>"; };
 		97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStateTestView.swift; sourceTree = "<group>"; };
+		A90575AF2CD02E1000B94001 /* TileExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileExample.swift; sourceTree = "<group>"; };
+		A90575B32CD03B2C00B94001 /* CaseIterablePickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseIterablePickerTests.swift; sourceTree = "<group>"; };
 		A91E4DE52C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationPredicateTests.swift; sourceTree = "<group>"; };
 		A963ACAB2AF4683A00D745F2 /* SpeziValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziValidationTests.swift; sourceTree = "<group>"; };
 		A963ACB12AF4709400D745F2 /* XCUIApplication+Targets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Targets.swift"; sourceTree = "<group>"; };
+		A977F67F2C9347860071A1D1 /* ManagedViewStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedViewStateTests.swift; sourceTree = "<group>"; };
 		A97880962A4C4E6500150B2F /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultErrorDescriptionTestView.swift; sourceTree = "<group>"; };
 		A978809A2A4C52F100150B2F /* EnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
@@ -171,16 +177,18 @@
 		2FA9485D29DE90710081C086 /* ViewsTests */ = {
 			isa = PBXGroup;
 			children = (
-				2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */,
-				2FA9485E29DE90720081C086 /* ViewStateTestView.swift */,
-				9731B58E2B167053007676C0 /* ViewStateMapperView.swift */,
-				97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */,
-				97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */,
-				2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */,
-				2FA9486029DE90720081C086 /* CanvasTestView.swift */,
-				2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */,
-				A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */,
 				A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */,
+				2FA9486029DE90720081C086 /* CanvasTestView.swift */,
+				A90575B32CD03B2C00B94001 /* CaseIterablePickerTests.swift */,
+				97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */,
+				A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */,
+				2FA9486329DE90720081C086 /* GeometryReaderTestView.swift */,
+				A977F67F2C9347860071A1D1 /* ManagedViewStateTests.swift */,
+				2FA9485F29DE90720081C086 /* MarkdownViewTestView.swift */,
+				97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */,
+				2F2D338629DE52EA00081B1D /* SpeziViewsTests.swift */,
+				9731B58E2B167053007676C0 /* ViewStateMapperView.swift */,
+				2FA9485E29DE90720081C086 /* ViewStateTestView.swift */,
 			);
 			path = ViewsTests;
 			sourceTree = "<group>";
@@ -207,6 +215,7 @@
 		A9F85B6E2B32A028005F16E6 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				A90575AF2CD02E1000B94001 /* TileExample.swift */,
 				A9F85B6F2B32A041005F16E6 /* ValidationExample.swift */,
 				A9F85B712B32A052005F16E6 /* NameFieldsExample.swift */,
 				A9F85B732B32A05C005F16E6 /* ViewStateExample.swift */,
@@ -297,7 +306,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					2F6D139128F5F384007C25D6 = {
 						CreatedOnToolsVersion = 14.1;
@@ -310,7 +319,6 @@
 				};
 			};
 			buildConfigurationList = 2F6D138D28F5F384007C25D6 /* Build configuration list for PBXProject "UITests" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -322,6 +330,7 @@
 				977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */,
 				A9BA82B22C29FF7C00472FF3 /* XCRemoteSwiftPackageReference "Spezi" */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 2F6D139328F5F384007C25D6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -356,10 +365,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A977F6802C93478D0071A1D1 /* ManagedViewStateTests.swift in Sources */,
 				2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */,
 				A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */,
 				2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */,
 				A99A65122AF57CA200E63582 /* FocusedValidationTests.swift in Sources */,
+				A90575B42CD03B2E00B94001 /* CaseIterablePickerTests.swift in Sources */,
 				97EE16AC2B16D5AB004D25A3 /* OperationStateTestView.swift in Sources */,
 				9731B58F2B167053007676C0 /* ViewStateMapperView.swift in Sources */,
 				A9F85B742B32A05C005F16E6 /* ViewStateExample.swift in Sources */,
@@ -371,6 +382,7 @@
 				A91E4DE62C6A1EAE00E0E5A7 /* ValidationPredicateTests.swift in Sources */,
 				A963ACAC2AF4683A00D745F2 /* SpeziValidationTests.swift in Sources */,
 				A9FBAE982AF446F3001E4AF1 /* SpeziPersonalInfoTests.swift in Sources */,
+				A90575B02CD02E1500B94001 /* TileExample.swift in Sources */,
 				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
 				2FA9486629DE90720081C086 /* MarkdownViewTestView.swift in Sources */,
 				A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */,
@@ -464,6 +476,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				TVOS_DEPLOYMENT_TARGET = 17.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
@@ -522,6 +535,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				TVOS_DEPLOYMENT_TARGET = 17.0;
 				VALIDATE_PRODUCT = YES;
 				XROS_DEPLOYMENT_TARGET = 1.0;
@@ -600,7 +614,6 @@
 		2F6D13BD28F5F386007C25D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -625,7 +638,6 @@
 		2F6D13BE28F5F386007C25D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -706,6 +718,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				TVOS_DEPLOYMENT_TARGET = 17.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
@@ -748,7 +761,6 @@
 		2FB07589299DDB6000C0B37F /* Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

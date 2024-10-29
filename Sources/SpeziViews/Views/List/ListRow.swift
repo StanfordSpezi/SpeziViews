@@ -33,38 +33,12 @@ import SwiftUI
 /// }
 /// ```
 ///
-public struct ListRow<Label: View, Content: View>: View {
-    private let label: Label
-    private let content: Content
-
-    @State private var layout: DynamicLayout?
-
+public struct ListRow<Label: View, Content: View>: View { // swiftlint:disable:this file_types_order
+    private let labeledContent: LabeledContent<Label, Content>
 
     public var body: some View {
-        HStack {
-            DynamicHStack {
-                label
-                    .foregroundColor(.primary)
-                    .lineLimit(layout == .horizontal ? 1 : nil)
-
-                if layout == .horizontal {
-                    Spacer()
-                }
-
-                content
-                    .lineLimit(layout == .horizontal ? 1 : nil)
-                    .layoutPriority(1)
-                    .foregroundColor(.secondary)
-            }
-
-            if layout == .vertical {
-                Spacer()
-            }
-        }
+        labeledContent
             .accessibilityElement(children: .combine)
-            .onPreferenceChange(DynamicLayout.self) { value in
-                layout = value
-            }
     }
 
 
@@ -72,8 +46,8 @@ public struct ListRow<Label: View, Content: View>: View {
     /// - Parameters:
     ///   - label: The string label.
     ///   - content: The content view.
-    public init(verbatim label: String, @ViewBuilder content: () -> Content) where Label == Text {
-        self.init(label, content: content)
+    public init<S: StringProtocol>(verbatim label: S, @ViewBuilder content: () -> Content) where Label == Text {
+        self.labeledContent = .init(label, content: content)
     }
 
     /// Create a new list row with a string label.
@@ -81,16 +55,16 @@ public struct ListRow<Label: View, Content: View>: View {
     ///   - label: The string label.
     ///   - content: The content view.
     @_disfavoredOverload
-    public init(_ label: String, @ViewBuilder content: () -> Content) where Label == Text {
-        self.init({ Text(verbatim: label) }, content: content)
+    public init<S: StringProtocol>(_ label: S, @ViewBuilder content: () -> Content) where Label == Text {
+        self.labeledContent = .init(label, content: content)
     }
 
     /// Create a new list row with a localized text label.
     /// - Parameters:
     ///   - label: The localized text label.
-    ///   - content: The contet view.
+    ///   - content: The content view.
     public init(_ label: LocalizedStringResource, @ViewBuilder content: () -> Content) where Label == Text {
-        self.init({ Text(label) }, content: content)
+        self.labeledContent = .init(label, content: content)
     }
 
 
@@ -99,41 +73,100 @@ public struct ListRow<Label: View, Content: View>: View {
     ///   - label: The label view.
     ///   - content: The content view.
     public init(@ViewBuilder _ label: () -> Label, @ViewBuilder content: () -> Content) {
-        self.label = label()
-        self.content = content()
+        self.labeledContent = LabeledContent(content: content, label: label)
+    }
+}
+
+
+extension ListRow where Label == Text, Content == Text { // swiftlint:disable:this file_types_order
+    /// Create a list row with a string value.
+    /// - Parameters:
+    ///   - titleKey: The localized label.
+    ///   - value: The string value being labeled.
+    public init<S: StringProtocol>(_ titleKey: LocalizedStringResource, value: S) {
+        self.labeledContent = LabeledContent {
+            Text(value)
+        } label: {
+            Text(titleKey)
+        }
+    }
+
+    /// Create a list row with a string value.
+    /// - Parameters:
+    ///   - title: The string label.
+    ///   - value: The string value being labeled.
+    public init<S1: StringProtocol, S2: StringProtocol>(_ title: S1, value: S2) {
+        self.labeledContent = LabeledContent(title, value: value)
+    }
+
+    /// Creates a labeled list row from a formatted value.
+    /// - Parameters:
+    ///   - titleKey: The localized label.
+    ///   - value: The value being labeled.
+    ///   - format: A format style to convert the underlying value to a string representation.
+    public init<F: FormatStyle>(
+        _ titleKey: LocalizedStringResource,
+        value: F.FormatInput,
+        format: F
+    ) where F.FormatInput: Equatable, F.FormatOutput == String {
+        self.labeledContent = LabeledContent {
+            Text(value, format: format)
+        } label: {
+            Text(titleKey)
+        }
+    }
+
+    /// Creates a labeled list row from a formatted value.
+    /// - Parameters:
+    ///   - title: The string label.
+    ///   - value: The value being labeled.
+    ///   - format: A format style to convert the underlying value to a string representation.
+    public init<S: StringProtocol, F: FormatStyle>(
+        _ title: S,
+        value: F.FormatInput,
+        format: F
+    ) where F.FormatInput: Equatable, F.FormatOutput == String {
+        self.labeledContent = LabeledContent(title, value: value, format: format)
     }
 }
 
 
 #if DEBUG
-#Preview {
-    List {
-        ListRow(verbatim: "Hello") {
-            Text(verbatim: "World")
-        }
-
-        HStack {
-            ListRow(verbatim: "Device") {
-                EmptyView()
-            }
-            ProgressView()
-        }
-
-        HStack {
-            ListRow(verbatim: "Device") {
+private struct PreviewList: View {
+    @available(*, deprecated, message: "Propagate warnings.")
+    var body: some View {
+        List {
+            ListRow(verbatim: "Hello") {
                 Text(verbatim: "World")
             }
-            ProgressView()
-                .padding(.leading, 6)
-        }
 
-        HStack {
-            ListRow(verbatim: "Long Device Name") {
-                Text(verbatim: "Long Description")
+            HStack {
+                ListRow(verbatim: "Device") {
+                    EmptyView()
+                }
+                ProgressView()
             }
-            ProgressView()
-                .padding(.leading, 4)
+
+            HStack {
+                ListRow(verbatim: "Device") {
+                    Text(verbatim: "World")
+                }
+                ProgressView()
+                    .padding(.leading, 6)
+            }
+
+            HStack {
+                ListRow(verbatim: "Long Device Name") {
+                    Text(verbatim: "Long Description")
+                }
+                ProgressView()
+                    .padding(.leading, 4)
+            }
         }
     }
+}
+
+#Preview {
+    PreviewList()
 }
 #endif

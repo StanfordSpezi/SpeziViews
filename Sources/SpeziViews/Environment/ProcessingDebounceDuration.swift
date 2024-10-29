@@ -13,7 +13,7 @@ import SwiftUI
 ///
 /// This might be helpful to provide extensive customization points without introducing clutter in the initializer of views.
 /// The ``AsyncButton`` is one example where this `EnvironmentKey` is used.
-struct ProcessingDebounceDuration: EnvironmentKey {
+private struct ProcessingDebounceDuration: EnvironmentKey {
     static let defaultValue: Duration = .milliseconds(150)
 }
 

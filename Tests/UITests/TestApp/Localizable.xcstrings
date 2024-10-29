@@ -7,7 +7,22 @@
     "%lf" : {
 
     },
+    "%lld" : {
+
+    },
+    "A book by Robert C. Martin" : {
+
+    },
     "Action executed" : {
+
+    },
+    "Alignment" : {
+
+    },
+    "Buy" : {
+
+    },
+    "by Robert C. Martin" : {
 
     },
     "Canvas Size: none" : {
@@ -24,6 +39,15 @@
       }
     },
     "CanvasTest" : {
+
+    },
+    "Case Iterable Picker" : {
+
+    },
+    "Center" : {
+
+    },
+    "Clean Code" : {
 
     },
     "Closure Condition present" : {
@@ -80,6 +104,9 @@
     "Hello World" : {
 
     },
+    "Increment" : {
+
+    },
     "Input Valid: %@" : {
 
     },
@@ -112,6 +139,12 @@
         }
       }
     },
+    "Leading" : {
+
+    },
+    "Managed View Update" : {
+
+    },
     "Middle" : {
 
     },
@@ -130,10 +163,25 @@
     "Please enter your email address of your account. A email with an link to reset your password will be sent to the email address." : {
 
     },
+    "Recommendations" : {
+
+    },
+    "Refresh" : {
+
+    },
+    "Refresh in 2s" : {
+
+    },
     "Reset" : {
 
     },
     "Reset Password" : {
+
+    },
+    "Second" : {
+
+    },
+    "Selection" : {
 
     },
     "Show Tool Picker" : {
@@ -151,6 +199,9 @@
     "SpeziViews" : {
 
     },
+    "State" : {
+
+    },
     "Switch Focus" : {
 
     },
@@ -166,10 +217,16 @@
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
 
     },
+    "Tiles" : {
+
+    },
     "Toggle Closure Condition" : {
 
     },
     "Toggle Condition" : {
+
+    },
+    "Trailing" : {
 
     },
     "Username" : {
@@ -182,6 +239,9 @@
 
     },
     "Validation TextField" : {
+
+    },
+    "Value" : {
 
     },
     "View State: %@" : {

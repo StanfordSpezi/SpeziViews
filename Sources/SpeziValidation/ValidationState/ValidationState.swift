@@ -16,7 +16,7 @@ import SwiftUI
 /// To do so, you would typically call ``ValidationContext/validateSubviews(switchFocus:)`` within the `Button`
 /// action. This call can be used to automatically switch focus to the first field that failed validation.
 ///
-/// The `ValidationState` property wrapper works in conjunction with the ``SwiftUI/View/receiveValidation(in:)`` modifier
+/// The `ValidationState` property wrapper works in conjunction with the ``SwiftUICore/View/receiveValidation(in:)`` modifier
 /// to receive validation state from the child views.
 ///
 /// Below is a short code example of a typical setup:
