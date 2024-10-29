@@ -76,7 +76,7 @@ extension ImageReference {
     /// Retrieve a NSImage.
     ///
     /// Returns `nil` if the image resource could not be located.
-    public var uiImage: NSImage? {
+    public var nsImage: NSImage? {
         switch self {
         case let .system(name):
             NSImage(systemSymbolName: name, accessibilityDescription: nil)

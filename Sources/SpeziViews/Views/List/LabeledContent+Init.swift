@@ -9,32 +9,13 @@
 import SwiftUI
 
 
-extension LabeledContent where Content: View {
-    /// Create a new list row with a string label.
-    /// - Parameters:
-    ///   - label: The string label.
-    ///   - content: The content view.
-    @_disfavoredOverload
-    public init(_ label: String, @ViewBuilder content: () -> Content) where Label == Text {
-        self.init(verbatim: label, content: content)
-    }
-
-    /// Create a new list row with a string label.
-    /// - Parameters:
-    ///   - label: The string label.
-    ///   - content: The content view.
-    public init<S: StringProtocol>(verbatim label: S, @ViewBuilder content: () -> Content) where Label == Text {
-        self.init(content: content) {
-            Text(label)
-        }
-    }
-
+extension LabeledContent where Label == Text, Content: View {
     /// Create a new list row with a localized text label.
     /// - Parameters:
     ///   - label: The localized text label.
     ///   - content: The content view.
     @_disfavoredOverload
-    public init(_ label: LocalizedStringResource, @ViewBuilder content: () -> Content) where Label == Text {
+    public init(_ label: LocalizedStringResource, @ViewBuilder content: () -> Content) {
         self.init(content: content) {
             Text(label)
         }
@@ -81,7 +62,7 @@ extension LabeledContent where Label == Text, Content == Text {
 #if DEBUG
 #Preview { // swiftlint:disable:this closure_body_length
     List {
-        LabeledContent(verbatim: "Hello") {
+        LabeledContent("Hello") {
             Text(verbatim: "World")
         }
 
@@ -97,7 +78,7 @@ extension LabeledContent where Label == Text, Content == Text {
         }
 
         HStack {
-            LabeledContent(verbatim: "Device") {
+            LabeledContent("Device") {
                 EmptyView()
             }
             Spacer()
@@ -105,7 +86,7 @@ extension LabeledContent where Label == Text, Content == Text {
         }
 
         HStack {
-            LabeledContent(verbatim: "Device") {
+            LabeledContent("Device") {
                 Text(verbatim: "World")
             }
             Spacer()
@@ -114,7 +95,7 @@ extension LabeledContent where Label == Text, Content == Text {
         }
 
         HStack {
-            LabeledContent(verbatim: "Long Device Name") {
+            LabeledContent("Long Device Name") {
                 Text(verbatim: "Long Description")
             }
             Spacer()

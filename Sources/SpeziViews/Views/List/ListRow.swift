@@ -47,7 +47,7 @@ public struct ListRow<Label: View, Content: View>: View { // swiftlint:disable:t
     ///   - label: The string label.
     ///   - content: The content view.
     public init<S: StringProtocol>(verbatim label: S, @ViewBuilder content: () -> Content) where Label == Text {
-        self.labeledContent = .init(verbatim: label, content: content)
+        self.labeledContent = .init(label, content: content)
     }
 
     /// Create a new list row with a string label.

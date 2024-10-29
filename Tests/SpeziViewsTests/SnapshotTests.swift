@@ -16,7 +16,7 @@ final class SnapshotTests: XCTestCase {
     @MainActor
     func testListRow() {
         let row = List {
-            LabeledContent(verbatim: "San Francisco") {
+            ListRow("San Francisco") {
                 Text(verbatim: "20 °C, Sunny")
             }
         }
@@ -59,17 +59,29 @@ final class SnapshotTests: XCTestCase {
     @MainActor
     func testImageReference() throws {
         let eraser: ImageReference = .system("eraser.fill")
+        let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
+
+        XCTAssertTrue(eraser.isSystemImage)
+        XCTAssertFalse(nonExistingImage.isSystemImage)
 
         let image = try XCTUnwrap(eraser.image)
+        XCTAssertNil(nonExistingImage.image)
+
+#if canImport(WatchKit)
+        XCTAssertNotNil(eraser.wkImage)
+        XCTAssertNil(nonExistingImage.wkImage)
+#endif
+
+#if canImport(UIKit)
+        XCTAssertNotNil(eraser.uiImage)
+        XCTAssertNil(nonExistingImage.uiImage)
+#elseif canImport(AppKit)
+        XCTAssertNotNil(eraser.nsImage)
+        XCTAssertNil(nonExistingImage.nsImage)
+#endif
 
 #if os(iOS)
         assertSnapshot(of: image, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-#endif
-
-        let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
-
-#if !os(watchOS)
-        XCTAssertNil(nonExistingImage.image)
 #endif
     }
 
