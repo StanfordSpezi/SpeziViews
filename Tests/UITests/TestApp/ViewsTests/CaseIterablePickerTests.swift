@@ -28,9 +28,13 @@ enum SomeSelection: PickerValue {
 struct CaseIterablePickerTests: View {
     @State private var selection: SomeSelection?
 
+    @State private var selection2: SomeSelection = .first
+
     var body: some View {
         List {
             CaseIterablePicker("Selection", selection: $selection)
+
+            CaseIterablePicker("Second", selection: $selection2)
         }
             .navigationTitle("Case Iterable Picker")
             .navigationBarTitleDisplayMode(.inline)

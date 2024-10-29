@@ -82,16 +82,7 @@ extension ListRow where Label == Text, Content == Text { // swiftlint:disable:th
     /// Create a list row with a string value.
     /// - Parameters:
     ///   - titleKey: The localized label.
-    ///   - value: The string value.
-    public init<S: StringProtocol>(_ titleKey: LocalizedStringKey, value: S) {
-        self.labeledContent = LabeledContent(titleKey, value: value)
-    }
-
-    /// Create a list row with a string value.
-    /// - Parameters:
-    ///   - titleKey: The localized label.
     ///   - value: The string value being labeled.
-    @_disfavoredOverload
     public init<S: StringProtocol>(_ titleKey: LocalizedStringResource, value: S) {
         self.labeledContent = LabeledContent {
             Text(value)
@@ -113,20 +104,6 @@ extension ListRow where Label == Text, Content == Text { // swiftlint:disable:th
     ///   - titleKey: The localized label.
     ///   - value: The value being labeled.
     ///   - format: A format style to convert the underlying value to a string representation.
-    public init<F: FormatStyle>(
-        _ titleKey: LocalizedStringKey,
-        value: F.FormatInput,
-        format: F
-    ) where F.FormatInput: Equatable, F.FormatOutput == String {
-        self.labeledContent = LabeledContent(titleKey, value: value, format: format)
-    }
-
-    /// Creates a labeled list row from a formatted value.
-    /// - Parameters:
-    ///   - titleKey: The localized label.
-    ///   - value: The value being labeled.
-    ///   - format: A format style to convert the underlying value to a string representation.
-    @_disfavoredOverload
     public init<F: FormatStyle>(
         _ titleKey: LocalizedStringResource,
         value: F.FormatInput,

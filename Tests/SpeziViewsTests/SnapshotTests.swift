@@ -154,4 +154,25 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
 #endif
     }
+
+    @MainActor
+    func testListRowInits() {
+        let string = "Hello"
+
+        _ = ListRow(string) {
+            Text("World")
+        }
+        _ = ListRow(string, value: "World")
+        _ = ListRow(string, value: Date.now, format: .dateTime)
+
+        _ = ListRow("Hello") {
+            Text("World")
+        }
+        _ = ListRow("Hello", value: "World")
+        _ = ListRow("Hello", value: Date.now, format: .dateTime)
+
+        _ = ListRow(verbatim: "Hello") {
+            Text("World")
+        }
+    }
 }
