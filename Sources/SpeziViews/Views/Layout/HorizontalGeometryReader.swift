@@ -43,8 +43,14 @@ public struct HorizontalGeometryReader<Content: View>: View {
                 // on the `View` directly anymore: https://developer.apple.com/documentation/swiftui/view/onpreferencechange(_:perform:)?changes=latest_minor
                 // However, as the `@Sendable` closure is still run on the MainActor (at least in my testing on 18.2 RC SDKs), we can use `MainActor.assumeIsolated`
                 // to avoid scheduling a `MainActor` `Task`, which could delay execution and cause unexpected UI behavior.
-                MainActor.assumeIsolated {
-                    self.width = width
+                if Thread.isMainThread {
+                    MainActor.assumeIsolated {
+                        self.width = width
+                    }
+                } else {
+                    Task { @MainActor in
+                        self.width = width
+                    }
                 }
             }
     }

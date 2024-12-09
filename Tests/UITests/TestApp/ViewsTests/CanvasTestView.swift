@@ -48,8 +48,14 @@ struct CanvasTestView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
                 // See `HorizontalGeometryReader.swift`
-                MainActor.assumeIsolated {
-                    self.receivedSize = size
+                if Thread.isMainThread {
+                    MainActor.assumeIsolated {
+                        self.receivedSize = size
+                    }
+                } else {
+                    Task { @MainActor in
+                        self.receivedSize = size
+                    }
                 }
             }
     }
