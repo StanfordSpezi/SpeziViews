@@ -122,9 +122,9 @@ public struct AsyncButton<Label: View>: View {
     ///         It may also be used to externally control or observe the button's processing state.
     ///   - action: An asynchronous button action.
     @_disfavoredOverload
-    public init<Title: StringProtocol>( // swiftlint:disable:this function_default_parameter_at_end
+    public init<Title: StringProtocol>(
         _ title: Title,
-        role: ButtonRole? = nil,
+        role: ButtonRole? = nil,   // swiftlint:disable:this function_default_parameter_at_end
         state: Binding<ViewState>,
         action: @MainActor @escaping () async throws -> Void
     ) where Label == Text {
@@ -140,9 +140,9 @@ public struct AsyncButton<Label: View>: View {
     ///   - state: A ``ViewState`` binding that it used to propagate any error caught in the button action.
     ///         It may also be used to externally control or observe the button's processing state.
     ///   - action: An asynchronous button action.
-    public init( // swiftlint:disable:this function_default_parameter_at_end
+    public init(
         _ title: LocalizedStringResource,
-        role: ButtonRole? = nil,
+        role: ButtonRole? = nil,  // swiftlint:disable:this function_default_parameter_at_end
         state: Binding<ViewState>,
         action: @MainActor @escaping () async throws -> Void
     ) where Label == Text {
@@ -158,8 +158,8 @@ public struct AsyncButton<Label: View>: View {
     ///         It may also be used to externally control or observe the button's processing state.
     ///   - action: An asynchronous button action.
     ///   - label: The Button label.
-    public init( // swiftlint:disable:this function_default_parameter_at_end
-        role: ButtonRole? = nil,
+    public init(
+        role: ButtonRole? = nil,  // swiftlint:disable:this function_default_parameter_at_end
         state: Binding<ViewState>,
         action: @MainActor @escaping () async throws -> Void,
         @ViewBuilder label: () -> Label
