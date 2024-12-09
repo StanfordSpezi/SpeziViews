@@ -47,7 +47,10 @@ struct CanvasTestView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
-                self.receivedSize = size
+                // See `HorizontalGeometryReader.swift`
+                MainActor.assumeIsolated {
+                    self.receivedSize = size
+                }
             }
     }
 }
