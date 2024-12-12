@@ -73,9 +73,8 @@ public struct ValidationRule: Identifiable, Sendable, Equatable {
     let effect: CascadingValidationEffect
 
 
-    // swiftlint:disable:next function_default_parameter_at_end
     init(
-        id: UUID = UUID(),
+        id: UUID = UUID(),  // swiftlint:disable:this function_default_parameter_at_end
         ruleClosure: @escaping @Sendable (String) -> Bool,
         message: LocalizedStringResource,
         effect: CascadingValidationEffect = .continue
