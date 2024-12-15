@@ -12,7 +12,7 @@ import SwiftUI
 /// Access the dynamic layout of a child view.
 ///
 /// Refer to the documentation of ``DynamicHStack`` on how to retrieve the current layout.
-public enum DynamicLayout {
+public enum DynamicLayout: Sendable {
     /// The layout is horizontal.
     case horizontal
     /// The layout is vertical.
