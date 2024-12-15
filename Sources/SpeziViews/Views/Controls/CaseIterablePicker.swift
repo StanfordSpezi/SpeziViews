@@ -142,7 +142,7 @@ extension CaseIterablePicker where Value: AnyOptional { // swiftlint:disable:thi
     /// Create a new case-iterable picker.
     /// - Parameters:
     ///   - titleKey: The picker label.
-    ///   - value: The value binding.
+    ///   - selection: The value binding.
     public init(_ titleKey: LocalizedStringResource, selection: Binding<Value>) where Label == Text {
         self.init(selection: selection) {
             Text(titleKey)
