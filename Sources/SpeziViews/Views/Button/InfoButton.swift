@@ -9,7 +9,10 @@
 import SwiftUI
 
 
-public struct ListInfoButton: View {
+/// Icon-only info button.
+///
+/// You can use this button, e.g., on the trailing side of a list row to provide additional information about an entity.
+public struct InfoButton: View {
     private let label: Text
     private let action: () -> Void
 
@@ -30,12 +33,20 @@ public struct ListInfoButton: View {
             .accessibilityHidden(true) // accessibility actions cannot be unit tested
     #endif
     }
-
+    
+    /// Create a new info button.
+    /// - Parameters:
+    ///   - label: The text label. This is not shown but useful for accessibility.
+    ///   - action: The button action.
     public init(_ label: Text, action: @escaping () -> Void) {
         self.label = label
         self.action = action
     }
-
+    
+    /// Create a new info button.
+    /// - Parameters:
+    ///   - resource: The localized button label. This is not shown but useful for accessibility.
+    ///   - action: The button action.
     public init(_ resource: LocalizedStringResource, action: @escaping () -> Void) {
         self.label = Text(resource)
         self.action = action
@@ -50,7 +61,7 @@ public struct ListInfoButton: View {
             print("Primary")
         } label: {
             ListRow("Entry") {
-                ListInfoButton("Entry Info") {
+                InfoButton("Entry Info") {
                     print("Info")
                 }
             }
