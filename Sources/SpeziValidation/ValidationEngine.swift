@@ -17,7 +17,8 @@ import SwiftUI
 /// processed input and a the respective recovery suggestions for failed ``ValidationRule``s.
 /// The state of the `ValidationEngine` is updated on each invocation of ``runValidation(input:)`` or ``submit(input:debounce:)``.
 @Observable
-public class ValidationEngine: Identifiable {
+@MainActor
+public final class ValidationEngine: Identifiable {
     /// Determines the source of the last validation run.
     private enum Source: Equatable {
         /// The last validation was run due to change in text field or keyboard submit.
@@ -31,7 +32,7 @@ public class ValidationEngine: Identifiable {
 
 
     /// Unique identifier for this validation engine.
-    public var id: ObjectIdentifier {
+    public nonisolated var id: ObjectIdentifier {
         ObjectIdentifier(self)
     }
 
@@ -134,7 +135,6 @@ public class ValidationEngine: Identifiable {
         self.init(rules: validationRules, debounceFor: debounceDuration, configuration: configuration)
     }
 
-    @MainActor
     private func computeFailedValidations(input: String) -> [FailedValidationResult] {
         var results: [FailedValidationResult] = []
 
@@ -153,7 +153,6 @@ public class ValidationEngine: Identifiable {
     }
 
 
-    @MainActor
     private func computeValidation(input: String, source: Source) {
         self.source = source
         self.inputWasEmpty = input.isEmpty
@@ -174,7 +173,6 @@ public class ValidationEngine: Identifiable {
     ///     there not further calls to this method for the configured `debounceDuration`. If set to `false` the method
     ///     will run immediately. Note that the validation will still run instantly, if we are currently in an invalid state
     ///     to ensure input validity is reported immediately.
-    @MainActor
     public func submit(input: String, debounce: Bool = false) {
         if !debounce || computedInputValid == false {
             // we compute instantly, if debounce is false or if we are in a invalid state
@@ -191,12 +189,10 @@ public class ValidationEngine: Identifiable {
     ///
     /// The input is considered valid if all ``ValidationRule``s succeed.
     /// - Parameter input: The input to validate.
-    @MainActor
     public func runValidation(input: String) {
         computeValidation(input: input, source: .manual)
     }
 
-    @MainActor
     private func debounce(_ task: @escaping () -> Void) {
         debounceTask = Task {
             try? await Task.sleep(for: debounceDuration)

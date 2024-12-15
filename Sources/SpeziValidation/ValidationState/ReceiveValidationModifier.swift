@@ -9,6 +9,16 @@
 import SwiftUI
 
 
+@MainActor
+private struct IsolatedValidationBinding: Sendable {
+    let state: ValidationState.Binding
+
+    init(_ state: ValidationState.Binding) {
+        self.state = state
+    }
+}
+
+
 /// Provide access to validation state to the parent view.
 ///
 /// The internal preference key to provide parent views access to all configured ``ValidationEngine`` and input
@@ -36,8 +46,12 @@ extension View {
     /// - Parameter state: The binding to the ``ValidationState``.
     /// - Returns: The modified view.
     public func receiveValidation(in state: ValidationState.Binding) -> some View {
-        onPreferenceChange(CapturedValidationStateKey.self) { entries in
-            state.wrappedValue = ValidationContext(entries: entries)
+        let binding = IsolatedValidationBinding(state)
+
+        return onPreferenceChange(CapturedValidationStateKey.self) { entries in
+            Task { @Sendable @MainActor in
+                binding.state.wrappedValue = ValidationContext(entries: entries)
+            }
         }
     }
 }
