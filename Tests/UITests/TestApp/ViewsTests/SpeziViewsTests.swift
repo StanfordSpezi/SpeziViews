@@ -27,7 +27,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case conditionalModifier = "Conditional Modifier"
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
-    case asyncButton = "Async Button"
+    case button = "Buttons"
     case listRow = "List Row"
     case managedViewUpdate = "Managed View Update"
     case caseIterablePicker = "Case Iterable Picker"
@@ -130,8 +130,8 @@ enum SpeziViewsTests: String, TestAppTests {
 
     @ViewBuilder
     @MainActor
-    private var asyncButton: some View {
-        AsyncButtonTestView()
+    private var button: some View {
+        ButtonTestView()
     }
 
     @MainActor
@@ -172,8 +172,8 @@ enum SpeziViewsTests: String, TestAppTests {
             defaultErrorOnly
         case .defaultErrorDescription:
             defaultErrorDescription
-        case .asyncButton:
-            asyncButton
+        case .button:
+            button
         case .listRow:
             listRow
         case .managedViewUpdate:

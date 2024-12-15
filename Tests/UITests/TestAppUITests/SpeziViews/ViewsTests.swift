@@ -140,7 +140,7 @@ final class ViewsTests: XCTestCase {
     }
 
     @MainActor
-    func testAsyncButtonView() throws {
+    func testButtonsView() throws {
         let app = XCUIApplication()
         app.launch()
 
@@ -151,8 +151,8 @@ final class ViewsTests: XCTestCase {
         app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
 #endif
 
-        XCTAssert(app.buttons["Async Button"].waitForExistence(timeout: 2))
-        app.buttons["Async Button"].tap()
+        XCTAssert(app.buttons["Buttons"].waitForExistence(timeout: 2))
+        app.buttons["Buttons"].tap()
 
         XCTAssert(app.buttons["Hello World"].waitForExistence(timeout: 2))
         app.buttons["Hello World"].tap()
@@ -174,6 +174,14 @@ final class ViewsTests: XCTestCase {
         alerts.buttons["OK"].tap()
 
         XCTAssert(app.buttons["Hello Throwing World"].isEnabled)
+
+        XCTAssert(app.buttons["Entity Info"].exists)
+        app.buttons["Entity Info"].tap()
+
+        XCTAssertFalse(alerts.staticTexts["Custom Error"].exists)
+
+        XCTAssert(app.staticTexts["Action executed"].waitForExistence(timeout: 2))
+        app.buttons["Reset"].tap()
     }
 
     @MainActor
