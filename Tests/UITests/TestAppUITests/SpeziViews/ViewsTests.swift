@@ -175,8 +175,8 @@ final class ViewsTests: XCTestCase {
 
         XCTAssert(app.buttons["Hello Throwing World"].isEnabled)
 
-        XCTAssert(app.buttons["Entity Info"].exists)
-        app.buttons["Entity Info"].tap()
+        XCTAssert(app.buttons.matching(identifier: "info-button").firstMatch.exists)
+        app.buttons.matching(identifier: "info-button").firstMatch.tap()
 
         XCTAssertFalse(alerts.staticTexts["Custom Error"].exists)
 

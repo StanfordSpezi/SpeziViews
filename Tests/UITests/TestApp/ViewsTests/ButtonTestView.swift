@@ -53,13 +53,16 @@ struct ButtonTestView: View {
                 .viewStateAlert(state: $viewState)
 
             Section {
-                Button {
-                    viewState = .error(CustomError.error)
-                } label: {
-                    LabeledContent("Entity") {
-                        InfoButton("Entity Info") {
-                            showCompleted = true
-                        }
+                HStack {
+                    Button {
+                        viewState = .error(CustomError.error)
+                    } label: {
+                        Text("Entity")
+                            .foregroundStyle(.primary)
+                    }
+                    Spacer()
+                    InfoButton("Entity Info") {
+                        showCompleted = true
                     }
                 }
             }

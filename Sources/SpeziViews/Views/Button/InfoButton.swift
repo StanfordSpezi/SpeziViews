@@ -28,9 +28,10 @@ public struct InfoButton: View {
             .font(.title3)
             .foregroundColor(.accentColor)
             .buttonStyle(.borderless) // ensure button is clickable next to the other button
+            .accessibilityIdentifier("info-button")
+    #if !(TEST || targetEnvironment(simulator)) // accessibility actions cannot be unit tested
             .accessibilityAction(named: label, action)
-    #if TEST || targetEnvironment(simulator)
-            .accessibilityHidden(true) // accessibility actions cannot be unit tested
+            .accessibilityHidden(true)
     #endif
     }
     
