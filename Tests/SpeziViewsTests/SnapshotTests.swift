@@ -187,4 +187,22 @@ final class SnapshotTests: XCTestCase {
             Text("World")
         }
     }
+
+    @MainActor
+    func testListHeader() {
+        let listHeader0 = ListHeader(systemImage: "person.fill.badge.plus") {
+            Text("Create a new Account", bundle: .module)
+        } instructions: {
+            Text("Please fill out the details below to create your new account.", bundle: .module)
+        }
+
+        let listHeader1 = ListHeader(systemImage: "person.fill.badge.plus") {
+            Text("Create a new Account", bundle: .module)
+        }
+
+#if os(iOS)
+        assertSnapshot(of: listHeader0, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header-instructions")
+        assertSnapshot(of: listHeader1, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header")
+#endif
+    }
 }

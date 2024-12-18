@@ -23,9 +23,11 @@ enum CustomError: Error, LocalizedError {
 }
 
 
-struct AsyncButtonTestView: View {
+struct ButtonTestView: View {
     @State private var showCompleted = false
     @State private var viewState: ViewState = .idle
+
+    @State private var showInfo = false
 
     var body: some View {
         List {
@@ -49,6 +51,21 @@ struct AsyncButtonTestView: View {
             }
                 .disabled(showCompleted)
                 .viewStateAlert(state: $viewState)
+
+            Section {
+                HStack {
+                    Button {
+                        viewState = .error(CustomError.error)
+                    } label: {
+                        Text("Entity")
+                            .foregroundStyle(.primary)
+                    }
+                    Spacer()
+                    InfoButton("Entity Info") {
+                        showCompleted = true
+                    }
+                }
+            }
         }
     }
 }
@@ -57,7 +74,7 @@ struct AsyncButtonTestView: View {
 #if DEBUG
 struct AsyncButtonTestView_Previews: PreviewProvider {
     static var previews: some View {
-        AsyncButtonTestView()
+        ButtonTestView()
     }
 }
 #endif

@@ -33,7 +33,7 @@
 		A97880972A4C4E6500150B2F /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880962A4C4E6500150B2F /* ModelTests.swift */; };
 		A97880992A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */; };
 		A978809B2A4C52F100150B2F /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A978809A2A4C52F100150B2F /* EnvironmentTests.swift */; };
-		A998A94F2A609A9E0030624D /* AsyncButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */; };
+		A998A94F2A609A9E0030624D /* ButtonTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A998A94E2A609A9E0030624D /* ButtonTestView.swift */; };
 		A99A65122AF57CA200E63582 /* FocusedValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A65112AF57CA200E63582 /* FocusedValidationTests.swift */; };
 		A99A65152AF5923800E63582 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99A65142AF5923800E63582 /* ValidationTests.swift */; };
 		A9A3535B2AF60A9E00661848 /* DefaultValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3535A2AF60A9E00661848 /* DefaultValidationRules.swift */; };
@@ -84,7 +84,7 @@
 		A97880962A4C4E6500150B2F /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		A97880982A4C524D00150B2F /* DefaultErrorDescriptionTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultErrorDescriptionTestView.swift; sourceTree = "<group>"; };
 		A978809A2A4C52F100150B2F /* EnvironmentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentTests.swift; sourceTree = "<group>"; };
-		A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButtonTestView.swift; sourceTree = "<group>"; };
+		A998A94E2A609A9E0030624D /* ButtonTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTestView.swift; sourceTree = "<group>"; };
 		A99A65112AF57CA200E63582 /* FocusedValidationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusedValidationTests.swift; sourceTree = "<group>"; };
 		A99A65142AF5923800E63582 /* ValidationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
 		A9A3535A2AF60A9E00661848 /* DefaultValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultValidationRules.swift; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 		2FA9485D29DE90710081C086 /* ViewsTests */ = {
 			isa = PBXGroup;
 			children = (
-				A998A94E2A609A9E0030624D /* AsyncButtonTestView.swift */,
+				A998A94E2A609A9E0030624D /* ButtonTestView.swift */,
 				2FA9486029DE90720081C086 /* CanvasTestView.swift */,
 				A90575B32CD03B2C00B94001 /* CaseIterablePickerTests.swift */,
 				97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */,
@@ -374,7 +374,7 @@
 				97EE16AC2B16D5AB004D25A3 /* OperationStateTestView.swift in Sources */,
 				9731B58F2B167053007676C0 /* ViewStateMapperView.swift in Sources */,
 				A9F85B742B32A05C005F16E6 /* ViewStateExample.swift in Sources */,
-				A998A94F2A609A9E0030624D /* AsyncButtonTestView.swift in Sources */,
+				A998A94F2A609A9E0030624D /* ButtonTestView.swift in Sources */,
 				2FA9486A29DE90720081C086 /* GeometryReaderTestView.swift in Sources */,
 				A9F85B722B32A052005F16E6 /* NameFieldsExample.swift in Sources */,
 				2FA9486729DE90720081C086 /* CanvasTestView.swift in Sources */,
@@ -823,7 +823,7 @@
 			repositoryURL = "https://github.com/StanfordBDHG/XCTestExtensions";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.4.9;
+				minimumVersion = 1.1.0;
 			};
 		};
 		A9BA82B22C29FF7C00472FF3 /* XCRemoteSwiftPackageReference "Spezi" */ = {
@@ -831,7 +831,7 @@
 			repositoryURL = "https://github.com/StanfordSpezi/Spezi.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.0;
+				minimumVersion = 1.8.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
