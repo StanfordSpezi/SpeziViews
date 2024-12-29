@@ -48,10 +48,8 @@ extension View {
     public func receiveValidation(in state: ValidationState.Binding) -> some View {
         let binding = IsolatedValidationBinding(state)
 
-        return onPreferenceChange(CapturedValidationStateKey.self) { entries in
-            Task { @Sendable @MainActor in
-                binding.state.wrappedValue = ValidationContext(entries: entries)
-            }
+        return onPreferenceChange(CapturedValidationStateKey.self) { [state = binding.state] entries in
+            state.wrappedValue = ValidationContext(entries: entries)
         }
     }
 }
