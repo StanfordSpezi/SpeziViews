@@ -17,7 +17,7 @@ import SwiftUI
 ///
 /// You can use this structure to retrieve the state of all ``ValidationEngine``s of a subview or manually
 /// initiate validation by calling ``validateSubviews(switchFocus:)``. E.g., when pressing on a submit button of a form.
-public struct ValidationContext {
+public struct ValidationContext: Sendable {
     private let entries: [CapturedValidationState]
 
 
