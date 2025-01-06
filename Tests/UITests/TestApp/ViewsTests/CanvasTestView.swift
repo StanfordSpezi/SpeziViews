@@ -8,6 +8,7 @@
 
 #if canImport(PencilKit) && !os(macOS)
 import PencilKit
+import SpeziFoundation
 import SpeziViews
 import SwiftUI
 
@@ -46,8 +47,10 @@ struct CanvasTestView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { [$receivedSize] size in
-                $receivedSize.wrappedValue = size
+            .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
+                runOrScheduleOnMainActor {
+                    self.receivedSize = size
+                }
             }
     }
 }

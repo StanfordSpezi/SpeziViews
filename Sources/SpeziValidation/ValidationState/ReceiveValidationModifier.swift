@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+import SpeziFoundation
 import SwiftUI
 
 
@@ -37,7 +38,9 @@ extension View {
     /// - Returns: The modified view.
     public func receiveValidation(in state: ValidationState.Binding) -> some View {
         onPreferenceChange(CapturedValidationStateKey.self) { entries in
-            state.wrappedValue = ValidationContext(entries: entries)
+            runOrScheduleOnMainActor {
+                state.wrappedValue = ValidationContext(entries: entries)
+            }
         }
     }
 }

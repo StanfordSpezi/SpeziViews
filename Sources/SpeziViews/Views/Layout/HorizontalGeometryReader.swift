@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+import SpeziFoundation
 import SwiftUI
 
 
@@ -38,8 +39,10 @@ public struct HorizontalGeometryReader<Content: View>: View {
                         .preference(key: WidthPreferenceKey.self, value: geometry.size.width)
                 }
             )
-            .onPreferenceChange(WidthPreferenceKey.self) { [$width] width in
-                $width.wrappedValue = width
+            .onPreferenceChange(WidthPreferenceKey.self) { width in
+                runOrScheduleOnMainActor {
+                    self.width = width
+                }
             }
     }
     
