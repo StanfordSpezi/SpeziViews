@@ -47,10 +47,14 @@ private struct ViewBasedOnVisibility<Unlabeled: View, Labeled: View>: View {
 /// If you have a type that both conforms to [`OptionSet`](https://developer.apple.com/documentation/swift/optionset)  and
 /// ``PickerValue`` you can use this Picker for your `selection` value.
 ///
-/// - Note: `OptionSet` by definition allows the selection of multiple values. Therefore, `OptionSetPicker` is always implemented as an
-///     inline Picker (e.g., as part of a List view) and allows to selection one or more entries.
+/// `OptionSet` by definition allows the selection of multiple values.
 ///
 /// - Note: Displaying labels is only supported on iOS 18 and newer.
+///
+/// ## Topics
+///
+/// ### Styling
+/// - ``OptionSetPickerStyle``
 public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
     where Value.AllCases: RandomAccessCollection, Value == Value.Element {
     private let allowEmptySelection: Bool
