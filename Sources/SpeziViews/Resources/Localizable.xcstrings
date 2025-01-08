@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
+    "%lld selected" : {
+
+    },
     "A" : {
 
     },
@@ -27,6 +33,9 @@
       }
     },
     "Dismiss" : {
+
+    },
+    "Empty" : {
 
     },
     "Error" : {
@@ -95,6 +104,15 @@
       }
     },
     "None" : {
+
+    },
+    "nothing selected" : {
+
+    },
+    "Option %u" : {
+
+    },
+    "Test" : {
 
     }
   },
