@@ -68,7 +68,7 @@ extension ValidationState {
     /// A binding to a ``ValidationState``.
     @propertyWrapper
     public struct Binding: Sendable {
-        private let binding: SwiftUI.Binding<ValidationContext>
+        @MainActor private let binding: SwiftUI.Binding<ValidationContext>
 
         /// The validation context.
         public var wrappedValue: ValidationContext {
