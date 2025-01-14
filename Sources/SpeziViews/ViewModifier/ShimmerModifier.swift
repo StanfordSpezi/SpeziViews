@@ -10,14 +10,14 @@ import SwiftUI
 
 
 struct ShimmerViewModifier: ViewModifier {
-    let duration: Double
+    let repeatInterval: Double
     @State private var shimmering: Bool = false
 
     
     func body(content: Content) -> some View {
         content
             .opacity(shimmering ? 0.3 : 1)
-            .animation(.easeInOut(duration: duration).repeatForever(), value: shimmering)
+            .animation(.easeInOut(duration: repeatInterval).repeatForever(), value: shimmering)
             .onAppear {
                 shimmering.toggle()
             }
@@ -44,7 +44,7 @@ extension View {
     ///                     RoundedRectangle(cornerRadius: 10)
     ///                         .fill(secondaryColor)
     ///                         .frame(height: 100)
-    ///                         .shimmer(duration: 1.5)
+    ///                         .shimmer(repeatInterval: 1.5)
     ///                 }
     ///         }
     ///     }
@@ -52,9 +52,9 @@ extension View {
     /// ```
     ///
     /// - Parameters:
-    ///   - duration: The duration for the shimmer animation.
+    ///   - repeatInterval: The repeat interval for the shimmer animation.
     /// - Returns: The modified view.
-    public func shimmer(duration: Double = 1) -> some View {
-        modifier(ShimmerViewModifier(duration: duration))
+    public func shimmer(repeatInterval: Double = 1) -> some View {
+        modifier(ShimmerViewModifier(repeatInterval: repeatInterval))
     }
 }

@@ -80,6 +80,10 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 
 - ``ImageReference``
 
+### Loading Indicators
+
+- ``SkeletonLoading``
+
 ### Conditional Modifiers
 
 - ``SwiftUICore/View/if(_:transform:)``
