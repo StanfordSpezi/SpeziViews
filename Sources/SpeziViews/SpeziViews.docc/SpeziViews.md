@@ -91,7 +91,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 
 ### Animations and Visual Effects
 
-- ``SwiftUICore/View/blinking(duration:)``
+- ``SwiftUICore/View/shimmer(repeatInterval:)``
 
 ### Interact with the View Environment
 
