@@ -115,7 +115,6 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
                     toggle(for: value)
                 }
             } label: {
-                // TODO: use toggles instead!
                 LabeledContent {
                     HStack {
                         if selectionCount < 2 {
@@ -161,7 +160,12 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
     ///   - style: The style how the picker is displayed.
     ///   - allowEmptySelection: Flag indicating if an empty selection is allowed.
     ///   - label: The label view.
-    public init(selection: Binding<Value>, style: OptionSetPickerStyle = .automatic, allowEmptySelection: Bool = false, @ViewBuilder label: () -> Label) {
+    public init(
+        selection: Binding<Value>,
+        style: OptionSetPickerStyle = .automatic,
+        allowEmptySelection: Bool = false,
+        @ViewBuilder label: () -> Label
+    ) {
         self.style = style
         self.allowEmptySelection = allowEmptySelection
         self.label = label()
