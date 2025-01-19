@@ -8,6 +8,7 @@
 
 #if canImport(PencilKit) && !os(macOS)
 import PencilKit
+import SpeziFoundation
 import SpeziViews
 import SwiftUI
 
@@ -47,15 +48,8 @@ struct CanvasTestView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
-                // See `HorizontalGeometryReader.swift`
-                if Thread.isMainThread {
-                    MainActor.assumeIsolated {
-                        self.receivedSize = size
-                    }
-                } else {
-                    Task { @MainActor in
-                        self.receivedSize = size
-                    }
+                runOrScheduleOnMainActor {
+                    self.receivedSize = size
                 }
             }
     }
