@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 /// The view style for an `OptionSetPicker`.
 public enum OptionSetPickerStyle {
     /// The picker is rendered inline (e.g., in a List view).
@@ -64,6 +65,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
 
     @Binding private var selection: Value
 
+
     private var selectionCount: Int {
         Value.allCases.count { value in
             selection.contains(value)
@@ -99,9 +101,10 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
         case .menu:
             Menu {
                 ForEach(Value.allCases, id: \.self) { value in
-                    button(for: value)
+                    toggle(for: value)
                 }
             } label: {
+                // TODO: use toggles instead!
                 LabeledContent {
                     HStack {
                         if selectionCount < 2 {
@@ -168,16 +171,11 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
         }
     }
 
+
     @ViewBuilder
     private func button(for value: Value) -> some View {
         Button {
-            if selection.contains(value) {
-                if selection != value || allowEmptySelection {
-                    selection.remove(value)
-                }
-            } else {
-                selection.insert(value)
-            }
+            buttonAction(for: value)
         } label: {
             HStack {
                 Text(value.localizedStringResource)
@@ -190,6 +188,32 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
                         .accessibilityHidden(true)
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private func toggle(for value: Value) -> some View {
+        let binding = Binding {
+            selection.contains(value)
+        } set: { newValue in
+            guard newValue != selection.contains(value) else {
+                return
+            }
+            buttonAction(for: value)
+        }
+
+        Toggle(isOn: binding) {
+            Text(value.localizedStringResource)
+        }
+    }
+
+    private func buttonAction(for value: Value) {
+        if selection.contains(value) {
+            if selection != value || allowEmptySelection {
+                selection.remove(value)
+            }
+        } else {
+            selection.insert(value)
         }
     }
 }
@@ -215,15 +239,17 @@ extension PreviewLayout {
     }
 }
 
+
 #Preview {
     @Previewable @State var selection: PreviewLayout.Options = []
     @Previewable @State var picker: String = ""
 
     List {
         OptionSetPicker("Test", selection: $selection)
-        Picker("Test", selection: $picker) {
+        Picker("Test", selection: $picker) { // for style comparison
             Text("Empty").tag("")
         }
+        OptionSetPicker("Test", selection: $selection, style: .inline, allowEmptySelection: true)
     }
 }
 #endif

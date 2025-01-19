@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     "%lld selected" : {
 
     },
@@ -33,9 +30,6 @@
       }
     },
     "Dismiss" : {
-
-    },
-    "Empty" : {
 
     },
     "Error" : {
@@ -110,9 +104,6 @@
 
     },
     "Option %u" : {
-
-    },
-    "Test" : {
 
     }
   },
