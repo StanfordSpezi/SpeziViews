@@ -40,7 +40,6 @@ final class ViewsTests: XCTestCase {
         #endif
 
 
-
         XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
         app.collectionViews.buttons["Canvas"].tap()
 
