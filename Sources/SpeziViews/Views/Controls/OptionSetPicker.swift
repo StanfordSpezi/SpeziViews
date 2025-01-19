@@ -14,7 +14,17 @@ public enum OptionSetPickerStyle {
     /// The picker is rendered inline (e.g., in a List view).
     case inline
     /// The picker is rendered as a menu.
+    @available(watchOS, unavailable)
     case menu
+
+    /// The default style for the platform.
+    public static var automatic: OptionSetPickerStyle {
+#if os(watchOS)
+        .inline
+#else
+        .menu
+#endif
+    }
 }
 
 
@@ -98,6 +108,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
             } else {
                 view
             }
+#if !os(watchOS)
         case .menu:
             Menu {
                 ForEach(Value.allCases, id: \.self) { value in
@@ -136,7 +147,10 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
                     }
                 }
             }
+#if !os(macOS)
                 .menuActionDismissBehavior(.disabled) // disable for multi selection
+#endif
+#endif
         }
     }
 
@@ -147,7 +161,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
     ///   - style: The style how the picker is displayed.
     ///   - allowEmptySelection: Flag indicating if an empty selection is allowed.
     ///   - label: The label view.
-    public init(selection: Binding<Value>, style: OptionSetPickerStyle = .menu, allowEmptySelection: Bool = false, @ViewBuilder label: () -> Label) {
+    public init(selection: Binding<Value>, style: OptionSetPickerStyle = .automatic, allowEmptySelection: Bool = false, @ViewBuilder label: () -> Label) {
         self.style = style
         self.allowEmptySelection = allowEmptySelection
         self.label = label()
@@ -163,7 +177,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
     public init(
         _ titleKey: LocalizedStringResource,
         selection: Binding<Value>,
-        style: OptionSetPickerStyle = .menu,
+        style: OptionSetPickerStyle = .automatic,
         allowEmptySelection: Bool = false
     ) where Label == Text {
         self.init(selection: selection, style: style, allowEmptySelection: allowEmptySelection) {
