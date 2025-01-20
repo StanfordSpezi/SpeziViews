@@ -20,8 +20,7 @@ final class SnapshotTests: XCTestCase {
                 Text(verbatim: "20 °C, Sunny")
             }
         }
-
-
+        
         let largeRow = row
             .dynamicTypeSize(.accessibility3)
 

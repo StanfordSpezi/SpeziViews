@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+import SpeziFoundation
 import SwiftUI
 
 
@@ -39,18 +40,8 @@ public struct HorizontalGeometryReader<Content: View>: View {
                 }
             )
             .onPreferenceChange(WidthPreferenceKey.self) { width in
-                // The `onPreferenceChange` view modfier now takes a `@Sendable` closure, therefore we cannot capture `@MainActor` isolated properties
-                // on the `View` directly anymore: https://developer.apple.com/documentation/swiftui/view/onpreferencechange(_:perform:)?changes=latest_minor
-                // However, as the `@Sendable` closure is still run on the MainActor (at least in my testing on 18.2 RC SDKs), we can use `MainActor.assumeIsolated`
-                // to avoid scheduling a `MainActor` `Task`, which could delay execution and cause unexpected UI behavior.
-                if Thread.isMainThread {
-                    MainActor.assumeIsolated {
-                        self.width = width
-                    }
-                } else {
-                    Task { @MainActor in
-                        self.width = width
-                    }
+                runOrScheduleOnMainActor {
+                    self.width = width
                 }
             }
     }

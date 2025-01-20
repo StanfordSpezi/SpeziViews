@@ -34,9 +34,9 @@ final class ViewsTests: XCTestCase {
 
         #if os(visionOS)
         // visionOS doesn't have the image anymore, this should be enough to check
-        let paletteView = app.scrollViews.otherElements["Pen, black"]
+        let penView = app.scrollViews.otherElements["Pen, black"]
         #else
-        let paletteView = app.images["palette_tool_pencil_base"]
+        let penView = app.buttons["Pen"]
         #endif
 
 
@@ -44,7 +44,7 @@ final class ViewsTests: XCTestCase {
         app.collectionViews.buttons["Canvas"].tap()
 
         XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
-        XCTAssertFalse(paletteView.exists)
+        XCTAssertFalse(penView.exists)
 
         let canvasView = app.scrollViews.firstMatch
         canvasView.swipeRight()
@@ -55,7 +55,7 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.buttons["Show Tool Picker"].waitForExistence(timeout: 2))
         app.buttons["Show Tool Picker"].tap()
 
-        XCTAssertTrue(paletteView.waitForExistence(timeout: 5))
+        XCTAssertTrue(penView.waitForExistence(timeout: 5))
         canvasView.swipeLeft()
 
         XCTAssertTrue(canvasView.waitForExistence(timeout: 2.0))
@@ -65,12 +65,7 @@ final class ViewsTests: XCTestCase {
         return // the pencilKit toolbar cannot be hidden anymore on visionOS
         #endif
 
-#if compiler(>=6)
-        XCTAssertTrue(paletteView.waitForNonExistence(timeout: 15))
-#else
-        sleep(15) // waitForExistence will otherwise return immediately
-        XCTAssertFalse(paletteView.exists)
-#endif
+        XCTAssertTrue(penView.waitForNonExistence(timeout: 15))
         canvasView.swipeUp()
     }
     
