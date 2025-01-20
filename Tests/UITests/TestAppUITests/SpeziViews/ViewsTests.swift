@@ -259,8 +259,13 @@ final class ViewsTests: XCTestCase {
 
         // OPTION SET
 
+#if os(visionOS)
+        XCTAssert(app.staticTexts["nothing selected"].exists)
+        app.staticTexts["nothing selected"].tap()
+#else
         XCTAssert(app.buttons["Option Set, nothing selected"].exists)
         app.buttons["Option Set, nothing selected"].tap()
+#endif
 
         XCTAssert(app.buttons["Option 1"].firstMatch.waitForExistence(timeout: 1.0))
         app.buttons["Option 1"].firstMatch.tap()

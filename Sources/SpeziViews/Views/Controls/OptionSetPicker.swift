@@ -110,46 +110,91 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
             }
 #if !os(watchOS)
         case .menu:
-            Menu {
-                ForEach(Value.allCases, id: \.self) { value in
-                    toggle(for: value)
-                }
+            menu
+#endif
+        }
+    }
+
+    @ViewBuilder private var menu: some View {
+#if os(visionOS)
+        LabeledContent {
+            let menu = Menu {
+                menuContent
             } label: {
-                LabeledContent {
-                    HStack {
-                        if selectionCount < 2 {
-                            if let value = singleSelection {
-                                Text(value.localizedStringResource)
-                            } else {
-                                Text("nothing selected")
-                                    .italic()
-                            }
-                        } else {
-                            Text("\(selectionCount) selected")
-                        }
-                        Image(systemName: "chevron.up.chevron.down")
-                            .accessibilityHidden(true)
-                            .font(.footnote)
-                            .fontWeight(.medium)
-                    }
-                } label: {
-                    if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
-                        ViewBasedOnVisibility {
-                            EmptyView()
-                        } labeled: {
-                            label
-                                .foregroundStyle(Color.primary)
-                        }
-                    } else {
-                        label
-                            .foregroundStyle(Color.primary)
-                    }
-                }
+                menuContentLabel
             }
+            if #available(visionOS 2, *) {
+                menu
+                    .accessibilityLabel { label in
+                        label
+                        menuLabel
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(.isButton)
+            } else {
+                menu
+            }
+        } label: {
+            menuLabel
+                .accessibilityHidden(true)
+        }
+            .menuActionDismissBehavior(.disabled) // disable for multi selection
+#else
+        Menu {
+            menuContent
+        } label: {
+            LabeledContent {
+                menuContentLabel
+            } label: {
+                menuLabel
+            }
+        }
 #if !os(macOS)
-                .menuActionDismissBehavior(.disabled) // disable for multi selection
+        .menuActionDismissBehavior(.disabled) // disable for multi selection
 #endif
 #endif
+    }
+
+    @ViewBuilder private var menuLabel: some View {
+        if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+            ViewBasedOnVisibility {
+                EmptyView()
+            } labeled: {
+                label
+                    .foregroundStyle(Color.primary)
+            }
+        } else {
+            label
+                .foregroundStyle(Color.primary)
+        }
+    }
+
+    @ViewBuilder private var menuContent: some View {
+        ForEach(Value.allCases, id: \.self) { value in
+            toggle(for: value)
+        }
+    }
+
+    @ViewBuilder private var menuContentLabel: some View {
+        HStack {
+            selectionLabel
+            Image(systemName: "chevron.up.chevron.down")
+                .accessibilityHidden(true)
+                .font(.footnote)
+                .fontWeight(.medium)
+        }
+    }
+
+    private var selectionLabel: Text {
+        if selectionCount < 2 {
+            if let value = singleSelection {
+                Text(value.localizedStringResource)
+            } else {
+                Text("nothing selected")
+                    .italic()
+            }
+        } else {
+            Text("\(selectionCount) selected")
         }
     }
 
