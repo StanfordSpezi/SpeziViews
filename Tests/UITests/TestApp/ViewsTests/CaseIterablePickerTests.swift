@@ -32,10 +32,6 @@ struct MyOptionSet: OptionSet, PickerValue {
 
     var rawValue: UInt8
 
-    init(rawValue: UInt8) {
-        self.rawValue = rawValue
-    }
-
     var localizedStringResource: LocalizedStringResource {
         var components: [String] = []
 
@@ -47,6 +43,11 @@ struct MyOptionSet: OptionSet, PickerValue {
         }
 
         return "\(components.joined(separator: ", "))"
+    }
+
+
+    init(rawValue: UInt8) {
+        self.rawValue = rawValue
     }
 }
 
