@@ -115,6 +115,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
         }
     }
 
+#if !os(watchOS)
     @ViewBuilder private var menu: some View {
 #if os(visionOS)
         LabeledContent {
@@ -154,6 +155,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
 #endif
 #endif
     }
+#endif
 
     @ViewBuilder private var menuLabel: some View {
         if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
