@@ -63,6 +63,6 @@ extension View {
     ///   - repeatInterval: The repeat interval for the shimmer animation.
     /// - Returns: The modified view.
     public func shimmer(repeatInterval: Double = 1) -> some View {
-        modifier(ShimmerViewModifier(repeatInterval: repeatInterval))
+        modifier(ShimmerViewModifier(repeatInterval: max(0, repeatInterval)))
     }
 }

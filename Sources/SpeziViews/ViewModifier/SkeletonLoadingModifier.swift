@@ -28,7 +28,7 @@ import SwiftUI
 ///                     RoundedRectangle(cornerRadius: 10)
 ///                         .fill(secondaryColor)
 ///                         .frame(height: 100)
-///                         .skeletonLoading(replicationCount: 5, repeatInterval: 1.5)
+///                         .skeletonLoading(replicationCount: 5, repeatInterval: 1.5, spacing: 16)
 ///                 }
 ///         }
 ///     }
@@ -38,22 +38,24 @@ import SwiftUI
 /// - Parameters:
 ///   - replicationCount: The number of skeleton cells to display.
 ///   - repeatInterval: The repeat interval for the shimmer animation.
+///   - spacing: The spacing between the skeleton cells.
 struct SkeletonLoadingViewModifier: ViewModifier {
     var replicationCount: Int
     var shimmerRepeatInterval: Double
+    var spacing: CGFloat
 
     
     func body(content: Content) -> some View {
-        VStack(spacing: 16) {
+        VStack(spacing: spacing) {
             ForEach(0..<replicationCount, id: \.self) { _ in
                 content
                     .redacted(reason: .placeholder)
             }
         }
+            .shimmer(repeatInterval: shimmerRepeatInterval)
             .mask(
                 LinearGradient(gradient: Gradient(colors: [.secondary, .clear]), startPoint: .top, endPoint: .bottom)
             )
-            .shimmer(repeatInterval: shimmerRepeatInterval)
     }
 }
 
@@ -67,8 +69,13 @@ extension View {
     /// - Parameters:
     ///   - replicationCount: The number of skeleton cells to display (default is 1).
     ///   - repeatInterval: The repeat interval for the shimmer animation (default is 1 second).
+    ///   - spacing: The spacing between the skeleton cells (default is 0).
     /// - Returns: A view with the skeleton loading effect applied.
-    public func skeletonLoading(replicationCount: Int = 1, repeatInterval: Double = 1) -> some View {
-        modifier(SkeletonLoadingViewModifier(replicationCount: replicationCount, shimmerRepeatInterval: repeatInterval))
+    public func skeletonLoading(replicationCount: Int = 1, repeatInterval: Double = 1, spacing: CGFloat = 0) -> some View {
+        modifier(SkeletonLoadingViewModifier(
+            replicationCount: max(1, replicationCount),
+            shimmerRepeatInterval: max(0, repeatInterval),
+            spacing: max(0, spacing)
+        ))
     }
 }
