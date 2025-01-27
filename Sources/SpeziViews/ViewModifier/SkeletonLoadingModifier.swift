@@ -51,7 +51,7 @@ struct SkeletonLoadingViewModifier: ViewModifier {
             }
         }
             .mask(
-                LinearGradient(gradient: Gradient(colors: [.black, .clear]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [.secondary, .clear]), startPoint: .top, endPoint: .bottom)
             )
             .shimmer(repeatInterval: shimmerRepeatInterval)
     }
