@@ -9,6 +9,35 @@
 import SwiftUI
 
 
+/// A view modifier that applies a shimmer animation effect.
+///
+/// The `ShimmerViewModifier` applies a simple opacity animation that creates a shimmer effect.
+/// It can be useful when displaying placeholders for content that is being asynchronously loaded.
+/// The `SkeletonLoadingModifier` combines this with a vertical replication of the view to create a skeleton loading effect.
+///
+/// ### Usage
+///
+/// ```swift
+/// struct ShimmerModifierTestView: View {
+///     @State var loading = false
+///     let secondaryColor = Color(.init(gray: 0.8, alpha: 1.0))
+///
+///     var body: some View {
+///         VStack {
+///             ExampleAsyncView(loading: $loading)
+///                 .processingOverlay(isProcessing: loading) {
+///                     RoundedRectangle(cornerRadius: 10)
+///                         .fill(secondaryColor)
+///                         .frame(height: 100)
+///                         .shimmer(repeatInterval: 1.5)
+///                 }
+///         }
+///     }
+/// }
+/// ```
+///
+/// - Parameters:
+///   - repeatInterval: The repeat interval for the shimmer animation.
 struct ShimmerViewModifier: ViewModifier {
     let repeatInterval: Double
     @State private var shimmering: Bool = false
@@ -29,27 +58,6 @@ extension View {
     ///
     /// This modifier is useful, e.g., in combination with the ``ProcessingOverlay`` when
     /// used with a asynchronosly loaded view. This allows to implement a skeleton loading effect.
-    ///
-    /// ### Usage
-    ///
-    /// ```swift
-    /// struct ShimmerModifierTestView: View {
-    ///     @State var loading = false
-    ///     let secondaryColor = Color(.init(gray: 0.8, alpha: 1.0))
-    ///
-    ///     var body: some View {
-    ///         VStack {
-    ///             ExampleAsyncView(loading: $loading)
-    ///                 .processingOverlay(isProcessing: loading) {
-    ///                     RoundedRectangle(cornerRadius: 10)
-    ///                         .fill(secondaryColor)
-    ///                         .frame(height: 100)
-    ///                         .shimmer(repeatInterval: 1.5)
-    ///                 }
-    ///         }
-    ///     }
-    /// }
-    /// ```
     ///
     /// - Parameters:
     ///   - repeatInterval: The repeat interval for the shimmer animation.
