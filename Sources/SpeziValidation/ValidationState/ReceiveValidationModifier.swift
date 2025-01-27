@@ -6,17 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
+import SpeziFoundation
 import SwiftUI
-
-
-@MainActor
-private struct IsolatedValidationBinding: Sendable {
-    let state: ValidationState.Binding
-
-    init(_ state: ValidationState.Binding) {
-        self.state = state
-    }
-}
 
 
 /// Provide access to validation state to the parent view.
@@ -46,11 +37,9 @@ extension View {
     /// - Parameter state: The binding to the ``ValidationState``.
     /// - Returns: The modified view.
     public func receiveValidation(in state: ValidationState.Binding) -> some View {
-        let binding = IsolatedValidationBinding(state)
-
-        return onPreferenceChange(CapturedValidationStateKey.self) { entries in
-            Task { @Sendable @MainActor in
-                binding.state.wrappedValue = ValidationContext(entries: entries)
+        onPreferenceChange(CapturedValidationStateKey.self) { entries in
+            runOrScheduleOnMainActor {
+                state.wrappedValue = ValidationContext(entries: entries)
             }
         }
     }

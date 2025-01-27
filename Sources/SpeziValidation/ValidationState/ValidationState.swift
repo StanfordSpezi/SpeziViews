@@ -67,8 +67,8 @@ public struct ValidationState: DynamicProperty {
 extension ValidationState {
     /// A binding to a ``ValidationState``.
     @propertyWrapper
-    public struct Binding {
-        private let binding: SwiftUI.Binding<ValidationContext>
+    public struct Binding: Sendable {
+        @MainActor private let binding: SwiftUI.Binding<ValidationContext>
 
         /// The validation context.
         public var wrappedValue: ValidationContext {
