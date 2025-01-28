@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld selected" : {
+
+    },
     "A" : {
 
     },
@@ -95,6 +98,12 @@
       }
     },
     "None" : {
+
+    },
+    "nothing selected" : {
+
+    },
+    "Option %u" : {
 
     }
   },

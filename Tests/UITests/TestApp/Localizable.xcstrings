@@ -41,9 +41,6 @@
     "CanvasTest" : {
 
     },
-    "Case Iterable Picker" : {
-
-    },
     "Center" : {
 
     },
@@ -113,6 +110,9 @@
     "Increment" : {
 
     },
+    "Inline Picker" : {
+
+    },
     "Input Valid: %@" : {
 
     },
@@ -163,7 +163,13 @@
     "Operation State: %@" : {
 
     },
+    "Option Set" : {
+
+    },
     "Password" : {
+
+    },
+    "Picker" : {
 
     },
     "Please enter your email address of your account. A email with an link to reset your password will be sent to the email address." : {
