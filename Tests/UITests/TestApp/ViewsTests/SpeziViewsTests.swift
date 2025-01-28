@@ -30,7 +30,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case button = "Buttons"
     case listRow = "List Row"
     case managedViewUpdate = "Managed View Update"
-    case caseIterablePicker = "Case Iterable Picker"
+    case caseIterablePicker = "Picker"
 
     
     #if canImport(PencilKit) && !os(macOS)

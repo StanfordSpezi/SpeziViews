@@ -232,7 +232,7 @@ final class ViewsTests: XCTestCase {
     }
 
     @MainActor
-    func testCaseIterablePicker() {
+    func testPickers() throws {
         let app = XCUIApplication()
         app.launch()
 
@@ -241,12 +241,11 @@ final class ViewsTests: XCTestCase {
 
         app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOs
 
-        XCTAssert(app.buttons["Case Iterable Picker"].waitForExistence(timeout: 2.0))
-        app.buttons["Case Iterable Picker"].tap()
+        XCTAssert(app.buttons["Picker"].waitForExistence(timeout: 2.0))
+        app.buttons["Picker"].tap()
 
-        XCTAssert(app.navigationBars.staticTexts["Case Iterable Picker"].waitForExistence(timeout: 2.0))
+        XCTAssert(app.navigationBars.staticTexts["Picker"].waitForExistence(timeout: 2.0))
 
-        print(app.debugDescription)
         XCTAssert(app.buttons["Selection, None"].exists)
         app.buttons["Selection, None"].tap()
 
@@ -257,5 +256,18 @@ final class ViewsTests: XCTestCase {
         app.buttons["First"].tap()
 
         XCTAssert(app.buttons["Selection, First"].waitForExistence(timeout: 2.0))
+
+        // OPTION SET
+
+#if os(visionOS)
+        XCTAssert(app.staticTexts["nothing selected"].exists)
+        app.staticTexts["nothing selected"].tap()
+#else
+        XCTAssert(app.buttons["Option Set, nothing selected"].exists)
+        app.buttons["Option Set, nothing selected"].tap()
+#endif
+
+        XCTAssert(app.buttons["Option 1"].firstMatch.waitForExistence(timeout: 1.0))
+        app.buttons["Option 1"].firstMatch.tap()
     }
 }

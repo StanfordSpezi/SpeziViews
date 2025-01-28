@@ -68,6 +68,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``InfoButton``
 - ``DismissButton``
 - ``CaseIterablePicker``
+- ``OptionSetPicker``
 
 ### Displaying Text
 
