@@ -80,9 +80,9 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 
 - ``ImageReference``
 
-### Loading Indicators
+### Modifiers
 
-- ``SkeletonLoading``
+- ``SwiftUICore/View/skeletonLoading(replicationCount:repeatInterval:spacing:)``
 
 ### Conditional Modifiers
 
