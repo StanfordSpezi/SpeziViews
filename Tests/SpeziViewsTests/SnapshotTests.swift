@@ -204,4 +204,18 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(of: listHeader1, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header")
 #endif
     }
+    
+    @MainActor
+    func testSkeletonLoading() {
+        let view =
+        RoundedRectangle(cornerRadius: 10)
+            .frame(height: 100)
+            .skeletonLoading(replicationCount: 5, repeatInterval: 1.5, spacing: 16)
+            .padding()
+
+#if os(iOS)
+        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "skeleton-loading")
+#endif
+    }
+
 }
