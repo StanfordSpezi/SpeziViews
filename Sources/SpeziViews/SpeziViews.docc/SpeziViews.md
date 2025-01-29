@@ -81,10 +81,6 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 
 - ``ImageReference``
 
-### Modifiers
-
-- ``SwiftUICore/View/skeletonLoading(replicationCount:repeatInterval:spacing:)``
-
 ### Conditional Modifiers
 
 - ``SwiftUICore/View/if(_:transform:)``
@@ -93,6 +89,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 ### Animations and Visual Effects
 
 - ``SwiftUICore/View/shimmer(repeatInterval:)``
+- ``SwiftUICore/View/skeletonLoading(replicationCount:repeatInterval:spacing:)``
 
 ### Interact with the View Environment
 
