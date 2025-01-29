@@ -217,5 +217,4 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "skeleton-loading")
 #endif
     }
-
 }
