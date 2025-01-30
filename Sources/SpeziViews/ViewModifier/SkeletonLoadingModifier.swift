@@ -24,7 +24,7 @@ struct SkeletonLoadingViewModifier: ViewModifier {
         }
             .shimmer(repeatInterval: shimmerRepeatInterval)
             .mask(
-                LinearGradient(gradient: Gradient(colors: [.secondary, .clear]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [.black, .clear]), startPoint: .center, endPoint: .bottom)
             )
     }
 }
@@ -55,6 +55,10 @@ extension View {
     ///     }
     /// }
     /// ```
+    ///
+    /// @Image(source: "Skeleton-Loading", alt: "The `skeletonLoading` view modifier on a `RoundedRectangle` as placeholder cells.”)  {
+    ///     Using the `skeletonLoading` view modifier on a `RoundedRectangle` as placeholder cells.
+    /// }
     ///
     /// - Parameters:
     ///   - replicationCount: The number of skeleton cells to display.

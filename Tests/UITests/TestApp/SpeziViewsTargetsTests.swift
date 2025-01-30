@@ -65,6 +65,9 @@ struct SpeziViewsTargetsTests: View {
                     NavigationLink("Tiles") {
                         TileExample()
                     }
+                    NavigationLink("SkeletonLoading") {
+                        SkeletonLoadingExample()
+                    }
                 } header: {
                     Text("Examples")
                 } footer: {

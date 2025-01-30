@@ -208,10 +208,13 @@ final class SnapshotTests: XCTestCase {
     @MainActor
     func testSkeletonLoading() {
         let view =
-        RoundedRectangle(cornerRadius: 10)
-            .frame(height: 100)
-            .skeletonLoading(replicationCount: 5, repeatInterval: 1.5, spacing: 16)
-            .padding()
+        VStack {
+            RoundedRectangle(cornerRadius: 10)
+                .frame(height: 100)
+                .skeletonLoading(replicationCount: 5, repeatInterval: 1.5, spacing: 16)
+                .padding()
+            Spacer()
+        }
 
 #if os(iOS)
         assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "skeleton-loading")
