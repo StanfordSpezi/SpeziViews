@@ -35,7 +35,7 @@ import SwiftUI
 ///         }
 ///     }
 ///     @Column {
-///     @Image(source: "Tile-Center", alt: "A `SimpleTile` view with a `TileHeader` view with `center` alignment.") {
+///         @Image(source: "Tile-Center", alt: "A `SimpleTile` view with a `TileHeader` view with `center` alignment.") {
 ///             A `TileHeader` used with the ``SimpleTile`` view and `center` alignment.
 ///         }
 ///     }

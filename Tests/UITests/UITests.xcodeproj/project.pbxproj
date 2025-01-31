@@ -18,6 +18,7 @@
 		2FA9486D29DE91130081C086 /* ViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA9486C29DE91130081C086 /* ViewsTests.swift */; };
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
 		2FB099B82A8AD25300B20952 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB099B72A8AD25100B20952 /* Localizable.xcstrings */; };
+		561805A02D4B7F4900141D1B /* SkeletonLoadingExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5618059F2D4B7F4100141D1B /* SkeletonLoadingExample.swift */; };
 		9731B58F2B167053007676C0 /* ViewStateMapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9731B58E2B167053007676C0 /* ViewStateMapperView.swift */; };
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		97A0A5102B8D7FD7006102EF /* ConditionalModifierTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */; };
@@ -72,6 +73,7 @@
 		2FA9486C29DE91130081C086 /* ViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewsTests.swift; sourceTree = "<group>"; };
 		2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestApp.xctestplan; sourceTree = "<group>"; };
 		2FB099B72A8AD25100B20952 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		5618059F2D4B7F4100141D1B /* SkeletonLoadingExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoadingExample.swift; sourceTree = "<group>"; };
 		9731B58E2B167053007676C0 /* ViewStateMapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStateMapperView.swift; sourceTree = "<group>"; };
 		97A0A50F2B8D7FD7006102EF /* ConditionalModifierTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalModifierTestView.swift; sourceTree = "<group>"; };
 		97EE16AB2B16D5AB004D25A3 /* OperationStateTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationStateTestView.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				A9F85B6F2B32A041005F16E6 /* ValidationExample.swift */,
 				A9F85B712B32A052005F16E6 /* NameFieldsExample.swift */,
 				A9F85B732B32A05C005F16E6 /* ViewStateExample.swift */,
+				5618059F2D4B7F4100141D1B /* SkeletonLoadingExample.swift */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				A977F6802C93478D0071A1D1 /* ManagedViewStateTests.swift in Sources */,
 				2FA9486529DE90720081C086 /* ViewStateTestView.swift in Sources */,
 				A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */,
+				561805A02D4B7F4900141D1B /* SkeletonLoadingExample.swift in Sources */,
 				2FA9486929DE90720081C086 /* NameFieldsTestView.swift in Sources */,
 				A99A65122AF57CA200E63582 /* FocusedValidationTests.swift in Sources */,
 				A90575B42CD03B2E00B94001 /* CaseIterablePickerTests.swift in Sources */,
