@@ -86,6 +86,11 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``SwiftUICore/View/if(_:transform:)``
 - ``SwiftUICore/View/if(condition:transform:)``
 
+### Animations and Visual Effects
+
+- ``SwiftUICore/View/shimmer(repeatInterval:)``
+- ``SwiftUICore/View/skeletonLoading(replicationCount:repeatInterval:spacing:)``
+
 ### Interact with the View Environment
 
 - ``SwiftUICore/View/focusOnTap()``

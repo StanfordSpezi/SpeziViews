@@ -35,6 +35,7 @@ struct SpeziViewsTargetsTests: View {
 
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack {
             List {
                 Button("SpeziViews") {
@@ -64,6 +65,9 @@ struct SpeziViewsTargetsTests: View {
                     }
                     NavigationLink("Tiles") {
                         TileExample()
+                    }
+                    NavigationLink("SkeletonLoading") {
+                        SkeletonLoadingExample()
                     }
                 } header: {
                     Text("Examples")
