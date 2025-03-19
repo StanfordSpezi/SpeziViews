@@ -2,16 +2,45 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%lld selected" : {
-
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld markerade"
+          }
+        }
+      }
     },
     "A" : {
-
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A"
+          }
+        }
+      }
     },
     "B" : {
-
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "B"
+          }
+        }
+      }
     },
     "Completed" : {
-      "comment" : "Completed Tile. Subtitle"
+      "comment" : "Completed Tile. Subtitle",
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klart"
+          }
+        }
+      }
     },
     "DEFAULT_ERROR_DESCRIPTION" : {
       "localizations" : {
@@ -26,11 +55,24 @@
             "state" : "translated",
             "value" : "Unexpected error occurred!"
           }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett oväntat fel inträffade!"
+          }
         }
       }
     },
     "Dismiss" : {
-
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng"
+          }
+        }
+      }
     },
     "Error" : {
       "comment" : "View State default error title",
@@ -45,6 +87,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fel"
           }
         }
       }
@@ -62,6 +110,12 @@
             "state" : "translated",
             "value" : "Could not load and parse the document."
           }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunde inte ladda och tolka dokumentet."
+          }
         }
       }
     },
@@ -77,6 +131,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The system wasn't able to parse the given markdown text, indicating an invalid markdown text."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemet kunde inte tolka den angivna markdown-texten, vilket tyder på en ogiltig markdown-text."
           }
         }
       }
@@ -94,17 +154,44 @@
             "state" : "translated",
             "value" : "Please check the content of the markdown text."
           }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrollera innehållet i markdown-texten."
+          }
         }
       }
     },
     "None" : {
-
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen"
+          }
+        }
+      }
     },
     "nothing selected" : {
-
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "inget markerat"
+          }
+        }
+      }
     },
     "Option %u" : {
-
+      "localizations" : {
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternativ %u"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
