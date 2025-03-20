@@ -20,6 +20,12 @@
             "state" : "translated",
             "value" : "El correo electrónico proporcionado no es válido."
           }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angiven e-postadress är ogiltig."
+          }
         }
       }
     },
@@ -41,6 +47,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Este espacio no puede estar vacío."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detta fält får inte vara tomt."
           }
         }
       }
@@ -64,6 +76,12 @@
             "state" : "translated",
             "value" : "Tu contraseña debe tener al menos %lld caracteres."
           }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ditt lösenord måste vara minst %lld tecken långt."
+          }
         }
       }
     },
@@ -86,6 +104,12 @@
             "state" : "translated",
             "value" : "Debes usar solo letras."
           }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du får endast använda bokstäver."
+          }
         }
       }
     },
@@ -107,6 +131,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Debes usar solo letras estándar en inglés."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du får endast använda vanliga engelska bokstäver."
           }
         }
       }
