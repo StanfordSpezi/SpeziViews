@@ -34,7 +34,6 @@ struct ManagedNavigationStackTestView: View {
     @State var counter = 0
     
     var body: some View {
-        // TODO fix the bug where specifying the first view as the startAtStep param causes it to get pushed twice!
         // swiftlint:disable:next closure_body_length
         ManagedNavigationStack(path: path, startAtStep: .viewType(Step<Text>.self)) {
             Text("Step 0")
@@ -56,13 +55,12 @@ struct ManagedNavigationStackTestView: View {
             Step {
                 Text("Step 5")
                 Button("Go to Step 7 (A)") {
-                    path.moveToNextStep(matching: .identifier("step7"), includeIntermediateSteps: false)
+                    path.navigateToNextStep(matching: .identifier("step7"), includeIntermediateSteps: false)
                 }
                 Button("Go to Step 7 (B)") {
-                    path.moveToNextStep(matching: .identifier("step7"), includeIntermediateSteps: true)
+                    path.navigateToNextStep(matching: .identifier("step7"), includeIntermediateSteps: true)
                 }
                 Button("Append Custom View") {
-                    // TODO dismissing the custom step (via the back button) causes the IllegalStep view to get shown during the pop animation???
                     path.append(customView: Step { Text("Custom Step") })
                 }
             }

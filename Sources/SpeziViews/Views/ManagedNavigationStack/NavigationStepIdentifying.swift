@@ -34,7 +34,7 @@ public struct _NavigationStepIdentifierViewModifier<ID: Hashable>: ViewModifier,
 extension View {
     /// Assign a unique identifier to a `View` appearing as a step within in a ``ManagedNavigationStack``.
     ///
-    /// This allows programmatic navigation to the view using the ``ManagedNavigationStack/Path``'s ``ManagedNavigationStack/Path/moveToNextStep(matching:includeIntermediateSteps:)`` function.
+    /// This allows programmatic navigation to the view using the ``ManagedNavigationStack/Path``'s ``ManagedNavigationStack/Path/navigateToNextStep(matching:includeIntermediateSteps:)`` function.
     /// When applying this modifier repeatedly, the outermost ``SwiftUICore/View/navigationStepIdentifier(_:)`` takes precedence.
     ///
     /// The ``ManagedNavigationStack`` will identify the step based on the combination of the identifier value and the identifier's type.

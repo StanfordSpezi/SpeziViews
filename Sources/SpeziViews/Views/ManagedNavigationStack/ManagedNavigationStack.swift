@@ -20,7 +20,7 @@ import SwiftUI
 /// All of the (conditional) navigation step views are declared within the `ManagedNavigationStack` from which the order of the navigation flow is determined.
 ///
 /// Programmatic navigation within the `ManagedNavigationStack` is possible via the ``ManagedNavigationStack/Path`` which works similar to SwiftUI's `NavigationPath`.
-/// The ``ManagedNavigationStack/Path``'s ``ManagedNavigationStack/Path/nextStep()`` and ``ManagedNavigationStack/Path/moveToNextStep(matching:includeIntermediateSteps:)``,
+/// The ``ManagedNavigationStack/Path``'s ``ManagedNavigationStack/Path/nextStep()`` and ``ManagedNavigationStack/Path/navigateToNextStep(matching:includeIntermediateSteps:)``,
 /// functions can be used to programmatically navigate within the stack.
 /// Furthermore, one can dynamically append custom navigation steps that are not declared within the  ``ManagedNavigationStack``
 /// (e.g. as the structure of these steps isn't linear) via ``ManagedNavigationStack/Path/append(customView:)``.
@@ -63,7 +63,7 @@ import SwiftUI
 /// In most scenarios, the default identifier is sufficient, but there are some edge cases where a custom identifier needs to be specified,
 /// namely when the ``ManagedNavigationStack`` contains multiple steps with the same `View` type, and you wish to programmatically
 /// navigate to one of them, be it as the stack's starting step (via the `startAtStep` parameter in ``ManagedNavigationStack/init(didComplete:path:startAtStep:_:)``,
-/// or via e.g. ``ManagedNavigationStack/Path/moveToNextStep(ofType:)``.
+/// or via e.g. ``ManagedNavigationStack/Path/navigateToNextStep(ofType:)``.
 ///
 ///
 /// ```swift
