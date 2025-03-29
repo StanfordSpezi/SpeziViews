@@ -21,7 +21,7 @@ struct ManagedNavigationStackIdentifierTests {
                 .navigationStepIdentifier("Custom Identifier")
         }
         
-        let identifier = #require(stack.path.firstStepIdentifier)
+        let identifier = try #require(stack.path.firstStepIdentifier)
         #expect(identifier.identifierKind == .identifiable("Custom Identifier"))
     }
 }
