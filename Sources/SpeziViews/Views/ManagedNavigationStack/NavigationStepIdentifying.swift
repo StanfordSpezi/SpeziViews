@@ -21,7 +21,7 @@ protocol NavigationStepIdentifiable {
 
 
 @_documentation(visibility: internal)
-public struct _OnboardingIdentifiableViewModifier<ID>: ViewModifier, NavigationStepIdentifiable where ID: Hashable {
+public struct _NavigationStepIdentifierViewModifier<ID: Hashable>: ViewModifier, NavigationStepIdentifiable {
     // swiftlint:disable:previous type_name
     let id: ID
 
@@ -32,15 +32,17 @@ public struct _OnboardingIdentifiableViewModifier<ID>: ViewModifier, NavigationS
 
 
 extension View {
-    /// Assign a unique identifier to a `View` appearing in an `OnboardingStack`.
+    /// Assign a unique identifier to a `View` appearing as a step within in a ``ManagedNavigationStack``.
     ///
-    /// A `ViewModifier` assigning an identifier to the `View` it is applied to.
-    /// When applying this modifier repeatedly, the outermost ``SwiftUICore/View/onboardingIdentifier(_:)`` counts.
+    /// This allows programmatic navigation to the view using the ``ManagedNavigationStack/Path``'s ``ManagedNavigationStack/Path/moveToNextStep(matching:includeIntermediateSteps:)`` function.
+    /// When applying this modifier repeatedly, the outermost ``SwiftUICore/View/navigationStepIdentifier(_:)`` takes precedence.
     ///
-    /// - Note: This `ViewModifier` should only be used to identify `View`s of the same type within an ``OnboardingStack``.
+    /// The ``ManagedNavigationStack`` will identify the step based on the combination of the identifier value and the identifier's type.
     ///
     /// - Parameters:
-    ///   - identifier: The `Hashable` identifier given to the view.
+    ///   - id: The `Hashable` value used to identify the view as a step within a ``ManagedNavigationStack``.
+    ///
+    /// - Note: This is completely separate from SwiftUI's `id(_:)` modifier.
     ///
     /// ```swift
     /// struct Onboarding: View {
@@ -48,19 +50,25 @@ extension View {
     ///     var completedOnboardingFlow = false
     ///
     ///     var body: some View {
-    ///         OnboardingStack(onboardingFlowComplete: $completedOnboardingFlow) {
+    ///         ManagedNavigationStack(didComplete: $completedOnboardingFlow) {
     ///             MyOwnView()
-    ///                 .onboardingIdentifier("my-own-view-1")
+    ///                 .navigationStepIdentifier("my-own-view-1")
     ///             MyOwnView()
-    ///                 .onboardingIdentifier("my-own-view-2")
+    ///                 .navigationStepIdentifier("my-own-view-2")
     ///         }
     ///     }
     /// }
     /// ```
-    public func onboardingIdentifier<ID: Hashable>(_ identifier: ID) -> ModifiedContent<Self, _OnboardingIdentifiableViewModifier<ID>> {
+    public func navigationStepIdentifier<ID: Hashable>(_ id: ID) -> ModifiedContent<Self, _NavigationStepIdentifierViewModifier<ID>> {
         // For some reason, we need to explicitly spell the return type, otherwise the type will be `AnyView`.
         // Not sure how that happens, but it does with Xcode 16 toolchain.
-        modifier(_OnboardingIdentifiableViewModifier(id: identifier))
+        modifier(_NavigationStepIdentifierViewModifier(id: id))
+    }
+    
+    /// Assign a unique identifier to a `View` appearing in a ``ManagedNavigationStack``.
+    @available(*, deprecated, renamed: "navigationStepIdentifier(_:)")
+    public func onboardingIdentifier<ID: Hashable>(_ id: ID) -> ModifiedContent<Self, _NavigationStepIdentifierViewModifier<ID>> {
+        self.navigationStepIdentifier(id)
     }
 }
 
@@ -68,28 +76,5 @@ extension View {
 extension ModifiedContent: NavigationStepIdentifiable where Modifier: NavigationStepIdentifiable {
     var id: Modifier.ID {
         self.modifier.id
-    }
-}
-
-
-private protocol AnyModifiedContent {
-    associatedtype _Content
-    associatedtype _Modifier
-    var content: _Content { get }
-    var modifier: _Modifier { get }
-}
-
-extension ModifiedContent: AnyModifiedContent {
-    typealias _Content = Content
-    typealias _Modifier = Modifier
-}
-
-
-extension View {
-    var customNavigationStepIdentifier: AnyHashable? {
-        guard let self = self as? any AnyModifiedContent else {
-            return nil
-        }
-        fatalError()
     }
 }

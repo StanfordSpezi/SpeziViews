@@ -36,7 +36,7 @@ struct SpeziViewsTargetsTests: View {
 
 
     var body: some View {
-        // swiftlint:disable:next closure_body_length
+        // swiftlint:disable closure_body_length
         NavigationStack {
             List {
                 Button("SpeziViews") {
@@ -105,6 +105,7 @@ struct SpeziViewsTargetsTests: View {
                     .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif
             }
+        // swiftlint:enable closure_body_length
     }
 }
 

@@ -10,10 +10,10 @@ import Foundation
 import SwiftUI
 
 
-/// A result builder used to aggregate multiple SwiftUI `View`s within the ``OnboardingStack``.
+/// A result builder used to aggregate multiple SwiftUI `View`s within the ``ManagedNavigationStack``.
 @resultBuilder
 public enum NavigationFlowBuilder {
-    /// Onboarding Flow Element
+    /// Navigation Flow Element
     public typealias Element = _NavigationFlow.Element
     
     /// If declared, provides contextual type information for statement expressions to translate them into partial results.
@@ -41,11 +41,6 @@ public enum NavigationFlowBuilder {
     /// With buildEither(first:), enables support for 'if-else' and 'switch' statements by folding conditional results into a single result.
     public static func buildEither(second: [Element]) -> [Element] {
         second
-    }
-    
-    /// Enables support for 'for..in' loops by combining the results of all iterations into a single result.
-    public static func buildArray(_ elements: [[Element]]) -> [Element] {
-        elements.flatMap { $0 }
     }
     
     /// If declared, this will be called on the partial result of an 'if #available' block to allow the result builder to erase type information.

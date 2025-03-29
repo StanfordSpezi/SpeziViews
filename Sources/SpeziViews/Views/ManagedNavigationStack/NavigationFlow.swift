@@ -11,11 +11,11 @@ import SpeziFoundation
 import SwiftUI
 
 
-/// Defines a collection of SwiftUI `View`s that are defined with an ``OnboardingStack``.
+/// Defines a collection of SwiftUI `View`s that are defined with a ``ManagedNavigationStack``.
 ///
-/// You can not create a ``_OnboardingFlowViewCollection`` yourself. Please use the ``OnboardingStack`` that internally creates a ``_OnboardingFlowViewCollection`` with the passed views.
+/// - Note: You do not create instances of `_NavigationFlow` yourself; this type is used internally by the ``ManagedNavigationStack``.
 public class _NavigationFlow {  // swiftlint:disable:this type_name
-    /// An element collected by the ``OnboardingFlowBuilder``.
+    /// An element collected by the ``NavigationFlowBuilder``.
     public struct Element {
         struct SourceLocation: Hashable, Sendable {
             let fileId: StaticString

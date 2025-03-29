@@ -10,34 +10,24 @@ import Foundation
 import SwiftUI
 
 
-/// An `OnboardingStepIdentifier` serves as an abstraction of a step in the onboarding flow as outlined within the ``OnboardingStack``.
-/// 
-/// It contains both the identifier for an onboarding step (the view's type) as well as a flag that indicates if it's a custom onboarding step.
+/// An `NavigationStepIdentifier` serves as an abstraction of a step in the navigation flow as outlined within the ``ManagedNavigationStack``.
+///
+/// It contains both the identifier for a navigation step (the view's type) as well as a flag that indicates if whether the step is custom
+/// (i.e., was not included in the ``ManagedNavigationStack``'s contents, but rather programmatically pushed onto the stack using ``ManagedNavigationStack/Path/append(customView:)``).
 struct NavigationStepIdentifier {
-    /// The source of the `OnboardingStepIdentifier`'s identity
-    enum IdentifierKind: Equatable {
-        /// The `OnboardingStepIdentifier` derives its identity from a `View`'s type and source location
+    /// The source of the `NavigationStepIdentifier`'s identity
+    enum IdentifierKind {
+        /// The `NavigationStepIdentifier` derives its identity from a `View`'s type and source location
         case viewTypeAndSourceLoc
-        /// The `OnboardingStepIdentifier` derives its identity from a `Hashable` value.
+        /// The `NavigationStepIdentifier` derives its identity from a `Hashable` value.
         case identifiable(any Hashable)
-        
-        static func == (lhs: Self, rhs: Self) -> Bool {
-            switch (lhs, rhs) {
-            case (.viewTypeAndSourceLoc, .viewTypeAndSourceLoc):
-                true
-            case let (.identifiable(lhsValue), .identifiable(rhsValue)):
-                lhsValue.isEqual(rhsValue)
-            case (.viewTypeAndSourceLoc, .identifiable), (.identifiable, .viewTypeAndSourceLoc):
-                false
-            }
-        }
     }
     
     let identifierKind: IdentifierKind
     let viewType: any View.Type
     let flowElementSourceLocation: _NavigationFlow.Element.SourceLocation?
     
-    /// Whether the step is custom, i.e. not one of the steps defined via the ``OnboardingFlowBuilder`` but instead created via e.g. ``ManagedNavigationStack/Path/append(customView:)``.
+    /// Whether the step is custom, i.e. not one of the steps defined via the ``NavigationFlowBuilder`` but instead created via e.g. ``ManagedNavigationStack/Path/append(customView:)``.
     var isCustom: Bool {
         flowElementSourceLocation == nil
     }
@@ -59,16 +49,6 @@ struct NavigationStepIdentifier {
         } else {
             self.identifierKind = .viewTypeAndSourceLoc
         }
-    }
-
-    /// Initializes an identifier using a view type.
-    /// - Parameters:
-    ///   - onboardingStepType: The class of the view used to initialize the identifier.
-    ///   - custom: A flag indicating whether the step is custom.
-    init(onboardingStepType viewType: (some View).Type) {
-        self.viewType = viewType
-        self.flowElementSourceLocation = nil
-        self.identifierKind = .viewTypeAndSourceLoc
     }
 }
 
