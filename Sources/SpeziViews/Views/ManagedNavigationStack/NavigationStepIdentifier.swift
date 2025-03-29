@@ -16,11 +16,22 @@ import SwiftUI
 /// (i.e., was not included in the ``ManagedNavigationStack``'s contents, but rather programmatically pushed onto the stack using ``ManagedNavigationStack/Path/append(customView:)``).
 struct NavigationStepIdentifier {
     /// The source of the `NavigationStepIdentifier`'s identity
-    enum IdentifierKind {
+    enum IdentifierKind: Equatable {
         /// The `NavigationStepIdentifier` derives its identity from a `View`'s type and source location
         case viewTypeAndSourceLoc
         /// The `NavigationStepIdentifier` derives its identity from a `Hashable` value.
         case identifiable(any Hashable)
+        
+        static func == (lhs: Self, rhs: Self) -> Bool {
+            switch (lhs, rhs) {
+            case (.viewTypeAndSourceLoc, .viewTypeAndSourceLoc):
+                true
+            case let (.identifiable(lhsValue), .identifiable(rhsValue)):
+                lhsValue.isEqual(rhsValue)
+            case (.viewTypeAndSourceLoc, .identifiable), (.identifiable, .viewTypeAndSourceLoc):
+                false
+            }
+        }
     }
     
     let identifierKind: IdentifierKind
