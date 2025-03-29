@@ -18,10 +18,10 @@ struct ManagedNavigationStackIdentifierTests {
     func testOnboardingIdentifierModifier() throws {
         let stack = ManagedNavigationStack {
             Text("Hello World")
-                .onboardingIdentifier("Custom Identifier")
+                .navigationStepIdentifier("Custom Identifier")
         }
         
-        let identifier = try #require(stack.path.firstOnboardingStepIdentifier)
+        let identifier = #require(stack.path.firstStepIdentifier)
         #expect(identifier.identifierKind == .identifiable("Custom Identifier"))
     }
 }
