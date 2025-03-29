@@ -113,14 +113,13 @@ public struct ManagedNavigationStack: View {
         @Bindable var path = path
         NavigationStack(path: $path.path) {
             path.firstStep
-                .environment(\.isInManagedNavigationStack, true)
                 .environment(\.isFirstInManagedNavigationStack, true)
                 .navigationDestination(for: NavigationStepIdentifier.self) { step in
                     path.view(for: step)
-                        .environment(\.isInManagedNavigationStack, true)
                 }
         }
         .environment(path)
+        .environment(\.isInManagedNavigationStack, true)
         .onChange(of: ObjectIdentifier(navigationFlow)) {
             // ensure the model uses the latest views from the initializer
             path.updateViews(with: navigationFlow.elements)
