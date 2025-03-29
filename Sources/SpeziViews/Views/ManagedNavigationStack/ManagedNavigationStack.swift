@@ -63,7 +63,7 @@ import SwiftUI
 /// In most scenarios, the default identifier is sufficient, but there are some edge cases where a custom identifier needs to be specified,
 /// namely when the ``ManagedNavigationStack`` contains multiple steps with the same `View` type, and you wish to programmatically
 /// navigate to one of them, be it as the stack's starting step (via the `startAtStep` parameter in ``ManagedNavigationStack/init(didComplete:path:startAtStep:_:)``,
-/// or via e.g. ``ManagedNavigationStack/Path/navigateToNextStep(ofType:)``.
+/// or via e.g. ``ManagedNavigationStack/Path/navigateToNextStep(matching:includeIntermediateSteps:)``.
 ///
 ///
 /// ```swift
