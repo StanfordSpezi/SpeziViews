@@ -7,7 +7,9 @@
 //
 
 @testable import SpeziViews
+import SwiftUI
 import Testing
+
 
 @Suite("ManagedNavigationStackIdentifierTests")
 struct ManagedNavigationStackIdentifierTests {
