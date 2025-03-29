@@ -97,6 +97,9 @@
         }
       }
     },
+    "ILLEGAL_NAVIGATION_STEP" : {
+
+    },
     "MARKDOWN_LOADING_ERROR" : {
       "localizations" : {
         "de" : {
