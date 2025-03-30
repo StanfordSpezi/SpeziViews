@@ -56,7 +56,9 @@ struct ManagedNavigationStackTestView: View {
                 Text("Step 2")
             }
             // We need to give this one its own separate view type, since mutating the @State variable from directly within here
-            // somehow doesn't seem to work, but mutating it from w/in the other view, via a binding, does.
+            // somehow doesn't seem to work properly, but mutating it from w/in the other view, via a binding, does.
+            // The weird thing is that the mutation itself does work, but the view won't get updated in response,
+            // and will continue to display the old value.
             Step3(skipNext: $skipConditionalView)
             if !skipConditionalView {
                 Step {
@@ -85,7 +87,6 @@ struct ManagedNavigationStackTestView: View {
             Step {
                 Form {
                     Text("Step 8")
-                    LabeledContent("Counter Value", value: counter, format: .number)
                     Button("Increment Counter") {
                         counter += 1
                     }

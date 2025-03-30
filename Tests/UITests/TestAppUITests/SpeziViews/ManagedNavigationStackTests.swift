@@ -30,10 +30,14 @@ final class ManagedNavigationStackTests: XCTestCase {
         XCTAssertEqual(try XCTUnwrap(app.switches.firstMatch.value as? String), "1")
         app.buttons["Next Step"].tap()
         XCTAssertTrue(app.staticTexts["Step 5"].waitForExistence(timeout: 1))
-        print(app.debugDescription)
         app.navigationBars.buttons["Back"].tap()
         XCTAssertTrue(app.staticTexts["Step 3"].waitForExistence(timeout: 1))
+        XCTAssertEqual(try XCTUnwrap(app.switches.firstMatch.value as? String), "1")
+        #if os(visionOS)
+        app.switches.firstMatch.tap()
+        #else
         app.switches.firstMatch.switches.firstMatch.tap()
+        #endif
         app.buttons["Next Step"].tap()
         XCTAssertTrue(app.staticTexts["Step 4"].waitForExistence(timeout: 1))
         app.buttons["Next Step"].tap()
