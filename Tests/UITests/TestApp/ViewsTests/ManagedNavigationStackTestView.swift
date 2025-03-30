@@ -28,6 +28,18 @@ private struct Step<Content: View>: View {
 }
 
 
+private struct Step3: View {
+    @Binding var skipNext: Bool
+    
+    var body: some View {
+        Step {
+            Text("Step 3")
+            Toggle("Skip Next", isOn: $skipNext)
+        }
+    }
+}
+
+
 struct ManagedNavigationStackTestView: View {
     @State var skipConditionalView = true
     @State var path = ManagedNavigationStack.Path()
@@ -43,10 +55,9 @@ struct ManagedNavigationStackTestView: View {
             Step {
                 Text("Step 2")
             }
-            Step {
-                Text("Step 3")
-                Toggle("Skip Next", isOn: $skipConditionalView)
-            }
+            // We need to give this one its own separate view type, since mutating the @State variable from directly within here
+            // somehow doesn't seem to work, but mutating it from w/in the other view, via a binding, does.
+            Step3(skipNext: $skipConditionalView)
             if !skipConditionalView {
                 Step {
                     Text("Step 4")
@@ -72,9 +83,12 @@ struct ManagedNavigationStackTestView: View {
             }
             .navigationStepIdentifier("step7")
             Step {
-                Text("Step 8")
-                Button("Increment Counter") {
-                    counter += 1
+                Form {
+                    Text("Step 8")
+                    LabeledContent("Counter Value", value: counter, format: .number)
+                    Button("Increment Counter") {
+                        counter += 1
+                    }
                 }
             }
             if counter.isMultiple(of: 2) {
