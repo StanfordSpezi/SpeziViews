@@ -20,12 +20,10 @@ protocol NavigationStepIdentifiable {
 }
 
 
-@_documentation(visibility: internal)
-public struct _NavigationStepIdentifierViewModifier<ID: Hashable>: ViewModifier, NavigationStepIdentifiable {
-    // swiftlint:disable:previous type_name
+private struct _NavigationStepIdentifierViewModifier<ID: Hashable>: ViewModifier, NavigationStepIdentifiable {
     let id: ID
 
-    public func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         content
     }
 }
@@ -52,16 +50,14 @@ extension View {
     ///     var body: some View {
     ///         ManagedNavigationStack(didComplete: $completedOnboardingFlow) {
     ///             MyOwnView()
-    ///                 .navigationStepIdentifier("my-own-view-1")
+    ///                 .navigationStepIdentifier("step1")
     ///             MyOwnView()
-    ///                 .navigationStepIdentifier("my-own-view-2")
+    ///                 .navigationStepIdentifier("step2")
     ///         }
     ///     }
     /// }
     /// ```
-    public func navigationStepIdentifier<ID: Hashable>(_ id: ID) -> ModifiedContent<Self, _NavigationStepIdentifierViewModifier<ID>> {
-        // For some reason, we need to explicitly spell the return type, otherwise the type will be `AnyView`.
-        // Not sure how that happens, but it does with Xcode 16 toolchain.
+    public func navigationStepIdentifier<ID: Hashable>(_ id: ID) -> some View {
         modifier(_NavigationStepIdentifierViewModifier(id: id))
     }
 }

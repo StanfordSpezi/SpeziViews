@@ -74,9 +74,9 @@ import SwiftUI
 ///     var body: some View {
 ///         ManagedNavigationStack(didComplete: $completedOnboardingFlow) {
 ///             MyOwnView()
-///                 .navigationStepIdentifier("my-own-view-1")
+///                 .navigationStepIdentifier("step1")
 ///             MyOwnView()
-///                 .navigationStepIdentifier("my-own-view-2")
+///                 .navigationStepIdentifier("step2")
 ///             // Other views as needed
 ///         }
 ///     }
