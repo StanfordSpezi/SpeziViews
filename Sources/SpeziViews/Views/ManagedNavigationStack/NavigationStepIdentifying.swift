@@ -64,12 +64,6 @@ extension View {
         // Not sure how that happens, but it does with Xcode 16 toolchain.
         modifier(_NavigationStepIdentifierViewModifier(id: id))
     }
-    
-    /// Assign a unique identifier to a `View` appearing in a ``ManagedNavigationStack``.
-    @available(*, deprecated, renamed: "navigationStepIdentifier(_:)")
-    public func onboardingIdentifier<ID: Hashable>(_ id: ID) -> ModifiedContent<Self, _NavigationStepIdentifierViewModifier<ID>> {
-        self.navigationStepIdentifier(id)
-    }
 }
 
 
