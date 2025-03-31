@@ -20,10 +20,12 @@ protocol NavigationStepIdentifiable {
 }
 
 
-private struct _NavigationStepIdentifierViewModifier<ID: Hashable>: ViewModifier, NavigationStepIdentifiable {
+@_documentation(visibility: internal)
+public struct _NavigationStepIdentifierViewModifier<ID: Hashable>: ViewModifier, NavigationStepIdentifiable {
+    // swiftlint:disable:previous type_name
     let id: ID
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
     }
 }
@@ -57,7 +59,7 @@ extension View {
     ///     }
     /// }
     /// ```
-    public func navigationStepIdentifier<ID: Hashable>(_ id: ID) -> some View {
+    public func navigationStepIdentifier<ID: Hashable>(_ id: ID) -> ModifiedContent<Self, _NavigationStepIdentifierViewModifier<ID>> {
         modifier(_NavigationStepIdentifierViewModifier(id: id))
     }
 }
