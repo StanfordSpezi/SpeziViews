@@ -9,11 +9,12 @@
 import SnapshotTesting
 @testable import SpeziViews
 import SwiftUI
-import XCTest
+import Testing
 
 
-final class SnapshotTests: XCTestCase {
+struct SnapshotTests {
     @MainActor
+    @Test
     func testListRow() {
         let row = List {
             ListRow("San Francisco") {
@@ -34,6 +35,7 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testReverseLabelStyle() {
         let label = SwiftUI.Label("100 %", image: "battery.100")
             .labelStyle(.reverse)
@@ -45,6 +47,7 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testDismissButton() {
         let dismissButton = DismissButton()
 
@@ -56,27 +59,28 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testImageReference() throws {
         let eraser: ImageReference = .system("eraser.fill")
         let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
 
-        XCTAssertTrue(eraser.isSystemImage)
-        XCTAssertFalse(nonExistingImage.isSystemImage)
+        #expect(eraser.isSystemImage)
+        #expect(nonExistingImage.isSystemImage == false)
 
-        let image = try XCTUnwrap(eraser.image)
-        XCTAssertNil(nonExistingImage.image)
+        let image = try #require(eraser.image)
+        #expect(nonExistingImage.image == nil)
 
 #if canImport(WatchKit)
-        XCTAssertNotNil(eraser.wkImage)
-        XCTAssertNil(nonExistingImage.wkImage)
+        #expect(eraser.wkImage != nil)
+        #expect(nonExistingImage.wkImage == nil)
 #endif
 
 #if canImport(UIKit)
-        XCTAssertNotNil(eraser.uiImage)
-        XCTAssertNil(nonExistingImage.uiImage)
+        #expect(eraser.uiImage != nil)
+        #expect(nonExistingImage.uiImage == nil)
 #elseif canImport(AppKit)
-        XCTAssertNotNil(eraser.nsImage)
-        XCTAssertNil(nonExistingImage.nsImage)
+        #expect(eraser.nsImage != nil)
+        #expect(nonExistingImage.nsImage == nil)
 #endif
 
 #if os(iOS)
@@ -85,6 +89,7 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testTileHeaderLayout() {
         struct TestView: View {
             private let alignment: HorizontalAlignment
@@ -120,6 +125,7 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testSimpleTile() {
         struct TileView: View {
             private let alignment: HorizontalAlignment
@@ -156,6 +162,7 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testCompletedTileHeader() {
         let view = CompletedTileHeader {
             Text("Some Title")
@@ -167,6 +174,7 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testListRowInits() {
         let string = "Hello"
 
@@ -188,6 +196,7 @@ final class SnapshotTests: XCTestCase {
     }
 
     @MainActor
+    @Test
     func testListHeader() {
         let listHeader0 = ListHeader(systemImage: "person.fill.badge.plus") {
             Text("Create a new Account", bundle: .module)
@@ -206,6 +215,7 @@ final class SnapshotTests: XCTestCase {
     }
     
     @MainActor
+    @Test
     func testSkeletonLoading() {
         let view =
         VStack {

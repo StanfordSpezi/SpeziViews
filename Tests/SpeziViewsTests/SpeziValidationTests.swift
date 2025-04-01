@@ -7,28 +7,29 @@
 //
 
 @testable import SpeziValidation
-import XCTest
+import Testing
 
 
-final class SpeziValidationTests: XCTestCase {
+struct SpeziValidationTests {
     @MainActor
-    func testValidationDebounce() async throws {
+    @Test("Validation Debounce")
+    func validationDebounce() async throws {
         let engine = ValidationEngine(rules: .nonEmpty)
 
         engine.submit(input: "Valid")
-        XCTAssertTrue(engine.inputValid)
-        XCTAssertEqual(engine.validationResults, [])
+        #expect(engine.inputValid)
+        #expect(engine.validationResults == [])
 
         engine.submit(input: "", debounce: true)
-        XCTAssertTrue(engine.inputValid)
-        XCTAssertEqual(engine.validationResults, [])
+        #expect(engine.inputValid)
+        #expect(engine.validationResults == [])
 
         try await Task.sleep(for: .seconds(1))
-        XCTAssertFalse(engine.inputValid)
-        XCTAssertEqual(engine.validationResults.count, 1)
+        #expect(engine.inputValid == false)
+        #expect(engine.validationResults.count == 1)
 
         engine.submit(input: "Valid", debounce: true)
-        XCTAssertTrue(engine.inputValid) // valid state is reported instantly
-        XCTAssertEqual(engine.validationResults, [])
+        #expect(engine.inputValid) // valid state is reported instantly
+        #expect(engine.validationResults == [])
     }
 }
