@@ -39,6 +39,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Spezi", package: "Spezi")
             ],
+            resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
         ),
         .target(
@@ -46,6 +47,7 @@ let package = Package(
             dependencies: [
                 .target(name: "SpeziViews")
             ],
+            resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
         ),
         .target(
@@ -54,6 +56,7 @@ let package = Package(
                 .target(name: "SpeziViews"),
                 .product(name: "OrderedCollections", package: "swift-collections")
             ],
+            resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
         ),
         .testTarget(
