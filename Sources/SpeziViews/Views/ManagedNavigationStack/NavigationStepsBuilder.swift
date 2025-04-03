@@ -20,9 +20,9 @@ extension ManagedNavigationStack {
         /// If declared, provides contextual type information for statement expressions to translate them into partial results.
         public static func buildExpression(
             _ view: some View,
-            fileId: StaticString = #fileID,
-            line: UInt = #line,
-            column: UInt = #column
+            _ fileId: StaticString = #fileID,
+            _ line: UInt = #line,
+            _ column: UInt = #column
         ) -> [Element] {
             [Element(view: view, sourceLocation: .init(fileId: fileId, line: line, column: column))]
         }

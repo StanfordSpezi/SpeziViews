@@ -14,41 +14,19 @@ import SwiftUI
 extension ManagedNavigationStack {
     /// Manages the current navigation state of a ``ManagedNavigationStack``.
     ///
-    /// The `Path` keep track of the ``ManagedNavigationStack``'s current configuration, its position within its configuration, and handles navigation logic for advancing the stack.
+    /// The ``Path`` keep track of the ``ManagedNavigationStack``'s current configuration, its position within its configuration, and handles navigation logic for advancing the stack.
     ///
-    /// At the core of the ``Path`` stands a wrapped `NavigationPath` from SwiftUI.
-    /// Based on the onboarding views and conditions defined within the ``ManagedNavigationStack``, the ``ManagedNavigationStack/Path``
-    /// enables developers to easily navigate through the onboarding procedure
-    /// without repeated condition checking in every single onboarding view.
+    /// The ``Path`` also provides APIs for programmatic navigation within the ``ManagedNavigationStack``, enabling developers to easily define flow-like navigation structures
+    /// without having to perform custom condition-based navigation logic within each step.
     ///
     /// The ``Path`` is injected as an environment object into the environment of the ``ManagedNavigationStack`` view hierarchy,
     /// allowing the individual navigation steps to access and control their containing ``ManagedNavigationStack``'s navigation.
     ///
-    /// ```swift
-    /// struct Welcome: View {
-    ///     @Environment(ManagedNavigationStack.Path.self) private var path
-    ///
-    ///     var body: some View {
-    ///         OnboardingView(
-    ///             ...,
-    ///             action: {
-    ///                 // Navigates to the next onboarding step, as defined in `ManagedNavigationStack` closure.
-    ///                 path.nextStep()
-    ///
-    ///                 // Navigates to the next onboarding step that matches the provided view type.
-    ///                 path.append(InterestingModules.self)
-    ///
-    ///                 // Navigate to a manually injected view. The `ManagedNavigationStack.Path` won't be moved and stay at the old position.
-    ///                 path.append(customView: SomeCustomView())
-    ///             }
-    ///         )
-    ///     }
-    /// }
-    /// ```
-    ///
     /// ## Topics
+    /// ### Creating a `Path`
     /// - ``init()``
-    /// ### Navigating
+    ///
+    /// ### Navigating within a `Path`
     /// - ``nextStep()``
     /// - ``navigateToNextStep(matching:includeIntermediateSteps:)``
     /// - ``append(customView:)``
