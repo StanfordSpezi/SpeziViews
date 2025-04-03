@@ -88,7 +88,7 @@ import SwiftUI
 /// ## Topics
 /// ### Creating a Managed Navigation Stack
 /// - ``init(didComplete:path:startAtStep:_:)``
-/// - ``NavigationFlowBuilder``
+/// - ``StepsBuilder``
 /// ### Navigation
 /// - ``Path``
 /// ### SwiftUI Environment Values
@@ -97,7 +97,7 @@ import SwiftUI
 public struct ManagedNavigationStack: View {
     static var logger: Logger { Logger(subsystem: "edu.stanford.spezi.SpeziViews", category: "ManagedNavigationStack") }
     
-    private let navigationFlow: _NavigationFlow
+    private let steps: StepsCollection
     private let isComplete: Binding<Bool>?
     private let startStepSelector: Path.StepSelector?
     private var externalPath: Path?
@@ -120,18 +120,21 @@ public struct ManagedNavigationStack: View {
         }
         .environment(path)
         .environment(\.isInManagedNavigationStack, true)
-        .onChange(of: ObjectIdentifier(navigationFlow)) {
+        .onChange(of: ObjectIdentifier(steps)) {
             // ensure the model uses the latest views from the initializer
-            path.updateViews(with: navigationFlow.elements)
+            path.updateViews(with: steps.elements)
         }
     }
     
-    /// A `ManagedNavigationStack` is defined by the passed in views defined by the view builder as well as an boolean `Binding`
+    /// Creates a new Managed Navigation Stack.
+    ///
+    ///
+    /// A ``ManagedNavigationStack`` is defined by the passed in views defined by the view builder as well as an boolean `Binding`
     /// that is set to true when the navogation stack reaches .
     /// - Parameters:
     ///   - didComplete: An optional SwiftUI `Binding` that is automatically set to true by
     ///     the ``ManagedNavigationStack/Path`` once the flow is completed.
-    ///     Can be used to conditionally show/hide the `ManagedNavigationStack`.
+    ///     Can be used to conditionally show/hide the ``ManagedNavigationStack``.
     ///   - externalPath: An optional, externally-managed ``ManagedNavigationStack/Path`` which will be used by this view.
     ///       Only specify this if you actually need external control over the path; otherwise omit it to get the recommended default behaviour.
     ///   - startStepSelector: An optional reference to a step the managed navigation stack should implicitly move to as its starting position.
@@ -140,9 +143,9 @@ public struct ManagedNavigationStack: View {
         didComplete: Binding<Bool>? = nil,
         path externalPath: Path? = nil,
         startAtStep startStepSelector: Path.StepSelector? = nil,
-        @NavigationFlowBuilder _ content: @MainActor () -> _NavigationFlow
+        @StepsBuilder _ content: @MainActor () -> StepsCollection
     ) {
-        navigationFlow = content()
+        steps = content()
         isComplete = didComplete
         self.externalPath = externalPath
         self.startStepSelector = startStepSelector
@@ -155,7 +158,7 @@ public struct ManagedNavigationStack: View {
     }
     
     private func configurePath() {
-        path.configure(elements: navigationFlow.elements, isComplete: isComplete, startAtStep: startStepSelector)
+        path.configure(elements: steps.elements, isComplete: isComplete, startAtStep: startStepSelector)
     }
 }
 

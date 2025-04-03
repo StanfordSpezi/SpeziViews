@@ -127,11 +127,15 @@ extension ManagedNavigationStack.Path {
     
     /// Updates the path, based on a ``ManagedNavigationStack``'s current content.
     /// - Parameters:
-    ///   - views: SwiftUI `View`s that are declared within the ``ManagedNavigationStack``.
+    ///   - elements: The navigation steps that should be placed into the ``ManagedNavigationStack``.
     ///   - isComplete: An optional SwiftUI `Binding` that is injected by the ``ManagedNavigationStack``.
     ///     Is managed by the ``ManagedNavigationStack/Path`` to indicate whether the navigation flow is complete.
-    ///   - startAtStep: Optionally, the step the `Path` should initially move to.
-    func configure(elements: [_NavigationFlow.Element], isComplete: Binding<Bool>?, startAtStep startStepSelector: StepSelector?) {
+    ///   - startStepSelector: Optionally, the step the `Path` should initially move to.
+    func configure(
+        elements: [ManagedNavigationStack.StepsCollection.Element],
+        isComplete: Binding<Bool>?,
+        startAtStep startStepSelector: StepSelector?
+    ) {
         didConfigure = true
         self.isComplete = isComplete
         updateViews(with: elements)
@@ -147,8 +151,26 @@ extension ManagedNavigationStack.Path {
     /// This may be the case with `async` properties that are stored as a SwiftUI `State` in the respective view.
     ///
     /// - Parameters:
-    ///   - views: The updated `View`s from the ``ManagedNavigationStack``.
-    func updateViews(with elements: [_NavigationFlow.Element]) {
+    ///   - elements: The updated navigation steps.
+    func updateViews(with elements: [ManagedNavigationStack.StepsCollection.Element]) {
+        func failWithConflictingIdentifiers(
+            existingIdentifier: NavigationStepIdentifier,
+            newIdentifier: NavigationStepIdentifier,
+            file: StaticString = #file,
+            line: UInt = #line
+        ) -> Never {
+            preconditionFailure(
+                """
+                SpeziViews: \(Self.self) contains elements with duplicate navigation step identifiers.
+                This is invalid. If your stack contains multiple instances of the same View type,
+                use the 'navigationStepIdentifier(_:)' View modifier to uniquely identify it within the stack.
+                Problematic identifier: \(newIdentifier).
+                Conflicting identifier: \(existingIdentifier)
+                """,
+                file: file,
+                line: line
+            )
+        }
         do {
             // Ensure that the incoming navigation stack elements are all unique.
             // Note: we don't need to worry about collisions between NavigationFlow-provided
@@ -158,14 +180,12 @@ extension ManagedNavigationStack.Path {
             for element in elements {
                 let identifier = NavigationStepIdentifier(element: element)
                 guard identifiersSeenSoFar.insert(identifier).inserted else {
-                    let conflictingIdentifier = identifiersSeenSoFar.first { $0 == identifier }
-                    preconditionFailure("""
-                    SpeziViews: \(Self.self) contains elements with duplicate navigation step identifiers.
-                    This is invalid. If your stack contains multiple instances of the same View type,
-                    use the 'navigationStepIdentifier(_:)' View modifier to uniquely identify it within the stack.
-                    Problematic identifier: \(identifier).
-                    Conflicting identifier: \(conflictingIdentifier as Any)
-                    """)
+                    // SAFETY: we know that there will be a matching element, otherwise the insert above would've succeeded.
+                    let conflictingIdentifier = identifiersSeenSoFar.first { $0 == identifier }! // swiftlint:disable:this force_unwrapping
+                    failWithConflictingIdentifiers(
+                        existingIdentifier: conflictingIdentifier,
+                        newIdentifier: identifier
+                    )
                 }
             }
         }
@@ -195,13 +215,7 @@ extension ManagedNavigationStack.Path {
                 // We need the check again in here, since there might also be collisions between
                 // the part of the incoming steps we integrate into the view and the existing,
                 // already-visited steps we keep around.
-                preconditionFailure("""
-                SpeziViews: \(Self.self) contains elements with duplicate navigation step identifiers.
-                This is invalid. If your stack contains multiple instances of the same View type,
-                use the 'navigationStepIdentifier(_:)' View modifier to uniquely identify it within the stack.
-                Problematic identifier: \(identifier).
-                Conflicting identifier: \(conflictingIdentifier)
-                """)
+                failWithConflictingIdentifiers(existingIdentifier: conflictingIdentifier, newIdentifier: identifier)
             }
             steps[identifier] = element.view
         }
@@ -240,13 +254,15 @@ extension ManagedNavigationStack.Path {
     }
     
     /// Pushes a ``NavigationStepIdentifier`` onto the stack.
+    ///
+    /// - Invariant: only call this function with ``NavigationStepIdentifier``s that are known to the ``Path``.
     private func pushStep(identifiedBy identifier: NavigationStepIdentifier) {
         path.append(identifier)
     }
     
     /// Moves to the next navigation step.
     ///
-    /// An invocation of this function moves the `Path` to the
+    /// An invocation of this function moves the ``Path`` to the
     /// next navigation step as outlined by the order of views within the ``ManagedNavigationStack``.
     ///
     /// The tracking of the current state of the navigation flow is done fully automatic by the ``ManagedNavigationStack/Path``.

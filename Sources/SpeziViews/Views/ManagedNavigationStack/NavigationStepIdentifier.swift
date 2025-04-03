@@ -36,7 +36,7 @@ struct NavigationStepIdentifier {
     
     let identifierKind: IdentifierKind
     let viewType: any View.Type
-    let flowElementSourceLocation: _NavigationFlow.Element.SourceLocation?
+    let flowElementSourceLocation: ManagedNavigationStack.StepsCollection.Element.SourceLocation?
     
     /// Whether the step is custom, i.e. not one of the steps defined via the ``NavigationFlowBuilder`` but instead created via e.g. ``ManagedNavigationStack/Path/append(customView:)``.
     var isCustom: Bool {
@@ -44,11 +44,9 @@ struct NavigationStepIdentifier {
     }
     
     /// Initializes an identifier using a view. If the view conforms to `Identifiable`, its `id` is used; otherwise, the view's type is used.
-    /// - Parameters:
-    ///   - view: The view used to initialize the identifier.
-    ///   - custom: A flag indicating whether the step is custom.
+    /// - parameter element: The ``ManagedNavigationStack/StepsCollection/Element`` for which we want to create an identifier
     @MainActor
-    init(element: _NavigationFlow.Element) {
+    init(element: ManagedNavigationStack.StepsCollection.Element) {
         self.viewType = type(of: element.view)
         self.flowElementSourceLocation = element.sourceLocation
         if let identifiable = element.view as? any NavigationStepIdentifiable {

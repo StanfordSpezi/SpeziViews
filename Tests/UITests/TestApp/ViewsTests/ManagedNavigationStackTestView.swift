@@ -14,6 +14,7 @@ private struct Step<Content: View>: View {
     @Environment(ManagedNavigationStack.Path.self) private var path
     @ViewBuilder let content: @MainActor () -> Content
     
+    
     var body: some View {
         VStack {
             Spacer()
@@ -22,7 +23,7 @@ private struct Step<Content: View>: View {
             Button("Next Step") {
                 path.nextStep()
             }
-            .frame(maxWidth: .infinity, minHeight: 52)
+                .frame(maxWidth: .infinity, minHeight: 52)
         }
     }
 }
@@ -30,6 +31,7 @@ private struct Step<Content: View>: View {
 
 private struct Step3: View {
     @Binding var skipNext: Bool
+    
     
     var body: some View {
         Step {
@@ -44,6 +46,7 @@ struct ManagedNavigationStackTestView: View {
     @State var skipConditionalView = true
     @State var path = ManagedNavigationStack.Path()
     @State var counter = 0
+    
     
     var body: some View {
         // swiftlint:disable:next closure_body_length
