@@ -14,6 +14,7 @@ import Testing
 
 @Suite("Snapshot Tests")
 struct SnapshotTests {
+    // MARK: - Lists
     @MainActor
     struct Lists {
         @Test("List Row")
@@ -76,7 +77,7 @@ struct SnapshotTests {
         }
     }
 
-
+    // MARK: - Texts
     @MainActor
     struct Texts {
         @Test("Reverse Label Style")
@@ -124,6 +125,7 @@ struct SnapshotTests {
         }
     }
 
+    // MARK: - Buttons
     struct Buttons {
         @MainActor
         struct TestView: View {
@@ -165,6 +167,7 @@ struct SnapshotTests {
     }
 
 
+    // MARK: - Controls
     @MainActor
     struct Controls {
         struct Options: OptionSet, PickerValue {
@@ -219,36 +222,8 @@ struct SnapshotTests {
         }
     }
 
-    @MainActor
-    @Test("Image Reference")
-    func imageReference() throws {
-        let eraser: ImageReference = .system("eraser.fill")
-        let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
 
-        #expect(eraser.isSystemImage)
-        #expect(nonExistingImage.isSystemImage == false)
-
-        let image = try #require(eraser.image)
-        #expect(nonExistingImage.image == nil)
-
-#if canImport(WatchKit)
-        #expect(eraser.wkImage != nil)
-        #expect(nonExistingImage.wkImage == nil)
-#endif
-
-#if canImport(UIKit)
-        #expect(eraser.uiImage != nil)
-        #expect(nonExistingImage.uiImage == nil)
-#elseif canImport(AppKit)
-        #expect(eraser.nsImage != nil)
-        #expect(nonExistingImage.nsImage == nil)
-#endif
-
-#if os(iOS)
-        assertSnapshot(of: image, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-#endif
-    }
-
+    // MARK: - Tiles
     @MainActor
     struct Tiles {
         @Test("Tile Header Layout")
@@ -322,53 +297,6 @@ struct SnapshotTests {
 #endif
         }
 
-        @MainActor
-        struct Layout {
-            @Test("Description Grid Row")
-            func descriptionGridRow() {
-                let view = VStack {
-                    Form {
-                        Grid(horizontalSpacing: 8, verticalSpacing: 8) {
-                            DescriptionGridRow {
-                                Text(verbatim: "Description")
-                            } content: {
-                                Text(verbatim: "Content")
-                            }
-                            Divider()
-                            DescriptionGridRow {
-                                Text(verbatim: "Description")
-                            } content: {
-                                Text(verbatim: "Content")
-                            }
-                            DescriptionGridRow {
-                                Text(verbatim: "Description")
-                            } content: {
-                                Text(verbatim: "Content")
-                            }
-                        }
-                    }
-                }
-#if os(iOS)
-                assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
-#endif
-            }
-
-            @Test("Dynamic HStack")
-            func dynamicHStack() {
-                let view = List {
-                    DynamicHStack(verticalAlignment: .center) {
-                        Text(verbatim: "Hello World:")
-                        Text(verbatim: "How are you doing?")
-                            .foregroundColor(.secondary)
-                    }
-                }
-
-#if os(iOS)
-                assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
-#endif
-            }
-        }
-
         @Test("Completed Tile Header")
         func completedTileHeader() {
             let view = CompletedTileHeader {
@@ -379,6 +307,86 @@ struct SnapshotTests {
             assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
 #endif
         }
+    }
+
+    // MARK: - Layout
+    @MainActor
+    struct Layout {
+        @Test("Description Grid Row")
+        func descriptionGridRow() {
+            let view = VStack {
+                Form {
+                    Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+                        DescriptionGridRow {
+                            Text(verbatim: "Description")
+                        } content: {
+                            Text(verbatim: "Content")
+                        }
+                        Divider()
+                        DescriptionGridRow {
+                            Text(verbatim: "Description")
+                        } content: {
+                            Text(verbatim: "Content")
+                        }
+                        DescriptionGridRow {
+                            Text(verbatim: "Description")
+                        } content: {
+                            Text(verbatim: "Content")
+                        }
+                    }
+                }
+            }
+#if os(iOS)
+            assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
+#endif
+        }
+
+        @Test("Dynamic HStack")
+        func dynamicHStack() {
+            let view = List {
+                DynamicHStack(verticalAlignment: .center) {
+                    Text(verbatim: "Hello World:")
+                    Text(verbatim: "How are you doing?")
+                        .foregroundColor(.secondary)
+                }
+            }
+
+#if os(iOS)
+            assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
+#endif
+        }
+    }
+
+
+    // MARK: - Miscelaneous
+    @MainActor
+    @Test("Image Reference")
+    func imageReference() throws {
+        let eraser: ImageReference = .system("eraser.fill")
+        let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
+
+        #expect(eraser.isSystemImage)
+        #expect(nonExistingImage.isSystemImage == false)
+
+        let image = try #require(eraser.image)
+        #expect(nonExistingImage.image == nil)
+
+#if canImport(WatchKit)
+        #expect(eraser.wkImage != nil)
+        #expect(nonExistingImage.wkImage == nil)
+#endif
+
+#if canImport(UIKit)
+        #expect(eraser.uiImage != nil)
+        #expect(nonExistingImage.uiImage == nil)
+#elseif canImport(AppKit)
+        #expect(eraser.nsImage != nil)
+        #expect(nonExistingImage.nsImage == nil)
+#endif
+
+#if os(iOS)
+        assertSnapshot(of: image, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
     }
 
     @MainActor
