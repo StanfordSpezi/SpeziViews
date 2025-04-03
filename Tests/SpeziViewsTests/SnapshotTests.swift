@@ -124,37 +124,44 @@ struct SnapshotTests {
         }
     }
 
-    @MainActor
     struct Buttons {
-        @Test("Dismiss Button")
-        func dismissButton() {
-            let button = DismissButton()
+        @MainActor
+        struct TestView: View {
+            enum ButtonType: String {
+                case dismiss, info, async
+            }
+            let type: ButtonType
 
-#if os(iOS)
-            assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-#endif
-        }
-
-        @Test("Info Button")
-        func infoButton() {
-            let button = InfoButton("Clean Code", action: {})
-
-#if os(iOS)
-            assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-#endif
-        }
-
-        @Test("Async Button")
-        func asyncButton() {
-            let button = AsyncButton("Clean code") {
-                try? await Task.sleep(nanoseconds: 1_000)
+            var body: some View {
+                switch type {
+                case .dismiss:
+                    DismissButton()
+                case .info:
+                    InfoButton("Clean Code", action: {})
+                case .async:
+                    AsyncButton("Clean Code") {
+                        try? await Task.sleep(nanoseconds: 1_000)
+                    }
+                }
             }
 
-#if os(iOS)
-            assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-#endif
+            init(type: ButtonType) {
+                self.type = type
+            }
         }
 
+
+        @MainActor
+        @Test("Buttons", arguments: [
+            await TestView(type: .dismiss),
+            await TestView(type: .info),
+            await TestView(type: .async)
+        ])
+        func allButtons(_ button: TestView) async throws {
+#if os(iOS)
+            assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "button-" + button.type.rawValue)
+#endif
+        }
     }
 
 
