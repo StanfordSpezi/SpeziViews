@@ -69,10 +69,10 @@ struct SnapshotTests {
                 Text("Create a new Account", bundle: .module)
             }
 
-    #if os(iOS)
+#if os(iOS)
             assertSnapshot(of: listHeader0, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header-instructions")
             assertSnapshot(of: listHeader1, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header")
-    #endif
+#endif
         }
     }
 
@@ -89,18 +89,125 @@ struct SnapshotTests {
             assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
 #endif
         }
+
+        @Test("Lazy Text")
+        func lazyText() {
+            let longString = String(repeating: "Clean Code\nA Handbook of Agile Software Craftsmanship\nby Robert C. Martin\n", count: 100)
+            let lazyText = LazyText(verbatim: longString)
+
+#if os(iOS)
+            assertSnapshot(of: lazyText, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
+        }
+
+        @Test("Labeled Content")
+        func labeledContent() {
+            let labeledContent = LabeledContent("Clean") {
+                Text(verbatim: "Code")
+            }
+
+#if os(iOS)
+            assertSnapshot(of: labeledContent, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
+        }
+
+        @Test("Markdown View")
+        func markdownView() async throws {
+            let markdownView = MarkdownView(markdown: Data("*Clean* Coding".utf8))
+
+            try? await Task.sleep(nanoseconds: 1_000)
+
+
+#if os(iOS)
+            assertSnapshot(of: markdownView, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
+        }
     }
 
     @MainActor
     struct Buttons {
         @Test("Dismiss Button")
         func dismissButton() {
-            let dismissButton = DismissButton()
-
+            let button = DismissButton()
 
 #if os(iOS)
-            assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-            assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
+            assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
+        }
+
+        @Test("Info Button")
+        func infoButton() {
+            let button = InfoButton("Clean Code", action: {})
+
+#if os(iOS)
+            assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
+        }
+
+        @Test("Async Button")
+        func asyncButton() {
+            let button = AsyncButton("Clean code") {
+                try? await Task.sleep(nanoseconds: 1_000)
+            }
+
+#if os(iOS)
+            assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+#endif
+        }
+
+    }
+
+
+    @MainActor
+    struct Controls {
+        struct Options: OptionSet, PickerValue {
+            var localizedStringResource: LocalizedStringResource {
+                "Option \(rawValue)"
+            }
+            var rawValue: UInt8
+            static let allCases: [Options] = [.option1, .option2]
+
+            static let option1 = Options(rawValue: 1 << 0)
+            static let option2 = Options(rawValue: 1 << 1)
+        }
+
+        enum Version: PickerValue {
+            case versionA
+            case versionB
+
+            var localizedStringResource: LocalizedStringResource {
+                switch self {
+                case .versionA:
+                    "A"
+                case .versionB:
+                    "B"
+                }
+            }
+        }
+
+        @Test("Option Set Picker")
+        func optionSetPicker() {
+            let picker0 = List {
+                OptionSetPicker("Clean", selection: .constant(Options.option1))
+            }
+            let picker1 = List {
+                OptionSetPicker("Code", selection: .constant(Options.option1.union(.option2)), style: .inline, allowEmptySelection: true)
+            }
+
+#if os(iOS)
+            assertSnapshot(of: picker0, as: .image(layout: .device(config: .iPhone13Pro)), named: "option-picker")
+            assertSnapshot(of: picker1, as: .image(layout: .device(config: .iPhone13Pro)), named: "option-picker-inline")
+#endif
+        }
+
+        @Test("Case Iterable Picker")
+        func caseIterablePicker() {
+            let picker = List {
+                CaseIterablePicker("Clean Code", selection: .constant(Version.versionA))
+            }
+
+#if os(iOS)
+            assertSnapshot(of: picker, as: .image(layout: .device(config: .iPhone13Pro)), named: "option-picker")
 #endif
         }
     }
@@ -206,6 +313,53 @@ struct SnapshotTests {
             assertSnapshot(of: tileCenter, as: .image(layout: .device(config: .iPhone13Pro)), named: "center")
             assertSnapshot(of: tileTraining, as: .image(layout: .device(config: .iPhone13Pro)), named: "trailing")
 #endif
+        }
+
+        @MainActor
+        struct Layout {
+            @Test("Description Grid Row")
+            func descriptionGridRow() {
+                let view = VStack {
+                    Form {
+                        Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+                            DescriptionGridRow {
+                                Text(verbatim: "Description")
+                            } content: {
+                                Text(verbatim: "Content")
+                            }
+                            Divider()
+                            DescriptionGridRow {
+                                Text(verbatim: "Description")
+                            } content: {
+                                Text(verbatim: "Content")
+                            }
+                            DescriptionGridRow {
+                                Text(verbatim: "Description")
+                            } content: {
+                                Text(verbatim: "Content")
+                            }
+                        }
+                    }
+                }
+#if os(iOS)
+                assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
+#endif
+            }
+
+            @Test("Dynamic HStack")
+            func dynamicHStack() {
+                let view = List {
+                    DynamicHStack(verticalAlignment: .center) {
+                        Text(verbatim: "Hello World:")
+                        Text(verbatim: "How are you doing?")
+                            .foregroundColor(.secondary)
+                    }
+                }
+
+#if os(iOS)
+                assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
+#endif
+            }
         }
 
         @Test("Completed Tile Header")
