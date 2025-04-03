@@ -37,7 +37,8 @@ let package = Package(
         .target(
             name: "SpeziViews",
             dependencies: [
-                .product(name: "Spezi", package: "Spezi")
+                .product(name: "Spezi", package: "Spezi"),
+                .product(name: "SpeziFoundation", package: "SpeziFoundation")
             ],
             resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
@@ -54,6 +55,7 @@ let package = Package(
             name: "SpeziValidation",
             dependencies: [
                 .target(name: "SpeziViews"),
+                .product(name: "SpeziFoundation", package: "SpeziFoundation"),
                 .product(name: "OrderedCollections", package: "swift-collections")
             ],
             resources: [.process("Resources")],
