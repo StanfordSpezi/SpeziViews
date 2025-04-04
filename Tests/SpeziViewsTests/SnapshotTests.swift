@@ -217,7 +217,7 @@ struct SnapshotTests {
             }
 
 #if os(iOS)
-            assertSnapshot(of: picker, as: .image(layout: .device(config: .iPhone13Pro)), named: "option-picker")
+            assertSnapshot(of: picker, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
 #endif
         }
     }
@@ -358,7 +358,7 @@ struct SnapshotTests {
     }
 
 
-    // MARK: - Miscelaneous
+    // MARK: - Miscellaneous
     @MainActor
     @Test("Image Reference")
     func imageReference() throws {
