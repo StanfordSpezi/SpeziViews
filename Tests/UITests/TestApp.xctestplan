@@ -9,6 +9,25 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..\/..",
+          "identifier" : "SpeziPersonalInfo",
+          "name" : "SpeziPersonalInfo"
+        },
+        {
+          "containerPath" : "container:..\/..",
+          "identifier" : "SpeziValidation",
+          "name" : "SpeziValidation"
+        },
+        {
+          "containerPath" : "container:..\/..",
+          "identifier" : "SpeziViews",
+          "name" : "SpeziViews"
+        }
+      ]
+    },
     "targetForVariableExpansion" : {
       "containerPath" : "container:UITests.xcodeproj",
       "identifier" : "2F6D139128F5F384007C25D6",
