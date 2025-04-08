@@ -55,9 +55,27 @@ import SwiftUI
 /// }
 /// ```
 ///
+/// ### Navigating within the Stack
+///
+/// A ``ManagedNavigationStack`` uses an instance of the ``Path`` type to manage its internal state, and to handle navigation logic.
+/// The ``Path`` is either owned by the managed navigation stack itself, or externally injected (by specifying a non-nil `path` in ``init(didComplete:path:startAtStep:_:)``).
+///
+/// A ``ManagedNavigationStack`` will inject its path into the environment of its child views, thereby allowing individual navigation steps within the stack to
+/// control the overall navigation logic. For example, a navigation step could use the path to manually advance to the next step when a `Button` within the view is tapped.
+///
+/// There are 3 different kinds of navigation:
+/// 1. Position-based next step navigation, where the ``ManagedNavigationStack`` simply advances to the next step.
+/// 2. Step-type-based navigation, where the ``ManagedNavigationStack`` navigates to the first step after the current one that has a certain `View` type.
+/// 3. Step-identifier-based navigation, where the ``ManagedNavigationStack`` navigates to the first step after the current one that has a certain step identifier.
+///
+/// The first kind of navigation will always work, unless the stack is already at its last step, in which case any calls to``Path/nextStep()`` will simply be ignored.
+/// The second kind of navigation (step-type-based) will only work in situations where the step doesn't have any view modifiers applied to it,
+/// and when the step's view is a non-opaque type
+///
 /// ### Identifying Navigation Steps
 ///
 /// By default, the ``ManagedNavigationStack`` will identify and track the different navigation steps based on their type and location within the stack.
+/// This is sufficient for most cases, but there are some situations where you'll need to specify a custom, explicit identifier for a step
 /// The ``SwiftUICore/View/navigationStepIdentifier(_:)`` modifier allows overriding the default identifier
 /// with a custom one that will be used instead throughout the ``ManagedNavigationStack``.
 /// In most scenarios, the default identifier is sufficient, but there are some edge cases where a custom identifier needs to be specified,
@@ -83,7 +101,7 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// - Note: When the ``SwiftUICore/View/navigationStepIdentifier(_:)`` modifier is applied multiple times to the same view, the outermost identifier takes precedence.
+/// - Note: When the ``SwiftUICore/View/navigationStepIdentifier(_:)`` modifier is applied multiple times to the same view, the outermost (i.e., last-applied) identifier takes precedence.
 ///
 /// ## Topics
 /// ### Creating a Managed Navigation Stack
@@ -129,8 +147,8 @@ public struct ManagedNavigationStack: View {
     /// Creates a new Managed Navigation Stack.
     ///
     ///
-    /// A ``ManagedNavigationStack`` is defined by the passed in views defined by the view builder as well as an boolean `Binding`
-    /// that is set to true when the navogation stack reaches .
+    /// A ``ManagedNavigationStack`` is defined by the passed in-views in its ``StepsBuilder`` as well as an boolean `Binding`
+    /// that is set to true when the navigation stack reaches its final step.
     /// - Parameters:
     ///   - didComplete: An optional SwiftUI `Binding` that is automatically set to true by
     ///     the ``ManagedNavigationStack/Path`` once the flow is completed.

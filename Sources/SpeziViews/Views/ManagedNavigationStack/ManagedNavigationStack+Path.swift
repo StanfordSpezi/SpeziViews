@@ -19,7 +19,7 @@ extension ManagedNavigationStack {
     /// The ``Path`` also provides APIs for programmatic navigation within the ``ManagedNavigationStack``, enabling developers to easily define flow-like navigation structures
     /// without having to perform custom condition-based navigation logic within each step.
     ///
-    /// The ``Path`` is injected as an environment object into the environment of the ``ManagedNavigationStack`` view hierarchy,
+    /// ``ManagedNavigationStack`` injects its ``Path`` as an environment object into its view hierarchy,
     /// allowing the individual navigation steps to access and control their containing ``ManagedNavigationStack``'s navigation.
     ///
     /// ## Topics
@@ -170,7 +170,7 @@ extension ManagedNavigationStack.Path {
         // Only allow view updates to views ahead of the current navigation step.
         // Without this limitation, attempts to navigate backwards or dismiss the currently displayed navigation step
         // (for example, after receiving HealthKit authorizations) could lead to unintended behavior.
-        // Note: This approach isn't perfect. Imaging we're at step 5 in the ManagedNavigationStack, and some condition in the
+        // Note: This approach isn't perfect. Imagine we're at step 5 in the ManagedNavigationStack, and some condition in the
         // view changes and we remove step 3 from the NavigationFlow. In this case, we won't actually remove it from the stack,
         // since we're at a later step and removing step 3 while being at step 5 is not a good idea.
         // But now if you return to step 1, and then start going forward again, it still will include step 3.
