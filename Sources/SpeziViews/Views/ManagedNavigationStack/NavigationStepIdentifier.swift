@@ -35,7 +35,11 @@ struct NavigationStepIdentifier {
     }
     
     let identifierKind: IdentifierKind
-    let viewType: any View.Type
+    /// The type of the navigation step.
+    ///
+    /// This is the "full type" of the step as collected by the ``ManagedNavigationStack/StepsBuilder``.
+    /// For navigation steps that are `View`s with modifiers applied to them, this will be the type including the modifier stack.
+    let stepType: any View.Type
     let flowElementSourceLocation: ManagedNavigationStack.StepsCollection.Element.SourceLocation?
     
     /// Whether the step is custom, i.e. not one of the steps defined via the ``NavigationFlowBuilder`` but instead created via e.g. ``ManagedNavigationStack/Path/append(customView:)``.
@@ -47,12 +51,13 @@ struct NavigationStepIdentifier {
     /// - parameter element: The ``ManagedNavigationStack/StepsCollection/Element`` for which we want to create an identifier
     @MainActor
     init(element: ManagedNavigationStack.StepsCollection.Element) {
-        self.viewType = type(of: element.view)
+        let view = element.view
+        self.stepType = type(of: view)
         self.flowElementSourceLocation = element.sourceLocation
-        if let identifiable = element.view as? any NavigationStepIdentifiable {
+        if let identifiable = view as? any NavigationStepIdentifiable {
             let id = identifiable.id
             self.identifierKind = .identifiable(id)
-        } else if let identifiable = element.view as? any Identifiable {
+        } else if let identifiable = view as? any Identifiable {
             let id = identifiable.id
             self.identifierKind = .identifiable(id)
         } else {
@@ -66,7 +71,7 @@ extension NavigationStepIdentifier: Hashable {
     static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs.identifierKind, rhs.identifierKind) {
         case (.viewTypeAndSourceLoc, .viewTypeAndSourceLoc):
-            lhs.viewType == rhs.viewType && lhs.flowElementSourceLocation == rhs.flowElementSourceLocation
+            lhs.stepType == rhs.stepType && lhs.flowElementSourceLocation == rhs.flowElementSourceLocation
         case let (.identifiable(lhsValue), .identifiable(rhsValue)):
             lhsValue.isEqual(rhsValue)
         case (.viewTypeAndSourceLoc, .identifiable), (.identifiable, .viewTypeAndSourceLoc):
@@ -77,7 +82,7 @@ extension NavigationStepIdentifier: Hashable {
     func hash(into hasher: inout Hasher) {
         switch self.identifierKind {
         case .viewTypeAndSourceLoc:
-            hasher.combine(ObjectIdentifier(viewType))
+            hasher.combine(ObjectIdentifier(stepType))
             if let flowElementSourceLocation {
                 hasher.combine(flowElementSourceLocation)
             }
@@ -91,7 +96,7 @@ extension NavigationStepIdentifier: Hashable {
 
 extension NavigationStepIdentifier: CustomDebugStringConvertible {
     var debugDescription: String {
-        var desc = "\(Self.self)(isCustom: \(isCustom), viewType: \(viewType), identifierKind: \(identifierKind)"
+        var desc = "\(Self.self)(isCustom: \(isCustom), stepType: \(stepType), identifierKind: \(identifierKind)"
         if let sourceLoc = flowElementSourceLocation {
             desc += ", sourceLoc: \(sourceLoc.fileId);\(sourceLoc.line);\(sourceLoc.column)"
         }
