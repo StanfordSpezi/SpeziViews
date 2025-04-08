@@ -287,19 +287,18 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
 #if DEBUG
 extension PreviewLayout {
     fileprivate struct Options: OptionSet, PickerValue {
-        var rawValue: UInt8
-
         static let option1 = Options(rawValue: 1 << 0)
         static let option2 = Options(rawValue: 1 << 1)
-
         static let allCases: [Options] = [.option1, .option2]
+        
+        var rawValue: UInt8
+        
+        var localizedStringResource: LocalizedStringResource {
+            "Option \(rawValue)"
+        }
 
         init(rawValue: UInt8) {
             self.rawValue = rawValue
-        }
-
-        var localizedStringResource: LocalizedStringResource {
-            "Option \(rawValue)"
         }
     }
 }
