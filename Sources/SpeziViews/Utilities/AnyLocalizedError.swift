@@ -31,13 +31,14 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
+    ///       In `DEBUG` and `TEST` builds, specifying `nil` here will default to a description derived via `String(reflecting:)`.
     public init(error: any Error, defaultErrorDescription: @autoclosure () -> LocalizedStringResource? = nil) {
         self.init(error: error, defaultErrorDescription: {
             if let desc = defaultErrorDescription().map({ String(localized: $0) }) {
                 return desc
             }
             #if DEBUG || TEST
-            return "\(error)"
+            return String(reflecting: error)
             #endif
             return String(localized: Self.globalDefaultErrorDescription)
         }())
