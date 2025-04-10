@@ -41,6 +41,7 @@ let package = Package(
                 .product(name: "SpeziFoundation", package: "SpeziFoundation")
             ],
             resources: [.process("Resources")],
+            swiftSettings: [.enableUpcomingFeature("ExistentialAny")],
             plugins: [] + swiftLintPlugin()
         ),
         .target(
@@ -49,6 +50,7 @@ let package = Package(
                 .target(name: "SpeziViews")
             ],
             resources: [.process("Resources")],
+            swiftSettings: [.enableUpcomingFeature("ExistentialAny")],
             plugins: [] + swiftLintPlugin()
         ),
         .target(
@@ -59,6 +61,7 @@ let package = Package(
                 .product(name: "OrderedCollections", package: "swift-collections")
             ],
             resources: [.process("Resources")],
+            swiftSettings: [.enableUpcomingFeature("ExistentialAny")],
             plugins: [] + swiftLintPlugin()
         ),
         .testTarget(
@@ -68,6 +71,7 @@ let package = Package(
                 .target(name: "SpeziValidation"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ],
+            swiftSettings: [.enableUpcomingFeature("ExistentialAny")],
             plugins: [] + swiftLintPlugin()
         )
     ]

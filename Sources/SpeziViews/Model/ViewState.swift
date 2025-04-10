@@ -60,7 +60,7 @@ public enum ViewState {
     /// The view is in a processing state, e.g. loading content.
     case processing
     /// The view is in an error state, e.g., loading the content failed.
-    case error(LocalizedError)
+    case error(any LocalizedError)
 }
 
 

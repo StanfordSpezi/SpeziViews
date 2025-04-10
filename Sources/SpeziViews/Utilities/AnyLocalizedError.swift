@@ -31,8 +31,11 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    public init(error: Error, defaultErrorDescription: LocalizedStringResource? = nil) {
-        self.init(error: error, defaultErrorDescription: String(localized: defaultErrorDescription ?? Self.globalDefaultErrorDescription))
+    public init(error: any Error, defaultErrorDescription: LocalizedStringResource? = nil) {
+        self.init(
+            error: error,
+            defaultErrorDescription: String(localized: defaultErrorDescription ?? Self.globalDefaultErrorDescription)
+        )
     }
     
     /// Provides a best-effort approach to create a type erased version of `LocalizedError`.
@@ -43,14 +46,14 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    public init(error: Error, defaultErrorDescription: String) {
+    public init(error: any Error, defaultErrorDescription: String) {
         switch error {
-        case let localizedError as LocalizedError:
-            self.errorDescription = localizedError.errorDescription ?? defaultErrorDescription
-            self.failureReason = localizedError.failureReason
-            self.helpAnchor = localizedError.helpAnchor
-            self.recoverySuggestion = localizedError.recoverySuggestion
-        case let customStringConvertible as CustomStringConvertible:
+        case let error as any LocalizedError:
+            self.errorDescription = error.errorDescription ?? defaultErrorDescription
+            self.failureReason = error.failureReason
+            self.helpAnchor = error.helpAnchor
+            self.recoverySuggestion = error.recoverySuggestion
+        case let customStringConvertible as any CustomStringConvertible:
             self.errorDescription = customStringConvertible.description
         default:
             self.errorDescription = defaultErrorDescription
