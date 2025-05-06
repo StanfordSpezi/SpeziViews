@@ -29,7 +29,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/StanfordSpezi/Spezi.git", from: "1.8.0"),
-        .package(url: "https://github.com/StanfordSpezi/SpeziFoundation.git", from: "2.0.1"),
+        .package(url: "https://github.com/StanfordSpezi/SpeziFoundation.git", from: "2.1.3"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.17.0")
     ] + swiftLintPackage(),
@@ -37,8 +37,10 @@ let package = Package(
         .target(
             name: "SpeziViews",
             dependencies: [
-                .product(name: "Spezi", package: "Spezi")
+                .product(name: "Spezi", package: "Spezi"),
+                .product(name: "SpeziFoundation", package: "SpeziFoundation")
             ],
+            resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
         ),
         .target(
@@ -46,14 +48,17 @@ let package = Package(
             dependencies: [
                 .target(name: "SpeziViews")
             ],
+            resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
         ),
         .target(
             name: "SpeziValidation",
             dependencies: [
                 .target(name: "SpeziViews"),
+                .product(name: "SpeziFoundation", package: "SpeziFoundation"),
                 .product(name: "OrderedCollections", package: "swift-collections")
             ],
+            resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
         ),
         .testTarget(

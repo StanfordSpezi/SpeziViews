@@ -28,7 +28,7 @@ private struct OperationStateAlert<T: OperationState>: ViewModifier {
 
 
 extension View {
-    /// Automatically displays an alert using the localized error descriptions based on an ``ViewState``  derived from a ``OperationState``.
+    /// Automatically displays an alert using the localized error descriptions based on a ``ViewState``  derived from an ``OperationState``.
     /// - Parameter state: The ``OperationState`` from which the ``ViewState`` is derived.
     public func viewStateAlert<T: OperationState>(state: T) -> some View {
         self
