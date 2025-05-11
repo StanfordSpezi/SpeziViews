@@ -14,6 +14,7 @@ struct SpeziViewsTargetsTests: View {
     @State var presentingSpeziViews = false
     @State var presentingSpeziPersonalInfo = false
     @State var presentingSpeziValidation = false
+    @State var presentingManagedNavigationStack = false
 
 #if os(macOS)
     @MainActor
@@ -37,6 +38,7 @@ struct SpeziViewsTargetsTests: View {
     var body: some View {
         // swiftlint:disable:next closure_body_length
         NavigationStack {
+            // swiftlint:disable:next closure_body_length
             List {
                 Button("SpeziViews") {
                     presentingSpeziViews = true
@@ -46,6 +48,9 @@ struct SpeziViewsTargetsTests: View {
                 }
                 Button("SpeziValidation") {
                     presentingSpeziValidation = true
+                }
+                Button("ManagedNavigationStack") {
+                    presentingManagedNavigationStack = true
                 }
                 #if canImport(PencilKit) && !os(macOS)
                 NavigationLink("CanvasTest") {
@@ -91,6 +96,12 @@ struct SpeziViewsTargetsTests: View {
             }
             .sheet(isPresented: $presentingSpeziValidation) {
                 TestAppTestsView<SpeziValidationTests>(showCloseButton: true)
+#if os(macOS)
+                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+#endif
+            }
+            .sheet(isPresented: $presentingManagedNavigationStack) {
+                ManagedNavigationStackTestView()
 #if os(macOS)
                     .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif

@@ -97,6 +97,22 @@
         }
       }
     },
+    "ILLEGAL_NAVIGATION_STEP" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ManagedNavigationStack: Unerlaubter Navigation Step"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ManagedNavigationStack: Illegal Navigation Step"
+          }
+        }
+      }
+    },
     "MARKDOWN_LOADING_ERROR" : {
       "localizations" : {
         "de" : {
