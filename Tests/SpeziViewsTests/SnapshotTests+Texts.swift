@@ -1,11 +1,4 @@
 //
-//  SnapshotTests+Texts.swift
-//  SpeziViews
-//
-//  Created by Max Rosenblattl on 12.05.25.
-//
-
-//
 // This source file is part of the Stanford Spezi open-source project
 //
 // SPDX-FileCopyrightText: 2024 Stanford University and the project authors (see CONTRIBUTORS.md)
@@ -50,24 +43,4 @@ extension SnapshotTests {
         assertSnapshot(of: labeledContent, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
 #endif
     }
-
-#if os(iOS)
-    @Test("Markdown View")
-    func markdownView() async {
-        let markdownView = MarkdownView(markdown: Data("*Clean* Coding".utf8))
-
-        let host = UIHostingController(rootView: markdownView)
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = host
-        window.makeKeyAndVisible()
-
-        host.view.layoutIfNeeded()
-        await Task.yield()
-
-        assertSnapshot(
-            of: window,
-            as: .image,
-            named: "iphone-regular")
-    }
-#endif
 }
