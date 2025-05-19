@@ -51,6 +51,7 @@ extension SnapshotTests {
 #endif
     }
 
+#if os(iOS)
     @Test("Markdown View")
     func markdownView() async {
         let markdownView = MarkdownView(markdown: Data("*Clean* Coding".utf8))
@@ -63,8 +64,7 @@ extension SnapshotTests {
         host.view.layoutIfNeeded()
         await Task.yield()
 
-#if os(iOS)
-        assertSnapshot(matching: window, as: .image, named: "iphone-regular")
-#endif
+        assertSnapshot(of: window, as: .image, named: "iphone-regular")
     }
+#endif
 }
