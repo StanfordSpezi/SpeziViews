@@ -26,7 +26,7 @@ extension SnapshotTests {
 
 #if os(iOS)
         assertSnapshot(of: label, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-//        assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
+        assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
 #endif
     }
 
@@ -64,7 +64,10 @@ extension SnapshotTests {
         host.view.layoutIfNeeded()
         await Task.yield()
 
-        assertSnapshot(of: window, as: .image, named: "iphone-regular")
+        assertSnapshot(
+            of: window,
+            as: .image,
+            named: "iphone-regular")
     }
 #endif
 }
