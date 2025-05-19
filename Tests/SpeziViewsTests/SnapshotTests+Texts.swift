@@ -17,7 +17,6 @@ import SnapshotTesting
 @testable import SpeziViews
 import SwiftUI
 import Testing
-import UIKit
 
 extension SnapshotTests {
     @Test("Reverse Label Style")
