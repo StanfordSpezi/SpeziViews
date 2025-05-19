@@ -38,6 +38,6 @@ final class MarkdownViewSnapshotTests: XCTestCase {
             as: .image,
             named: "iphone-regular"
         )
+#endif
     }
 }
-#endif
