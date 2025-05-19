@@ -17,6 +17,7 @@ import SnapshotTesting
 @testable import SpeziViews
 import SwiftUI
 import Testing
+import UIKit
 
 extension SnapshotTests {
     @Test("Reverse Label Style")
@@ -52,14 +53,19 @@ extension SnapshotTests {
     }
 
     @Test("Markdown View")
-    func markdownView() async throws {
+    func markdownView() async {
         let markdownView = MarkdownView(markdown: Data("*Clean* Coding".utf8))
 
-        try? await Task.sleep(nanoseconds: 1_000)
+        let host = UIHostingController(rootView: markdownView)
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = host
+        window.makeKeyAndVisible()
 
+        host.view.layoutIfNeeded()
+        await Task.yield()
 
 #if os(iOS)
-        assertSnapshot(of: markdownView, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+        assertSnapshot(matching: window, as: .image, named: "iphone-regular")
 #endif
     }
 }
