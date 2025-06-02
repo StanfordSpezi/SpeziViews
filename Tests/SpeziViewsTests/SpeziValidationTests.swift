@@ -14,7 +14,7 @@ struct SpeziValidationTests {
     @MainActor
     @Test("Validation Debounce")
     func validationDebounce() async throws {
-        let engine = ValidationEngine(rules: .nonEmpty)
+        let engine = ValidationEngine(rules: .nonEmpty, debounceFor: .seconds(0.2))
 
         engine.submit(input: "Valid")
         #expect(engine.inputValid)

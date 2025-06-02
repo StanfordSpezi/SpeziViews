@@ -12,17 +12,6 @@ import SwiftUI
 import Testing
 
 extension SnapshotTests {
-    @Test("Reverse Label Style")
-    func reverseLabelStyle() {
-        let label = SwiftUI.Label("100 %", image: "battery.100")
-            .labelStyle(.reverse)
-
-#if os(iOS)
-        assertSnapshot(of: label, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-        assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
-#endif
-    }
-
     @Test("Lazy Text")
     func lazyText() {
         let longString = String(repeating: "Clean Code\nA Handbook of Agile Software Craftsmanship\nby Robert C. Martin\n", count: 100)

@@ -20,6 +20,16 @@ import XCTest
 
 @MainActor
 final class MarkdownViewSnapshotTests: XCTestCase {
+    func testReverseLabelStyle() {
+        let label = SwiftUI.Label("100 %", image: "battery.100")
+            .labelStyle(.reverse)
+
+#if os(iOS)
+        assertSnapshot(of: label, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
+        assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
+#endif
+    }
+
     func testMarkdownView() async {
 #if os(iOS)
         let markdownView = MarkdownView(markdown: Data("*Clean* Coding".utf8))
