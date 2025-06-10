@@ -64,6 +64,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 
 - ``AsyncButton``
 - ``SwiftUICore/EnvironmentValues/processingDebounceDuration``
+- ``SwiftUICore/View/asyncButtonProcessingStyle(_:)``
 - ``CanvasView``
 - ``InfoButton``
 - ``DismissButton``

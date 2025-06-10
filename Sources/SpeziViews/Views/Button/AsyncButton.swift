@@ -121,7 +121,6 @@ public struct AsyncButton<Label: View>: View {
                         ProgressView()
                     }
                 }
-
             }
         }
             .disabled(consideredDisabled)
@@ -277,19 +276,23 @@ public struct AsyncButton<Label: View>: View {
                 }
             }
 
-            let first = await group.next()!
+            guard let first = await group.next() else {
+                fatalError("Unexpected TaskGroup state.")
+            }
 
             if case .result = first {
                 group.cancelAll() // cancel the debounce
             }
 
-            let second = await group.next()!
+            guard let second = await group.next() else {
+                fatalError("Unexpected TaskGroup state.")
+            }
 
             switch (first, second) {
             case (let .result(result), .debounce), (.debounce, let .result(result)):
                 return result
             case (.debounce, .debounce), (.result, .result):
-                fatalError("GroupTask inconsistency.")
+                fatalError("TaskGroup inconsistency.")
             }
         }
 
