@@ -22,21 +22,15 @@ private struct _CanvasView: UIViewRepresentable {
         
         
         func canvasViewDidBeginUsingTool(_ pkCanvasView: PKCanvasView) {
-            Task { @MainActor in
-                canvasView.isDrawing = true
-            }
+            canvasView.isDrawing = true
         }
         
         func canvasViewDidEndUsingTool(_ pkCanvasView: PKCanvasView) {
-            Task { @MainActor in
-                canvasView.isDrawing = false
-            }
+            canvasView.isDrawing = false
         }
         
         func canvasViewDrawingDidChange(_ pkCanvasView: PKCanvasView) {
-            Task { @MainActor in
-                canvasView.drawing = pkCanvasView.drawing
-            }
+            canvasView.drawing = pkCanvasView.drawing
         }
     }
     
@@ -82,9 +76,7 @@ private struct _CanvasView: UIViewRepresentable {
         picker.setVisible(showToolPicker, forFirstResponder: canvasView)
         
         if showToolPicker {
-            Task { @MainActor in
-                canvasView.becomeFirstResponder()
-            }
+            canvasView.becomeFirstResponder()
         }
     }
     
