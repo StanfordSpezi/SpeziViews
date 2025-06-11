@@ -56,10 +56,10 @@ enum AsyncButtonState {
 ///             }
 ///         }
 ///             .task {
-///                 events = AsyncStream.makeStream() // durability over multiple appears
 ///                 for await event in events.stream {
 ///                     // perform action and manage state
 ///                 }
+///                 events = AsyncStream.makeStream() // durability over multiple appears
 ///             }
 ///     }
 /// }
@@ -125,13 +125,13 @@ public struct AsyncButton<Label: View>: View {
         }
             .disabled(consideredDisabled)
             .task {
-                actionSignal = AsyncStream.makeStream()
                 for await event in actionSignal.stream {
                     switch event {
                     case .runAction:
                         await self.runAction()
                     }
                 }
+                actionSignal = AsyncStream.makeStream() // durability over multiple appears
             }
     }
 
