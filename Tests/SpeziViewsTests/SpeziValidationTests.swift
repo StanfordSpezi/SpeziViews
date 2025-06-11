@@ -26,11 +26,11 @@ struct SpeziValidationTests {
 
             engine.submit(input: "Valid")
             #expect(engine.inputValid)
-            #expect(engine.validationResults == [])
+            #expect(engine.validationResults.isEmpty)
 
             engine.submit(input: "", debounce: true)
             #expect(engine.inputValid)
-            #expect(engine.validationResults == [])
+            #expect(engine.validationResults.isEmpty)
 
             try? await Task.sleep(for: .seconds(1))
             #expect(!engine.inputValid)
@@ -38,7 +38,7 @@ struct SpeziValidationTests {
 
             engine.submit(input: "Valid", debounce: true)
             #expect(engine.inputValid) // valid state is reported instantly
-            #expect(engine.validationResults == [])
+            #expect(engine.validationResults.isEmpty)
 
             group.cancelAll()
         }
