@@ -28,7 +28,8 @@ struct CapturedValidationStateKey: PreferenceKey {
 private struct ReceiveValidationModifier: ViewModifier {
     @ValidationState.Binding private var context: ValidationContext
 
-    @State private var values: (stream: AsyncStream<ValidationContext>, continuation: AsyncStream<ValidationContext>.Continuation) = AsyncStream.makeStream()
+    @State private var values: (stream: AsyncStream<ValidationContext>, continuation: AsyncStream<ValidationContext>.Continuation) =
+        AsyncStream.makeStream()
 
     init(_ context: ValidationState.Binding) {
         self._context = context

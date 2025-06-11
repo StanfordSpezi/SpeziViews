@@ -51,7 +51,7 @@ struct CanvasTestView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
                 if Thread.isMainThread {
-                    MainActor.assumeIsolated {
+                    MainActor.assumeIsolated {
                         self.receivedSize = size
                     }
                 } else {
