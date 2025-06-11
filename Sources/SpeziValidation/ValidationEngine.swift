@@ -128,7 +128,7 @@ public final class ValidationEngine: Identifiable {
     ///   - validationRules: A variadic array of validation rules.
     ///   - debounceDuration: The debounce duration used with ``submit(input:debounce:)`` and `debounce` set to `true`.
     ///   - configuration: The ``Configuration`` of the validation engine.
-    convenience init(
+    package convenience init(
         rules validationRules: ValidationRule...,
         debounceFor debounceDuration: Duration = ValidationDebounceDurationKey.defaultValue,
         configuration: Configuration = []
@@ -193,9 +193,7 @@ public final class ValidationEngine: Identifiable {
     }
 
     @MainActor
-    func run() async {
-        events = AsyncStream.makeStream()
-
+    package func run() async {
         await withDiscardingTaskGroup { group in
             var runningTask: CancelableTaskHandle?
 
@@ -213,5 +211,7 @@ public final class ValidationEngine: Identifiable {
                 }
             }
         }
+
+        events = AsyncStream.makeStream()
     }
 }
