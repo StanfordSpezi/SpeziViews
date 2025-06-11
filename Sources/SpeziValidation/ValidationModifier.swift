@@ -44,6 +44,9 @@ struct ValidationModifier: ViewModifier {
                 // here we just make sure that we submit it without a debounce
                 validation.submit(input: input)
             }
+            .task {
+                await validation.run()
+            }
     }
 }
 
