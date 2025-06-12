@@ -20,6 +20,8 @@ struct CanvasTestView: View {
     @State var drawing = PKDrawing()
     @State var receivedSize: CGSize?
 
+    @State private var values: (stream: AsyncStream<CGSize>, continuation: AsyncStream<CGSize>.Continuation) = AsyncStream.makeStream()
+
     var body: some View {
         ZStack {
             VStack {
@@ -48,9 +50,19 @@ struct CanvasTestView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
-                runOrScheduleOnMainActor {
-                    self.receivedSize = size
+                if Thread.isMainThread {
+                    MainActor.assumeIsolated {
+                        self.receivedSize = size
+                    }
+                } else {
+                    self.values.continuation.yield(size)
                 }
+            }
+            .task {
+                for await value in values.stream {
+                    self.receivedSize = value
+                }
+                values = AsyncStream.makeStream()
             }
     }
 }

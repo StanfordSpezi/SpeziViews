@@ -28,8 +28,9 @@ public struct WidthPreferenceKey: PreferenceKey, Equatable {
 public struct HorizontalGeometryReader<Content: View>: View {
     private var content: (CGFloat) -> Content
     @State private var width: CGFloat = 0
-    
-    
+
+    @State private var values: (stream: AsyncStream<CGFloat>, continuation: AsyncStream<CGFloat>.Continuation) = AsyncStream.makeStream()
+
     public var body: some View {
         content(width)
             .frame(minWidth: 0, maxWidth: .infinity)
@@ -40,9 +41,19 @@ public struct HorizontalGeometryReader<Content: View>: View {
                 }
             )
             .onPreferenceChange(WidthPreferenceKey.self) { width in
-                runOrScheduleOnMainActor {
-                    self.width = width
+                if Thread.isMainThread {
+                    MainActor.assumeIsolated {
+                        self.width = width
+                    }
+                } else {
+                    values.continuation.yield(width)
                 }
+            }
+            .task {
+                for await value in values.stream {
+                    self.width = value
+                }
+                values = AsyncStream.makeStream()
             }
     }
     
