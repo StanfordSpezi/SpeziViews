@@ -59,7 +59,7 @@ struct CanvasTestView: View {
                 }
             }
             .task {
-                for await value in values {
+                for await value in values.stream {
                     self.receivedSize = value
                 }
                 values = AsyncStream.makeStream()
