@@ -173,7 +173,7 @@ extension ValidationRule: Decodable {
         case message
     }
 
-    public init(from decoder: Decoder) throws {
+    public init(from decoder: any Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
         let regexString = try values.decode(String.self, forKey: .rule)
