@@ -19,21 +19,35 @@ struct CanvasTestView: View {
     @State var showToolPicker = false
     @State var drawing = PKDrawing()
     @State var receivedSize: CGSize?
+    @State var enableDrawing = true
 
     @State private var values: (stream: AsyncStream<CGSize>, continuation: AsyncStream<CGSize>.Continuation) = AsyncStream.makeStream()
 
     var body: some View {
         ZStack {
             VStack {
-                Text("Did Draw Anything: \(didDrawAnything.description)")
-                if let receivedSize {
-                    Text("Canvas Size: width \(receivedSize.width), height \(receivedSize.height)")
-                } else {
-                    Text("Canvas Size: none")
+                Group {
+                    Text("Did Draw Anything: \(didDrawAnything.description)")
+                    if let receivedSize {
+                        Text("Canvas Size: width \(receivedSize.width), height \(receivedSize.height)")
+                    } else {
+                        Text("Canvas Size: none")
+                    }
+                    Button("Show Tool Picker") {
+                        showToolPicker.toggle()
+                    }
+                    HStack {
+                        Button("Enable/Disable Canvas") {
+                            enableDrawing.toggle()
+                        }
+                        Spacer()
+                        Text(enableDrawing.description)
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Enable/Disable Canvas, \(enableDrawing.description)")
                 }
-                Button("Show Tool Picker") {
-                    showToolPicker.toggle()
-                }
+                .padding(.horizontal)
+                Divider()
                 CanvasView(
                     drawing: $drawing,
                     isDrawing: $isDrawing,
@@ -41,6 +55,7 @@ struct CanvasTestView: View {
                     drawingPolicy: .anyInput,
                     showToolPicker: $showToolPicker
                 )
+                .disabled(!enableDrawing)
             }
         }
             .onChange(of: isDrawing) {
@@ -64,6 +79,7 @@ struct CanvasTestView: View {
                 }
                 values = AsyncStream.makeStream()
             }
+            .interactiveDismissDisabled()
     }
 }
 
