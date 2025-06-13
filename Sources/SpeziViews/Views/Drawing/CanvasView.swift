@@ -78,7 +78,7 @@ private struct _CanvasView: UIViewRepresentable {
         if showToolPicker {
             canvasView.becomeFirstResponder()
         }
-        if #available(iOS 18.0, *) {
+        if #available(iOS 18.0, visionOS 2.0, *) {
             canvasView.isDrawingEnabled = context.environment.isEnabled
         }
     }
