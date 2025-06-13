@@ -74,6 +74,9 @@ private struct _CanvasView: UIViewRepresentable {
     func updateUIView(_ canvasView: PKCanvasView, context: Context) {
         picker.addObserver(canvasView)
         picker.setVisible(showToolPicker, forFirstResponder: canvasView)
+        if canvasView.drawing != drawing {
+            canvasView.drawing = drawing
+        }
         
         if showToolPicker {
             canvasView.becomeFirstResponder()
