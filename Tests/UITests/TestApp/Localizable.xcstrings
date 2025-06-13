@@ -50,6 +50,9 @@
     "Clean Code" : {
 
     },
+    "Clear Canvas" : {
+
+    },
     "Closure Condition present" : {
 
     },
@@ -75,6 +78,12 @@
 
     },
     "Email" : {
+
+    },
+    "Enable/Disable Canvas" : {
+
+    },
+    "Enable/Disable Canvas, %@" : {
 
     },
     "Enter your details" : {
