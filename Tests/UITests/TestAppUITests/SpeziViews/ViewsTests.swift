@@ -70,8 +70,11 @@ final class ViewsTests: XCTestCase {
     }
     
     
+    // Tests:
+    // - that the CanvasView properly respects the `.disabled(_:)` view modifier,
+    // - that mutating the drawing through the binding causes the CanvasView to update its state.
     @MainActor
-    func testCanvasDisable() throws {
+    func testCanvasDisableAndMutateThroughBinding() throws {
 #if !canImport(PencilKit) || os(macOS)
         throw XCTSkip("PencilKit is not supported on this platform")
 #endif
@@ -105,6 +108,9 @@ final class ViewsTests: XCTestCase {
         canvasView.swipeRight()
         canvasView.swipeDown()
         XCTAssert(app.staticTexts["Did Draw Anything: true"].waitForExistence(timeout: 2))
+        
+        app.buttons["Clear Canvas"].tap()
+        XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
     }
     
     

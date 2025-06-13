@@ -14,14 +14,15 @@ import SwiftUI
 
 
 struct CanvasTestView: View {
-    @State var isDrawing = false
-    @State var didDrawAnything = false
-    @State var showToolPicker = false
-    @State var drawing = PKDrawing()
-    @State var receivedSize: CGSize?
-    @State var enableDrawing = true
-
-    @State private var values: (stream: AsyncStream<CGSize>, continuation: AsyncStream<CGSize>.Continuation) = AsyncStream.makeStream()
+    @State private var isDrawing = false
+    @State private var showToolPicker = false
+    @State private var drawing = PKDrawing()
+    @State private var receivedSize: CGSize?
+    @State private var enableDrawing = true
+    @State private var values = AsyncStream.makeStream(of: CGSize.self)
+    var didDrawAnything: Bool {
+        !drawing.strokes.isEmpty
+    }
 
     var body: some View {
         ZStack {
@@ -45,6 +46,9 @@ struct CanvasTestView: View {
                     }
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel("Enable/Disable Canvas, \(enableDrawing.description)")
+                    Button("Clear Canvas") {
+                        drawing.strokes.removeAll()
+                    }
                 }
                 .padding(.horizontal)
                 Divider()
@@ -58,11 +62,6 @@ struct CanvasTestView: View {
                 .disabled(!enableDrawing)
             }
         }
-            .onChange(of: isDrawing) {
-                if isDrawing {
-                    didDrawAnything = true
-                }
-            }
             .navigationBarTitleDisplayMode(.inline)
             .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
                 if Thread.isMainThread {
