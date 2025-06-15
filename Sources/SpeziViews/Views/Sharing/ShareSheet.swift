@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
+// swiftlint:disable file_types_order
+
 #if canImport(AppKit)
 import AppKit
 #elseif canImport(UIKit)
@@ -20,16 +22,26 @@ import SwiftUI
 @available(watchOS, unavailable)
 @MainActor
 private struct UIKitShareSheet: UIViewControllerRepresentable {
+    #if !os(watchOS)
+    typealias UIViewControllerType = UIActivityViewController
+    #else
+    typealias UIViewControllerType = UIViewController
+    #endif
+    
     let input: CombinedShareSheetInput
     
-    func makeUIViewController(context: Context) -> UIActivityViewController {
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        #if !os(watchOS)
         UIActivityViewController(
             activityItems: input.inputs.map { $0.representationForSharing },
             applicationActivities: nil
         )
+        #else
+        UIViewController()
+        #endif
     }
 
-    func updateUIViewController(_ controller: UIActivityViewController, context: Context) {
+    func updateUIViewController(_ controller: UIViewControllerType, context: Context) {
         // intentionally doesn't update the items.
     }
 }
