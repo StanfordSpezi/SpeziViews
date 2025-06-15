@@ -8,7 +8,9 @@
 
 import Foundation
 import OSLog
+#if !os(watchOS)
 import PDFKit
+#endif
 import UniformTypeIdentifiers
 
 
@@ -25,14 +27,18 @@ final class ShareableRepresentation: NSObject {
     }
     
     convenience init(processing input: Any) {
-        if let pdf = input as? PDFKit.PDFDocument {
+        switch input {
+        #if !os(watchOS)
+        case let pdf as PDFDocument:
             self.init(pdf: pdf)
-        } else {
+        #endif
+        default:
             // let's just give it a try
             self.init(value: input)
         }
     }
     
+    #if !os(watchOS)
     convenience init(pdf: PDFKit.PDFDocument) {
         let title = pdf.documentAttributes?[PDFDocumentAttribute.titleAttribute] as? String ?? "file"
         let url = Self.tmpUrl(for: title, conformingTo: .pdf)
@@ -45,6 +51,7 @@ final class ShareableRepresentation: NSObject {
             try? FileManager.default.removeItem(at: url)
         }
     }
+    #endif
     
     deinit {
         do {

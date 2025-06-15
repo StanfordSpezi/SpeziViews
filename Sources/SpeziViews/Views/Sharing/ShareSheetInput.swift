@@ -9,7 +9,9 @@
 // swiftlint:disable file_types_order
 
 import Foundation
+#if !os(watchOS)
 import class PDFKit.PDFDocument
+#endif
 
 
 /// Marker protocol that indicates that a type can be directly passed into a `UIActivityViewController`, without having to go through a `NSItemProvider`.
@@ -93,10 +95,12 @@ extension ShareSheetInput {
         self.init(input._bridgeToObjectiveC())
     }
     
+    #if !os(watchOS)
     /// Creates a new `ShareSheetInput`, for sharing a `PDFDocument`
     public init(_ input: PDFDocument) {
         self.init(ShareableRepresentation(pdf: input))
     }
+    #endif
     
     /// Creates a new `ShareSheetInput`.
     ///

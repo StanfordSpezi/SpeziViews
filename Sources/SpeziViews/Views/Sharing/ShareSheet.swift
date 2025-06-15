@@ -16,6 +16,8 @@ import SwiftUI
 
 
 #if canImport(UIKit)
+@available(tvOS, unavailable)
+@available(watchOS, unavailable)
 @MainActor
 private struct UIKitShareSheet: UIViewControllerRepresentable {
     let input: CombinedShareSheetInput
