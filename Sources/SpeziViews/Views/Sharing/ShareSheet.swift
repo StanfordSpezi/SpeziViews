@@ -59,6 +59,8 @@ extension View {
     ///
     /// ## Topics
     /// - ``ShareSheetInput``
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
     @ViewBuilder
     public func shareSheet(items: Binding<[ShareSheetInput]>) -> some View {
         #if !os(macOS)
