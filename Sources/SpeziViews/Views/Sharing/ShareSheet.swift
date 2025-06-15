@@ -6,8 +6,6 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable file_types_order
-
 #if canImport(AppKit)
 import AppKit
 #elseif canImport(UIKit)
@@ -77,6 +75,8 @@ extension View {
         }
         self.sheet(item: binding) { combinedInput in
             UIKitShareSheet(input: combinedInput)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.hidden)
         }
         #elseif canImport(AppKit)
         let combinedInput = CombinedShareSheetInput(inputs: items.wrappedValue)
