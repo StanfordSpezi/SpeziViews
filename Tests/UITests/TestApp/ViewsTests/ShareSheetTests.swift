@@ -15,22 +15,9 @@ struct ShareSheetTests: View {
     @State private var itemsToShare: [ShareSheetInput] = []
     
     var body: some View {
-        Form { // swiftlint:disable:this closure_body_length
-            Section {
-                Button("Share UIImage") {
-                    guard let url = Bundle.main.url(forResource: "jellybeans_USC-SIPI", withExtension: "tiff"),
-                          let image = UINSImage(contentsOfFile: url.path) else {
-                        return
-                    }
-                    itemsToShare = [ShareSheetInput(image)]
-                }
-                Button("Share UIImage via URL") {
-                    guard let url = Bundle.main.url(forResource: "jellybeans_USC-SIPI", withExtension: "tiff") else {
-                        return
-                    }
-                    itemsToShare = [ShareSheetInput(url)]
-                }
-            }
+        Form {
+            makeImageInputSection(imageName: "jellybeans_USC-SIPI", fileExtension: "tiff")
+            makeImageInputSection(imageName: "PM5544", fileExtension: "png")
             Section {
                 Button("Share PDF") {
                     guard let url = Bundle.main.url(forResource: "pepsi-arnell-021109", withExtension: "pdf"),
@@ -61,5 +48,24 @@ struct ShareSheetTests: View {
             }
         }
         .shareSheet(items: $itemsToShare)
+    }
+    
+    @ViewBuilder
+    private func makeImageInputSection(imageName: String, fileExtension: String) -> some View {
+        Section {
+            Button("Share \(fileExtension.uppercased()) UIImage") {
+                guard let url = Bundle.main.url(forResource: imageName, withExtension: fileExtension),
+                      let image = UINSImage(contentsOfFile: url.path) else {
+                    return
+                }
+                itemsToShare = [ShareSheetInput(image)]
+            }
+            Button("Share \(fileExtension.uppercased()) UIImage via URL") {
+                guard let url = Bundle.main.url(forResource: imageName, withExtension: fileExtension) else {
+                    return
+                }
+                itemsToShare = [ShareSheetInput(url)]
+            }
+        }
     }
 }
