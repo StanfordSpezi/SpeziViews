@@ -17,35 +17,25 @@ import Foundation
 import SwiftUI
 
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
 @MainActor
 private struct UIKitShareSheet: UIViewControllerRepresentable {
-    #if !os(watchOS)
-    typealias UIViewControllerType = UIActivityViewController
-    #else
-    typealias UIViewControllerType = UIViewController
-    #endif
-    
     let input: CombinedShareSheetInput
     
-    func makeUIViewController(context: Context) -> UIViewControllerType {
-        #if !os(watchOS)
+    func makeUIViewController(context: Context) -> UIActivityViewController {
         UIActivityViewController(
             activityItems: input.inputs.map { $0.representationForSharing },
             applicationActivities: nil
         )
-        #else
-        UIViewController()
-        #endif
     }
 
-    func updateUIViewController(_ controller: UIViewControllerType, context: Context) {
+    func updateUIViewController(_ controller: UIActivityViewController, context: Context) {
         // intentionally doesn't update the items.
     }
 }
-#else
+#elseif canImport(AppKit)
 @MainActor
 private struct AppKitShareSheet {
     let items: CombinedShareSheetInput
@@ -75,7 +65,7 @@ extension View {
     @available(watchOS, unavailable)
     @ViewBuilder
     public func shareSheet(items: Binding<[ShareSheetInput]>) -> some View {
-        #if !os(macOS)
+        #if canImport(UIKit) && !os(watchOS)
         let binding = Binding<CombinedShareSheetInput?> {
             items.isEmpty ? nil : CombinedShareSheetInput(inputs: items.wrappedValue)
         } set: { newValue in
@@ -88,7 +78,7 @@ extension View {
         self.sheet(item: binding) { combinedInput in
             UIKitShareSheet(input: combinedInput)
         }
-        #else
+        #elseif canImport(AppKit)
         let combinedInput = CombinedShareSheetInput(inputs: items.wrappedValue)
         self.onChange(of: combinedInput) {
             if !combinedInput.isEmpty {
