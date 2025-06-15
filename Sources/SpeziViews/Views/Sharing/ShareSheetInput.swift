@@ -19,7 +19,7 @@ extension String: HasDirectUIActivityViewControllerSupport {}
 extension URL: HasDirectUIActivityViewControllerSupport {}
 
 
-/// An Array of ``ShareSheetInput`` values, providing `Identifiable` conformance for SwiftUI integration.
+/// An Array of ``ShareSheetInput`` values, providing `Identifiable` and `Equatable` conformances for SwiftUI integration.
 struct CombinedShareSheetInput: Identifiable, Equatable {
     let inputs: [ShareSheetInput]
     let id: AnyHashable
@@ -39,11 +39,11 @@ struct CombinedShareSheetInput: Identifiable, Equatable {
 }
 
 
-/// A value that is included when presenting a share sheet
+/// A value that should be shared using the system share sheet.
 ///
 /// ## Topics
 /// ### Initializers
-/// - ``init(_:)-(Input)``
+/// - ``init(_:)-(HasDirectUIActivityViewControllerSupportHashable)``
 /// - ``init(_:id:)``
 /// - ``init(_:)-(NSItemProviderWriting)``
 /// - ``init(_:)-(T)``
@@ -53,11 +53,6 @@ struct CombinedShareSheetInput: Identifiable, Equatable {
 /// ### Supporting Types
 /// - ``HasDirectUIActivityViewControllerSupport``
 public struct ShareSheetInput {
-    enum RepresentationForSharing {
-        case itemProvider(NSItemProvider)
-        case other(Any)
-    }
-    
     let id: AnyHashable
     let representationForSharing: Any
     
@@ -75,7 +70,7 @@ public struct ShareSheetInput {
 
 extension ShareSheetInput {
     /// Creates a new `ShareSheetInput`.
-    public init<Input>(_ input: Input) where Input: HasDirectUIActivityViewControllerSupport & Hashable {
+    public init(_ input: some HasDirectUIActivityViewControllerSupport & Hashable) {
         self.init(input, id: \.self)
     }
     

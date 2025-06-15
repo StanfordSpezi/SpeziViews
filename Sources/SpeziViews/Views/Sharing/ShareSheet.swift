@@ -10,16 +10,13 @@
 import AppKit
 #elseif canImport(UIKit)
 import UIKit
-#else
-#error("Unable to import neither AppKit nor UIKit")
 #endif
 import Foundation
 import SwiftUI
 
 
 #if canImport(UIKit)
-// MARK: UIKit-based implementation
-
+@MainActor
 private struct UIKitShareSheet: UIViewControllerRepresentable {
     let input: CombinedShareSheetInput
     
@@ -34,11 +31,7 @@ private struct UIKitShareSheet: UIViewControllerRepresentable {
         // intentionally doesn't update the items.
     }
 }
-
-
 #else
-// MARK: AppKit-based implementation
-
 @MainActor
 private struct AppKitShareSheet {
     let items: CombinedShareSheetInput
