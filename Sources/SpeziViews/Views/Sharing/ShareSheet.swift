@@ -1,0 +1,93 @@
+//
+// This source file is part of the Stanford Spezi open-source project
+//
+// SPDX-FileCopyrightText: 2025 Stanford University and the project authors (see CONTRIBUTORS.md)
+//
+// SPDX-License-Identifier: MIT
+//
+
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
+import UIKit
+#else
+#error("Unable to import neither AppKit nor UIKit")
+#endif
+import Foundation
+import SwiftUI
+
+
+#if canImport(UIKit)
+// MARK: UIKit-based implementation
+
+private struct UIKitShareSheet: UIViewControllerRepresentable {
+    let input: CombinedShareSheetInput
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(
+            activityItems: input.inputs.map { $0.representationForSharing },
+            applicationActivities: nil
+        )
+    }
+
+    func updateUIViewController(_ controller: UIActivityViewController, context: Context) {
+        // intentionally doesn't update the items.
+    }
+}
+
+
+#else
+// MARK: AppKit-based implementation
+
+@MainActor
+private struct AppKitShareSheet {
+    let items: CombinedShareSheetInput
+    
+    func show() {
+        let sharingServicePicker = NSSharingServicePicker(
+            items: items.inputs.map(\.representationForSharing)
+        )
+        // Present the sharing service picker
+        if let keyWindow = NSApp.keyWindow, let contentView = keyWindow.contentView {
+            sharingServicePicker.show(relativeTo: contentView.bounds, of: contentView, preferredEdge: .minY)
+        }
+    }
+}
+#endif
+
+
+extension View {
+    /// Presents the system share sheet.
+    ///
+    /// On iOS, the `items` binding is set to an empty array upon dismissal of the share sheet.
+    /// On macOS, the binding is reset to an empty array immediately after presenting the share sheet.
+    ///
+    /// ## Topics
+    /// - ``ShareSheetInput``
+    @ViewBuilder
+    public func shareSheet(items: Binding<[ShareSheetInput]>) -> some View {
+        #if !os(macOS)
+        let binding = Binding<CombinedShareSheetInput?> {
+            items.isEmpty ? nil : CombinedShareSheetInput(inputs: items.wrappedValue)
+        } set: { newValue in
+            if let newValue {
+                items.wrappedValue = newValue.inputs
+            } else {
+                items.wrappedValue = []
+            }
+        }
+        self.sheet(item: binding) { combinedInput in
+            UIKitShareSheet(input: combinedInput)
+        }
+        #else
+        let combinedInput = CombinedShareSheetInput(inputs: items.wrappedValue)
+        self.onChange(of: combinedInput) {
+            if !combinedInput.isEmpty {
+                let shareSheet = AppKitShareSheet(items: combinedInput)
+                shareSheet.show()
+                items.wrappedValue = []
+            }
+        }
+        #endif
+    }
+}
