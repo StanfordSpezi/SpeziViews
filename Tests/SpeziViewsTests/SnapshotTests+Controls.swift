@@ -13,14 +13,14 @@ import Testing
 
 extension SnapshotTests {
     struct Options: OptionSet, PickerValue {
+        static let allCases: [Options] = [.option1, .option2]
+        static let option1 = Options(rawValue: 1 << 0)
+        static let option2 = Options(rawValue: 1 << 1)
+        
+        var rawValue: UInt8
         var localizedStringResource: LocalizedStringResource {
             "Option \(rawValue)"
         }
-        var rawValue: UInt8
-        static let allCases: [Options] = [.option1, .option2]
-
-        static let option1 = Options(rawValue: 1 << 0)
-        static let option2 = Options(rawValue: 1 << 1)
     }
 
     enum Version: PickerValue {
