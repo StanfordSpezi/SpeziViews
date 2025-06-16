@@ -70,6 +70,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``DismissButton``
 - ``CaseIterablePicker``
 - ``OptionSetPicker``
+- ``SwiftUICore/View/shareSheet(item:)``
 - ``SwiftUICore/View/shareSheet(items:)``
 
 ### Managed Navigation

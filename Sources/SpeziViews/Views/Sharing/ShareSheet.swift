@@ -52,7 +52,30 @@ private struct AppKitShareSheet {
 
 
 extension View {
-    /// Presents the system share sheet.
+    /// Share an item using the system share sheet.
+    ///
+    /// On iOS, the `item` binding is set to `nil` upon dismissal of the share sheet.
+    /// On macOS, the binding is set to `nil` immediately after presenting the share sheet.
+    ///
+    /// ## Topics
+    /// - ``ShareSheetInput``
+    @available(tvOS, unavailable)
+    @available(watchOS, unavailable)
+    @ViewBuilder
+    public func shareSheet(item: Binding<ShareSheetInput?>) -> some View {
+        self.shareSheet(items: Binding<[ShareSheetInput]> {
+            if let item = item.wrappedValue {
+                [item]
+            } else {
+                []
+            }
+        } set: { newValue in
+            item.wrappedValue = newValue.first
+        })
+    }
+    
+    
+    /// Share multiple items using the system share sheet.
     ///
     /// On iOS, the `items` binding is set to an empty array upon dismissal of the share sheet.
     /// On macOS, the binding is reset to an empty array immediately after presenting the share sheet.
