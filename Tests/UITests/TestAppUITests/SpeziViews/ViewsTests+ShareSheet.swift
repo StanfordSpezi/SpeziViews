@@ -25,17 +25,25 @@ extension ViewsTests {
         app.buttons["Share Sheet"].tap()
         
         app.buttons["Share Text"].tap()
-        XCTAssert(app.otherElements["Hello Spezi!"].waitForExistence(timeout: 2))
+        app.assertShareSheetTextElementExists("Hello Spezi!")
         app.buttons["header.closeButton"].tap()
         
         app.buttons["Share TIFF UIImage via URL"].tap()
-        XCTAssert(app.otherElements["jellybeans_USC-SIPI"].waitForExistence(timeout: 2))
-        XCTAssert(app.otherElements["TIFF Image · 197 KB"].waitForExistence(timeout: 2))
+        app.assertShareSheetTextElementExists("jellybeans_USC-SIPI")
+        app.assertShareSheetTextElementExists("TIFF Image · 197 KB")
         app.buttons["header.closeButton"].tap()
         
         app.buttons["Share PNG UIImage via URL"].tap()
-        XCTAssert(app.otherElements["PM5544"].waitForExistence(timeout: 2))
-        XCTAssert(app.otherElements["PNG Image · 21 KB"].waitForExistence(timeout: 2))
+        app.assertShareSheetTextElementExists("PM5544")
+        app.assertShareSheetTextElementExists("PNG Image · 21 KB")
         app.buttons["header.closeButton"].tap()
+    }
+}
+
+
+extension XCUIApplication {
+    fileprivate func assertShareSheetTextElementExists(_ text: String, file: StaticString = #filePath, line: UInt = #line) {
+        let exists = self.staticTexts[text].waitForExistence(timeout: 1) || self.otherElements[text].waitForExistence(timeout: 1)
+        XCTAssert(exists, file: file, line: line)
     }
 }
