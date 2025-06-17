@@ -34,19 +34,61 @@ enum AsyncButtonState {
 ///         .viewStateAlert(state: $viewState)
 /// }
 /// ```
+///
+/// ### Decouple Task Lifetime
+///
+/// A restriction of `AsyncButton` is that the task lifetime is bound to the appearance of the `Button` view. In certain cases (e.g., alert buttons or swipe action buttons), you might want to
+/// continue running the task even if the button view disappears and bind the lifetime of the task to a view higher up the view hierarchy.
+/// In these cases, you might want to use a pattern like the following and manage the lifetime yourself:
+///
+/// ```swift
+/// struct MyView: View {
+///     private enum Event {
+///         case myEvent(String)
+///     }
+///
+///     @State private var events: (stream: AsyncStream<Event>, continuation: AsyncStream<Event>.Continuation) = AsyncStream.makeStream()
+///
+///     var body: some View {
+///         List(elements) { element in
+///             Button("Remove") {
+///                 events.continuation.yield(.myEvent(element))
+///             }
+///         }
+///             .task {
+///                 for await event in events.stream {
+///                     // perform action and manage state
+///                 }
+///                 events = AsyncStream.makeStream() // durability over multiple appears
+///             }
+///     }
+/// }
+/// ```
 @MainActor
 public struct AsyncButton<Label: View>: View {
+    private enum GroupResult {
+        case debounce
+        case result(Result<Void, any Error>)
+    }
+
+    private enum Event {
+        case runAction
+    }
+
     private let role: ButtonRole?
     private let action: @MainActor () async throws -> Void
     private let label: Label
 
     @Environment(\.defaultErrorDescription)
-    var defaultErrorDescription
+    private var defaultErrorDescription
     @Environment(\.processingDebounceDuration)
-    var processingDebounceDuration
+    private var processingDebounceDuration
+    @Environment(\.asyncButtonProcessingStyle)
+    private var processingStyle
+    @Environment(\.isEnabled)
+    private var isEnabled
 
-    @State private var actionTask: Task<Void, Never>?
-
+    @State private var actionSignal: (stream: AsyncStream<Event>, continuation: AsyncStream<Event>.Continuation) = AsyncStream.makeStream()
     @State private var buttonState: AsyncButtonState = .idle
     @Binding private var viewState: ViewState
 
@@ -56,14 +98,40 @@ public struct AsyncButton<Label: View>: View {
         buttonState == .idle && viewState == .processing
     }
 
+    private var isConsideredProcessing: Bool {
+        buttonState == .disabledAndProcessing || externallyProcessing
+    }
+
+    private var consideredDisabled: Bool {
+        !isEnabled || buttonState != .idle || externallyProcessing
+    }
+
     public var body: some View {
         Button(role: role, action: submitAction) {
-            label
-                .processingOverlay(isProcessing: buttonState == .disabledAndProcessing || externallyProcessing)
+            switch processingStyle {
+            case .overlay:
+                label
+                    .processingOverlay(isProcessing: isConsideredProcessing)
+            case .listRow:
+                ListRow {
+                    label
+                        .foregroundStyle(consideredDisabled ? .tertiary : .primary)
+                } content: {
+                    if isConsideredProcessing {
+                        ProgressView()
+                    }
+                }
+            }
         }
-            .disabled(buttonState != .idle || externallyProcessing)
-            .onDisappear {
-                actionTask?.cancel()
+            .disabled(consideredDisabled)
+            .task {
+                for await event in actionSignal.stream {
+                    switch event {
+                    case .runAction:
+                        await self.runAction()
+                    }
+                }
+                actionSignal = AsyncStream.makeStream() // durability over multiple appears
             }
     }
 
@@ -172,41 +240,75 @@ public struct AsyncButton<Label: View>: View {
 
 
     private func submitAction() {
-        guard viewState != .processing else {
+        guard buttonState == .idle else {
             return
         }
 
         buttonState = .disabled
 
+        self.actionSignal.continuation.yield(.runAction)
+    }
+
+    private func runAction() async {
+        guard buttonState == .disabled else {
+            return
+        }
+
+        defer {
+            buttonState = .idle
+        }
+
         withAnimation(.easeOut(duration: 0.2)) {
             viewState = .processing
         }
 
-        actionTask = Task {
-            let debounce = Task {
+        let result = await withTaskGroup(of: GroupResult.self) { group in
+            group.addTask {
                 await debounceProcessingIndicator()
+                return .debounce
             }
 
-            do {
-                try await action()
-                debounce.cancel()
-
-                // the button action might set the state back to idle to prevent this animation
-                if viewState != .idle {
-                    withAnimation(.easeIn(duration: 0.2)) {
-                        viewState = .idle
-                    }
+            group.addTask {
+                do {
+                    return .result(.success(try await action()))
+                } catch {
+                    return .result(.failure(error))
                 }
-            } catch {
-                debounce.cancel()
-                viewState = .error(AnyLocalizedError(
-                    error: error,
-                    defaultErrorDescription: defaultErrorDescription
-                ))
             }
 
-            buttonState = .idle
-            actionTask = nil
+            guard let first = await group.next() else {
+                fatalError("Unexpected TaskGroup state.")
+            }
+
+            if case .result = first {
+                group.cancelAll() // cancel the debounce
+            }
+
+            guard let second = await group.next() else {
+                fatalError("Unexpected TaskGroup state.")
+            }
+
+            switch (first, second) {
+            case (let .result(result), .debounce), (.debounce, let .result(result)):
+                return result
+            case (.debounce, .debounce), (.result, .result):
+                fatalError("TaskGroup inconsistency.")
+            }
+        }
+
+        switch result {
+        case .success:
+            // the button action might set the state back to idle to prevent this animation
+            if viewState != .idle {
+                withAnimation(.easeIn(duration: 0.2)) {
+                    viewState = .idle
+                }
+            }
+        case let .failure(error):
+            viewState = .error(AnyLocalizedError(
+                error: error,
+                defaultErrorDescription: defaultErrorDescription
+            ))
         }
     }
 

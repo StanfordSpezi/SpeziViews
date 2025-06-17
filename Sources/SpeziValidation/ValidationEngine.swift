@@ -6,7 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
-import os
+import OSLog
+import SpeziFoundation
 import SwiftUI
 
 
@@ -25,6 +26,10 @@ public final class ValidationEngine: Identifiable {
         case submit
         /// The last validation was run due to manual interaction (e.g., a button press).
         case manual
+    }
+
+    private enum Event {
+        case validateInput(String)
     }
 
 
@@ -98,11 +103,7 @@ public final class ValidationEngine: Identifiable {
     /// the environment.
     public var debounceDuration: Duration
 
-    private var debounceTask: Task<Void, Never>? {
-        willSet {
-            debounceTask?.cancel()
-        }
-    }
+    private var events: (stream: AsyncStream<Event>, continuation: AsyncStream<Event>.Continuation) = AsyncStream.makeStream()
 
 
     /// Initialize a new `ValidationEngine` by providing a list of ``ValidationRule``s.
@@ -127,7 +128,7 @@ public final class ValidationEngine: Identifiable {
     ///   - validationRules: A variadic array of validation rules.
     ///   - debounceDuration: The debounce duration used with ``submit(input:debounce:)`` and `debounce` set to `true`.
     ///   - configuration: The ``Configuration`` of the validation engine.
-    convenience init(
+    package convenience init(
         rules validationRules: ValidationRule...,
         debounceFor debounceDuration: Duration = ValidationDebounceDurationKey.defaultValue,
         configuration: Configuration = []
@@ -141,7 +142,7 @@ public final class ValidationEngine: Identifiable {
         for rule in validationRules {
             if let failedValidation = rule.validate(input) {
                 results.append(failedValidation)
-                Self.logger.debug("Validation for input '\(input.description)' failed with reason: \(failedValidation.localizedStringResource.localizedString())")
+                Self.logger.trace("Validation for input '\(input.description, privacy: .public)' failed with reason: \(failedValidation.localizedStringResource.localizedString(), privacy: .public)")
 
                 if rule.effect == .intercept {
                     break
@@ -179,9 +180,7 @@ public final class ValidationEngine: Identifiable {
             computeValidation(input: input, source: .submit)
         } else {
             // otherwise, we debounce the debounce operation
-            self.debounce {
-                self.computeValidation(input: input, source: .submit)
-            }
+            self.events.continuation.yield(.validateInput(input))
         }
     }
 
@@ -193,16 +192,26 @@ public final class ValidationEngine: Identifiable {
         computeValidation(input: input, source: .manual)
     }
 
-    private func debounce(_ task: @escaping () -> Void) {
-        debounceTask = Task {
-            try? await Task.sleep(for: debounceDuration)
+    @MainActor
+    package func run() async {
+        await withDiscardingTaskGroup { group in
+            var runningTask: CancelableTaskHandle?
 
-            guard !Task.isCancelled else {
-                return
+            for await event in events.stream {
+                switch event {
+                case let .validateInput(input):
+                    runningTask?.cancel()
+                    runningTask = group.addCancelableTask { @MainActor in
+                        try? await Task.sleep(for: self.debounceDuration)
+                        guard !Task.isCancelled else {
+                            return
+                        }
+                        self.computeValidation(input: input, source: .submit)
+                    }
+                }
             }
-
-            task()
-            debounceTask = nil
         }
+
+        events = AsyncStream.makeStream()
     }
 }

@@ -25,6 +25,37 @@ struct CapturedValidationStateKey: PreferenceKey {
 }
 
 
+private struct ReceiveValidationModifier: ViewModifier {
+    @ValidationState.Binding private var context: ValidationContext
+
+    @State private var values: (stream: AsyncStream<ValidationContext>, continuation: AsyncStream<ValidationContext>.Continuation) =
+        AsyncStream.makeStream()
+
+    init(_ context: ValidationState.Binding) {
+        self._context = context
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .onPreferenceChange(CapturedValidationStateKey.self) { entries in
+                if Thread.isMainThread {
+                    MainActor.assumeIsolated {
+                        context = ValidationContext(entries: entries)
+                    }
+                } else {
+                    values.continuation.yield(ValidationContext(entries: entries))
+                }
+            }
+            .task {
+                for await value in values.stream {
+                    context = value
+                }
+                values = AsyncStream.makeStream()
+            }
+    }
+}
+
+
 extension View {
     /// Receive validation state of all subviews.
     ///
@@ -37,10 +68,6 @@ extension View {
     /// - Parameter state: The binding to the ``ValidationState``.
     /// - Returns: The modified view.
     public func receiveValidation(in state: ValidationState.Binding) -> some View {
-        onPreferenceChange(CapturedValidationStateKey.self) { entries in
-            runOrScheduleOnMainActor {
-                state.wrappedValue = ValidationContext(entries: entries)
-            }
-        }
+        modifier(ReceiveValidationModifier(state))
     }
 }

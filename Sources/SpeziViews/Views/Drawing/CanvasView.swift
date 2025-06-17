@@ -22,21 +22,15 @@ private struct _CanvasView: UIViewRepresentable {
         
         
         func canvasViewDidBeginUsingTool(_ pkCanvasView: PKCanvasView) {
-            Task { @MainActor in
-                canvasView.isDrawing = true
-            }
+            canvasView.isDrawing = true
         }
         
         func canvasViewDidEndUsingTool(_ pkCanvasView: PKCanvasView) {
-            Task { @MainActor in
-                canvasView.isDrawing = false
-            }
+            canvasView.isDrawing = false
         }
         
         func canvasViewDrawingDidChange(_ pkCanvasView: PKCanvasView) {
-            Task { @MainActor in
-                canvasView.drawing = pkCanvasView.drawing
-            }
+            canvasView.drawing = pkCanvasView.drawing
         }
     }
     
@@ -80,11 +74,15 @@ private struct _CanvasView: UIViewRepresentable {
     func updateUIView(_ canvasView: PKCanvasView, context: Context) {
         picker.addObserver(canvasView)
         picker.setVisible(showToolPicker, forFirstResponder: canvasView)
+        if canvasView.drawing != drawing {
+            canvasView.drawing = drawing
+        }
         
         if showToolPicker {
-            Task { @MainActor in
-                canvasView.becomeFirstResponder()
-            }
+            canvasView.becomeFirstResponder()
+        }
+        if #available(iOS 18.0, visionOS 2.0, *) {
+            canvasView.isDrawingEnabled = context.environment.isEnabled
         }
     }
     

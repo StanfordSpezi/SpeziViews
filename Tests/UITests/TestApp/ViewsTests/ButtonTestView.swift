@@ -45,9 +45,10 @@ struct ButtonTestView: View {
                     showCompleted = true
                 }
                 AsyncButton("Hello Throwing World", role: .destructive, state: $viewState) {
-                    try await Task.sleep(for: .milliseconds(20))
+                    try await Task.sleep(for: .milliseconds(500))
                     throw CustomError.error
                 }
+                    .asyncButtonProcessingStyle(.listRow)
             }
                 .disabled(showCompleted)
                 .viewStateAlert(state: $viewState)

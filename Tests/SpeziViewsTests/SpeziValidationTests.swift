@@ -6,30 +6,41 @@
 // SPDX-License-Identifier: MIT
 //
 
-@testable import SpeziValidation
+import SpeziValidation
 import Testing
 
 
+@Suite("Validation Engine")
 struct SpeziValidationTests {
     @MainActor
     @Test("Validation Debounce")
     func validationDebounce() async throws {
-        let engine = ValidationEngine(rules: .nonEmpty, debounceFor: .seconds(0.2))
+        let engine = ValidationEngine(rules: .nonEmpty)
 
-        engine.submit(input: "Valid")
-        #expect(engine.inputValid)
-        #expect(engine.validationResults.isEmpty)
+        await withDiscardingTaskGroup { group in
+            group.addTask {
+                await engine.run()
+            }
 
-        engine.submit(input: "", debounce: true)
-        #expect(engine.inputValid)
-        #expect(engine.validationResults.isEmpty)
+            try? await Task.sleep(for: .milliseconds(10))
 
-        try await Task.sleep(for: .seconds(1))
-        #expect(engine.inputValid == false)
-        #expect(engine.validationResults.count == 1)
+            engine.submit(input: "Valid")
+            #expect(engine.inputValid)
+            #expect(engine.validationResults.isEmpty)
 
-        engine.submit(input: "Valid", debounce: true)
-        #expect(engine.inputValid) // valid state is reported instantly
-        #expect(engine.validationResults.isEmpty)
+            engine.submit(input: "", debounce: true)
+            #expect(engine.inputValid)
+            #expect(engine.validationResults.isEmpty)
+
+            try? await Task.sleep(for: .seconds(1))
+            #expect(!engine.inputValid)
+            #expect(engine.validationResults.count == 1)
+
+            engine.submit(input: "Valid", debounce: true)
+            #expect(engine.inputValid) // valid state is reported instantly
+            #expect(engine.validationResults.isEmpty)
+
+            group.cancelAll()
+        }
     }
 }

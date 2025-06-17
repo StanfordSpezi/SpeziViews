@@ -69,6 +69,51 @@ final class ViewsTests: XCTestCase {
         canvasView.swipeUp()
     }
     
+    
+    // Tests:
+    // - that the CanvasView properly respects the `.disabled(_:)` view modifier,
+    // - that mutating the drawing through the binding causes the CanvasView to update its state.
+    @MainActor
+    func testCanvasDisableAndMutateThroughBinding() throws {
+#if !canImport(PencilKit) || os(macOS)
+        throw XCTSkip("PencilKit is not supported on this platform")
+#endif
+        
+#if targetEnvironment(simulator) && (arch(i386) || arch(x86_64))
+        throw XCTSkip("PKCanvas view-related tests are currently skipped on Intel-based iOS simulators due to a metal bug on the simulator.")
+#endif
+
+        let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
+
+        XCTAssert(app.collectionViews.buttons["Canvas"].waitForExistence(timeout: 2))
+        app.collectionViews.buttons["Canvas"].tap()
+        XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
+        
+        let canvasView = app.scrollViews.firstMatch
+        
+        XCTAssert(app.buttons["Enable/Disable Canvas, true"].waitForExistence(timeout: 2))
+        app.buttons["Enable/Disable Canvas"].tap()
+        XCTAssert(app.buttons["Enable/Disable Canvas, false"].waitForExistence(timeout: 2))
+        // the "swipe down" action here will, since the CanvasView is disabled, attempt to dismiss the sheet,
+        // which will fail since we have explicitly disabled the CanvasTestView's interactive dismissal.
+        canvasView.swipeRight()
+        canvasView.swipeDown()
+        XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
+        
+        app.buttons["Enable/Disable Canvas"].tap()
+        XCTAssert(app.buttons["Enable/Disable Canvas, true"].waitForExistence(timeout: 2))
+        canvasView.swipeRight()
+        canvasView.swipeDown()
+        XCTAssert(app.staticTexts["Did Draw Anything: true"].waitForExistence(timeout: 2))
+        
+        app.buttons["Clear Canvas"].tap()
+        XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
+    }
+    
+    
     @MainActor
     func testGeometryReader() throws {
         let app = XCUIApplication()

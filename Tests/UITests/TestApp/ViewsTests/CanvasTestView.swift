@@ -14,24 +14,44 @@ import SwiftUI
 
 
 struct CanvasTestView: View {
-    @State var isDrawing = false
-    @State var didDrawAnything = false
-    @State var showToolPicker = false
-    @State var drawing = PKDrawing()
-    @State var receivedSize: CGSize?
+    @State private var isDrawing = false
+    @State private var showToolPicker = false
+    @State private var drawing = PKDrawing()
+    @State private var receivedSize: CGSize?
+    @State private var enableDrawing = true
+    @State private var values = AsyncStream.makeStream(of: CGSize.self)
+    var didDrawAnything: Bool {
+        !drawing.strokes.isEmpty
+    }
 
     var body: some View {
         ZStack {
             VStack {
-                Text("Did Draw Anything: \(didDrawAnything.description)")
-                if let receivedSize {
-                    Text("Canvas Size: width \(receivedSize.width), height \(receivedSize.height)")
-                } else {
-                    Text("Canvas Size: none")
+                Group {
+                    Text("Did Draw Anything: \(didDrawAnything.description)")
+                    if let receivedSize {
+                        Text("Canvas Size: width \(receivedSize.width), height \(receivedSize.height)")
+                    } else {
+                        Text("Canvas Size: none")
+                    }
+                    Button("Show Tool Picker") {
+                        showToolPicker.toggle()
+                    }
+                    HStack {
+                        Button("Enable/Disable Canvas") {
+                            enableDrawing.toggle()
+                        }
+                        Spacer()
+                        Text(enableDrawing.description)
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Enable/Disable Canvas, \(enableDrawing.description)")
+                    Button("Clear Canvas") {
+                        drawing.strokes.removeAll()
+                    }
                 }
-                Button("Show Tool Picker") {
-                    showToolPicker.toggle()
-                }
+                .padding(.horizontal)
+                Divider()
                 CanvasView(
                     drawing: $drawing,
                     isDrawing: $isDrawing,
@@ -39,19 +59,26 @@ struct CanvasTestView: View {
                     drawingPolicy: .anyInput,
                     showToolPicker: $showToolPicker
                 )
+                .disabled(!enableDrawing)
             }
         }
-            .onChange(of: isDrawing) {
-                if isDrawing {
-                    didDrawAnything = true
-                }
-            }
             .navigationBarTitleDisplayMode(.inline)
             .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
-                runOrScheduleOnMainActor {
-                    self.receivedSize = size
+                if Thread.isMainThread {
+                    MainActor.assumeIsolated {
+                        self.receivedSize = size
+                    }
+                } else {
+                    self.values.continuation.yield(size)
                 }
             }
+            .task {
+                for await value in values.stream {
+                    self.receivedSize = value
+                }
+                values = AsyncStream.makeStream()
+            }
+            .interactiveDismissDisabled()
     }
 }
 
