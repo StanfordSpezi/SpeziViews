@@ -55,7 +55,7 @@ struct ButtonTestView: View {
     @State private var presentedText = "Hello"
 
     var body: some View {
-        List {
+        List { // swiftlint:disable:this closure_body_length
             if showCompleted {
                 Section {
                     Text("Action executed")
