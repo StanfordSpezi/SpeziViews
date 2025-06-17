@@ -23,11 +23,36 @@ enum CustomError: Error, LocalizedError {
 }
 
 
+struct StateAsyncButton: View {
+    private let text: String
+
+    @State private var presentedText: String?
+
+    var body: some View {
+        Section {
+            AsyncButton("State Captured") {
+                presentedText = text
+            }
+        } footer: {
+            if let presentedText {
+                Text("Captured \(presentedText)")
+            }
+        }
+    }
+
+
+    init(text: String) {
+        self.text = text
+    }
+}
+
+
 struct ButtonTestView: View {
     @State private var showCompleted = false
     @State private var viewState: ViewState = .idle
 
     @State private var showInfo = false
+    @State private var presentedText = "Hello"
 
     var body: some View {
         List {
@@ -53,6 +78,8 @@ struct ButtonTestView: View {
                 .disabled(showCompleted)
                 .viewStateAlert(state: $viewState)
 
+            StateAsyncButton(text: presentedText)
+
             Section {
                 HStack {
                     Button {
@@ -68,6 +95,10 @@ struct ButtonTestView: View {
                 }
             }
         }
+            .task {
+                try? await Task.sleep(for: .milliseconds(500))
+                presentedText = "Hello World"
+            }
     }
 }
 
