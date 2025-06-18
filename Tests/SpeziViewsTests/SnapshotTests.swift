@@ -9,156 +9,49 @@
 import SnapshotTesting
 @testable import SpeziViews
 import SwiftUI
-import XCTest
+import Testing
 
 
-final class SnapshotTests: XCTestCase {
-    @MainActor
-    func testListRow() {
-        let row = List {
-            ListRow("San Francisco") {
-                Text(verbatim: "20 °C, Sunny")
-            }
-        }
-        
-        let largeRow = row
-            .dynamicTypeSize(.accessibility3)
-
-#if os(iOS)
-        assertSnapshot(of: row, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-        assertSnapshot(of: row, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
-
-        assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-XA3")
-        assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-XA3")
-#endif
-    }
-
-    @MainActor
-    func testReverseLabelStyle() {
-        let label = SwiftUI.Label("100 %", image: "battery.100")
-            .labelStyle(.reverse)
-
-#if os(iOS)
-        assertSnapshot(of: label, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-        assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
-#endif
-    }
-
-    @MainActor
-    func testDismissButton() {
-        let dismissButton = DismissButton()
-
-
-#if os(iOS)
-        assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-        assertSnapshot(of: dismissButton, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
-#endif
-    }
-
-    @MainActor
-    func testImageReference() throws {
-        let eraser: ImageReference = .system("eraser.fill")
-        let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
-
-        XCTAssertTrue(eraser.isSystemImage)
-        XCTAssertFalse(nonExistingImage.isSystemImage)
-
-        let image = try XCTUnwrap(eraser.image)
-        XCTAssertNil(nonExistingImage.image)
-
-#if canImport(WatchKit)
-        XCTAssertNotNil(eraser.wkImage)
-        XCTAssertNil(nonExistingImage.wkImage)
-#endif
-
-#if canImport(UIKit)
-        XCTAssertNotNil(eraser.uiImage)
-        XCTAssertNil(nonExistingImage.uiImage)
-#elseif canImport(AppKit)
-        XCTAssertNotNil(eraser.nsImage)
-        XCTAssertNil(nonExistingImage.nsImage)
-#endif
-
-#if os(iOS)
-        assertSnapshot(of: image, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-#endif
-    }
-
-    @MainActor
-    func testTileHeaderLayout() {
-        struct TestView: View {
-            private let alignment: HorizontalAlignment
-
-            var body: some View {
-                TileHeader(alignment: alignment) {
-                    Image(systemName: "book.pages.fill")
-                        .foregroundStyle(.teal)
-                        .font(.custom("Task Icon", size: 30, relativeTo: .headline))
-                        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
-                        .accessibilityHidden(true)
-                } title: {
-                    Text("Clean Code")
-                } subheadline: {
-                    Text("by Robert C. Martin")
-                }
-            }
-
-            init(alignment: HorizontalAlignment) {
-                self.alignment = alignment
-            }
-        }
-
-        let leadingTileHeader = TestView(alignment: .leading)
-        let centerTileHeader = TestView(alignment: .center)
-        let trailingTileHeader = TestView(alignment: .trailing)
-
-#if os(iOS)
-        assertSnapshot(of: leadingTileHeader, as: .image(layout: .device(config: .iPhone13Pro)), named: "leading")
-        assertSnapshot(of: centerTileHeader, as: .image(layout: .device(config: .iPhone13Pro)), named: "center")
-        assertSnapshot(of: trailingTileHeader, as: .image(layout: .device(config: .iPhone13Pro)), named: "trailing")
-#endif
-    }
-
-    @MainActor
-    func testSimpleTile() {
-        struct TileView: View {
-            private let alignment: HorizontalAlignment
-
-            var body: some View {
-                SimpleTile(alignment: alignment) {
-                    Text("Clean Code")
-                } body: {
-                    Text("A book by Robert C. Martin")
-                } footer: {
-                    Button {
-                    } label: {
-                        Text("Buy")
-                            .frame(maxWidth: .infinity, minHeight: 30)
+@MainActor
+@Suite("Snapshot Tests")
+struct SnapshotTests {
+    @Test("Description Grid Row")
+    func descriptionGridRow() {
+        let view = VStack {
+            Form {
+                Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+                    DescriptionGridRow {
+                        Text(verbatim: "Description")
+                    } content: {
+                        Text(verbatim: "Content")
                     }
-                        .buttonStyle(.borderedProminent)
+                    Divider()
+                    DescriptionGridRow {
+                        Text(verbatim: "Description")
+                    } content: {
+                        Text(verbatim: "Content")
+                    }
+                    DescriptionGridRow {
+                        Text(verbatim: "Description")
+                    } content: {
+                        Text(verbatim: "Content")
+                    }
                 }
             }
-
-            init(alignment: HorizontalAlignment) {
-                self.alignment = alignment
-            }
         }
-
-        let tileLeading = TileView(alignment: .leading)
-        let tileCenter = TileView(alignment: .center)
-        let tileTraining = TileView(alignment: .trailing)
-
 #if os(iOS)
-        assertSnapshot(of: tileLeading, as: .image(layout: .device(config: .iPhone13Pro)), named: "leading")
-        assertSnapshot(of: tileCenter, as: .image(layout: .device(config: .iPhone13Pro)), named: "center")
-        assertSnapshot(of: tileTraining, as: .image(layout: .device(config: .iPhone13Pro)), named: "trailing")
+            assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
 #endif
     }
 
-    @MainActor
-    func testCompletedTileHeader() {
-        let view = CompletedTileHeader {
-            Text("Some Title")
+    @Test("Dynamic HStack")
+    func dynamicHStack() {
+        let view = List {
+            DynamicHStack(verticalAlignment: .center) {
+                Text(verbatim: "Hello World:")
+                Text(verbatim: "How are you doing?")
+                    .foregroundColor(.secondary)
+            }
         }
 
 #if os(iOS)
@@ -166,47 +59,38 @@ final class SnapshotTests: XCTestCase {
 #endif
     }
 
-    @MainActor
-    func testListRowInits() {
-        let string = "Hello"
 
-        _ = ListRow(string) {
-            Text("World")
-        }
-        _ = ListRow(string, value: "World")
-        _ = ListRow(string, value: Date.now, format: .dateTime)
+    @Test("Image Reference")
+    func imageReference() throws {
+        let eraser: ImageReference = .system("eraser.fill")
+        let nonExistingImage: ImageReference = .asset("does not exist", bundle: .main)
 
-        _ = ListRow("Hello") {
-            Text("World")
-        }
-        _ = ListRow("Hello", value: "World")
-        _ = ListRow("Hello", value: Date.now, format: .dateTime)
+        #expect(eraser.isSystemImage)
+        #expect(nonExistingImage.isSystemImage == false)
 
-        _ = ListRow(verbatim: "Hello") {
-            Text("World")
-        }
-    }
+        let image = try #require(eraser.image)
+        #expect(nonExistingImage.image == nil)
 
-    @MainActor
-    func testListHeader() {
-        let listHeader0 = ListHeader(systemImage: "person.fill.badge.plus") {
-            Text("Create a new Account", bundle: .module)
-        } instructions: {
-            Text("Please fill out the details below to create your new account.", bundle: .module)
-        }
+#if canImport(WatchKit)
+        #expect(eraser.wkImage != nil)
+        #expect(nonExistingImage.wkImage == nil)
+#endif
 
-        let listHeader1 = ListHeader(systemImage: "person.fill.badge.plus") {
-            Text("Create a new Account", bundle: .module)
-        }
+#if canImport(UIKit)
+        #expect(eraser.uiImage != nil)
+        #expect(nonExistingImage.uiImage == nil)
+#elseif canImport(AppKit)
+        #expect(eraser.nsImage != nil)
+        #expect(nonExistingImage.nsImage == nil)
+#endif
 
 #if os(iOS)
-        assertSnapshot(of: listHeader0, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header-instructions")
-        assertSnapshot(of: listHeader1, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header")
+        assertSnapshot(of: image, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
 #endif
     }
-    
-    @MainActor
-    func testSkeletonLoading() {
+
+    @Test("Skeleton Loading")
+    func skeletonLoading() {
         let view =
         VStack {
             RoundedRectangle(cornerRadius: 10)
