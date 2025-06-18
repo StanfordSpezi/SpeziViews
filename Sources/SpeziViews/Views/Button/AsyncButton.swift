@@ -35,6 +35,9 @@ enum AsyncButtonState {
 /// }
 /// ```
 ///
+/// - Important: The closure captures the state that was present at the moment the button was pressed. You might want to make sure you access state through Bindings if you want
+///     to ensure that you always access the latest state possible.
+///
 /// ### Decouple Task Lifetime
 ///
 /// A restriction of `AsyncButton` is that the task lifetime is bound to the appearance of the `Button` view. In certain cases (e.g., alert buttons or swipe action buttons), you might want to
@@ -72,7 +75,7 @@ public struct AsyncButton<Label: View>: View {
     }
 
     private enum Event {
-        case runAction
+        case runAction(_ action: @MainActor () async throws -> Void)
     }
 
     private let role: ButtonRole?
@@ -127,8 +130,8 @@ public struct AsyncButton<Label: View>: View {
             .task {
                 for await event in actionSignal.stream {
                     switch event {
-                    case .runAction:
-                        await self.runAction()
+                    case let .runAction(closure):
+                        await self.runAction(closure)
                     }
                 }
                 actionSignal = AsyncStream.makeStream() // durability over multiple appears
@@ -246,10 +249,11 @@ public struct AsyncButton<Label: View>: View {
 
         buttonState = .disabled
 
-        self.actionSignal.continuation.yield(.runAction)
+        // we need to make sure that we pass in the latest closure with the latest captured view state.
+        self.actionSignal.continuation.yield(.runAction(self.action))
     }
 
-    private func runAction() async {
+    private func runAction(_ action: @MainActor @escaping () async throws -> Void) async {
         guard buttonState == .disabled else {
             return
         }
