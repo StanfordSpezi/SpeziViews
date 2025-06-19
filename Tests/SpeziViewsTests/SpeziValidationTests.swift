@@ -14,7 +14,7 @@ import Testing
 struct SpeziValidationTests {
     @MainActor
     @Test("Validation Debounce")
-    func testValidationDebounce() async throws {
+    func validationDebounce() async throws {
         let engine = ValidationEngine(rules: .nonEmpty)
 
         await withDiscardingTaskGroup { group in

@@ -222,6 +222,11 @@ final class ViewsTests: XCTestCase {
 
         XCTAssert(app.staticTexts["Action executed"].waitForExistence(timeout: 2))
         app.buttons["Reset"].tap()
+
+        XCTAssert(app.buttons["State Captured"].exists)
+        app.buttons["State Captured"].tap()
+
+        XCTAssert(app.staticTexts["Captured Hello World"].waitForExistence(timeout: 0.5))
     }
 
     @MainActor
