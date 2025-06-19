@@ -14,7 +14,7 @@ import class PDFKit.PDFDocument
 #endif
 
 
-/// Marker protocol that indicates that a type can be directly passed into a `UIActivityViewController`, without having to go through a `NSItemProvider`.
+/// Marker protocol that indicates that a type can be directly passed into a `UIActivityViewController`, without having to go through an `NSItemProvider`.
 @_marker
 public protocol HasDirectUIActivityViewControllerSupport {}
 extension String: HasDirectUIActivityViewControllerSupport {}
@@ -38,7 +38,9 @@ struct CombinedShareSheetInput: Identifiable, Equatable {
 }
 
 
-/// A value that should be shared using the system share sheet.
+/// Encapsulates a value for sharing it via the system share sheet.
+///
+/// Your app creates instances of this type and passes them to ``SwiftUICore/View/shareSheet(item:)`` and ``SwiftUICore/View/shareSheet(items:)``.
 ///
 /// ## Topics
 /// ### Initializers
