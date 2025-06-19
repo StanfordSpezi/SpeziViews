@@ -104,7 +104,7 @@ extension View {
         #elseif canImport(AppKit)
         let combinedInput = CombinedShareSheetInput(inputs: items.wrappedValue)
         self.onChange(of: combinedInput) {
-            if !combinedInput.isEmpty {
+            if !combinedInput.inputs.isEmpty {
                 let shareSheet = AppKitShareSheet(items: combinedInput)
                 shareSheet.show()
                 items.wrappedValue = []
