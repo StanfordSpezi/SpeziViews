@@ -23,8 +23,9 @@ extension URL: HasDirectUIActivityViewControllerSupport {}
 
 /// An Array of ``ShareSheetInput`` values, providing `Identifiable` and `Equatable` conformances for SwiftUI integration.
 struct CombinedShareSheetInput: Identifiable, Equatable {
-    let inputs: [ShareSheetInput]
+    /// A stable identifier, computed by combining the identifiers of the individual inputs.
     let id: AnyHashable
+    let inputs: [ShareSheetInput]
     
     init(inputs: [ShareSheetInput]) {
         self.inputs = inputs
@@ -106,19 +107,5 @@ extension ShareSheetInput {
     /// - Note: Only use this initializer if you know for a fact that `Input` is compatible with the system share sheet.
     public init<Input>(verbatim input: Input, id: (Input) -> some Hashable) {
         self.init(id: id(input), representationForSharing: input)
-    }
-}
-
-
-extension Hashable {
-    fileprivate var asAnyHashable: AnyHashable {
-        AnyHashable(self)
-    }
-}
-
-extension AnyHashable {
-    @_disfavoredOverload
-    init(_ base: any Hashable) {
-        self = base.asAnyHashable
     }
 }

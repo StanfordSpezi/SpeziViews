@@ -43,6 +43,10 @@ extension ViewsTests {
         app.buttons["Share PDF via URL"].tap()
         app.assertShareSheetHeader(.init(title: "spezi my beloved", filetype: "PDF Document"))
         app.buttons["header.closeButton"].tap()
+        
+        app.buttons["Share 2 PDFs"].tap()
+        app.assertShareSheetHeader(.init(title: "2 Documents"))
+        app.buttons["header.closeButton"].tap()
     }
 }
 

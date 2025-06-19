@@ -12,6 +12,7 @@ import SwiftUI
 
 
 struct ShareSheetTests: View {
+    @State private var itemToShare: ShareSheetInput?
     @State private var itemsToShare: [ShareSheetInput] = []
     
     var body: some View {
@@ -24,25 +25,32 @@ struct ShareSheetTests: View {
                     guard let pdf = PDFDocument(url: url) else {
                         return
                     }
-                    itemsToShare = [ShareSheetInput(pdf)]
+                    itemToShare = ShareSheetInput(pdf)
                 }
                 Button("Share PDF via Data") {
                     guard let pdf = PDFDocument(url: url),
                           let data = pdf.dataRepresentation() else {
                         return
                     }
-                    itemsToShare = [ShareSheetInput(verbatim: data, id: \.self)]
+                    itemToShare = ShareSheetInput(verbatim: data, id: \.self)
                 }
                 Button("Share PDF via URL") {
-                    itemsToShare = [ShareSheetInput(url)]
+                    itemToShare = ShareSheetInput(url)
+                }
+                Button("Share 2 PDFs") {
+                    itemsToShare = [
+                        ShareSheetInput(url),
+                        ShareSheetInput(url)
+                    ]
                 }
             }
             Section {
                 Button("Share Text") {
-                    itemsToShare = [ShareSheetInput("Hello Spezi!")]
+                    itemToShare = ShareSheetInput("Hello Spezi!")
                 }
             }
         }
+        .shareSheet(item: $itemToShare)
         .shareSheet(items: $itemsToShare)
     }
     
@@ -54,13 +62,13 @@ struct ShareSheetTests: View {
                       let image = UINSImage(contentsOfFile: url.path) else {
                     return
                 }
-                itemsToShare = [ShareSheetInput(image)]
+                itemToShare = ShareSheetInput(image)
             }
             Button("Share \(fileExtension.uppercased()) UIImage via URL") {
                 guard let url = Bundle.main.url(forResource: imageName, withExtension: fileExtension) else {
                     return
                 }
-                itemsToShare = [ShareSheetInput(url)]
+                itemToShare = ShareSheetInput(url)
             }
         }
     }

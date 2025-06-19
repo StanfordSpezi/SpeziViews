@@ -17,25 +17,13 @@ import UniformTypeIdentifiers
 final class ShareableRepresentation: NSObject {
     private static let logger = Logger(subsystem: "edu.stanford.Spezi.SpeziViews.ShareableRepresentation", category: "UI")
     
-    let value: Any
+    private let value: Any
     private let cleanupHandler: () throws -> Void
     
-    private init(value: Any, cleanupHandler: @escaping () throws -> Void = {}) {
+    private init(value: Any, cleanupHandler: @escaping @Sendable () throws -> Void = {}) {
         self.value = value
         self.cleanupHandler = cleanupHandler
         super.init()
-    }
-    
-    convenience init(processing input: Any) {
-        switch input {
-        #if !os(watchOS)
-        case let pdf as PDFDocument:
-            self.init(pdf: pdf)
-        #endif
-        default:
-            // let's just give it a try
-            self.init(value: input)
-        }
     }
     
     #if !os(watchOS)
