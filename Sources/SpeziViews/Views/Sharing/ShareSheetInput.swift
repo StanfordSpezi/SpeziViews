@@ -26,10 +26,6 @@ struct CombinedShareSheetInput: Identifiable, Equatable {
     let inputs: [ShareSheetInput]
     let id: AnyHashable
     
-    var isEmpty: Bool {
-        inputs.isEmpty
-    }
-    
     init(inputs: [ShareSheetInput]) {
         self.inputs = inputs
         self.id = AnyHashable(inputs.map(\.id))

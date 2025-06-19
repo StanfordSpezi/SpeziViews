@@ -19,25 +19,21 @@ struct ShareSheetTests: View {
             makeImageInputSection(imageName: "jellybeans_USC-SIPI", fileExtension: "tiff")
             makeImageInputSection(imageName: "PM5544", fileExtension: "png")
             Section {
+                let url = Bundle.main.url(forResource: "spezi my beloved", withExtension: "pdf")! // swiftlint:disable:this force_unwrapping
                 Button("Share PDF") {
-                    guard let url = Bundle.main.url(forResource: "pepsi-arnell-021109", withExtension: "pdf"),
-                          let pdf = PDFDocument(url: url) else {
+                    guard let pdf = PDFDocument(url: url) else {
                         return
                     }
                     itemsToShare = [ShareSheetInput(pdf)]
                 }
                 Button("Share PDF via Data") {
-                    guard let url = Bundle.main.url(forResource: "pepsi-arnell-021109", withExtension: "pdf"),
-                          let pdf = PDFDocument(url: url),
+                    guard let pdf = PDFDocument(url: url),
                           let data = pdf.dataRepresentation() else {
                         return
                     }
                     itemsToShare = [ShareSheetInput(verbatim: data, id: \.self)]
                 }
                 Button("Share PDF via URL") {
-                    guard let url = Bundle.main.url(forResource: "pepsi-arnell-021109", withExtension: "pdf") else {
-                        return
-                    }
                     itemsToShare = [ShareSheetInput(url)]
                 }
             }
