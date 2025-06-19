@@ -80,6 +80,18 @@ extension View {
     /// On iOS, the `items` binding is set to an empty array upon dismissal of the share sheet.
     /// On macOS, the binding is reset to an empty array immediately after presenting the share sheet.
     ///
+    /// - Note: This API serves as an alternative to SwiftUI's `ShareLink`, and can, in some edge cases, provide a better user experience.
+    ///     Always try using a `ShareLink` first and only use this API if you found the `ShareLink`'s capabilities lacking for your specific use case.
+    ///     If you just want to share a URL, a String, or a file that already exists on disk, the `ShareLink` is probably the preferable option.
+    ///
+    /// Differences to SwiftUI's `ShareLink`:
+    /// - You can control the presentation of the share sheet via a Binding, rather than having it presented in response to the user tapping the `ShareLink`'s internal Button.
+    ///     This allows you to e.g. present the share sheet only conditionally, and in response to / depending on complex logic.
+    /// - For some inputs (e.g. `PDFDocument`s), the `ShareLink` defers the creation of the actual shared resource until the user actually selects a sharing destination in the share sheet,
+    ///     resulting in the share sheet's header being empty (since the information simply isn't available yet).
+    ///     The share sheet presented by this API doesn't defer this operation, and as a result is able to always display these metadata.
+    /// - Using the `ShareLink` on macOS will result in an empty share sheet for certain inputs; this API will present a properly populated share sheet for the same inputs.
+    ///
     /// ## Topics
     /// - ``ShareSheetInput``
     @available(tvOS, unavailable)
