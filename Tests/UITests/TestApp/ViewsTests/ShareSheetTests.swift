@@ -17,6 +17,11 @@ struct ShareSheetTests: View {
     
     var body: some View {
         Form {
+            Section {
+                Button("Share Text") {
+                    itemToShare = ShareSheetInput("Hello Spezi!")
+                }
+            }
             makeImageInputSection(imageName: "jellybeans_USC-SIPI", fileExtension: "tiff")
             makeImageInputSection(imageName: "PM5544", fileExtension: "png")
             Section {
@@ -42,11 +47,6 @@ struct ShareSheetTests: View {
                         ShareSheetInput(url),
                         ShareSheetInput(url)
                     ]
-                }
-            }
-            Section {
-                Button("Share Text") {
-                    itemToShare = ShareSheetInput("Hello Spezi!")
                 }
             }
         }

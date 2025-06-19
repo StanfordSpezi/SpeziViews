@@ -36,6 +36,8 @@ extension ViewsTests {
         app.assertShareSheetHeader(.init(title: "PM5544", filetype: "PNG Image"))
         app.buttons["header.closeButton"].tap()
         
+        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
+        
         app.buttons["Share PDF"].tap()
         app.assertShareSheetHeader(.init(title: "spezi my beloved", filetype: "PDF Document"))
         app.buttons["header.closeButton"].tap()
