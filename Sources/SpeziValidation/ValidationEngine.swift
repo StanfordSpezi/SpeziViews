@@ -171,7 +171,7 @@ public final class ValidationEngine: Identifiable {
     /// - Parameters:
     ///   - input: The input to validate.
     ///   - debounce: If set to `true`, calls to this method will be "debounced". The validation will not run as long as
-    ///     there not further calls to this method for the configured `debounceDuration`. If set to `false` the method
+    ///     there are no further calls to this method for the configured ``debounceDuration``. If set to `false` the method
     ///     will run immediately. Note that the validation will still run instantly, if we are currently in an invalid state
     ///     to ensure input validity is reported immediately.
     public func submit(input: String, debounce: Bool = false) {

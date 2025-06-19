@@ -7,16 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F6D139A28F5F386007C25D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F6D139928F5F386007C25D6 /* Assets.xcassets */; };
-		2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA7382B290ADFAA007ACEB9 /* TestApp.swift */; };
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
-		2FB099B82A8AD25300B20952 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2FB099B72A8AD25100B20952 /* Localizable.xcstrings */; };
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */ = {isa = PBXBuildFile; productRef = A963ACAF2AF4692500D745F2 /* SpeziValidation */; };
 		A9BA82B42C29FF7C00472FF3 /* Spezi in Frameworks */ = {isa = PBXBuildFile; productRef = A9BA82B32C29FF7C00472FF3 /* Spezi */; };
 		A9F9C4692AF2B9DD001122DD /* XCTestExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55D2AD2B92C006D9B54 /* XCTestExtensions */; };
-		A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,38 +28,19 @@
 /* Begin PBXFileReference section */
 		2F61BDC129DD023E00D71D33 /* SpeziViews */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SpeziViews; path = ../..; sourceTree = "<group>"; };
 		2F6D139228F5F384007C25D6 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F6D139928F5F386007C25D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2F6D13AC28F5F386007C25D6 /* TestAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FA7382B290ADFAA007ACEB9 /* TestApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestApp.swift; sourceTree = "<group>"; };
 		2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestApp.xctestplan; sourceTree = "<group>"; };
-		2FB099B72A8AD25100B20952 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeziViewsTargetsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		80547A3C2D9817A4008C13FF /* ViewsTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ViewsTests;
-			sourceTree = "<group>";
-		};
-		80547A502D9817AA008C13FF /* Examples */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Examples;
-			sourceTree = "<group>";
-		};
-		80547A5B2D9817AA008C13FF /* ValidationTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ValidationTests;
-			sourceTree = "<group>";
-		};
-		80547A622D9817AA008C13FF /* PersonalInfoTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PersonalInfoTests;
-			sourceTree = "<group>";
-		};
 		80547A9B2D988067008C13FF /* TestAppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = TestAppUITests;
+			sourceTree = "<group>";
+		};
+		806F2C2D2DFF6A1300F21D03 /* TestApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TestApp;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -97,7 +74,7 @@
 			children = (
 				2FB0758A299DDB9000C0B37F /* TestApp.xctestplan */,
 				2F61BDC129DD023E00D71D33 /* SpeziViews */,
-				2F6D139428F5F384007C25D6 /* TestApp */,
+				806F2C2D2DFF6A1300F21D03 /* TestApp */,
 				80547A9B2D988067008C13FF /* TestAppUITests */,
 				2F6D139328F5F384007C25D6 /* Products */,
 				2F6D13C228F5F3BE007C25D6 /* Frameworks */,
@@ -111,21 +88,6 @@
 				2F6D13AC28F5F386007C25D6 /* TestAppUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		2F6D139428F5F384007C25D6 /* TestApp */ = {
-			isa = PBXGroup;
-			children = (
-				A9FBAE942AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift */,
-				2FA7382B290ADFAA007ACEB9 /* TestApp.swift */,
-				2F6D139928F5F386007C25D6 /* Assets.xcassets */,
-				2FB099B72A8AD25100B20952 /* Localizable.xcstrings */,
-				80547A502D9817AA008C13FF /* Examples */,
-				80547A622D9817AA008C13FF /* PersonalInfoTests */,
-				80547A5B2D9817AA008C13FF /* ValidationTests */,
-				80547A3C2D9817A4008C13FF /* ViewsTests */,
-			);
-			path = TestApp;
 			sourceTree = "<group>";
 		};
 		2F6D13C228F5F3BE007C25D6 /* Frameworks */ = {
@@ -151,10 +113,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				80547A3C2D9817A4008C13FF /* ViewsTests */,
-				80547A502D9817AA008C13FF /* Examples */,
-				80547A5B2D9817AA008C13FF /* ValidationTests */,
-				80547A622D9817AA008C13FF /* PersonalInfoTests */,
+				806F2C2D2DFF6A1300F21D03 /* TestApp */,
 			);
 			name = TestApp;
 			packageProductDependencies = (
@@ -240,8 +199,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FB099B82A8AD25300B20952 /* Localizable.xcstrings in Resources */,
-				2F6D139A28F5F386007C25D6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +216,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9FBAE952AF445B6001E4AF1 /* SpeziViewsTargetsTests.swift in Sources */,
-				2FA7382C290ADFAA007ACEB9 /* TestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -255,7 +255,7 @@ final class ViewsTests: XCTestCase {
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
         app.open(target: "SpeziViews")
 
-        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOs
+        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
 
         XCTAssert(app.buttons["Managed View Update"].waitForExistence(timeout: 2.0))
         app.buttons["Managed View Update"].tap()
@@ -289,7 +289,7 @@ final class ViewsTests: XCTestCase {
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
         app.open(target: "SpeziViews")
 
-        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOs
+        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
 
         XCTAssert(app.buttons["Picker"].waitForExistence(timeout: 2.0))
         app.buttons["Picker"].tap()
