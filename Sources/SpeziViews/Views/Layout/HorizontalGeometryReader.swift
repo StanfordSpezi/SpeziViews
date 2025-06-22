@@ -29,7 +29,7 @@ public struct HorizontalGeometryReader<Content: View>: View {
     private var content: (CGFloat) -> Content
     @State private var width: CGFloat = 0
 
-    @State private var values: (stream: AsyncStream<CGFloat>, continuation: AsyncStream<CGFloat>.Continuation) = AsyncStream.makeStream()
+    @State private var values = AsyncStream.makeStream(of: CGFloat.self)
 
     public var body: some View {
         content(width)

@@ -32,6 +32,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case managedViewUpdate = "Managed View Update"
     case caseIterablePicker = "Picker"
     case shareSheet = "Share Sheet"
+    case markdownDocumentView = "Markdown Document View"
 
     
     #if canImport(PencilKit) && !os(macOS)
@@ -183,6 +184,8 @@ enum SpeziViewsTests: String, TestAppTests {
             CaseIterablePickerTests()
         case .shareSheet:
             ShareSheetTests()
+        case .markdownDocumentView:
+            MarkdownDocumentViewTest()
         }
     }
 }
