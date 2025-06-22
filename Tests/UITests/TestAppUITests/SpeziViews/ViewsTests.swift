@@ -337,10 +337,10 @@ final class ViewsTests: XCTestCase {
             XCTAssert(app.staticTexts[text].waitForExistence(timeout: 1), line: line)
         }
         
-        assertTextExists("Welcome to the Spezi Ecosystem"])
-        assertTextExists("This article aims to provide you with a broad overview of Spezi."])
+        assertTextExists("Welcome to the Spezi Ecosystem")
+        assertTextExists("This article aims to provide you with a broad overview of Spezi.")
         XCTAssert(app.otherElements["ayooooooo"].waitForExistence(timeout: 2))
-        assertTextExists("Our Modules"])
-        assertTextExists("Spezi is architected to be a highly modular system, allowing your application to ..."])
+        assertTextExists("Our Modules")
+        assertTextExists("Spezi is architected to be a highly modular system, allowing your application to ...")
     }
 }
