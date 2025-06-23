@@ -58,7 +58,7 @@ extension ViewsTests {
                 try await Task.sleep(for: .seconds(0.2))
             }
             
-            func postprocess(_ xCoords: [CGFloat]) -> [CGRect] {
+            func postprocess(_ xCoords: [CGFloat]) -> [CGFloat] {
                 var processed = xCoords
                 for (idx, (frame1, frame2)) in xCoords.adjacentPairs().enumerated().reversed() {
                     if frame1 == frame2 { // swiftlint:disable:this for_where
@@ -80,7 +80,7 @@ extension ViewsTests {
             }
             
             let runs = try xCoords
-                .reduce(into: [[CGRect]]()) { runs, frame in
+                .reduce(into: [[CGFloat]]()) { runs, frame in
                     if var run = runs.last {
                         precondition(!run.isEmpty)
                         if run.count >= 2 {
@@ -100,7 +100,7 @@ extension ViewsTests {
                         runs = [[frame]]
                     }
                 }
-                .map { run -> (direction: Direction, run: [CGRect]) in
+                .map { run -> (direction: Direction, run: [CGFloat]) in
                     (Direction(run[0], run[1]), run)
                 }
             
