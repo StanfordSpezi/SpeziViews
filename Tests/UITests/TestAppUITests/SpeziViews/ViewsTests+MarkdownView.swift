@@ -60,8 +60,8 @@ extension ViewsTests {
             
             func postprocess(_ xCoords: [CGFloat]) -> [CGFloat] {
                 var processed = xCoords
-                for (idx, (frame1, frame2)) in xCoords.adjacentPairs().enumerated().reversed() {
-                    if frame1 == frame2 { // swiftlint:disable:this for_where
+                for (idx, (xPos1, xPos2)) in xCoords.adjacentPairs().enumerated().reversed() {
+                    if xPos1 == xPos2 { // swiftlint:disable:this for_where
                         processed.remove(at: idx)
                     }
                 }
@@ -80,24 +80,24 @@ extension ViewsTests {
             }
             
             let runs = try xCoords
-                .reduce(into: [[CGFloat]]()) { runs, frame in
+                .reduce(into: [[CGFloat]]()) { runs, xPos in
                     if var run = runs.last {
                         precondition(!run.isEmpty)
                         if run.count >= 2 {
                             let segDirection = Direction(run[run.endIndex - 2], try XCTUnwrap(run.last))
-                            let newDirection = Direction(try XCTUnwrap(run.last), frame)
+                            let newDirection = Direction(try XCTUnwrap(run.last), xPos)
                             if newDirection == segDirection {
-                                run.append(frame)
+                                run.append(xPos)
                                 runs[runs.endIndex - 1] = run
                             } else {
-                                runs.append([frame])
+                                runs.append([xPos])
                             }
                         } else {
-                            run.append(frame)
+                            run.append(xPos)
                             runs[runs.endIndex - 1] = run
                         }
                     } else {
-                        runs = [[frame]]
+                        runs = [[xPos]]
                     }
                 }
                 .map { run -> (direction: Direction, run: [CGFloat]) in
