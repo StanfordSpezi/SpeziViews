@@ -135,50 +135,6 @@
         }
       }
     },
-    "MARKDOWN_LOADING_ERROR_FAILURE_REASON" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Inhalt des Dokuments konnte nicht verarbeitet werden. Grund dessen ist ein invaliden Markdown Text."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The system wasn't able to parse the given markdown text, indicating an invalid markdown text."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systemet kunde inte tolka den angivna markdown-texten, vilket tyder på en ogiltig markdown-text."
-          }
-        }
-      }
-    },
-    "MARKDOWN_LOADING_ERROR_RECOVERY_SUGGESTION" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bitte prüfen Sie den Inhalt des Markdown Dokuments."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please check the content of the markdown text."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrollera innehållet i markdown-texten."
-          }
-        }
-      }
-    },
     "None" : {
       "localizations" : {
         "sv" : {

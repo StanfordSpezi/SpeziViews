@@ -13,15 +13,30 @@ import XCTestExtensions
 
 extension ViewsTests {
     @MainActor
-    func testMarkdownView() async throws { // swiftlint:disable:this function_body_length
+    func testSimpleMarkdownView() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        app.open(target: "SpeziViews")
+
+        XCTAssert(app.buttons["Markdown View (Simple)"].waitForExistence(timeout: 2))
+        app.buttons["Markdown View (Simple)"].tap()
+        
+        XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["This is a markdown example taking 2 seconds to load."].waitForExistence(timeout: 5))
+    }
+    
+    
+    @MainActor
+    func testAdvancedMarkdownView() async throws { // swiftlint:disable:this function_body_length
         let app = XCUIApplication()
         app.launch()
         app.open(target: "SpeziViews")
         
         app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
 
-        XCTAssert(app.buttons["Markdown Document View"].waitForExistence(timeout: 2))
-        app.buttons["Markdown Document View"].tap()
+        XCTAssert(app.buttons["Markdown View (Advanced)"].waitForExistence(timeout: 2))
+        app.buttons["Markdown View (Advanced)"].tap()
         
         XCTAssert(app.navigationBars.staticTexts["Welcome to the Spezi Ecosystem"].waitForExistence(timeout: 2))
         XCTAssert(app.navigationBars.staticTexts["Jun 22, 2025 at 05:41"].waitForExistence(timeout: 2))

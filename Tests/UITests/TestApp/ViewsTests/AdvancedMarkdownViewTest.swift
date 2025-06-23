@@ -13,7 +13,7 @@ import SpeziViews
 import SwiftUI
 
 
-struct MarkdownViewTest: View {
+struct AdvancedMarkdownViewTest: View {
     private let document = try! MarkdownDocument( // swiftlint:disable:this force_try
         processing: """
             ---

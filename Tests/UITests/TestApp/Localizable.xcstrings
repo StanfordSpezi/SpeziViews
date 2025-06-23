@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "%@" : {
 
     },
@@ -114,6 +117,9 @@
 
     },
     "First Name" : {
+
+    },
+    "Flip Layout Direction" : {
 
     },
     "Go to Step 7 (A)" : {
@@ -320,6 +326,9 @@
 
     },
     "Targets" : {
+
+    },
+    "Text Alignment" : {
 
     },
     "This field must be selected." : {

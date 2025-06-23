@@ -164,20 +164,6 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["And a third line ..."].exists)
         XCTAssert(app.staticTexts["An other lazy text ..."].exists)
     }
-    
-    @MainActor
-    func testMarkdownView() throws {
-        let app = XCUIApplication()
-        app.launch()
-
-        app.open(target: "SpeziViews")
-
-        XCTAssert(app.buttons["Markdown View"].waitForExistence(timeout: 2))
-        app.buttons["Markdown View"].tap()
-        
-        XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
-        XCTAssert(app.staticTexts["This is a markdown example taking 2 seconds to load."].waitForExistence(timeout: 5))
-    }
 
     @MainActor
     func testButtonsView() throws {
