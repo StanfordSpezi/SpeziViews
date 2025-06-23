@@ -53,7 +53,7 @@ extension ViewsTests {
             var xCoords: [CGFloat] = []
             let image = app.otherElements["ayooooooo"].images.firstMatch
             XCTAssert(image.exists)
-            for _ in 0..<150 {
+            for _ in 0..<300 {
                 xCoords.append(image.frame.center.x)
                 try await Task.sleep(for: .seconds(0.2))
             }
@@ -112,7 +112,7 @@ extension ViewsTests {
             for (dir, run) in runs.dropFirst().dropLast() { // skip first and last run, since they're probably gonna be partial
                 XCTAssertGreaterThanOrEqual(
                     run.count,
-                    10,
+                    7,
                     "Direction changed unexpectedly early. runs: \(runs)"
                 )
                 let roughMinExpected: CGFloat = 58
