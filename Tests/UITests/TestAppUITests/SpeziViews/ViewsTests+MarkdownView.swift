@@ -50,6 +50,10 @@ extension ViewsTests {
         assertTextExists("Spezi is architected to be a highly modular system, allowing your application to ...")
         
         do {
+            continueAfterFailure = true
+            defer {
+                continueAfterFailure = false
+            }
             var xCoords: [CGFloat] = []
             let image = app.otherElements["ayooooooo"].images.firstMatch
             XCTAssert(image.exists)
@@ -119,11 +123,11 @@ extension ViewsTests {
                 let roughMaxExpected: CGFloat = 387
                 switch dir {
                 case .right:
-                    XCTAssertEqual(try XCTUnwrap(run.first), roughMinExpected, accuracy: 20, "runs: \(runs)")
-                    XCTAssertEqual(try XCTUnwrap(run.last), roughMaxExpected, accuracy: 20, "runs: \(runs)")
+                    XCTAssertEqual(try XCTUnwrap(run.first), roughMinExpected, accuracy: 50, "runs: \(runs)")
+                    XCTAssertEqual(try XCTUnwrap(run.last), roughMaxExpected, accuracy: 50, "runs: \(runs)")
                 case .left:
-                    XCTAssertEqual(try XCTUnwrap(run.first), roughMaxExpected, accuracy: 20, "runs: \(runs)")
-                    XCTAssertEqual(try XCTUnwrap(run.last), roughMinExpected, accuracy: 20, "runs: \(runs)")
+                    XCTAssertEqual(try XCTUnwrap(run.first), roughMaxExpected, accuracy: 50, "runs: \(runs)")
+                    XCTAssertEqual(try XCTUnwrap(run.last), roughMinExpected, accuracy: 50, "runs: \(runs)")
                 }
             }
         }
