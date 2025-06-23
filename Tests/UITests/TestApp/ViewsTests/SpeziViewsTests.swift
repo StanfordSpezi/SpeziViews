@@ -74,7 +74,7 @@ enum SpeziViewsTests: String, TestAppTests {
     @ViewBuilder
     @MainActor
     private var markdownView: some View {
-        MarkdownViewTestView()
+        LegacyMarkdownViewTestView()
     }
     
     @ViewBuilder
@@ -185,7 +185,7 @@ enum SpeziViewsTests: String, TestAppTests {
         case .shareSheet:
             ShareSheetTests()
         case .markdownDocumentView:
-            MarkdownDocumentViewTest()
+            MarkdownViewTest()
         }
     }
 }

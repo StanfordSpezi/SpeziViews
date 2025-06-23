@@ -1,125 +1,126 @@
 //
 // This source file is part of the Stanford Spezi open-source project
 //
-// SPDX-FileCopyrightText: 2022 Stanford University and the project authors (see CONTRIBUTORS.md)
+// SPDX-FileCopyrightText: 2025 Stanford University and the project authors (see CONTRIBUTORS.md)
 //
 // SPDX-License-Identifier: MIT
 //
 
+import MarkdownUI
+import SpeziFoundation
 import SwiftUI
 
 
-/// A ``MarkdownView`` allows the display of a markdown file including the addition of a header and footer view.
+/// Displays a Markdown document, with optional support for dynamic and interactive content.
 ///
-/// ```swift
-/// @State var viewState: ViewState = .idle
+/// You use this view to display [`MarkdownDocument`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/documentation/spezifoundation/markdowndocument).
 ///
-/// MarkdownView(
-///     asyncMarkdown: {
-///         // Load your markdown file from a remote source or disk storage ...
-///         try? await Task.sleep(for: .seconds(5))
-///         return Data("This is a *markdown* **example** taking 5 seconds to load.".utf8)
-///     },
-///     state: $viewState
-/// )
-/// ```
-public struct MarkdownView: View {
-    public enum Error: LocalizedError {
-        case markdownLoadingError
+/// - Note: The `MarkdownView` intentionally does not wrap its contents in a `ScrollView`.
+///     Instead, the parent view should ensure that a `MarkdownView` is always placed within a `ScrollView`.
+///
+/// ## Topics
+///
+/// ### Initializers
+/// - ``init(markdownDocument:dividerRule:)``
+/// - ``init(markdownDocument:dividerRule:customElementViewProvider:)``
+/// - ``DividerRule``
+public struct MarkdownView<CustomElementView: View>: View {
+    /// Allows injecting views representing custom elements into the ``MarkdownView``
+    public typealias CustomElementViewProvider = @MainActor (
+        _ blockIdx: Int,
+        _ element: MarkdownDocument.CustomElement
+    ) -> CustomElementView
+    
+    /// Defines when the ``MarkdownView`` places `Divider`s between its sections.
+    public struct DividerRule {
+        public typealias Predicate = @MainActor (_ blockIdx: Int, _ block: borrowing MarkdownDocument.Block) -> Bool
         
-        
-        public var errorDescription: String? {
-            LocalizedStringResource("MARKDOWN_LOADING_ERROR", bundle: .atURL(from: .module)).localizedString()
+        /// The `MarkdownView` should never place any dividers
+        @inlinable public static var never: Self {
+            .init { _, _ in false }
         }
         
-        public var recoverySuggestion: String? {
-            LocalizedStringResource("MARKDOWN_LOADING_ERROR_RECOVERY_SUGGESTION", bundle: .atURL(from: .module)).localizedString()
+        /// The `MarkdownView` should always place dividers
+        @inlinable public static var always: Self {
+            .init { _, _ in true }
         }
-
-        public var failureReason: String? {
-            LocalizedStringResource("MARKDOWN_LOADING_ERROR_FAILURE_REASON", bundle: .atURL(from: .module)).localizedString()
+        
+        /// Creates a `DividerRule` that uses a custom, dynamic condition.
+        ///
+        /// - parameter shouldInsertDividerAfter: A predicate that returns `true` if a divider should be placed after the block at `blockIdx`.
+        @inlinable
+        public static func custom(_ shouldInsertDividerAfter: @escaping Predicate) -> Self { // swiftlint:disable:this type_contents_order
+            .init(shouldInsertDividerAfter: shouldInsertDividerAfter)
+        }
+        
+        fileprivate let shouldInsertDividerAfter: Predicate
+        
+        @usableFromInline
+        init(shouldInsertDividerAfter: @escaping Predicate) {
+            self.shouldInsertDividerAfter = shouldInsertDividerAfter
         }
     }
     
     
-    private let asyncMarkdown: () async -> Data
-    
-    @State private var markdownString: AttributedString?
-    @Binding private var state: ViewState
-    
+    private let markdownDocument: MarkdownDocument
+    private let dividerRule: DividerRule
+    private let customElementViewProvider: @MainActor (_ blockIdx: Int, _ element: MarkdownDocument.CustomElement) -> CustomElementView
     
     public var body: some View {
-        VStack {
-            if let markdownString {
-                Text(markdownString)
-            } else {
-                ProgressView()
-                    .padding()
+        let blocks = markdownDocument.blocks
+        VStack(spacing: 12) {
+            ForEach(Array(blocks.indices), id: \.self) { blockIdx in
+                let block = blocks[blockIdx]
+                view(for: block, at: blockIdx)
+                    .id(block.id)
+                let isLast = blockIdx >= blocks.endIndex - 1
+                if !isLast && dividerRule.shouldInsertDividerAfter(blockIdx, block) {
+                    Divider()
+                }
             }
         }
-            .task {
-                markdownString = parse(
-                    markdown: await asyncMarkdown()
-                )
-            }
     }
     
+//    /// Creates a new MarkdownView
+//    ///
+//    /// - parameter markdownDocument: The [`MarkdownDocument`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/documentation/spezifoundation/markdowndocument) the view should display
+//    /// - parameter dividerRule: Defines when the view should place a `Divider` between two sections
+//    public init(
+//        markdownDocument: MarkdownDocument,
+//        dividerRule: DividerRule = .never
+//    ) where CustomElementView == EmptyView {
+//        self.init(markdownDocument: markdownDocument, dividerRule: dividerRule) { _, _ in
+//            EmptyView()
+//        }
+//    }
     
-    /// Creates a ``MarkdownView`` that displays the content of a markdown file as an utf8 representation that is loaded asynchronously.
-    /// - Parameters:
-    ///   - asyncMarkdown: An async closure to load the markdown in an utf8 representation.
-    ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
-    public init(
-        asyncMarkdown: @escaping () async -> Data,
-        state: Binding<ViewState> = .constant(.idle)
-    ) {
-        self.asyncMarkdown = asyncMarkdown
-        self._state = state
-    }
-    
-    /// Creates a ``MarkdownView`` that displays the content of a markdown file
-    /// - Parameters:
-    ///   - markdown: A `Data` instance containing the markdown file in an utf8 representation.
-    ///   - state: A `Binding` to observe the ``ViewState`` of the ``MarkdownView``.
-    public init(
-        markdown: Data,
-        state: Binding<ViewState> = .constant(.idle)
-    ) {
-        self.init(
-            asyncMarkdown: { markdown },
-            state: state
-        )
-    }
-    
-    
-    /// Parses the incoming markdown and handles the view's error state management.
-    /// - Parameters:
-    ///   - markdown: A `Data` instance containing the markdown file in an utf8 representation.
+    /// Creates a new MarkdownView
     ///
-    /// - Returns: Parsed Markdown as an `AttributedString`
-    @MainActor private func parse(markdown: Data) -> AttributedString {
-        state = .processing
-        
-        guard let markdownString = try? AttributedString(
-                markdown: markdown,
-                options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
-              ) else {
-            state = .error(Error.markdownLoadingError)
-            return AttributedString(
-                String(localized: "MARKDOWN_LOADING_ERROR", bundle: .module)
-            )
+    /// - parameter markdownDocument: The [`MarkdownDocument`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/documentation/spezifoundation/markdowndocument) the view should display
+    /// - parameter dividerRule: Defines when the view should place a `Divider` between two sections
+    /// - parameter customElementViewProvider: A `ViewBuilder` closure that provides backing views for custom elements in the Markdown which cannot be handled by the ``MarkdownView`` itself.
+    public init(
+        markdownDocument: MarkdownDocument,
+        dividerRule: DividerRule = .never,
+        @ViewBuilder customElementViewProvider: @escaping CustomElementViewProvider = { _, _ in EmptyView() }
+    ) {
+        self.markdownDocument = markdownDocument
+        self.dividerRule = dividerRule
+        self.customElementViewProvider = customElementViewProvider
+    }
+    
+    
+    @ViewBuilder
+    private func view(for block: MarkdownDocument.Block, at idx: Int) -> some View {
+        switch block {
+        case .markdown(id: _, let content):
+            HStack {
+                Markdown(content)
+                Spacer()
+                // we can't seem to get the `Markdown` view to make itself as wide as possible, so this is the next best option :/
+            }
+        case .customElement(let element):
+            customElementViewProvider(idx, element)
         }
-        
-        state = .idle
-        return markdownString
     }
 }
-
-
-#if DEBUG
-struct PrivacyPolicyView_Previews: PreviewProvider {
-    static var previews: some View {
-        MarkdownView(markdown: Data("This is a *markdown* **example**!".utf8))
-    }
-}
-#endif

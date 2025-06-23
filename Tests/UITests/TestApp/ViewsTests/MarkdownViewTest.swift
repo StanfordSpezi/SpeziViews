@@ -13,7 +13,7 @@ import SpeziViews
 import SwiftUI
 
 
-struct MarkdownDocumentViewTest: View {
+struct MarkdownViewTest: View {
     private let document = try! MarkdownDocument( // swiftlint:disable:this force_try
         processing: """
             ---
@@ -37,7 +37,7 @@ struct MarkdownDocumentViewTest: View {
     
     var body: some View {
         ScrollView {
-            MarkdownDocumentView(
+            MarkdownView(
                 markdownDocument: document,
                 dividerRule: .custom { blockIdx, block in
                     block.isCustomElement || (block.isMarkdown && document.blocks[safe: blockIdx + 1]?.isMarkdown == false)

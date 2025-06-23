@@ -10,17 +10,17 @@ import SpeziViews
 import SwiftUI
 
 
-struct MarkdownViewTestView: View {
+struct LegacyMarkdownViewTestView: View {
     @State var viewState: ViewState = .idle
     
     var body: some View {
-        MarkdownView(
+        LegacyMarkdownView(
             asyncMarkdown: {
                 try? await Task.sleep(for: .seconds(2))
                 return Data("This is a *markdown* **example** taking 2 seconds to load.".utf8)
             }
         )
-        MarkdownView(
+        LegacyMarkdownView(
             markdown: Data("This is a *markdown* **example**.".utf8)
         )
     }
@@ -28,9 +28,7 @@ struct MarkdownViewTestView: View {
 
 
 #if DEBUG
-struct MarkdownViewTestView_Previews: PreviewProvider {
-    static var previews: some View {
-        MarkdownViewTestView()
-    }
+#Preview {
+    LegacyMarkdownViewTestView()
 }
 #endif

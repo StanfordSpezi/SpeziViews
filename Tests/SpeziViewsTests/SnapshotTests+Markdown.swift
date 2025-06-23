@@ -47,9 +47,9 @@ final class PadSnapshotTests: XCTestCase {
 #endif
     }
 
-    func testMarkdownView() async {
+    func testLegacyMarkdownView() async {
 #if os(iOS)
-        let markdownView = MarkdownView(markdown: Data("*Clean* Coding".utf8))
+        let markdownView = LegacyMarkdownView(markdown: Data("*Clean* Coding".utf8))
 
         let host = UIHostingController(rootView: markdownView)
         let window = UIWindow(frame: UIScreen.main.bounds)

@@ -13,7 +13,7 @@ import XCTestExtensions
 
 extension ViewsTests {
     @MainActor
-    func testMarkdownDocumentView() async throws { // swiftlint:disable:this function_body_length
+    func testMarkdownView() async throws { // swiftlint:disable:this function_body_length
         let app = XCUIApplication()
         app.launch()
         app.open(target: "SpeziViews")
