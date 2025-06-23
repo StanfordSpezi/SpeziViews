@@ -30,7 +30,9 @@ private struct _CanvasView: UIViewRepresentable {
         }
         
         func canvasViewDrawingDidChange(_ pkCanvasView: PKCanvasView) {
-            canvasView.drawing = pkCanvasView.drawing
+            Task { @MainActor in
+                canvasView.drawing = pkCanvasView.drawing
+            }
         }
     }
     
