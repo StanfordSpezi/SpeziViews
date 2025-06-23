@@ -8,6 +8,7 @@
 
 // swiftlint:disable file_types_order
 
+import Foundation
 import SpeziFoundation
 import SpeziViews
 import SwiftUI
