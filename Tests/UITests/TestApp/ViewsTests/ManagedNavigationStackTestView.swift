@@ -37,6 +37,7 @@ private struct Step3: View {
         Step {
             Text("Step 3")
             Toggle("Skip Next", isOn: $skipNext)
+                .accessibilityIdentifier("skipNextStepToggle")
         }
     }
 }
