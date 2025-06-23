@@ -19,3 +19,8 @@ jobs:
   swiftlint:
     name: SwiftLint
     uses: StanfordSpezi/.github/.github/workflows/swiftlint.yml@v2
+  breaking_changes:
+    name: Diagnose Breaking Changes
+    uses: StanfordSpezi/.github/.github/workflows/breaking-changes.yml@v2
+    with:
+      runsonlabels: '["macOS", "self-hosted"]'
