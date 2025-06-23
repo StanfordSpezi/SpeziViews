@@ -671,8 +671,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/StanfordSpezi/SpeziFoundation.git";
 			requirement = {
-				kind = revision;
-				revision = 9cdf95c064738a77354ad2e2067927456bc30543;
+				branch = lukas/changes;
+				kind = branch;
 			};
 		};
 		977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */ = {
