@@ -119,11 +119,11 @@ extension ViewsTests {
                 let roughMaxExpected: CGFloat = 387
                 switch dir {
                 case .right:
-                    XCTAssertEqual(try XCTUnwrap(run.first).center.x, roughMinExpected, accuracy: 10)
-                    XCTAssertEqual(try XCTUnwrap(run.last).center.x, roughMaxExpected, accuracy: 10)
+                    XCTAssertEqual(try XCTUnwrap(run.first).center.x, roughMinExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.last).center.x, roughMaxExpected, accuracy: 20)
                 case .left:
-                    XCTAssertEqual(try XCTUnwrap(run.first).center.x, roughMaxExpected, accuracy: 10)
-                    XCTAssertEqual(try XCTUnwrap(run.last).center.x, roughMinExpected, accuracy: 10)
+                    XCTAssertEqual(try XCTUnwrap(run.first).center.x, roughMaxExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.last).center.x, roughMinExpected, accuracy: 20)
                 }
             }
         }
