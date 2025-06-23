@@ -32,14 +32,12 @@ extension ViewsTests {
         let app = XCUIApplication()
         app.launch()
         app.open(target: "SpeziViews")
-        
-        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
 
         XCTAssert(app.buttons["Markdown View (Advanced)"].waitForExistence(timeout: 2))
         app.buttons["Markdown View (Advanced)"].tap()
         
         XCTAssert(app.navigationBars.staticTexts["Welcome to the Spezi Ecosystem"].waitForExistence(timeout: 2))
-        XCTAssert(app.navigationBars.staticTexts["Jun 22, 2025 at 05:41 AM"].waitForExistence(timeout: 2))
+        XCTAssert(app.navigationBars.staticTexts["Jun 22, 2025 at 5:41 AM"].waitForExistence(timeout: 2))
         
         func assertTextExists(_ text: String, line: UInt = #line) {
             XCTAssert(app.staticTexts[text].waitForExistence(timeout: 1), line: line)
@@ -57,7 +55,7 @@ extension ViewsTests {
             XCTAssert(image.exists)
             for _ in 0..<150 {
                 frames.append(image.frame)
-                try await Task.sleep(for: .seconds(0.1))
+                try await Task.sleep(for: .seconds(0.2))
             }
             
             func postprocess(_ frames: [CGRect]) -> [CGRect] {

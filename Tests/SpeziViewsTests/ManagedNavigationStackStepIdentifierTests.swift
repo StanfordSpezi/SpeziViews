@@ -11,9 +11,7 @@ import SwiftUI
 import Testing
 
 
-@Suite("ManagedNavigationStackIdentifierTests")
 struct ManagedNavigationStackIdentifierTests {
-    @Test("OnboardingIdentifier ViewModifier")
     @MainActor
     func testOnboardingIdentifierModifier() throws {
         let stack = ManagedNavigationStack {

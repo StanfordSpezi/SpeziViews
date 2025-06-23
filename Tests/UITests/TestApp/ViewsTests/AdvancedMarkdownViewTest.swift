@@ -73,6 +73,7 @@ struct AdvancedMarkdownViewTest: View {
                             Text(date, format: .dateTime.year().month().day().hour(.defaultDigits(amPM: .abbreviated)).minute())
                                 .font(.subheadline)
                                 .environment(\.timeZone, .losAngeles)
+                                .environment(\.locale, Locale(identifier: "en_US"))
                         }
                     }
                 }
