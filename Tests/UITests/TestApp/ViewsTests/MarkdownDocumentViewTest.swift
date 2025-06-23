@@ -24,33 +24,58 @@ struct MarkdownDocumentViewTest: View {
             # Welcome to the Spezi Ecosystem
             This article aims to provide you with a broad overview of Spezi.
             
-            <marquee />
+            <marquee filename="PM5544.png" period=4 />
             
             ## Our Modules
             Spezi is architected to be a highly modular system, allowing your application to ...
+            
+            ### SpeziHealthKit
+            text text text
             """,
         customElementNames: ["marquee"]
     )
     
     var body: some View {
         ScrollView {
-            MarkdownDocumentView(markdownDocument: document, dividerRule: .always) { _, element in
+            MarkdownDocumentView(
+                markdownDocument: document,
+                dividerRule: .custom { blockIdx, block in
+                    block.isCustomElement || (block.isMarkdown && document.blocks[safe: blockIdx + 1]?.isMarkdown == false)
+                }
+            ) { _, element in
                 switch element.name {
                 case "marquee":
-                    Marquee {
-                        let image = UIImage(named: "lukas_smol.png")! // swiftlint:disable:this force_unwrapping object_literal
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: image.size.width * (52 / image.size.height), height: 52)
+                    if let image = element[attribute: "filename"].flatMap(UIImage.init(named:)),
+                       let period = element[attribute: "period"].flatMap(TimeInterval.init) {
+                        Marquee(period: period) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: image.size.width * (52 / image.size.height), height: 52)
+                        }
+                        .accessibilityElement()
+                        .accessibilityIdentifier("ayooooooo")
                     }
-                    .accessibilityElement()
-                    .accessibilityIdentifier("ayooooooo")
                 default:
                     EmptyView()
                 }
             }
             .padding(.horizontal)
+        }
+        .toolbar {
+            if let title = document.metadata.title {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Text(title)
+                            .font(.headline)
+                        if let date = document.metadata["date"].flatMap({ try? Date($0, strategy: .iso8601) }) {
+                            Text(date, format: .dateTime.year().month().day().hour(.defaultDigits(amPM: .narrow)).minute())
+                                .font(.subheadline)
+                                .environment(\.timeZone, .losAngeles)
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -58,9 +83,9 @@ struct MarkdownDocumentViewTest: View {
 
 private struct Marquee<Content: View>: View {
     /// how many seconds a full left-right movement corresponds to
-    private static var period: TimeInterval { 5 }
-    
+    let period: TimeInterval
     @ViewBuilder let content: @MainActor () -> Content
+    
     @State private var overallWidth: CGFloat = 440
     @State private var contentSize: CGSize = .zero
     @State private var contentSizeChanges = AsyncStream.makeStream(of: CGSize.self)
@@ -98,7 +123,7 @@ private struct Marquee<Content: View>: View {
     }
     
     private func xOffset(for progress: CGFloat) -> CGFloat {
-        let distance = sin((progress / Self.period) * .pi)
+        let distance = sin((progress / period) * .pi)
         let validRange = overallWidth - contentSize.width
         let offset = (validRange / 2) + ((validRange / 2) * distance)
         return offset
@@ -111,6 +136,23 @@ extension Marquee {
         
         static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
             value = nextValue()
+        }
+    }
+}
+
+
+extension MarkdownDocument.Block {
+    var isMarkdown: Bool {
+        switch self {
+        case .markdown: true
+        case .customElement: false
+        }
+    }
+    
+    var isCustomElement: Bool {
+        switch self {
+        case .markdown: false
+        case .customElement: true
         }
     }
 }

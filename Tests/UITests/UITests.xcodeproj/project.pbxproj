@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
+		806BE7A02E0934D00066C827 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 806BE79F2E0934D00066C827 /* Algorithms */; };
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */ = {isa = PBXBuildFile; productRef = A963ACAF2AF4692500D745F2 /* SpeziValidation */; };
@@ -62,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				806BE7A02E0934D00066C827 /* Algorithms in Frameworks */,
 				A9F9C4692AF2B9DD001122DD /* XCTestExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +148,7 @@
 			name = TestAppUITests;
 			packageProductDependencies = (
 				977CF55D2AD2B92C006D9B54 /* XCTestExtensions */,
+				806BE79F2E0934D00066C827 /* Algorithms */,
 			);
 			productName = ExampleUITests;
 			productReference = 2F6D13AC28F5F386007C25D6 /* TestAppUITests.xctest */;
@@ -182,6 +185,7 @@
 			packageReferences = (
 				977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */,
 				A9BA82B22C29FF7C00472FF3 /* XCRemoteSwiftPackageReference "Spezi" */,
+				806BE79E2E0934D00066C827 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2F6D139328F5F384007C25D6 /* Products */;
@@ -651,6 +655,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		806BE79E2E0934D00066C827 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
 		977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/StanfordBDHG/XCTestExtensions";
@@ -673,6 +685,11 @@
 		2FA9486E29DE91A30081C086 /* SpeziViews */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SpeziViews;
+		};
+		806BE79F2E0934D00066C827 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 806BE79E2E0934D00066C827 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
 		};
 		977CF55B2AD2B92C006D9B54 /* XCTestApp */ = {
 			isa = XCSwiftPackageProductDependency;
