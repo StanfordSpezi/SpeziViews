@@ -50,42 +50,42 @@ extension ViewsTests {
         assertTextExists("Spezi is architected to be a highly modular system, allowing your application to ...")
         
         do {
-            var frames: [CGRect] = []
+            var xCoords: [CGFloat] = []
             let image = app.otherElements["ayooooooo"].images.firstMatch
             XCTAssert(image.exists)
             for _ in 0..<150 {
-                frames.append(image.frame)
+                xCoords.append(image.frame.center.x)
                 try await Task.sleep(for: .seconds(0.2))
             }
             
-            func postprocess(_ frames: [CGRect]) -> [CGRect] {
-                var processed = frames
-                for (idx, (frame1, frame2)) in frames.adjacentPairs().enumerated().reversed() {
+            func postprocess(_ xCoords: [CGFloat]) -> [CGRect] {
+                var processed = xCoords
+                for (idx, (frame1, frame2)) in xCoords.adjacentPairs().enumerated().reversed() {
                     if frame1 == frame2 { // swiftlint:disable:this for_where
                         processed.remove(at: idx)
                     }
                 }
-                return processed == frames ? processed : postprocess(processed)
+                return processed == xCoords ? processed : postprocess(processed)
             }
             
-            frames = postprocess(frames)
+            xCoords = postprocess(xCoords)
         
             enum Direction {
                 case left, right
                 
-                init(_ point1: CGPoint, _ point2: CGPoint) {
-                    XCTAssert(point1.x < point2.x || point1.x > point2.x, "\(point1.x) vs \(point2.x)")
-                    self = point1.x < point2.x ? .right : .left
+                init(_ x1: CGFloat, _ x2: CGFloat) { // swiftlint:disable:this identifier_name
+                    XCTAssert(x1 < x2 || x1 > x2, "\(x1) vs \(x2)")
+                    self = x1 < x2 ? .right : .left
                 }
             }
             
-            let runs = try frames
+            let runs = try xCoords
                 .reduce(into: [[CGRect]]()) { runs, frame in
                     if var run = runs.last {
                         precondition(!run.isEmpty)
                         if run.count >= 2 {
-                            let segDirection = Direction(run[run.endIndex - 2].center, try XCTUnwrap(run.last).center)
-                            let newDirection = Direction(try XCTUnwrap(run.last).center, frame.center)
+                            let segDirection = Direction(run[run.endIndex - 2], try XCTUnwrap(run.last))
+                            let newDirection = Direction(try XCTUnwrap(run.last), frame)
                             if newDirection == segDirection {
                                 run.append(frame)
                                 runs[runs.endIndex - 1] = run
@@ -101,7 +101,7 @@ extension ViewsTests {
                     }
                 }
                 .map { run -> (direction: Direction, run: [CGRect]) in
-                    (Direction(run[0].center, run[1].center), run)
+                    (Direction(run[0], run[1]), run)
                 }
             
             XCTAssert(
@@ -119,11 +119,11 @@ extension ViewsTests {
                 let roughMaxExpected: CGFloat = 387
                 switch dir {
                 case .right:
-                    XCTAssertEqual(try XCTUnwrap(run.first).center.x, roughMinExpected, accuracy: 20)
-                    XCTAssertEqual(try XCTUnwrap(run.last).center.x, roughMaxExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.first), roughMinExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.last), roughMaxExpected, accuracy: 20)
                 case .left:
-                    XCTAssertEqual(try XCTUnwrap(run.first).center.x, roughMaxExpected, accuracy: 20)
-                    XCTAssertEqual(try XCTUnwrap(run.last).center.x, roughMinExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.first), roughMaxExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.last), roughMinExpected, accuracy: 20)
                 }
             }
         }
