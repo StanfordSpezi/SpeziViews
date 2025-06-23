@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
 		806BE7A02E0934D00066C827 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 806BE79F2E0934D00066C827 /* Algorithms */; };
+		80FEAACA2E096713006100DE /* SpeziFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 80FEAAC92E096713006100DE /* SpeziFoundation */; };
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
 		A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */ = {isa = PBXBuildFile; productRef = A95B6E642AF4298500919504 /* SpeziPersonalInfo */; };
 		A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */ = {isa = PBXBuildFile; productRef = A963ACAF2AF4692500D745F2 /* SpeziValidation */; };
@@ -54,6 +55,7 @@
 				2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */,
 				A9BA82B42C29FF7C00472FF3 /* Spezi in Frameworks */,
 				A963ACB02AF4692500D745F2 /* SpeziValidation in Frameworks */,
+				80FEAACA2E096713006100DE /* SpeziFoundation in Frameworks */,
 				977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */,
 				A95B6E652AF4298500919504 /* SpeziPersonalInfo in Frameworks */,
 			);
@@ -124,6 +126,7 @@
 				A95B6E642AF4298500919504 /* SpeziPersonalInfo */,
 				A963ACAF2AF4692500D745F2 /* SpeziValidation */,
 				A9BA82B32C29FF7C00472FF3 /* Spezi */,
+				80FEAAC92E096713006100DE /* SpeziFoundation */,
 			);
 			productName = Example;
 			productReference = 2F6D139228F5F384007C25D6 /* TestApp.app */;
@@ -186,6 +189,7 @@
 				977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */,
 				A9BA82B22C29FF7C00472FF3 /* XCRemoteSwiftPackageReference "Spezi" */,
 				806BE79E2E0934D00066C827 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				80FEAAC82E096713006100DE /* XCRemoteSwiftPackageReference "SpeziFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2F6D139328F5F384007C25D6 /* Products */;
@@ -663,6 +667,14 @@
 				minimumVersion = 1.2.1;
 			};
 		};
+		80FEAAC82E096713006100DE /* XCRemoteSwiftPackageReference "SpeziFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/StanfordSpezi/SpeziFoundation.git";
+			requirement = {
+				branch = lukas/changes;
+				kind = branch;
+			};
+		};
 		977CF55A2AD2B92C006D9B54 /* XCRemoteSwiftPackageReference "XCTestExtensions" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/StanfordBDHG/XCTestExtensions";
@@ -690,6 +702,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 806BE79E2E0934D00066C827 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
+		};
+		80FEAAC92E096713006100DE /* SpeziFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80FEAAC82E096713006100DE /* XCRemoteSwiftPackageReference "SpeziFoundation" */;
+			productName = SpeziFoundation;
 		};
 		977CF55B2AD2B92C006D9B54 /* XCTestApp */ = {
 			isa = XCSwiftPackageProductDependency;

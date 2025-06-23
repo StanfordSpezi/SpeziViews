@@ -96,13 +96,7 @@ struct SpeziViewsTargetsTests: View {
                 .navigationTitle("Targets")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-//                        VStack(alignment: .center) {
-                            Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
-//                                .toggleStyle(.switch)
-//                            Text("Flip Layout Direction")
-//                                .font(.caption2)
-//                            // Flip Layout Direction
-//                        }
+                        Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
                     }
                 }
         }
