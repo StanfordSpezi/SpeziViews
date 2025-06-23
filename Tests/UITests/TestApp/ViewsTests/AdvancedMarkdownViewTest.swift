@@ -25,7 +25,7 @@ struct AdvancedMarkdownViewTest: View {
             # Welcome to the Spezi Ecosystem
             This article aims to provide you with a broad overview of Spezi.
             
-            <marquee filename="PM5544.png" period=10 />
+            <marquee filename="PM5544.png" period=5 />
             
             ## Our Modules
             Spezi is architected to be a highly modular system, allowing your application to ...
