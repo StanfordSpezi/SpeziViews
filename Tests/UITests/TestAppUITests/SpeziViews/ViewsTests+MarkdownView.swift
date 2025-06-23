@@ -39,7 +39,7 @@ extension ViewsTests {
         app.buttons["Markdown View (Advanced)"].tap()
         
         XCTAssert(app.navigationBars.staticTexts["Welcome to the Spezi Ecosystem"].waitForExistence(timeout: 2))
-        XCTAssert(app.navigationBars.staticTexts["Jun 22, 2025 at 05:41"].waitForExistence(timeout: 2))
+        XCTAssert(app.navigationBars.staticTexts["Jun 22, 2025 at 05:41 AM"].waitForExistence(timeout: 2))
         
         func assertTextExists(_ text: String, line: UInt = #line) {
             XCTAssert(app.staticTexts[text].waitForExistence(timeout: 1), line: line)

@@ -70,7 +70,7 @@ struct AdvancedMarkdownViewTest: View {
                         Text(title)
                             .font(.headline)
                         if let date = document.metadata["date"].flatMap({ try? Date($0, strategy: .iso8601) }) {
-                            Text(date, format: .dateTime.year().month().day().hour(.defaultDigits(amPM: .narrow)).minute())
+                            Text(date, format: .dateTime.year().month().day().hour(.defaultDigits(amPM: .abbreviated)).minute())
                                 .font(.subheadline)
                                 .environment(\.timeZone, .losAngeles)
                         }
