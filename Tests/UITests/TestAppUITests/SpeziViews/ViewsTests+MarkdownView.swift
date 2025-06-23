@@ -53,9 +53,9 @@ extension ViewsTests {
             var xCoords: [CGFloat] = []
             let image = app.otherElements["ayooooooo"].images.firstMatch
             XCTAssert(image.exists)
-            for _ in 0..<300 {
+            for _ in 0..<150 {
                 xCoords.append(image.frame.center.x)
-                try await Task.sleep(for: .seconds(0.2))
+                try await Task.sleep(for: .seconds(0.4))
             }
             
             func postprocess(_ xCoords: [CGFloat]) -> [CGFloat] {
@@ -119,11 +119,11 @@ extension ViewsTests {
                 let roughMaxExpected: CGFloat = 387
                 switch dir {
                 case .right:
-                    XCTAssertEqual(try XCTUnwrap(run.first), roughMinExpected, accuracy: 20)
-                    XCTAssertEqual(try XCTUnwrap(run.last), roughMaxExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.first), roughMinExpected, accuracy: 20, "runs: \(runs)")
+                    XCTAssertEqual(try XCTUnwrap(run.last), roughMaxExpected, accuracy: 20, "runs: \(runs)")
                 case .left:
-                    XCTAssertEqual(try XCTUnwrap(run.first), roughMaxExpected, accuracy: 20)
-                    XCTAssertEqual(try XCTUnwrap(run.last), roughMinExpected, accuracy: 20)
+                    XCTAssertEqual(try XCTUnwrap(run.first), roughMaxExpected, accuracy: 20, "runs: \(runs)")
+                    XCTAssertEqual(try XCTUnwrap(run.last), roughMinExpected, accuracy: 20, "runs: \(runs)")
                 }
             }
         }
