@@ -28,7 +28,7 @@ extension ViewsTests {
     
     
     @MainActor
-    func testAdvancedMarkdownView() async throws { // swiftlint:disable:this function_body_length
+    func testAdvancedMarkdownView() async throws {
         let app = XCUIApplication()
         app.launch()
         app.open(target: "SpeziViews")
