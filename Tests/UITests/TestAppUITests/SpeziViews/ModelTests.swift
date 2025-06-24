@@ -23,6 +23,7 @@ final class ModelTests: XCTestCase {
         app.launch()
 
         app.open(target: "SpeziViews")
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 
         XCTAssert(app.buttons["View State"].waitForExistence(timeout: 2))
         app.buttons["View State"].tap()
@@ -48,6 +49,7 @@ final class ModelTests: XCTestCase {
     func testOperationState() throws {
         let app = XCUIApplication()
         app.launch()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 
         app.open(target: "SpeziViews")
 
@@ -82,6 +84,7 @@ final class ModelTests: XCTestCase {
     func testViewStateMapper() throws {
         let app = XCUIApplication()
         app.launch()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 
         app.open(target: "SpeziViews")
 
@@ -120,6 +123,7 @@ final class ModelTests: XCTestCase {
     func testConditionalModifier() throws {
         let app = XCUIApplication()
         app.launch()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 
         app.open(target: "SpeziViews")
 
@@ -156,8 +160,10 @@ final class ModelTests: XCTestCase {
     func testDefaultErrorDescription() throws {
         let app = XCUIApplication()
         app.launch()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 
         app.open(target: "SpeziViews")
+        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
 
         XCTAssert(app.buttons["Default Error Only"].waitForExistence(timeout: 2))
         app.buttons["Default Error Only"].tap()
