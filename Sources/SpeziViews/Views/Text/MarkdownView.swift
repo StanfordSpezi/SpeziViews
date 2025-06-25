@@ -18,11 +18,18 @@ import SwiftUI
 /// - Note: The `MarkdownView` intentionally does not wrap its contents in a `ScrollView`.
 ///     Instead, the parent view should ensure that a `MarkdownView` is always placed within a `ScrollView`.
 ///
+/// The `MarkdownView` applies the SwiftUI's `id(_:)` modifier to all blocks with a nonnil `id`, enabling apps to programmatically navigate to specific sections within the document via a `ScrollViewProxy`.
+///
 /// ## Topics
 ///
 /// ### Initializers
 /// - ``init(markdownDocument:dividerRule:customElementViewProvider:)``
+/// - ``CustomElementViewProvider``
 /// - ``DividerRule``
+///
+/// ### Legacy Initializers
+/// - ``init(markdown:state:)``
+/// - ``init(asyncMarkdown:state:)``
 public struct MarkdownView<CustomElementView: View>: View {
     /// Allows injecting views representing custom elements into the ``MarkdownView``
     public typealias CustomElementViewProvider = @MainActor (
@@ -87,6 +94,7 @@ public struct MarkdownView<CustomElementView: View>: View {
     private let customElementViewProvider: @MainActor (_ blockIdx: Int, _ element: MarkdownDocument.CustomElement) -> CustomElementView
     @State private var loadingState: LoadingState
     
+    @_documentation(visibility: internal)
     public var body: some View {
         Group {
             switch loadingState {
