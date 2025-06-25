@@ -21,7 +21,6 @@ import SwiftUI
 /// ## Topics
 ///
 /// ### Initializers
-/// - ``init(markdownDocument:dividerRule:)``
 /// - ``init(markdownDocument:dividerRule:customElementViewProvider:)``
 /// - ``DividerRule``
 public struct MarkdownView<CustomElementView: View>: View {
@@ -32,31 +31,46 @@ public struct MarkdownView<CustomElementView: View>: View {
     ) -> CustomElementView
     
     /// Defines when the ``MarkdownView`` places `Divider`s between its sections.
+    ///
+    /// When rendering a [`MarkdownDocument`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/documentation/spezifoundation/markdowndocument),
+    /// the ``MarkdownView`` internally turns each of the `MarkdownDocument`'s [`Block`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/2.2.0/documentation/spezifoundation/markdowndocument/block)s into a separate SwiftUI `View`.
+    ///
+    /// In some cases, you might want to have a `Divider` placed between two blocks, e.g. to visually separate interactive elements from the surrounding Markdown.
+    ///
+    /// For example, the following ``DividerRule`` places `Divider`s around custom elements:
+    /// ```swift
+    /// /// Places dividers after all markdown blocks that precede a customElement block, and after all customElement blocks,
+    /// /// thereby ensuring that all customElement blocks are surrounded by Dividers, without there being any duplicates.
+    /// let rule = DividerRule { idx, block -> Bool in
+    ///     let next = document.blocks[idx + 1]
+    ///     return block.isMarkdown && next.isCustomElement || block.isCustomElement
+    /// }
+    /// ```
+    ///
+    /// - Note: This API isn't the only way of placing `Divider`s; for more complex scenarios you could for example also use the ``CustomElementViewProvider``
+    ///     to provide additional Views other than just the main content you wish to have rendered for a custom tag.
     public struct DividerRule {
-        public typealias Predicate = @MainActor (_ blockIdx: Int, _ block: borrowing MarkdownDocument.Block) -> Bool
-        
-        /// The `MarkdownView` should never place any dividers
+        /// The `MarkdownView` will never place any dividers
         @inlinable public static var never: Self {
             .init { _, _ in false }
         }
         
-        /// The `MarkdownView` should always place dividers
+        /// The `MarkdownView` will always place dividers
         @inlinable public static var always: Self {
             .init { _, _ in true }
         }
         
+        @usableFromInline
+        let shouldInsertDividerAfter: @MainActor (_ blockIdx: Int, _ block: borrowing MarkdownDocument.Block) -> Bool
+        
         /// Creates a `DividerRule` that uses a custom, dynamic condition.
         ///
-        /// - parameter shouldInsertDividerAfter: A predicate that returns `true` if a divider should be placed after the block at `blockIdx`.
+        /// - Parameters:
+        ///   - shouldInsertDividerAfter: A predicate that returns `true` if a divider should be placed after the block at `blockIdx`.
+        ///     - blockIdx: the index of the block in question
+        ///     - block: the block in question
         @inlinable
-        public static func custom(_ shouldInsertDividerAfter: @escaping Predicate) -> Self { // swiftlint:disable:this type_contents_order
-            .init(shouldInsertDividerAfter: shouldInsertDividerAfter)
-        }
-        
-        fileprivate let shouldInsertDividerAfter: Predicate
-        
-        @usableFromInline
-        init(shouldInsertDividerAfter: @escaping Predicate) {
+        public init(_ shouldInsertDividerAfter: @escaping @MainActor (_ blockIdx: Int, _ block: borrowing MarkdownDocument.Block) -> Bool) {
             self.shouldInsertDividerAfter = shouldInsertDividerAfter
         }
     }

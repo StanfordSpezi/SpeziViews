@@ -40,7 +40,7 @@ struct AdvancedMarkdownViewTest: View {
         ScrollView {
             MarkdownView(
                 markdownDocument: document,
-                dividerRule: .custom { blockIdx, block in
+                dividerRule: .init { blockIdx, block in
                     block.isCustomElement || (block.isMarkdown && document.blocks[safe: blockIdx + 1]?.isMarkdown == false)
                 }
             ) { _, element in
