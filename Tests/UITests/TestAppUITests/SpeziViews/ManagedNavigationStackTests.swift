@@ -26,6 +26,8 @@ final class ManagedNavigationStackTests: XCTestCase {
             XCTAssertTrue(app.staticTexts[name].waitForExistence(timeout: 1), line: line)
         }
         
+        let skipNextStepSwitch = app.switches["skipNextStepToggle"].firstMatch
+        
         // we start at step 1
         checkIsAtStep("Step 1")
         
@@ -37,7 +39,7 @@ final class ManagedNavigationStackTests: XCTestCase {
         app.buttons["Next Step"].tap()
         checkIsAtStep("Step 3")
         // make sure the "skip next step" toggle ie ON
-        XCTAssertEqual(try XCTUnwrap(app.switches.firstMatch.value as? String), "1")
+        XCTAssertEqual(try XCTUnwrap(skipNextStepSwitch.value as? String), "1")
         
         // go to step 5, skipping step 4
         app.buttons["Next Step"].tap()
@@ -47,12 +49,12 @@ final class ManagedNavigationStackTests: XCTestCase {
         app.navigationBars.buttons["Back"].tap()
         checkIsAtStep("Step 3")
         // check that the "skip next step" toggls is still ON
-        XCTAssertEqual(try XCTUnwrap(app.switches.firstMatch.value as? String), "1")
+        XCTAssertEqual(try XCTUnwrap(skipNextStepSwitch.value as? String), "1")
         // turn the toggle off, so that we no longer skip step 4
         #if os(visionOS)
-        app.switches.firstMatch.tap()
+        skipNextStepSwitch.tap()
         #else
-        app.switches.firstMatch.switches.firstMatch.tap()
+        skipNextStepSwitch.switches.firstMatch.tap()
         #endif
         
         // go to step 4

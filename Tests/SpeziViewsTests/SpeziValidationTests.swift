@@ -7,14 +7,12 @@
 //
 
 import SpeziValidation
-import Testing
+import XCTest
 
 
-@Suite("Validation Engine")
-struct SpeziValidationTests {
+final class SpeziValidationTests: XCTestCase {
     @MainActor
-    @Test("Validation Debounce")
-    func validationDebounce() async throws {
+    func testValidationDebounce() async throws {
         let engine = ValidationEngine(rules: .nonEmpty)
 
         await withDiscardingTaskGroup { group in
@@ -25,20 +23,20 @@ struct SpeziValidationTests {
             try? await Task.sleep(for: .milliseconds(10))
 
             engine.submit(input: "Valid")
-            #expect(engine.inputValid)
-            #expect(engine.validationResults.isEmpty)
+            XCTAssert(engine.inputValid)
+            XCTAssert(engine.validationResults.isEmpty)
 
             engine.submit(input: "", debounce: true)
-            #expect(engine.inputValid)
-            #expect(engine.validationResults.isEmpty)
+            XCTAssert(engine.inputValid)
+            XCTAssert(engine.validationResults.isEmpty)
 
             try? await Task.sleep(for: .seconds(1))
-            #expect(!engine.inputValid)
-            #expect(engine.validationResults.count == 1)
+            XCTAssert(!engine.inputValid)
+            XCTAssertEqual(engine.validationResults.count, 1)
 
             engine.submit(input: "Valid", debounce: true)
-            #expect(engine.inputValid) // valid state is reported instantly
-            #expect(engine.validationResults.isEmpty)
+            XCTAssert(engine.inputValid) // valid state is reported instantly
+            XCTAssert(engine.validationResults.isEmpty)
 
             group.cancelAll()
         }

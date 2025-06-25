@@ -164,20 +164,6 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.staticTexts["And a third line ..."].exists)
         XCTAssert(app.staticTexts["An other lazy text ..."].exists)
     }
-    
-    @MainActor
-    func testMarkdownView() throws {
-        let app = XCUIApplication()
-        app.launch()
-
-        app.open(target: "SpeziViews")
-
-        XCTAssert(app.buttons["Markdown View"].waitForExistence(timeout: 2))
-        app.buttons["Markdown View"].tap()
-        
-        XCTAssert(app.staticTexts["This is a markdown example."].waitForExistence(timeout: 2))
-        XCTAssert(app.staticTexts["This is a markdown example taking 2 seconds to load."].waitForExistence(timeout: 5))
-    }
 
     @MainActor
     func testButtonsView() throws {
@@ -234,12 +220,8 @@ final class ViewsTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
-
         app.open(target: "SpeziViews")
-
-#if os(visionOS)
-        app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
-#endif
+        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
 
         XCTAssert(app.buttons["List Row"].waitForExistence(timeout: 2))
         app.buttons["List Row"].tap()

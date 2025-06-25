@@ -1,11 +1,4 @@
 //
-//  SnapshotTests+Texts.swift
-//  SpeziViews
-//
-//  Created by Max Rosenblattl on 12.05.25.
-//
-
-//
 // This source file is part of the Stanford Spezi open-source project
 //
 // SPDX-FileCopyrightText: 2024 Stanford University and the project authors (see CONTRIBUTORS.md)
@@ -16,11 +9,14 @@
 import SnapshotTesting
 @testable import SpeziViews
 import SwiftUI
-import XCTest
+import Testing
 
+
+@Suite
 @MainActor
-final class PadSnapshotTests: XCTestCase {
-    func testReverseLabelStyle() {
+struct PadSnapshotTests {
+    @Test
+    func reverseLabelStyle() {
         let label = SwiftUI.Label("100 %", image: "battery.100")
             .labelStyle(.reverse)
 
@@ -30,7 +26,8 @@ final class PadSnapshotTests: XCTestCase {
 #endif
     }
 
-    func testListRow() {
+    @Test
+    func listRow() {
         let row = List {
             ListRow("San Francisco") {
                 Text(verbatim: "20 °C, Sunny")
@@ -47,9 +44,13 @@ final class PadSnapshotTests: XCTestCase {
 #endif
     }
 
-    func testMarkdownView() async {
+    @Test
+    func markdownView() async {
 #if os(iOS)
-        let markdownView = MarkdownView(markdown: Data("*Clean* Coding".utf8))
+        let markdownView = MarkdownView(
+            markdown: Data("*Clean* Coding".utf8)
+        )
+            .multilineTextAlignment(.center)
 
         let host = UIHostingController(rootView: markdownView)
         let window = UIWindow(frame: UIScreen.main.bounds)
@@ -66,5 +67,27 @@ final class PadSnapshotTests: XCTestCase {
             named: "iphone-regular"
         )
 #endif
+    }
+    
+    @Test
+    func markdownView2() async throws {
+        #if os(iOS)
+        let view = MarkdownView(markdownDocument: try .init(processing: "*Clean* Coding"))
+        assertSnapshot(
+            of: view.multilineTextAlignment(.leading),
+            as: .image(layout: .device(config: .iPhone13Pro)),
+            named: "leading-iphone-regular"
+        )
+        assertSnapshot(
+            of: view.multilineTextAlignment(.center),
+            as: .image(layout: .device(config: .iPhone13Pro)),
+            named: "center-iphone-regular"
+        )
+        assertSnapshot(
+            of: view.multilineTextAlignment(.trailing),
+            as: .image(layout: .device(config: .iPhone13Pro)),
+            named: "trailing-iphone-regular"
+        )
+        #endif
     }
 }

@@ -11,6 +11,8 @@ import XCTestApp
 
 
 struct SpeziViewsTargetsTests: View {
+    @Environment(\.layoutDirection) private var layoutDirection
+    @State var enableFlippedLayoutDirection = false
     @State var presentingSpeziViews = false
     @State var presentingSpeziPersonalInfo = false
     @State var presentingSpeziValidation = false
@@ -34,6 +36,17 @@ struct SpeziViewsTargetsTests: View {
     }
 #endif
 
+    
+    private var effectiveLayoutDirection: LayoutDirection {
+        guard enableFlippedLayoutDirection else {
+            return layoutDirection
+        }
+        return switch layoutDirection {
+        case .leftToRight: .rightToLeft
+        case .rightToLeft: .leftToRight
+        @unknown default: layoutDirection
+        }
+    }
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -81,9 +94,16 @@ struct SpeziViewsTargetsTests: View {
                 }
             }
                 .navigationTitle("Targets")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
+                    }
+                }
         }
+        .environment(\.layoutDirection, effectiveLayoutDirection)
             .sheet(isPresented: $presentingSpeziViews) {
                 TestAppTestsView<SpeziViewsTests>(showCloseButton: true)
+                    .environment(\.layoutDirection, effectiveLayoutDirection)
 #if os(macOS)
                     .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif

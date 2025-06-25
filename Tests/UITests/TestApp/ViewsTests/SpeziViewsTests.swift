@@ -20,7 +20,8 @@ enum SpeziViewsTests: String, TestAppTests {
     case label = "Label"
     #endif
     case lazyText = "Lazy Text"
-    case markdownView = "Markdown View"
+    case markdownViewSimple = "Markdown View (Simple)"
+    case markdownViewAdvanced = "Markdown View (Advanced)"
     case viewState = "View State"
     case operationState = "Operation State"
     case viewStateMapper = "View State Mapper"
@@ -69,12 +70,6 @@ enum SpeziViewsTests: String, TestAppTests {
             .border(.red)
     }
     #endif
-
-    @ViewBuilder
-    @MainActor
-    private var markdownView: some View {
-        MarkdownViewTestView()
-    }
     
     @ViewBuilder
     @MainActor
@@ -159,8 +154,10 @@ enum SpeziViewsTests: String, TestAppTests {
         #endif
         case .lazyText:
             lazyText
-        case .markdownView:
-            markdownView
+        case .markdownViewSimple:
+            SimpleMarkdownViewTest()
+        case .markdownViewAdvanced:
+            AdvancedMarkdownViewTest()
         case .viewState:
             viewState
         case .operationState:

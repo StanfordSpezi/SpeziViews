@@ -10,6 +10,9 @@ import XCTest
 import XCTestExtensions
 
 
+// NOTE: this intentionally still uses XCTest, rather than Swift Testing.
+// The ValidationTests were implemented as a Swift Testing Suite for a while, and exhibited random test failures on the CI
+// a couple of times. I'm not entirely sure what caused this exactly, but switching it back to XCTest seems to have fixed it.
 final class ValidationTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()

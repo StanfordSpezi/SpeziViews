@@ -29,16 +29,18 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/StanfordSpezi/Spezi.git", from: "1.8.0"),
-        .package(url: "https://github.com/StanfordSpezi/SpeziFoundation.git", from: "2.1.8"),
+        .package(url: "https://github.com/StanfordSpezi/SpeziFoundation.git", from: "2.2.0"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.0"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.17.0")
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.17.0"),
+        .package(url: "https://github.com/gonzalezreal/swift-markdown-ui.git", from: "2.4.1")
     ] + swiftLintPackage(),
     targets: [
         .target(
             name: "SpeziViews",
             dependencies: [
                 .product(name: "Spezi", package: "Spezi"),
-                .product(name: "SpeziFoundation", package: "SpeziFoundation")
+                .product(name: "SpeziFoundation", package: "SpeziFoundation"),
+                .product(name: "MarkdownUI", package: "swift-markdown-ui")
             ],
             resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()

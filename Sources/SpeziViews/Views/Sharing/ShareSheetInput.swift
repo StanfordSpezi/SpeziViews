@@ -103,7 +103,7 @@ extension ShareSheetInput {
     
     /// Creates a new `ShareSheetInput`.
     ///
-    /// This initializer will cause the `input` value to get directly passe on to `UIActivityViewController` on iOS and `NSSharingServicePicker` on macOS,
+    /// This initializer will cause the `input` value to get directly passed on to `UIActivityViewController` on iOS and `NSSharingServicePicker` on macOS,
     /// without performing any processing or transformation based on the specific input type.
     ///
     /// - Note: Only use this initializer if you know for a fact that `Input` is compatible with the system share sheet.
