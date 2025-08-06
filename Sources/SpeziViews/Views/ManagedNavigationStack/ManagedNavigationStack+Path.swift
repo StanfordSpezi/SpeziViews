@@ -246,13 +246,17 @@ extension ManagedNavigationStack.Path {
     /// The tracking of the current state of the navigation flow is done fully automatic by the ``ManagedNavigationStack/Path``.
     ///
     /// After all navigation steps have been shown, the injected `isComplete` binding is set to `true` indicating that the navigation flow is completed.
-    public func nextStep() {
+    ///
+    /// - returns: A `Bool` indicating whether the navigation was successful; will be `false` if the ``ManagedNavigationStack/Path`` is already at its end and there are no further steps.
+    @discardableResult
+    public func nextStep() -> Bool {
         guard let currentStepIndex = steps.elements.keys.firstIndex(where: { $0 == currentStep }),
               currentStepIndex + 1 < steps.elements.count else {
             isComplete?.wrappedValue = true
-            return
+            return false
         }
         pushStep(identifiedBy: steps.elements.keys[currentStepIndex + 1])
+        return true
     }
     
     /// Modifies the navigation path to move to the next navigation step identified by the specified value, and also add all steps inbetween.
