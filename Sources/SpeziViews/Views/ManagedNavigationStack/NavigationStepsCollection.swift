@@ -16,7 +16,7 @@ extension ManagedNavigationStack {
     ///
     /// - Note: You do not create instances of `StepsCollection` yourself; this type is used internally by the ``ManagedNavigationStack``.
     @_documentation(visibility: internal)
-    public class StepsCollection {
+    public final class StepsCollection {
         /// An element collected by the ``NavigationFlowBuilder``.
         public struct Element {
             struct SourceLocation: Hashable, Sendable { // swiftlint:disable:this nesting
