@@ -6,4 +6,4 @@
 // SPDX-License-Identifier: MIT
 //
 
-@_exported public import SpeziFoundation
+@_exported public import SpeziLocalization
