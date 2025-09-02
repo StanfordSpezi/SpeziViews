@@ -12,7 +12,7 @@ import SwiftUI
 
 
 private struct _CanvasView: UIViewRepresentable {
-    class Coordinator: NSObject, PKCanvasViewDelegate {
+    final class Coordinator: NSObject, PKCanvasViewDelegate {
         let canvasView: _CanvasView
         
         
