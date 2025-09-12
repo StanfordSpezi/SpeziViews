@@ -31,18 +31,33 @@ struct SimpleMarkdownViewTest: View {
             .padding(.horizontal)
         }
         .toolbar {
+            #if os(iOS)
             ToolbarItem(placement: .bottomBar) {
-                HStack {
-                    Text("Text Alignment")
-                    Spacer()
-                    Picker("", selection: $textAlignment) {
-                        ForEach(TextAlignment.allCases, id: \.self) { alignment in
-                            Text(alignment.debugName)
-                        }
-                    }
-                    .pickerStyle(.menu)
+                toolbarContent
+            }
+            #elseif os(macOS)
+            ToolbarItem(placement: .status) {
+                toolbarContent
+            }
+            #else
+            ToolbarItem(placement: .automatic) {
+                toolbarContent
+            }
+            #endif
+        }
+    }
+    
+    
+    private var toolbarContent: some View {
+        HStack {
+            Text("Text Alignment")
+            Spacer()
+            Picker("", selection: $textAlignment) {
+                ForEach(TextAlignment.allCases, id: \.self) { alignment in
+                    Text(alignment.debugName)
                 }
             }
+            .pickerStyle(.menu)
         }
     }
 }
@@ -67,3 +82,4 @@ extension TextAlignment {
     SimpleMarkdownViewTest()
 }
 #endif
+

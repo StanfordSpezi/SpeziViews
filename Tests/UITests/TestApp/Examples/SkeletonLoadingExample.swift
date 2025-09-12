@@ -14,11 +14,7 @@ struct SkeletonLoadingExample: View {
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 10)
-            #if canImport(UIKit)
-                .fill(Color(UIColor.systemGray4))
-            #elseif canImport(AppKit)
-                .fill(Color(NSColor.systemGray))
-            #endif
+                .fill(Color.secondary)
                 .frame(height: 100)
                 .skeletonLoading(replicationCount: 5, repeatInterval: 1.5, spacing: 16)
             Spacer()
@@ -33,3 +29,4 @@ struct SkeletonLoadingExample: View {
     SkeletonLoadingExample()
 }
 #endif
+
