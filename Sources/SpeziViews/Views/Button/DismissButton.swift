@@ -14,33 +14,39 @@ public struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
 
     public var body: some View {
-#if os(visionOS) || os(tvOS) || os(macOS)
+        #if os(visionOS) || os(tvOS) || os(macOS)
         Button("Dismiss", systemImage: "xmark") {
             dismiss()
         }
-#else
-        Button {
-            dismiss()
-        } label: {
-            Image(systemName: "xmark")
-                .font(.system(size: 10, weight: .bold, design: .rounded))
-#if !os(watchOS)
-                .foregroundStyle(.secondary)
-#endif
-                .background {
-                    Circle()
-#if os(iOS)
-                        .fill(Color(uiColor: .secondarySystemBackground))
-#elseif os(watchOS)
-                        .fill(Color(uiColor: .darkGray))
-#endif
-                        .frame(width: 25, height: 25)
-                }
-                .frame(width: 27, height: 27) // make the tap-able button region slightly larger
-        }
+        #else
+        if #available(iOS 26, watchOS 26, *) {
+            Button(role: .close) {
+                dismiss()
+            }
+        } else {
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    #if !os(watchOS)
+                    .foregroundStyle(.secondary)
+                    #endif
+                    .background {
+                        Circle()
+                            #if os(iOS)
+                            .fill(Color(uiColor: .secondarySystemBackground))
+                            #elseif os(watchOS)
+                            .fill(Color(uiColor: .darkGray))
+                            #endif
+                            .frame(width: 25, height: 25)
+                    }
+                    .frame(width: 27, height: 27) // make the tap-able button region slightly larger
+            }
             .accessibilityLabel("Dismiss")
             .buttonStyle(.plain)
-#endif
+        }
+        #endif
     }
 
     public init() {}
