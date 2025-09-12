@@ -72,7 +72,7 @@ struct CaseIterablePickerTests: View {
             OptionSetPicker("Inline Picker", selection: $optionSetMenu, style: .inline)
         }
             .navigationTitle("Picker")
-        #if !os(macOS)
+        #if !os(macOS) && !os(tvOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
     }

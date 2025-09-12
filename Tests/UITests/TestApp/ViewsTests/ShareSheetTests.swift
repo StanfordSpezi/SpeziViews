@@ -11,6 +11,7 @@ import SpeziViews
 import SwiftUI
 
 
+@available(tvOS, unavailable)
 struct ShareSheetTests: View {
     @State private var itemToShare: ShareSheetInput?
     @State private var itemsToShare: [ShareSheetInput] = []

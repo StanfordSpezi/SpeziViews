@@ -32,8 +32,9 @@ enum SpeziViewsTests: String, TestAppTests {
     case listRow = "List Row"
     case managedViewUpdate = "Managed View Update"
     case caseIterablePicker = "Picker"
+    #if !os(tvOS)
     case shareSheet = "Share Sheet"
-
+    #endif
     
     #if canImport(PencilKit) && !os(macOS)
     @ViewBuilder
@@ -178,8 +179,10 @@ enum SpeziViewsTests: String, TestAppTests {
             ManagedViewStateTests()
         case .caseIterablePicker:
             CaseIterablePickerTests()
+        #if !os(tvOS)
         case .shareSheet:
             ShareSheetTests()
+        #endif
         }
     }
 }

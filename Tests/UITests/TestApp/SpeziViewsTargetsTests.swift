@@ -95,9 +95,15 @@ struct SpeziViewsTargetsTests: View {
             }
                 .navigationTitle("Targets")
                 .toolbar {
+#if os(macOS)
+                    ToolbarItem(placement: .automatic) {
+                        Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
+                    }
+#else
                     ToolbarItem(placement: .topBarTrailing) {
                         Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
                     }
+#endif
                 }
         }
         .environment(\.layoutDirection, effectiveLayoutDirection)
