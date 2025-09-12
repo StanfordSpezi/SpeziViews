@@ -82,4 +82,3 @@ extension TextAlignment {
     SimpleMarkdownViewTest()
 }
 #endif
-

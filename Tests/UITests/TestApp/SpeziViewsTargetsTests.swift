@@ -141,4 +141,3 @@ struct SpeziViewsTargetsTests: View {
     SpeziViewsTargetsTests()
 }
 #endif
-

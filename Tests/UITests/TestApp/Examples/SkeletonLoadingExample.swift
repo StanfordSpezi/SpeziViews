@@ -29,4 +29,3 @@ struct SkeletonLoadingExample: View {
     SkeletonLoadingExample()
 }
 #endif
-
