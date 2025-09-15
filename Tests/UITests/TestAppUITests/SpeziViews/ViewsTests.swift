@@ -172,9 +172,7 @@ final class ViewsTests: XCTestCase {
         app.open(target: "SpeziViews")
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
-#if os(visionOS)
-        app.collectionViews.firstMatch.swipeUp() // on visionOS the AsyncButton is out of the frame due to the window size
-#endif
+        app.collectionViews.firstMatch.swipeUp() // on visionOS and on iPads the AsyncButton is out of the frame due to the window size
 
         XCTAssert(app.buttons["Buttons"].waitForExistence(timeout: 2))
         app.buttons["Buttons"].tap()
