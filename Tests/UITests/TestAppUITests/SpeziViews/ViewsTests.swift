@@ -99,7 +99,6 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.buttons["Enable/Disable Canvas, false"].waitForExistence(timeout: 2))
         // the "swipe down" action here will, since the CanvasView is disabled, attempt to dismiss the sheet,
         // which will fail since we have explicitly disabled the CanvasTestView's interactive dismissal.
-        canvasView.swipeRight()
         canvasView.swipeDown()
         XCTAssert(app.staticTexts["Did Draw Anything: false"].waitForExistence(timeout: 2))
         
