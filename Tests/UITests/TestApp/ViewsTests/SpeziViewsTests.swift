@@ -35,6 +35,7 @@ enum SpeziViewsTests: String, TestAppTests {
     #if !os(tvOS)
     case shareSheet = "Share Sheet"
     #endif
+    case dismissButton = "Dismiss Button"
     
     #if canImport(PencilKit) && !os(macOS)
     @ViewBuilder
@@ -183,6 +184,8 @@ enum SpeziViewsTests: String, TestAppTests {
         case .shareSheet:
             ShareSheetTests()
         #endif
+        case .dismissButton:
+            DismissButtonTestView()
         }
     }
 }

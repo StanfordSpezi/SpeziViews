@@ -262,6 +262,9 @@
     "Share Text" : {
 
     },
+    "Show Sheet" : {
+
+    },
     "Show Tool Picker" : {
 
     },
@@ -338,6 +341,9 @@
 
     },
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
+
+    },
+    "This is the Sheet" : {
 
     },
     "Tiles" : {
