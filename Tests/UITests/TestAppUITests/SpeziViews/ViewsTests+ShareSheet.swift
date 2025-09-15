@@ -29,7 +29,11 @@ extension ViewsTests {
         app.buttons["header.closeButton"].tap()
         
         app.buttons["Share TIFF UIImage via URL"].tap()
+        #if os(visionOS)
+        app.assertShareSheetHeader(.init(title: "jellybeans_USC-SIPI.tiff", filetype: nil))
+        #else
         app.assertShareSheetHeader(.init(title: "jellybeans_USC-SIPI", filetype: "TIFF Image"))
+        #endif
         app.buttons["header.closeButton"].tap()
         
         app.buttons["Share PNG UIImage via URL"].tap()
