@@ -12,9 +12,20 @@ import Foundation
 import SpeziFoundation
 import SpeziViews
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 
 
 struct AdvancedMarkdownViewTest: View {
+#if canImport(UIKit)
+    private typealias PlatformImage = UIImage
+#elseif canImport(AppKit)
+    private typealias PlatformImage = NSImage
+#endif
+    
     private let document = try! MarkdownDocument( // swiftlint:disable:this force_try
         processing: """
             ---
@@ -46,13 +57,23 @@ struct AdvancedMarkdownViewTest: View {
             ) { _, element in
                 switch element.name {
                 case "marquee":
-                    if let image = element[attribute: "filename"].flatMap(UIImage.init(named:)),
-                       let period = element[attribute: "period"].flatMap(TimeInterval.init) {
+                    if let filename = element[attribute: "filename"],
+                       let image = loadPlatformImage(named: filename),
+                       let period = element[attribute: "period"].flatMap({ TimeInterval($0) }) {
                         Marquee(period: period) {
+                            #if canImport(UIKit)
                             Image(uiImage: image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: image.size.width * (52 / image.size.height), height: 52)
+                            #elseif canImport(AppKit)
+                            Image(nsImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: image.size.width * (52 / image.size.height), height: 52)
+                            #else
+                            EmptyView()
+                            #endif
                         }
                         .accessibilityElement()
                         .accessibilityIdentifier("ayooooooo")
@@ -79,6 +100,17 @@ struct AdvancedMarkdownViewTest: View {
                 }
             }
         }
+    }
+    
+    
+    private func loadPlatformImage(named name: String) -> PlatformImage? {
+        #if canImport(UIKit)
+        return UIImage(named: name)
+        #elseif canImport(AppKit)
+        return NSImage(named: NSImage.Name(name))
+        #else
+        return nil
+        #endif
     }
 }
 

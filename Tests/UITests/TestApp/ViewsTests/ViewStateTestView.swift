@@ -33,7 +33,7 @@ struct ViewStateTestView: View {
         Text("View State: \(String(describing: viewState))")
             .task {
                 viewState = .processing
-                try? await Task.sleep(for: .seconds(2))
+                try? await Task.sleep(for: .seconds(3))
                 viewState = .error(
                     AnyLocalizedError(
                         error: testError,

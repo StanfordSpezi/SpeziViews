@@ -42,7 +42,7 @@ struct ValidationExample: View {
             }
         }
             .navigationTitle("Signup")
-            #if !os(macOS)
+            #if !os(macOS) && !os(tvOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .navigationBarBackButtonHidden(backButtonHidden)
