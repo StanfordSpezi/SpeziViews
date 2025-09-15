@@ -15,8 +15,14 @@ public struct DismissButton: View {
 
     public var body: some View {
         #if os(visionOS) || os(tvOS) || os(macOS)
-        Button("Dismiss", systemImage: "xmark") {
-            dismiss()
+        if #available(visionOS 26, tvOS 26, macOS 26, *) {
+            Button(role: .close) {
+                dismiss()
+            }
+        } else {
+            Button("Dismiss", systemImage: "xmark") {
+                dismiss()
+            }
         }
         #else
         if #available(iOS 26, watchOS 26, *) {
@@ -69,7 +75,9 @@ public struct DismissButton: View {
             NavigationStack {
                 Text(verbatim: "Hello World")
                     .toolbar {
-                        DismissButton()
+                        ToolbarItem(placement: .cancellationAction) {
+                            DismissButton()
+                        }
                     }
             }
             .frame(width: 200, height: 200)
