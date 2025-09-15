@@ -37,24 +37,8 @@ enum SpeziViewsTests: String, TestAppTests {
     #endif
     case dismissButton = "Dismiss Button"
     
-    #if canImport(PencilKit) && !os(macOS)
-    @ViewBuilder
-    @MainActor
-    private var canvas: some View {
-        CanvasTestView()
-    }
-    #endif
-
-    @ViewBuilder
-    @MainActor
-    private var geometryReader: some View {
-        GeometryReaderTestView()
-    }
-    
     #if !os(macOS)
-    @ViewBuilder
-    @MainActor
-    private var label: some View {
+    @MainActor @ViewBuilder private var label: some View {
         Label(
             "LABEL_TEXT",
             textAlignment: .justified,
@@ -73,9 +57,7 @@ enum SpeziViewsTests: String, TestAppTests {
     }
     #endif
     
-    @ViewBuilder
-    @MainActor
-    private var lazyText: some View {
+    @MainActor @ViewBuilder private var lazyText: some View {
         ScrollView {
             LazyText(
                 verbatim: """
@@ -89,67 +71,15 @@ enum SpeziViewsTests: String, TestAppTests {
             LazyText("LAZY_TEXT")
         }
     }
-    
-    @ViewBuilder
-    @MainActor
-    private var viewState: some View {
-        ViewStateTestView()
-    }
-    
-    @ViewBuilder
-    @MainActor
-    private var operationState: some View {
-        OperationStateTestView()
-    }
-    
-    @ViewBuilder
-    @MainActor
-    private var viewStateMapper: some View {
-        ViewStateMapperTestView()
-    }
-    
-    @ViewBuilder
-    @MainActor
-    private var conditionalModifier: some View {
-        ConditionalModifierTestView()
-    }
-
-    @ViewBuilder
-    @MainActor
-    private var defaultErrorOnly: some View {
-        ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"))
-    }
-
-    @ViewBuilder
-    @MainActor
-    private var defaultErrorDescription: some View {
-        DefaultErrorDescriptionTestView()
-    }
-
-    @ViewBuilder
-    @MainActor
-    private var button: some View {
-        ButtonTestView()
-    }
-
-    @MainActor
-    @ViewBuilder
-    private var listRow: some View {
-        List {
-            ListRow(verbatim: "Hello") {
-                Text(verbatim: "World")
-            }
-        }
-    }
 
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {  // swiftlint:disable:this cyclomatic_complexity
         switch self {
         #if canImport(PencilKit) && !os(macOS)
         case .canvas:
-            canvas
+            CanvasTestView()
         #endif
         case .geometryReader:
-            geometryReader
+            GeometryReaderTestView()
         #if !os(macOS)
         case .label:
             label
@@ -161,21 +91,25 @@ enum SpeziViewsTests: String, TestAppTests {
         case .markdownViewAdvanced:
             AdvancedMarkdownViewTest()
         case .viewState:
-            viewState
+            ViewStateTestView()
         case .operationState:
-            operationState
+            OperationStateTestView()
         case .viewStateMapper:
-            viewStateMapper
+            ViewStateMapperTestView()
         case .conditionalModifier:
-            conditionalModifier
+            ConditionalModifierTestView()
         case .defaultErrorOnly:
-            defaultErrorOnly
+            ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"))
         case .defaultErrorDescription:
-            defaultErrorDescription
+            DefaultErrorDescriptionTestView()
         case .button:
-            button
+            ButtonTestView()
         case .listRow:
-            listRow
+            List {
+                ListRow(verbatim: "Hello") {
+                    Text(verbatim: "World")
+                }
+            }
         case .managedViewUpdate:
             ManagedViewStateTests()
         case .caseIterablePicker:
