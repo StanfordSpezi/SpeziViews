@@ -102,6 +102,16 @@ struct ButtonTestView: View {
                     Text("Tap Me ;)")
                         .frame(maxWidth: .infinity, minHeight: 38)
                 }
+                .buttonStyleGlass()
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+            Section {
+                Button {
+                    // not actually doing anything
+                } label: {
+                    Text("Tap Me ;)")
+                        .frame(maxWidth: .infinity, minHeight: 38)
+                }
                 .buttonStyleGlassProminent()
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
