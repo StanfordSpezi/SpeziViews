@@ -73,10 +73,10 @@ struct ButtonTestView: View {
                     try await Task.sleep(for: .milliseconds(500))
                     throw CustomError.error
                 }
-                    .asyncButtonProcessingStyle(.listRow)
+                .asyncButtonProcessingStyle(.listRow)
             }
-                .disabled(showCompleted)
-                .viewStateAlert(state: $viewState)
+            .disabled(showCompleted)
+            .viewStateAlert(state: $viewState)
 
             StateAsyncButton(text: presentedText)
 
@@ -94,11 +94,22 @@ struct ButtonTestView: View {
                     }
                 }
             }
-        }
-            .task {
-                try? await Task.sleep(for: .milliseconds(500))
-                presentedText = "Hello World"
+            
+            Section {
+                Button {
+                    // not actually doing anything
+                } label: {
+                    Text("Tap Me ;)")
+                        .frame(maxWidth: .infinity, minHeight: 38)
+                }
+                .buttonStyleGlassProminent()
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
+        }
+        .task {
+            try? await Task.sleep(for: .milliseconds(500))
+            presentedText = "Hello World"
+        }
     }
 }
 
