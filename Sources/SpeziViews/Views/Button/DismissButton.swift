@@ -14,8 +14,8 @@ public struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
 
     public var body: some View {
-        #if swift(>=6.2)
-        #if os(visionOS) || os(tvOS) || os(macOS)
+#if swift(>=6.2)
+    #if os(visionOS) || os(tvOS) || os(macOS)
         if #available(visionOS 26, tvOS 26, macOS 26, *) {
             Button(role: .close) {
                 dismiss()
@@ -33,19 +33,19 @@ public struct DismissButton: View {
         } else {
             fallbackButton
         }
-        #endif
-        #else // swift < 6.2
+#endif
+    #else // swift < 6.2
         fallbackButton
-        #endif
+#endif
     }
     
     
     @ViewBuilder private var fallbackButton: some View {
-        #if os(visionOS) || os(tvOS) || os(macOS)
+#if os(visionOS) || os(tvOS) || os(macOS)
         Button("Dismiss", systemImage: "xmark") {
             dismiss()
         }
-        #else
+#else
         Button {
             dismiss()
         } label: {
@@ -67,7 +67,7 @@ public struct DismissButton: View {
         }
         .accessibilityLabel("Dismiss")
         .buttonStyle(.plain)
-        #endif
+#endif
     }
 
     public init() {}
