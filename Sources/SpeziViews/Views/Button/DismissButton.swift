@@ -25,7 +25,7 @@ public struct DismissButton: View {
                 dismiss()
             }
         }
-        #else
+    #else
         if #available(iOS 26, watchOS 26, *) {
             Button(role: .close) {
                 dismiss()
