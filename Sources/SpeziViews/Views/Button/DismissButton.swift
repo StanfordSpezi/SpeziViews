@@ -34,7 +34,7 @@ public struct DismissButton: View {
             fallbackButton
         }
         #endif
-        #else
+        #else // swift < 6.2
         fallbackButton
         #endif
     }
