@@ -33,8 +33,8 @@ public struct DismissButton: View {
         } else {
             fallbackButton
         }
-#endif
-    #else // swift < 6.2
+    #endif
+#else // swift < 6.2
         fallbackButton
 #endif
     }
