@@ -41,6 +41,11 @@ public struct DismissButton: View {
     
     
     @ViewBuilder private var fallbackButton: some View {
+        #if os(visionOS) || os(tvOS) || os(macOS)
+        Button("Dismiss", systemImage: "xmark") {
+            dismiss()
+        }
+        #else
         Button {
             dismiss()
         } label: {
@@ -62,6 +67,7 @@ public struct DismissButton: View {
         }
         .accessibilityLabel("Dismiss")
         .buttonStyle(.plain)
+        #endif
     }
 
     public init() {}
