@@ -14,6 +14,7 @@ public struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
 
     public var body: some View {
+        #if swift(>=6.2)
         #if os(visionOS) || os(tvOS) || os(macOS)
         if #available(visionOS 26, tvOS 26, macOS 26, *) {
             Button(role: .close) {
@@ -30,29 +31,37 @@ public struct DismissButton: View {
                 dismiss()
             }
         } else {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 10, weight: .bold, design: .rounded))
-                    #if !os(watchOS)
-                    .foregroundStyle(.secondary)
-                    #endif
-                    .background {
-                        Circle()
-                            #if os(iOS)
-                            .fill(Color(uiColor: .secondarySystemBackground))
-                            #elseif os(watchOS)
-                            .fill(Color(uiColor: .darkGray))
-                            #endif
-                            .frame(width: 25, height: 25)
-                    }
-                    .frame(width: 27, height: 27) // make the tap-able button region slightly larger
-            }
-            .accessibilityLabel("Dismiss")
-            .buttonStyle(.plain)
+            fallbackButton
         }
         #endif
+        #else
+        fallbackButton
+        #endif
+    }
+    
+    
+    @ViewBuilder private var fallbackButton: some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 10, weight: .bold, design: .rounded))
+                #if !os(watchOS)
+                .foregroundStyle(.secondary)
+                #endif
+                .background {
+                    Circle()
+                        #if os(iOS)
+                        .fill(Color(uiColor: .secondarySystemBackground))
+                        #elseif os(watchOS)
+                        .fill(Color(uiColor: .darkGray))
+                        #endif
+                        .frame(width: 25, height: 25)
+                }
+                .frame(width: 27, height: 27) // make the tap-able button region slightly larger
+        }
+        .accessibilityLabel("Dismiss")
+        .buttonStyle(.plain)
     }
 
     public init() {}
