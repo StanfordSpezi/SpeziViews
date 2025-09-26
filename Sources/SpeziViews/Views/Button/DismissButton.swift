@@ -10,9 +10,16 @@ import SwiftUI
 
 
 /// Circular Dismiss button.
+///
+/// ## Topics
+/// ### Initializers
+/// - ``init()``
+/// - ``init(onDismiss:)``
 public struct DismissButton: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.self) private var environment
+    private let onDismiss: (@MainActor () -> Void)?
 
+    @_documentation(visibility: internal)
     public var body: some View {
 #if swift(>=6.2)
     #if os(visionOS) || os(tvOS) || os(macOS)
@@ -69,8 +76,23 @@ public struct DismissButton: View {
         .buttonStyle(.plain)
 #endif
     }
+    
+    /// Creates a `DismissButton`
+    public init() {
+        self.onDismiss = nil
+    }
 
-    public init() {}
+    /// Creates a `DismissButton` that invokes a closure as part of the dismissal.
+    ///
+    /// - parameter onDismiss: An optional closure that gets executed when the button is tapped, after the dismissal has been initiated.
+    public init(onDismiss: (@MainActor () -> Void)? = nil) {
+        self.onDismiss = onDismiss
+    }
+    
+    private func dismiss() {
+        environment.dismiss()
+        onDismiss?()
+    }
 }
 
 
