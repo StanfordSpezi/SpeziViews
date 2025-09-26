@@ -138,6 +138,7 @@ public struct CanvasView: View {
     @Binding private var showToolPicker: Bool
     
     
+    @_documentation(visibility: internal)
     public var body: some View {
         GeometryReader { proxy in
             _CanvasView(

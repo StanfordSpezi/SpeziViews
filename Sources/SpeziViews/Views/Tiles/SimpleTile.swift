@@ -55,6 +55,7 @@ public struct SimpleTile<Header: View, Body: View, Footer: View>: View {
     private let bodyView: Body
     private let footer: Footer
 
+    @_documentation(visibility: internal)
     public var body: some View {
         VStack(alignment: alignment) {
             header

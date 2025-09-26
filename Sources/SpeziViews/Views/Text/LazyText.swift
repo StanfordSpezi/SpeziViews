@@ -32,6 +32,7 @@ public struct LazyText: View {
         return lines
     }
     
+    @_documentation(visibility: internal)
     public var body: some View {
         LazyVStack(alignment: .leading) {
             ForEach(lines) { line in

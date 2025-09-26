@@ -47,7 +47,7 @@ public struct NameFieldRow<Description: View, Label: View>: View {
 
     @Binding private var name: PersonNameComponents
 
-
+    @_documentation(visibility: internal)
     public var body: some View {
         #if os(macOS)
         let isMacOS = true

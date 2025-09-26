@@ -14,6 +14,7 @@ import SwiftUI
 public struct ValidationResultsView: View {
     private let results: [FailedValidationResult]
 
+    @_documentation(visibility: internal)
     public var body: some View {
         VStack(alignment: .leading) {
             ForEach(results) { result in

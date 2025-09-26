@@ -16,6 +16,7 @@ public struct InfoButton: View {
     private let label: Text
     private let action: () -> Void
 
+    @_documentation(visibility: internal)
     public var body: some View {
         Button(action: action) {
             SwiftUI.Label {

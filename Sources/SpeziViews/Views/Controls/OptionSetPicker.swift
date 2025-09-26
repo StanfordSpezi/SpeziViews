@@ -88,6 +88,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
         }
     }
 
+    @_documentation(visibility: internal)
     public var body: some View {
         switch style {
         case .inline:

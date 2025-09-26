@@ -32,6 +32,7 @@ public struct VerifiableTextField<FieldLabel: View, FieldFooter: View>: View {
     @Environment(ValidationEngine.self)
     var validationEngine: ValidationEngine?
 
+    @_documentation(visibility: internal)
     public var body: some View {
         VStack {
             Group {

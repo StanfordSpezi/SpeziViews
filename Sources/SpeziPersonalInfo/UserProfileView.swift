@@ -39,7 +39,7 @@ public struct UserProfileView: View {
         #endif
     }
 
-
+    @_documentation(visibility: internal)
     public var body: some View {
         GeometryReader { context in
             ZStack {

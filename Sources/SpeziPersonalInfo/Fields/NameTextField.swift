@@ -63,7 +63,7 @@ public struct NameTextField<Label: View>: View {
         }
     }
 
-
+    @_documentation(visibility: internal)
     public var body: some View {
         TextField(text: componentBinding, prompt: prompt) {
             label

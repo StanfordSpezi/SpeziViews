@@ -55,7 +55,7 @@ public struct Label: View {
 
     @Environment(\.locale) private var locale
     
-    
+    @_documentation(visibility: internal)
     public var body: some View {
         HorizontalGeometryReader { width in
             _Label(

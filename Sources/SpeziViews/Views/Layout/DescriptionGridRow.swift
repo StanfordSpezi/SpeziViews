@@ -18,6 +18,7 @@ public struct DescriptionGridRow<Description: View, Content: View>: View {
     private let content: Content
     
     
+    @_documentation(visibility: internal)
     public var body: some View {
         GridRow {
             description

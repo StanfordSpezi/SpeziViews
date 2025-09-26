@@ -22,6 +22,7 @@ public struct CompletedTileHeader<Title: View>: View {
     private let alignment: HorizontalAlignment
     private let title: Title
 
+    @_documentation(visibility: internal)
     public var body: some View {
         TileHeader(alignment: alignment) {
             Image(systemName: "checkmark.circle.fill")

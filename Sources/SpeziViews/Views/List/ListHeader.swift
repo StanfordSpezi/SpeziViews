@@ -18,6 +18,7 @@ public struct ListHeader<Image: View, Title: View, Instructions: View>: View {
     private let instructions: Instructions
 
 
+    @_documentation(visibility: internal)
     public var body: some View {
         VStack {
             VStack {

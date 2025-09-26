@@ -36,6 +36,7 @@ import SwiftUI
 public struct ListRow<Label: View, Content: View>: View { // swiftlint:disable:this file_types_order
     private let labeledContent: LabeledContent<Label, Content>
 
+    @_documentation(visibility: internal)
     public var body: some View {
         labeledContent
             .accessibilityElement(children: .combine)

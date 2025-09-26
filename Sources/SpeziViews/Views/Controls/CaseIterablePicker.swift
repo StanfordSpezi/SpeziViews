@@ -50,6 +50,7 @@ public struct CaseIterablePicker<Value: PickerValue, Label: View>: View where Va
 
     @Binding private var value: Value
 
+    @_documentation(visibility: internal)
     public var body: some View {
         Picker(selection: $value) {
             if let noneValue {

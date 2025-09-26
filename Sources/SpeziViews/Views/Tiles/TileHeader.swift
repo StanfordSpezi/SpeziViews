@@ -54,6 +54,7 @@ public struct TileHeader<Icon: View, Title: View, Subheadline: View>: View {
     @Environment(\.dynamicTypeSize)
     private var dynamicTypeSize
 
+    @_documentation(visibility: internal)
     public var body: some View {
         if alignment == .center {
             VStack(alignment: .center, spacing: 4) {

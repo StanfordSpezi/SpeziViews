@@ -109,6 +109,7 @@ public struct AsyncButton<Label: View>: View {
         !isEnabled || buttonState != .idle || externallyProcessing
     }
 
+    @_documentation(visibility: internal)
     public var body: some View {
         Button(role: role, action: submitAction) {
             switch processingStyle {

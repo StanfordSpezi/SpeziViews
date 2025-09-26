@@ -103,6 +103,7 @@ public struct DynamicHStack<Content: View>: View {
         horizontalSizeClass == .regular || isLandscape || dynamicTypeSize <= realignAfter
     }
 
+    @_documentation(visibility: internal)
     public var body: some View {
         let layout = isHorizontalLayout
             ? AnyLayout(HStackLayout(alignment: horizontalAlignment, spacing: spacing))

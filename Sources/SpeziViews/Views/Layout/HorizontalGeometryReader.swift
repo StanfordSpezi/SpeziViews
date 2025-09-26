@@ -31,6 +31,7 @@ public struct HorizontalGeometryReader<Content: View>: View {
 
     @State private var values = AsyncStream.makeStream(of: CGFloat.self)
 
+    @_documentation(visibility: internal)
     public var body: some View {
         content(width)
             .frame(minWidth: 0, maxWidth: .infinity)
