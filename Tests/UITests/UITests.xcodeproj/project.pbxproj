@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2FA9486F29DE91A30081C086 /* SpeziViews in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA9486E29DE91A30081C086 /* SpeziViews */; };
+		802DAC202E9AAB310044F476 /* SpeziFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 802DAC1F2E9AAB310044F476 /* SpeziFoundation */; };
 		806BE7A02E0934D00066C827 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 806BE79F2E0934D00066C827 /* Algorithms */; };
 		80FEAACA2E096713006100DE /* SpeziFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 80FEAAC92E096713006100DE /* SpeziFoundation */; };
 		977CF55C2AD2B92C006D9B54 /* XCTestApp in Frameworks */ = {isa = PBXBuildFile; productRef = 977CF55B2AD2B92C006D9B54 /* XCTestApp */; };
@@ -65,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				802DAC202E9AAB310044F476 /* SpeziFoundation in Frameworks */,
 				806BE7A02E0934D00066C827 /* Algorithms in Frameworks */,
 				A9F9C4692AF2B9DD001122DD /* XCTestExtensions in Frameworks */,
 			);
@@ -152,6 +154,7 @@
 			packageProductDependencies = (
 				977CF55D2AD2B92C006D9B54 /* XCTestExtensions */,
 				806BE79F2E0934D00066C827 /* Algorithms */,
+				802DAC1F2E9AAB310044F476 /* SpeziFoundation */,
 			);
 			productName = ExampleUITests;
 			productReference = 2F6D13AC28F5F386007C25D6 /* TestAppUITests.xctest */;
@@ -700,6 +703,11 @@
 		2FA9486E29DE91A30081C086 /* SpeziViews */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SpeziViews;
+		};
+		802DAC1F2E9AAB310044F476 /* SpeziFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80FEAAC82E096713006100DE /* XCRemoteSwiftPackageReference "SpeziFoundation" */;
+			productName = SpeziFoundation;
 		};
 		806BE79F2E0934D00066C827 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;

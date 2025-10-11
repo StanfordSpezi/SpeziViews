@@ -29,7 +29,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/StanfordSpezi/Spezi.git", from: "1.8.0"),
-        .package(url: "https://github.com/StanfordSpezi/SpeziFoundation.git", from: "2.3.0"),
+        .package(url: "https://github.com/StanfordSpezi/SpeziFoundation.git", revision: "9c0ec5f6f9a8e72cbc7d54b582553744bd269e48"),
+        .package(url: "https://github.com/lukaskollmer/NetworkImage.git", revision: "8e1fd76ad799c3ae94565c8460555cd5c32b6d91"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.0"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.17.0"),
         .package(url: "https://github.com/gonzalezreal/swift-markdown-ui.git", from: "2.4.1")

@@ -28,7 +28,7 @@ extension ViewsTests {
     
     
     @MainActor
-    func testAdvancedMarkdownView() async throws {
+    func testAdvancedMarkdownView() throws {
         let app = XCUIApplication()
         app.launch()
         app.open(target: "SpeziViews")
@@ -59,7 +59,7 @@ extension ViewsTests {
             XCTAssert(image.exists)
             for _ in 0..<10 {
                 xCoords.append(image.frame.center.x)
-                try await Task.sleep(for: .seconds(0.5))
+                sleep(for: .seconds(0.5))
             }
             
             XCTAssertFalse(Set(xCoords).isEmpty, "xCoords: \(xCoords)")

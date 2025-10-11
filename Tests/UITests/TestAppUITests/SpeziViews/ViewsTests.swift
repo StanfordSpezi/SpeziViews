@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
+import SpeziFoundation
 import XCTest
 import XCTestExtensions
 
@@ -299,4 +300,11 @@ final class ViewsTests: XCTestCase {
         XCTAssert(app.buttons["Option 1"].firstMatch.waitForExistence(timeout: 1.0))
         app.buttons["Option 1"].firstMatch.tap()
     }
+}
+
+
+// MARK: Utils
+
+func sleep(for duration: Duration) {
+    usleep(UInt32(duration.timeInterval * 1000000))
 }

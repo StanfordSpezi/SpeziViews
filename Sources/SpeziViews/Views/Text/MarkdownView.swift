@@ -106,7 +106,7 @@ public struct MarkdownView<CustomElementView: View>: View {
                 VStack(spacing: 12) {
                     ForEach(Array(blocks.indices), id: \.self) { blockIdx in
                         let block = blocks[blockIdx]
-                        view(for: block, at: blockIdx)
+                        view(for: block, at: blockIdx, in: document)
                             .id(block.id)
                         let isLast = blockIdx >= blocks.endIndex - 1
                         if !isLast && dividerRule.shouldInsertDividerAfter(blockIdx, block) {
@@ -162,22 +162,23 @@ public struct MarkdownView<CustomElementView: View>: View {
     
     
     @ViewBuilder
-    private func view(for block: MarkdownDocument.Block, at idx: Int) -> some View {
+    private func view(for block: MarkdownDocument.Block, at idx: Int, in document: MarkdownDocument) -> some View {
         switch block {
         case .markdown(id: _, let content):
             // ISSUE: we can't seem to get the `Markdown` view to make itself as wide as possible.
             // SOLUTION: depending on the text alignment, we place the `Markdown` view inside a HStack, alongside a Spacer to push it to the edge.
+            let markdown = Markdown(content, baseURL: document.baseUrl)
             switch textAlignment {
             case .center:
-                Markdown(content)
+                markdown
             case .trailing:
                 HStack(spacing: 0) {
                     Spacer()
-                    Markdown(content)
+                    markdown
                 }
             case .leading:
                 HStack(spacing: 0) {
-                    Markdown(content)
+                    markdown
                     Spacer()
                 }
             }
