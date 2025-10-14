@@ -26,7 +26,7 @@ struct AdvancedMarkdownViewTest: View {
     private typealias PlatformImage = NSImage
 #endif
     
-    private static let document: MarkdownDocument = {
+    private static let document: MarkdownDocument = { // swiftlint:disable:this closure_body_length
         let text = """
             ---
             title: Welcome to the Spezi Ecosystem
@@ -45,8 +45,10 @@ struct AdvancedMarkdownViewTest: View {
             text text text
             
             ### Test Image
-            ![Bean](bean.tiff)
+            ![Bean1](bean.tiff)
             ... and that's a wrap!
+            
+            ![Bean2](bean.tiff)
             """
         let dir = URL.temporaryDirectory.appending(component: UUID().uuidString, directoryHint: .isDirectory)
         let url = dir.appending(component: "doc.md")
@@ -58,7 +60,7 @@ struct AdvancedMarkdownViewTest: View {
                 at: Bundle.main.url(forResource: "jellybeans_USC-SIPI", withExtension: "tiff")!, // swiftlint:disable:this force_unwrapping
                 to: dir.appendingPathComponent("bean", conformingTo: .tiff)
             )
-            return try MarkdownDocument(processingContentsOf: url, customElementNames: ["marquee"])
+            return try MarkdownDocument(contentsOf: url, customElementNames: ["marquee"])
         } catch {
             fatalError("Unable to create test input: \(error)")
         }

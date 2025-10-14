@@ -168,6 +168,8 @@ public struct MarkdownView<CustomElementView: View>: View {
             // ISSUE: we can't seem to get the `Markdown` view to make itself as wide as possible.
             // SOLUTION: depending on the text alignment, we place the `Markdown` view inside a HStack, alongside a Spacer to push it to the edge.
             let markdown = Markdown(content, baseURL: document.baseUrl)
+                .markdownImageProvider(MarkdownViewImageProvider())
+                .markdownInlineImageProvider(MarkdownViewInlineImageProvider())
             switch textAlignment {
             case .center:
                 markdown

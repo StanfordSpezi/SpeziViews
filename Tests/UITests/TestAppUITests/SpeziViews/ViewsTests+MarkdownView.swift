@@ -61,9 +61,11 @@ extension ViewsTests {
                 xCoords.append(image.frame.center.x)
                 sleep(for: .seconds(0.5))
             }
-            
-            XCTAssertFalse(Set(xCoords).isEmpty, "xCoords: \(xCoords)")
+            XCTAssertGreaterThan(Set(xCoords).count, 2, "xCoords: \(xCoords)")
         }
+        
+        app.swipeUp()
+        XCTAssert(app.images["Bean2"].exists)
     }
 }
 
