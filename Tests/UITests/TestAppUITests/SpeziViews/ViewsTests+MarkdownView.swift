@@ -64,7 +64,7 @@ extension ViewsTests {
             XCTAssertGreaterThan(Set(xCoords).count, 2, "xCoords: \(xCoords)")
         }
         
-        app.swipeUp()
+        app.scrollViews.firstMatch.swipeUp()
         // we can check for Bean2 bc that's a non-inline image;
         // Bean1 is inline and as a result gets subsumed into the AttributedString, and is not represented in the accessibility tree.
         XCTAssert(app.images["Bean2"].exists)
