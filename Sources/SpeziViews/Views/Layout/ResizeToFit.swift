@@ -1,7 +1,7 @@
 //
 // This source file is part of the Stanford Spezi open-source project
 //
-// SPDX-FileCopyrightText: 2025 Stanford University and the project authors (see CONTRIBUTORS.md)
+// SPDX-FileCopyrightText: Copyright (c) 2020 Guillermo Gonzalez
 //
 // SPDX-License-Identifier: MIT
 //
@@ -9,7 +9,7 @@
 import SwiftUI
 
 
-// type copied from https://github.com/gonzalezreal/swift-markdown-ui/blob/a9c7615fb50323069c2979c69263973aa1b24a8f/Sources/MarkdownUI/Utility/ResizeToFit.swift
+// type and implementation copied from https://github.com/gonzalezreal/swift-markdown-ui/blob/a9c7615fb50323069c2979c69263973aa1b24a8f/Sources/MarkdownUI/Utility/ResizeToFit.swift
 struct ResizeToFit: Layout {
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         guard let view = subviews.first else {

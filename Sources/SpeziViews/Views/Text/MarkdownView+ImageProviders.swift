@@ -50,13 +50,27 @@ private actor CachedImageLoader {
     
     static let shared = CachedImageLoader()
     
+    private let urlSession: URLSession
     private var cache: [URL: Image] = [:]
+    
+    init() {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 10
+        config.httpAdditionalHeaders = ["Accept": "image/*"]
+        config.requestCachePolicy = .returnCacheDataElseLoad
+        let oneMB = 1024 * 1024
+        config.urlCache = URLCache(
+            memoryCapacity: 50 * oneMB,
+            diskCapacity: 250 * oneMB
+        )
+        urlSession = URLSession(configuration: config)
+    }
     
     func load(_ url: URL) async throws -> Image {
         if let image = cache[url] {
             return image
         } else {
-            let data = try await URLSession.shared.data(from: url).0
+            let data = try await urlSession.data(from: url).0
             #if canImport(UIKit)
             let image = UIImage(data: data)
             #elseif canImport(AppKit)
