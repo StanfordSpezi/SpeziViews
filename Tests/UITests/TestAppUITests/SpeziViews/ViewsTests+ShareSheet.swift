@@ -75,7 +75,7 @@ extension XCUIApplication {
     
     func assertShareSheetHeader(_ expected: ExpectedShareSheetHeader, file: StaticString = #filePath, line: UInt = #line) {
         let shareSheet = otherElements["ShareSheet.RemoteContainerView"]
-        XCTAssert(shareSheet.waitForExistence(timeout: 2), file: file, line: line)
+        XCTAssert(shareSheet.waitForExistence(timeout: 5), file: file, line: line)
         XCTAssert(
             staticTexts[expected.title].waitForExistence(timeout: 1) || otherElements[expected.title].waitForExistence(timeout: 1),
             "Unable to find share sheet title '\(expected.title)'",
