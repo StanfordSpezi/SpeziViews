@@ -26,8 +26,8 @@ struct AdvancedMarkdownViewTest: View {
     private typealias PlatformImage = NSImage
 #endif
     
-    private let document = try! MarkdownDocument( // swiftlint:disable:this force_try
-        processing: """
+    private static let document: MarkdownDocument = { // swiftlint:disable:this closure_body_length
+        let text = """
             ---
             title: Welcome to the Spezi Ecosystem
             date: 2025-06-22T14:41:16+02:00
@@ -43,16 +43,35 @@ struct AdvancedMarkdownViewTest: View {
             
             ### SpeziHealthKit
             text text text
-            """,
-        customElementNames: ["marquee"]
-    )
+            
+            ### Test Image
+            ![Bean1](bean.tiff)
+            ... and that's a wrap!
+            
+            ![Bean2](bean.tiff)
+            """
+        let dir = URL.temporaryDirectory.appending(component: UUID().uuidString, directoryHint: .isDirectory)
+        let url = dir.appending(component: "doc.md")
+        let fileManager = FileManager.default
+        do {
+            try fileManager.createDirectory(at: dir, withIntermediateDirectories: true)
+            try Data(text.utf8).write(to: url)
+            try fileManager.copyItem(
+                at: Bundle.main.url(forResource: "jellybeans_USC-SIPI", withExtension: "tiff")!, // swiftlint:disable:this force_unwrapping
+                to: dir.appendingPathComponent("bean", conformingTo: .tiff)
+            )
+            return try MarkdownDocument(contentsOf: url, customElementNames: ["marquee"])
+        } catch {
+            fatalError("Unable to create test input: \(error)")
+        }
+    }()
     
     var body: some View {
         ScrollView {
             MarkdownView(
-                markdownDocument: document,
+                markdownDocument: Self.document,
                 dividerRule: .init { blockIdx, block in
-                    block.isCustomElement || (block.isMarkdown && document.blocks[safe: blockIdx + 1]?.isMarkdown == false)
+                    block.isCustomElement || (block.isMarkdown && Self.document.blocks[safe: blockIdx + 1]?.isMarkdown == false)
                 }
             ) { _, element in
                 switch element.name {
@@ -85,12 +104,12 @@ struct AdvancedMarkdownViewTest: View {
             .padding(.horizontal)
         }
         .toolbar {
-            if let title = document.metadata.title {
+            if let title = Self.document.metadata.title {
                 ToolbarItem(placement: .principal) {
                     VStack {
                         Text(title)
                             .font(.headline)
-                        if let date = document.metadata["date"].flatMap({ try? Date($0, strategy: .iso8601) }) {
+                        if let date = Self.document.metadata["date"].flatMap({ try? Date($0, strategy: .iso8601) }) {
                             Text(date, format: .dateTime.year().month().day().hour(.defaultDigits(amPM: .abbreviated)).minute())
                                 .font(.subheadline)
                                 .environment(\.timeZone, .losAngeles)

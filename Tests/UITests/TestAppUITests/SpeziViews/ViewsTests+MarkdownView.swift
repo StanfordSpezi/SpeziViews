@@ -28,7 +28,7 @@ extension ViewsTests {
     
     
     @MainActor
-    func testAdvancedMarkdownView() async throws {
+    func testAdvancedMarkdownView() throws {
         let app = XCUIApplication()
         app.launch()
         app.open(target: "SpeziViews")
@@ -59,11 +59,15 @@ extension ViewsTests {
             XCTAssert(image.exists)
             for _ in 0..<10 {
                 xCoords.append(image.frame.center.x)
-                try await Task.sleep(for: .seconds(0.5))
+                sleep(for: .seconds(0.5))
             }
-            
-            XCTAssertFalse(Set(xCoords).isEmpty, "xCoords: \(xCoords)")
+            XCTAssertGreaterThan(Set(xCoords).count, 2, "xCoords: \(xCoords)")
         }
+        
+        app.scrollViews.firstMatch.swipeUp()
+        // we can check for Bean2 bc that's a non-inline image;
+        // Bean1 is inline and as a result gets subsumed into the AttributedString, and is not represented in the accessibility tree.
+        XCTAssert(app.images["Bean2"].exists)
     }
 }
 
