@@ -41,7 +41,8 @@ let package = Package(
                 .product(name: "Spezi", package: "Spezi"),
                 .product(name: "SpeziFoundation", package: "SpeziFoundation"),
                 .product(name: "SpeziLocalization", package: "SpeziFoundation"),
-                .product(name: "MarkdownUI", package: "swift-markdown-ui")
+                .product(name: "MarkdownUI", package: "swift-markdown-ui"),
+                .product(name: "OrderedCollections", package: "swift-collections")
             ],
             resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
@@ -58,8 +59,7 @@ let package = Package(
             name: "SpeziValidation",
             dependencies: [
                 .target(name: "SpeziViews"),
-                .product(name: "SpeziFoundation", package: "SpeziFoundation"),
-                .product(name: "OrderedCollections", package: "swift-collections")
+                .product(name: "SpeziFoundation", package: "SpeziFoundation")
             ],
             resources: [.process("Resources")],
             plugins: [] + swiftLintPlugin()
