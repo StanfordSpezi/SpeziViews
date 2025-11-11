@@ -6,14 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+// swiftlint:disable file_types_order
+
 import SwiftUI
-
-
-enum AsyncButtonState {
-    case idle
-    case disabled
-    case disabledAndProcessing
-}
 
 
 /// A SwiftUI `Button` that initiates an asynchronous (throwing) action.
@@ -73,6 +68,12 @@ public struct AsyncButton<Label: View>: View {
         case debounce
         case result(Result<Void, any Error>)
     }
+    
+    private enum AsyncButtonState {
+        case idle
+        case disabled
+        case disabledAndProcessing
+    }
 
     private enum Event {
         case runAction(_ action: @MainActor () async throws -> Void)
@@ -126,16 +127,16 @@ public struct AsyncButton<Label: View>: View {
                 }
             }
         }
-            .disabled(consideredDisabled)
-            .task {
-                for await event in actionSignal.stream {
-                    switch event {
-                    case let .runAction(closure):
-                        await self.runAction(closure)
-                    }
+        .disabled(consideredDisabled)
+        .task {
+            actionSignal = AsyncStream.makeStream() // durability over multiple appears
+            for await event in actionSignal.stream {
+                switch event {
+                case let .runAction(closure):
+                    await self.runAction(closure)
                 }
-                actionSignal = AsyncStream.makeStream() // durability over multiple appears
             }
+        }
     }
 
     /// Creates an async button that generates its label from a provided localized string.
@@ -246,9 +247,7 @@ public struct AsyncButton<Label: View>: View {
         guard buttonState == .idle else {
             return
         }
-
         buttonState = .disabled
-
         // we need to make sure that we pass in the latest closure with the latest captured view state.
         self.actionSignal.continuation.yield(.runAction(self.action))
     }
@@ -257,21 +256,17 @@ public struct AsyncButton<Label: View>: View {
         guard buttonState == .disabled else {
             return
         }
-
         defer {
             buttonState = .idle
         }
-
         withAnimation(.easeOut(duration: 0.2)) {
             viewState = .processing
         }
-
         let result = await withTaskGroup(of: GroupResult.self) { group in
             group.addTask {
                 await debounceProcessingIndicator()
                 return .debounce
             }
-
             group.addTask {
                 do {
                     return .result(.success(try await action()))
@@ -279,19 +274,15 @@ public struct AsyncButton<Label: View>: View {
                     return .result(.failure(error))
                 }
             }
-
             guard let first = await group.next() else {
                 fatalError("Unexpected TaskGroup state.")
             }
-
             if case .result = first {
                 group.cancelAll() // cancel the debounce
             }
-
             guard let second = await group.next() else {
                 fatalError("Unexpected TaskGroup state.")
             }
-
             switch (first, second) {
             case (let .result(result), .debounce), (.debounce, let .result(result)):
                 return result
@@ -299,7 +290,6 @@ public struct AsyncButton<Label: View>: View {
                 fatalError("TaskGroup inconsistency.")
             }
         }
-
         switch result {
         case .success:
             // the button action might set the state back to idle to prevent this animation
@@ -318,12 +308,10 @@ public struct AsyncButton<Label: View>: View {
 
     private func debounceProcessingIndicator() async {
         try? await Task.sleep(for: processingDebounceDuration)
-
         // this is actually important to catch cases where the action runs a tiny bit faster than the debounce timer
         guard !Task.isCancelled else {
             return
         }
-
         withAnimation(.easeOut(duration: 0.2)) {
             buttonState = .disabledAndProcessing
         }
@@ -332,37 +320,38 @@ public struct AsyncButton<Label: View>: View {
 
 
 #if DEBUG
-struct AsyncThrowingButton_Previews: PreviewProvider {
-    struct PreviewButton: View {
-        var title: String = "Test Button"
-        var role: ButtonRole?
-        var duration: Duration = .seconds(1)
-        var action: () async throws -> Void = {}
+private struct PreviewButton: View {
+    var title: String = "Test Button"
+    var role: ButtonRole?
+    var duration: Duration = .seconds(1)
+    var action: () async throws -> Void = {}
+    @State var state: ViewState = .idle
 
-        @State var state: ViewState = .idle
-
-        var body: some View {
-            AsyncButton(title, role: role, state: $state) {
-                try await Task.sleep(for: duration)
-                try await action()
-            }
-                .viewStateAlert(state: $state)
+    var body: some View {
+        AsyncButton(title, role: role, state: $state) {
+            try await Task.sleep(for: duration)
+            try await action()
         }
+        .viewStateAlert(state: $state)
+        .buttonStyleGlassProminent()
     }
+}
 
-    static var previews: some View {
-        Group {
-            PreviewButton()
-            PreviewButton(title: "Test Button with short action", duration: .milliseconds(100))
-            PreviewButton(title: "Test Button with Error", duration: .seconds(0)) {
-                throw CancellationError()
-            }
-
-            PreviewButton(title: "Processing only Button", state: .processing)
-
-            PreviewButton(title: "Destructive Button", role: .destructive)
-        }
-            .buttonStyle(.borderedProminent)
+#Preview {
+    PreviewButton()
+}
+#Preview {
+    PreviewButton(title: "Test Button with short action", duration: .milliseconds(100))
+}
+#Preview {
+    PreviewButton(title: "Test Button with Error", duration: .seconds(0)) {
+        throw CancellationError()
     }
+}
+#Preview {
+    PreviewButton(title: "Processing only Button", state: .processing)
+}
+#Preview {
+    PreviewButton(title: "Destructive Button", role: .destructive)
 }
 #endif

@@ -212,6 +212,17 @@ final class ViewsTests: XCTestCase {
 
         XCTAssert(app.staticTexts["Captured Hello World"].waitForExistence(timeout: 0.5))
     }
+    
+    @MainActor
+    func testAsyncButtonInToolbar() throws {
+        let app = XCUIApplication()
+        app.launch()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
+        app.buttons["AsyncButton Toolbar Behaviour"].tap()
+        XCTAssert(app.staticTexts["Did tap, false"].waitForExistence(timeout: 2))
+        app.navigationBars["AsyncButtonInToolbar"].buttons["Tap Me!"].tap()
+        XCTAssert(app.staticTexts["Did tap, true"].waitForExistence(timeout: 2))
+    }
 
     @MainActor
     func testListRowAccessibility() throws {

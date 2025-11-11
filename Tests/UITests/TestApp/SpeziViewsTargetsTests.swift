@@ -17,6 +17,7 @@ struct SpeziViewsTargetsTests: View {
     @State var presentingSpeziPersonalInfo = false
     @State var presentingSpeziValidation = false
     @State var presentingManagedNavigationStack = false
+    @State var presentingToolbarAsyncButtonSheet = false
 
 #if os(macOS)
     @MainActor
@@ -70,6 +71,12 @@ struct SpeziViewsTargetsTests: View {
                     CanvasTestView()
                 }
                 #endif
+                
+                Section("Other") {
+                    Button("AsyncButton Toolbar Behaviour") {
+                        presentingToolbarAsyncButtonSheet = true
+                    }
+                }
 
                 Section {
                     NavigationLink("ViewState") {
@@ -93,45 +100,48 @@ struct SpeziViewsTargetsTests: View {
                     Text("Example Views to take screenshots for SpeziViews")
                 }
             }
-                .navigationTitle("Targets")
-                .toolbar {
-#if os(macOS)
-                    ToolbarItem(placement: .automatic) {
-                        Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
-                    }
-#else
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
-                    }
-#endif
+            .navigationTitle("Targets")
+            .toolbar {
+                #if os(macOS)
+                ToolbarItem(placement: .automatic) {
+                    Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
                 }
+                #else
+                ToolbarItem(placement: .topBarTrailing) {
+                    Toggle("Flip Layout Direction", isOn: $enableFlippedLayoutDirection)
+                }
+                #endif
+            }
         }
         .environment(\.layoutDirection, effectiveLayoutDirection)
-            .sheet(isPresented: $presentingSpeziViews) {
-                TestAppTestsView<SpeziViewsTests>(showCloseButton: true)
-                    .environment(\.layoutDirection, effectiveLayoutDirection)
+        .sheet(isPresented: $presentingSpeziViews) {
+            TestAppTestsView<SpeziViewsTests>(showCloseButton: true)
+                .environment(\.layoutDirection, effectiveLayoutDirection)
 #if os(macOS)
-                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+                .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif
-            }
-            .sheet(isPresented: $presentingSpeziPersonalInfo) {
-                TestAppTestsView<SpeziPersonalInfoTests>(showCloseButton: true)
+        }
+        .sheet(isPresented: $presentingSpeziPersonalInfo) {
+            TestAppTestsView<SpeziPersonalInfoTests>(showCloseButton: true)
 #if os(macOS)
-                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+                .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif
-            }
-            .sheet(isPresented: $presentingSpeziValidation) {
-                TestAppTestsView<SpeziValidationTests>(showCloseButton: true)
+        }
+        .sheet(isPresented: $presentingSpeziValidation) {
+            TestAppTestsView<SpeziValidationTests>(showCloseButton: true)
 #if os(macOS)
-                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+                .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif
-            }
-            .sheet(isPresented: $presentingManagedNavigationStack) {
-                ManagedNavigationStackTestView()
+        }
+        .sheet(isPresented: $presentingManagedNavigationStack) {
+            ManagedNavigationStackTestView()
 #if os(macOS)
-                    .frame(minWidth: idealWidth, minHeight: idealHeight)
+                .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif
-            }
+        }
+        .sheet(isPresented: $presentingToolbarAsyncButtonSheet) {
+            AsyncButtonToolbarTestSheet()
+        }
     }
 }
 
