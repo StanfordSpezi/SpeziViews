@@ -25,6 +25,12 @@
     "Append Custom View" : {
 
     },
+    "AsyncButton Toolbar Behaviour" : {
+
+    },
+    "AsyncButtonInToolbar" : {
+
+    },
     "Buy" : {
 
     },
@@ -75,6 +81,9 @@
 
     },
     "Did Draw Anything: %@" : {
+
+    },
+    "Did tap" : {
 
     },
     "Done" : {
@@ -208,6 +217,9 @@
     "Option Set" : {
 
     },
+    "Other" : {
+
+    },
     "Password" : {
 
     },
@@ -329,6 +341,9 @@
 
     },
     "Tap Me ;)" : {
+
+    },
+    "Tap Me!" : {
 
     },
     "Targets" : {

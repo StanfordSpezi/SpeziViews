@@ -18,8 +18,8 @@ import SwiftUI
 @dynamicMemberLookup
 @MainActor
 public struct CapturedValidationState {
-    private nonisolated let engine: ValidationEngine
-    private nonisolated let input: String
+    nonisolated private let engine: ValidationEngine
+    nonisolated private let input: String
     private let focusState: FocusState<Bool>.Binding
 
     init(engine: ValidationEngine, input: String, focus focusState: FocusState<Bool>.Binding) {
@@ -48,7 +48,7 @@ public struct CapturedValidationState {
 
 
 extension CapturedValidationState: Equatable, Sendable {
-    public static nonisolated func == (lhs: CapturedValidationState, rhs: CapturedValidationState) -> Bool {
+    nonisolated public static func == (lhs: CapturedValidationState, rhs: CapturedValidationState) -> Bool {
         lhs.engine === rhs.engine && lhs.input == rhs.input
     }
 }
