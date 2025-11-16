@@ -34,6 +34,12 @@
     "Completed" : {
       "comment" : "Completed Tile. Subtitle",
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminada"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
