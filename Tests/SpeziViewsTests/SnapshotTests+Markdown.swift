@@ -7,6 +7,7 @@
 //
 
 import SnapshotTesting
+import SpeziFoundation
 @testable import SpeziViews
 import SwiftUI
 import Testing
@@ -19,11 +20,10 @@ struct PadSnapshotTests {
     func reverseLabelStyle() {
         let label = SwiftUI.Label("100 %", image: "battery.100")
             .labelStyle(.reverse)
-
-#if os(iOS)
+        #if os(iOS)
         assertSnapshot(of: label, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
         assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
-#endif
+        #endif
     }
 
     @Test
@@ -33,26 +33,21 @@ struct PadSnapshotTests {
                 Text(verbatim: "20 °C, Sunny")
             }
         }
-
         let largeRow = row
             .dynamicTypeSize(.accessibility3)
-
-#if os(iOS)
+        #if os(iOS)
         assertSnapshot(of: row, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
-
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-XA3")
-#endif
+        #endif
     }
 
-    @Test
-    func markdownView() async {
 #if os(iOS)
-        let markdownView = MarkdownView(
-            markdown: Data("*Clean* Coding".utf8)
-        )
+    @Test
+    func markdownView() async throws {
+        let view = MarkdownView(document: try MarkdownDocument(processing: "*Clean* Coding"))
             .multilineTextAlignment(.center)
 
-        let host = UIHostingController(rootView: markdownView)
+        let host = UIHostingController(rootView: view)
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = host
         window.makeKeyAndVisible()
@@ -61,18 +56,12 @@ struct PadSnapshotTests {
         await Task.yield()
         host.view.layoutIfNeeded()
 
-        assertSnapshot(
-            of: window,
-            as: .image,
-            named: "iphone-regular"
-        )
-#endif
+        assertSnapshot(of: window, as: .image, named: "iphone-regular")
     }
     
     @Test
     func markdownView2() async throws {
-        #if os(iOS)
-        let view = MarkdownView(markdownDocument: try .init(processing: "*Clean* Coding"))
+        let view = MarkdownView(document: try .init(processing: "*Clean* Coding"))
         assertSnapshot(
             of: view.multilineTextAlignment(.leading),
             as: .image(layout: .device(config: .iPhone13Pro)),
@@ -88,6 +77,6 @@ struct PadSnapshotTests {
             as: .image(layout: .device(config: .iPhone13Pro)),
             named: "trailing-iphone-regular"
         )
-        #endif
     }
+#endif
 }
