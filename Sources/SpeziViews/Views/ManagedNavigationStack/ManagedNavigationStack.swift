@@ -23,7 +23,7 @@ import SwiftUI
 /// The ``ManagedNavigationStack/Path``'s ``ManagedNavigationStack/Path/nextStep()`` and ``ManagedNavigationStack/Path/navigateToNextStep(matching:includeIntermediateSteps:)``,
 /// functions can be used to programmatically navigate within the stack.
 /// Furthermore, one can dynamically append custom navigation steps that are not declared within the  ``ManagedNavigationStack``
-/// (e.g. as the structure of these steps isn't linear) via ``ManagedNavigationStack/Path/append(customView:)``.
+/// (e.g. as the structure of these steps isn't linear) via ``ManagedNavigationStack/Path/append(_:)``.
 /// See the ``ManagedNavigationStack/Path`` for more details.
 ///
 /// The ``ManagedNavigationStack/Path`` is injected as an environment object into the environment of the ``ManagedNavigationStack`` view hierarchy,

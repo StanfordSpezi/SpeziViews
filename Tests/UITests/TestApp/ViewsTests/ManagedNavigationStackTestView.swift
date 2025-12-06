@@ -78,7 +78,11 @@ struct ManagedNavigationStackTestView: View {
                     path.navigateToNextStep(matching: .identifier("step7"), includeIntermediateSteps: true)
                 }
                 Button("Append Custom View") {
-                    path.append(customView: Step { Text("Custom Step") })
+                    path.append {
+                        Step {
+                            Text("Custom Step")
+                        }
+                    }
                 }
             }
             Step {
