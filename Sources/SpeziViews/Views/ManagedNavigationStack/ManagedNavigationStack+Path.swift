@@ -29,6 +29,7 @@ extension ManagedNavigationStack {
     /// ### Navigating within a `Path`
     /// - ``nextStep()``
     /// - ``navigateToNextStep(matching:includeIntermediateSteps:)``
+    /// - ``append(_:)``
     /// - ``append(customView:)``
     /// - ``removeLast()``
     @MainActor
@@ -59,7 +60,7 @@ extension ManagedNavigationStack {
         /// Stores all navigation steps as declared within the ``ManagedNavigationStack`` and keep them in order.
         @ObservationIgnored private var steps: OrderedDictionary<NavigationStepIdentifier, any View> = [:]
         /// Stores all custom navigation steps that are appended to the ``ManagedNavigationStack/Path``
-        /// via the ``append(customView:)``  instance methods
+        /// via the ``append(_:)``  instance methods
         @ObservationIgnored private var customSteps: [NavigationStepIdentifier: any View] = [:]
         /// Indicates whether the Path's `configure` function has been called at least once.
         @ObservationIgnored private(set) var didConfigure = false
@@ -213,7 +214,7 @@ extension ManagedNavigationStack.Path {
 extension ManagedNavigationStack.Path {
     /// Internal function used to navigate to the respective `View` via the `NavigationStack.navigationDestination(for:)` function,
     /// either regularly declared within the ``ManagedNavigationStack`` or custom steps
-    /// passed via ``append(customView:)``, identified by the ``NavigationStepIdentifier``.
+    /// passed via ``append(_:)``, identified by the ``NavigationStepIdentifier``.
     ///
     /// - Parameters:
     ///   - stepIdentifier: The navigation step identified via ``NavigationStepIdentifier``
@@ -316,6 +317,19 @@ extension ManagedNavigationStack.Path {
         )
         customSteps[customStepIdentifier] = customView
         pushStep(identifiedBy: customStepIdentifier)
+    }
+    
+    /// Moves the navigation path to the custom view.
+    ///
+    /// - Note: The custom `View` does not have to be declared within the ``ManagedNavigationStack``.
+    ///     Resulting from that, the internal state of the ``ManagedNavigationStack/Path`` is still referencing to the last regular step.
+    ///
+    /// - Parameters:
+    ///   - view: A custom `View` instance that should be shown next in the navigation flow.
+    ///     It isn't required to declare this view within the ``ManagedNavigationStack``.
+    @inlinable
+    public func append(@ViewBuilder _ view: () -> some View) {
+        append(customView: view())
     }
     
     /// Removes the last element on top of the navigation path.
