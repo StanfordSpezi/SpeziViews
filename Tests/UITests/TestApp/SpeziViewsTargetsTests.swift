@@ -117,9 +117,11 @@ struct SpeziViewsTargetsTests: View {
         .sheet(isPresented: $presentingSpeziViews) {
             TestAppTestsView<SpeziViewsTests>(showCloseButton: true)
                 .environment(\.layoutDirection, effectiveLayoutDirection)
-#if os(macOS)
+                #if os(macOS)
                 .frame(minWidth: idealWidth, minHeight: idealHeight)
-#endif
+                #elseif os(visionOS)
+                .frame(minWidth: 900, minHeight: 900)
+                #endif
         }
         .sheet(isPresented: $presentingSpeziPersonalInfo) {
             TestAppTestsView<SpeziPersonalInfoTests>(showCloseButton: true)

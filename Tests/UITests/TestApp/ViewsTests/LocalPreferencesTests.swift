@@ -43,6 +43,10 @@ struct LocalPreferencesTests: View {
                 BindingBasedCounter(value: $counter)
             }
         }
+        .task {
+            // we need to reset this before every run, in case the simulator still contains the previous run's state.
+            counter = 0
+        }
     }
 }
 
