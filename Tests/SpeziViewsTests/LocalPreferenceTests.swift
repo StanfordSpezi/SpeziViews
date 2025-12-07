@@ -24,30 +24,31 @@ final class LocalPreferenceTests {
     }
     
     deinit { // swiftlint:disable:this type_contents_order
-        for key in suite.dictionaryRepresentation().keys where key.starts(with: "edu_stanford_SpeziViews_") {
+        for key in suite.dictionaryRepresentation().keys where key.starts(with: "edu_stanford_SpeziViews_unitTests") {
             suite.removeObject(forKey: key)
         }
     }
     
     @Test
     func simpleTypes() throws {
-        #expect(LocalPreferenceKey<Any>.string.key == "")
+        #expect(LocalPreferenceKey<Any>.string.rawValue == "edu_stanford_SpeziViews_unitTests_string")
+        #expect(LocalPreferenceKey<Any>.stringOpt.rawValue == "edu_stanford_SpeziViews_unitTests_stringOpt")
         #expect(store[.string] == "")
         #expect(store[.stringOpt] == nil)
-        #expect(suite.string(forKey: "edu_stanford_MyHeartCounts_string") == nil)
+        #expect(suite.string(forKey: "edu_stanford_SpeziViews_unitTests_string") == nil)
         store[.string] = "abc"
         #expect(store[.string] == "abc")
-        #expect(try #require(suite.string(forKey: "edu_stanford_MyHeartCounts_string")) == "abc")
+        #expect(try #require(suite.string(forKey: "edu_stanford_SpeziViews_unitTests_string")) == "abc")
     }
 }
 
 
 fileprivate extension LocalPreferenceKey { // swiftlint:disable:this no_extension_access_modifier
     static var string: LocalPreferenceKey<String> {
-        .make("string", default: "")
+        .make(namespace: .custom("edu.stanford.SpeziViews.unitTests"), "string", default: "")
     }
     
     static var stringOpt: LocalPreferenceKey<String?> {
-        .make("stringOpt", default: nil)
+        .make(namespace: .custom("edu.stanford.SpeziViews.unitTests"), "stringOpt", default: nil)
     }
 }
