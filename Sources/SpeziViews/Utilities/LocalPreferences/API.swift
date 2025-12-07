@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable file_types_order
+// swiftlint:disable file_types_order identifier_name type_name
 
 import Foundation
 import SpeziFoundation
@@ -15,7 +15,10 @@ import SwiftUI
 
 /// Types which can be directly put into a UserDefaults store (bc there is an official overload of the `set(_:forKey:)` function).
 public protocol _HasDirectUserDefaultsSupport {
+    /// Constructs an instance of the type by loading it from a `UserDefaults` store.
     static func _load(from defaults: UserDefaults, forKey key: String) -> Self?
+    
+    /// Persists an instance of the type to a `UserDefaults` store.
     func _store(to defaults: UserDefaults, forKey key: String) throws
 }
 

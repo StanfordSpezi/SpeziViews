@@ -10,36 +10,6 @@ import SpeziViews
 import SwiftUI
 
 
-enum RootTab: String {
-    case home, feed, account
-}
-
-
-struct RootView: View {
-    @LocalPreference(.rootTab) private var selectedTab
-    
-    var body: some View {
-        TabView(selection: $selectedTab) {
-            Tab(value: .home) {
-                // ...
-            }
-            Tab(value: .feed) {
-                // ...
-            }
-            Tab(value: .account) {
-                // ...
-            }
-        }
-    }
-}
-
-
-extension LocalPreferenceKey {
-    static var rootTab: LocalPreferenceKey<RootTab> {
-        .make("rootTab", default: .home)
-    }
-}
-
 struct LocalPreferencesTests: View {
     @LocalPreference(.counter)
     private var counter

@@ -43,12 +43,12 @@ final class LocalPreferenceTests {
 }
 
 
-fileprivate extension LocalPreferenceKey { // swiftlint:disable:this no_extension_access_modifier
-    static var string: LocalPreferenceKey<String> {
+extension LocalPreferenceKey {
+    fileprivate static var string: LocalPreferenceKey<String> {
         .make(namespace: .custom("edu.stanford.SpeziViews.unitTests"), "string", default: "")
     }
     
-    static var stringOpt: LocalPreferenceKey<String?> {
+    fileprivate static var stringOpt: LocalPreferenceKey<String?> {
         .make(namespace: .custom("edu.stanford.SpeziViews.unitTests"), "stringOpt", default: nil)
     }
 }

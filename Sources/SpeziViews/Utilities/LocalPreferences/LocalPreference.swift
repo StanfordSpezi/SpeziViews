@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
+// swiftlint:disable file_types_order
+
 import Foundation
 import SwiftUI
 
@@ -19,7 +21,7 @@ import SwiftUI
 ///
 /// Similar to `@State` and `@AppStorage`, you can use the `$`-prefix notation to obtain a `Binding` to the value.
 ///
-///```swift
+/// ```swift
 /// enum RootTab: String {
 ///     case home, feed, account
 /// }

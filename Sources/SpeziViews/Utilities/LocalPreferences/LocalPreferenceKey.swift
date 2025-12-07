@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
+// swiftlint:disable file_types_order function_default_parameter_at_end
+
 import Foundation
 
 
@@ -40,44 +42,8 @@ import Foundation
 ///
 /// ### Supporting Types
 /// - ``LocalPreferencesStore``
+/// - ``LocalPreferenceNamespace``
 public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
-    /// A namespace used to avoid conflicts between keys within a single `UserDefaults` store.
-    ///
-    /// ## Topics
-    ///
-    /// ### Creating Namespaces
-    /// - ``app``
-    /// - ``bundle(_:)``
-    /// - ``custom(_:)``
-    public struct Namespace: Sendable {
-        @usableFromInline let value: String
-        
-        @inlinable
-        init(value: String) {
-            self.value = value
-        }
-        
-        /// The default namespace, based on the current app's bundle id.
-        @inlinable public static var app: Self {
-            .bundle(.main)
-        }
-        
-        /// Creates a namespace that scopes keys based on a bundle id.
-        @inlinable
-        public static func bundle(_ bundle: Bundle) -> Self {
-            guard let bundleId = bundle.bundleIdentifier else {
-                preconditionFailure("Unable to construct '\(Self.self)': missing bundle id")
-            }
-            return Self(value: bundleId)
-        }
-        
-        /// Creates a namespace that scopes keys based on a custom string.
-        @inlinable
-        public static func custom(_ value: String) -> Self {
-            Self(value: value)
-        }
-    }
-    
     /// The actual key that is used when reading or writing a value to the `UserDefaults` using this key.
     ///
     /// - Note: This value is not identical to the key passed to e.g. ``make(namespace:_:default:)-9b4an``;
@@ -87,7 +53,7 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
     @usableFromInline let write: @Sendable (Value?, UserDefaults) throws -> Void
     
     private init(
-        namespace: Namespace,
+        namespace: LocalPreferenceNamespace,
         key: String,
         read: @escaping @Sendable (String, UserDefaults) -> Value,
         write: @escaping @Sendable (String, Value?, UserDefaults) throws -> Void
@@ -102,7 +68,7 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
     
     /// Creates a `LocalPreferenceKey`.
     public static func make(
-        namespace: Namespace = .app,
+        namespace: LocalPreferenceNamespace = .app,
         _ key: String,
         default makeDefault: @autoclosure @escaping @Sendable () -> Value
     ) -> Self where Value: _HasDirectUserDefaultsSupport {
@@ -115,7 +81,7 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
     
     /// Creates a `LocalPreferenceKey` for a `RawRepresentable` value.
     public static func make(
-        namespace: Namespace = .app,
+        namespace: LocalPreferenceNamespace = .app,
         _ key: String,
         default makeDefault: @autoclosure @escaping @Sendable () -> Value
     ) -> Self where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
@@ -133,7 +99,7 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
     /// Creates a `LocalPreferenceKey` for a `Codable` value.
     @_disfavoredOverload
     public static func make(
-        namespace: Namespace = .app,
+        namespace: LocalPreferenceNamespace = .app,
         _ key: String,
         default makeDefault: @autoclosure @escaping @Sendable () -> Value
     ) -> Self where Value: Codable {
@@ -149,5 +115,46 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
             let data = try encoder.encode(newValue)
             defaults.set(data, forKey: key)
         }
+    }
+}
+
+
+/// A namespace used to avoid conflicts between keys within a single `UserDefaults` store.
+///
+/// ## Topics
+///
+/// ### Creating Namespaces
+/// - ``app``
+/// - ``bundle(_:)``
+/// - ``custom(_:)``
+public struct LocalPreferenceNamespace: Sendable {
+    @usableFromInline let value: String
+    
+    @inlinable
+    init(value: String) {
+        self.value = value
+    }
+}
+
+
+extension LocalPreferenceNamespace {
+    /// The default namespace, based on the current app's bundle id.
+    @inlinable public static var app: Self {
+        .bundle(.main)
+    }
+    
+    /// Creates a namespace that scopes keys based on a bundle id.
+    @inlinable
+    public static func bundle(_ bundle: Bundle) -> Self {
+        guard let bundleId = bundle.bundleIdentifier else {
+            preconditionFailure("Unable to construct '\(Self.self)': missing bundle id")
+        }
+        return Self(value: bundleId)
+    }
+    
+    /// Creates a namespace that scopes keys based on a custom string.
+    @inlinable
+    public static func custom(_ value: String) -> Self {
+        Self(value: value)
     }
 }
