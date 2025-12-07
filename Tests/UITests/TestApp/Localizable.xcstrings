@@ -74,10 +74,25 @@
     "Cookies" : {
 
     },
+    "Counter" : {
+
+    },
+    "Counter (alt)" : {
+
+    },
+    "Counter (Binding)" : {
+
+    },
     "Credentials" : {
 
     },
     "Custom Step" : {
+
+    },
+    "Decrement" : {
+
+    },
+    "Decrement via Binding" : {
 
     },
     "Did Draw Anything: %@" : {
@@ -153,6 +168,9 @@
 
     },
     "Increment Counter" : {
+
+    },
+    "Increment via Binding" : {
 
     },
     "Inline Picker" : {
@@ -242,6 +260,12 @@
 
     },
     "Reset Password" : {
+
+    },
+    "Reset via Binding" : {
+
+    },
+    "Reset via UserDefaults API" : {
 
     },
     "Second" : {

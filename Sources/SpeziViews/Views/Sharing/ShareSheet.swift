@@ -70,6 +70,7 @@ extension View {
     /// - Using the `ShareLink` on macOS will result in an empty share sheet for certain inputs; this API will present a properly populated share sheet for the same inputs.
     ///
     /// ## Topics
+    /// ### Supporting Types
     /// - ``ShareSheetInput``
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
@@ -100,6 +101,7 @@ extension View {
     /// - Using the `ShareLink` on macOS will result in an empty share sheet for certain inputs; this API will present a properly populated share sheet for the same inputs.
     ///
     /// ## Topics
+    /// ### Supporting Types
     /// - ``ShareSheetInput``
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)

@@ -51,7 +51,6 @@ SpeziViews provides easy-to-use and easily-reusable UI components that makes the
 
 ### Layout
 Default layouts and utilities to automatically adapt your view layouts to dynamic type sizes, device orientation, and device size classes.
-
 - ``SimpleTile``
 - ``TileHeader``
 - ``CompletedTileHeader``
@@ -61,7 +60,6 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``ListHeader``
 
 ### Controls
-
 - ``AsyncButton``
 - ``SwiftUICore/EnvironmentValues/processingDebounceDuration``
 - ``SwiftUICore/View/asyncButtonProcessingStyle(_:)``
@@ -74,64 +72,55 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``SwiftUICore/View/shareSheet(items:)``
 
 ### Managed Navigation
-
 - ``ManagedNavigationStack``
 - ``ManagedNavigationStack/Path``
 
 ### Displaying Text
-
 - ``Label``
 - ``LazyText``
 - ``MarkdownView``
 - ``TextContentType``
 
 ### Images
-
 - ``ImageReference``
 
 ### Conditional Modifiers
-
 - ``SwiftUICore/View/if(_:transform:)``
 - ``SwiftUICore/View/if(condition:transform:)``
 
 ### Animations and Visual Effects
-
 - ``SwiftUICore/View/shimmer(repeatInterval:)``
 - ``SwiftUICore/View/skeletonLoading(replicationCount:repeatInterval:spacing:)``
 
 ### Interact with the View Environment
-
 - ``SwiftUICore/View/focusOnTap()``
 - ``SwiftUICore/View/observeOrientationChanges(_:)``
 
 ### View Management
-
 - ``ManagedViewUpdate``
 
 ### Styles
-
 - ``ReverseLabelStyle``
 - ``SwiftUI/LabelStyle/reverse``
 
 ### Localization
-
 - ``Foundation/LocalizedStringResource/BundleDescription/atURL(from:)``
 - ``Foundation/LocalizedStringResource/localizedString(for:)``
-- ``Swift/StringProtocol/localized(_:)``
 
 ### Readers
-
 - ``HorizontalGeometryReader``
 - ``WidthPreferenceKey``
 
 ### Error Handling
-
 - ``AnyLocalizedError``
 - ``SwiftUICore/EnvironmentValues/defaultErrorDescription``
 
 ### Modules
-
 - ``ConfigureTipKit``
+
+### Preference Handling
+- ``LocalPreference``
+- ``LocalPreferenceKey``
 
 ### System Programming Interfaces
 - <doc:SPI>

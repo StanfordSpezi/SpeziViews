@@ -35,6 +35,7 @@ enum SpeziViewsTests: String, TestAppTests {
     #if !os(tvOS)
     case shareSheet = "Share Sheet"
     #endif
+    case localPreferences = "Local Preferences"
     case dismissButton = "Dismiss Button"
     
     #if !os(macOS)
@@ -118,6 +119,8 @@ enum SpeziViewsTests: String, TestAppTests {
         case .shareSheet:
             ShareSheetTests()
         #endif
+        case .localPreferences:
+            LocalPreferencesTests()
         case .dismissButton:
             DismissButtonTestView()
         }
