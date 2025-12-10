@@ -16,6 +16,7 @@ import SwiftUI
 ///
 ///
 /// The `@LocalPreference` property wrapper accesses the key's corresponding value in the `UserDefaults`.
+/// This property wrapper is auto-updating.
 ///
 /// By default, the ``LocalPreferencesStore/standard`` `UserDefaults` store is used, but you can customise this (see ``init(_:store:)``).
 ///
@@ -68,7 +69,7 @@ public struct LocalPreference<T: SendableMetatype>: DynamicProperty {
     private let store: LocalPreferencesStore
     @State private var kvoObserver = UserDefaultsKeyObserver()
     
-    /// The value.
+    /// The current value of the local preference..
     public var wrappedValue: T {
         get {
             _ = kvoObserver.viewUpdate
