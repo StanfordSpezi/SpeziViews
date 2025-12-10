@@ -26,6 +26,12 @@ import SwiftUI
 ///     case home, feed, account
 /// }
 ///
+/// extension LocalPreferenceKey {
+///     static var rootTab: LocalPreferenceKey<RootTab> {
+///         .make("rootTab", default: .home)
+///     }
+/// }
+///
 ///
 /// struct RootView: View {
 ///     @LocalPreference(.rootTab) private var selectedTab
@@ -42,13 +48,6 @@ import SwiftUI
 ///                 // ...
 ///             }
 ///         }
-///     }
-/// }
-///
-///
-/// extension LocalPreferenceKey {
-///     static var rootTab: LocalPreferenceKey<RootTab> {
-///         .make("rootTab", default: .home)
 ///     }
 /// }
 /// ```
