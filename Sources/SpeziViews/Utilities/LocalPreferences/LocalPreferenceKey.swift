@@ -83,13 +83,14 @@ public final class LocalPreferenceKey<Value: SendableMetatype>: LocalPreferenceK
     
     @inlinable
     public static func == (lhs: LocalPreferenceKey, rhs: LocalPreferenceKey) -> Bool {
-        lhs.key == rhs.key
+        ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
     }
     
     @inlinable
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(key)
+        hasher.combine(ObjectIdentifier(self))
     }
+    
     
     // MARK: Operations
     
@@ -148,19 +149,9 @@ extension LocalPreferenceKey {
         _ key: Key,
         default: @autoclosure @escaping @Sendable () -> Value
     ) where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
-        self.init(key: key, default: `default`) { key, defaults in
-            switch Value.RawValue._load(from: defaults, forKey: key.value).flatMap(Value.init(rawValue:)) {
-            case .none: .empty
-            case .some(let value): .value(value)
-            }
-        } write: { key, newValue, defaults in
-            if let rawValue = newValue?.rawValue {
-                try rawValue._store(to: defaults, forKey: key.value)
-            } else {
-                try Optional<Value.RawValue>.none._store(to: defaults, forKey: key.value)
-            }
-        }
+        self.init(rawRepresentable: Value.self, key: key, mapFrom: { $0 }, mapTo: { $0 }, default: `default`())
     }
+    
     
     /// Creates a `LocalPreferenceKey` for a `Codable` value.
     ///
@@ -177,21 +168,7 @@ extension LocalPreferenceKey {
         decoder: some TopLevelDecoder<Data> & Sendable = JSONDecoder(),
         default: @autoclosure @escaping @Sendable () -> Value
     ) where Value: Codable {
-        self.init(key: key, default: `default`) { key, defaults in
-            switch defaults.data(forKey: key.value) {
-            case .none:
-                return .empty
-            case .some(let data):
-                do {
-                    return .value(try decoder.decode(Value.self, from: data))
-                } catch {
-                    return .failure(error)
-                }
-            }
-        } write: { key, newValue, defaults in
-            let data = try encoder.encode(newValue)
-            defaults.set(data, forKey: key.value)
-        }
+        self.init(codable: Value.self, key: key, encoder: encoder, decoder: decoder, mapFrom: { $0 }, mapTo: { $0 }, default: `default`())
     }
     
     
@@ -209,21 +186,10 @@ extension LocalPreferenceKey {
     /// Creates a `LocalPreferenceKey` for an optional `RawRepresentable` value.
     ///
     /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
-    public convenience init<V: SendableMetatype & _HasDirectUserDefaultsSupport>(
+    public convenience init<V: RawRepresentable & SendableMetatype>(
         _ key: Key
-    ) where Value == Optional<V>, V: RawRepresentable, V.RawValue: _HasDirectUserDefaultsSupport, V.RawValue: SendableMetatype {
-        self.init(key: key, default: { nil }) { key, defaults in
-            switch V.RawValue._load(from: defaults, forKey: key.value).flatMap(V.init(rawValue:)) {
-            case .none: .empty
-            case .some(let value): .value(value)
-            }
-        } write: { key, newValue, defaults in
-            if let rawValue = newValue??.rawValue {
-                try rawValue._store(to: defaults, forKey: key.value)
-            } else {
-                try Optional<V.RawValue>.none._store(to: defaults, forKey: key.value)
-            }
-        }
+    ) where Value == Optional<V>, V.RawValue: _HasDirectUserDefaultsSupport, V.RawValue: SendableMetatype {
+        self.init(rawRepresentable: V.self, key: key, mapFrom: { $0 }, mapTo: { $0 }, default: nil)
     }
     
     /// Creates a `LocalPreferenceKey` for an optional `Codable` value.
@@ -232,12 +198,68 @@ extension LocalPreferenceKey {
     /// - parameter encoder: The encoder to use when writing values for this key to the ``LocalPreferencesStore``
     /// - parameter decoder: The decoder to use when reading values for this key from the ``LocalPreferencesStore``
     @_disfavoredOverload
-    public convenience init<V: SendableMetatype>(
+    public convenience init<V: Codable & SendableMetatype>(
         _ key: Key,
         encoder: some TopLevelEncoder<Data> & Sendable = JSONEncoder(),
         decoder: some TopLevelDecoder<Data> & Sendable = JSONDecoder()
-    ) where Value == Optional<V>, Value: Codable {
-        self.init(key, encoder: encoder, decoder: decoder, default: nil)
+    ) where Value == Optional<V> {
+        self.init(codable: V.self, key: key, encoder: encoder, decoder: decoder, mapFrom: { $0 }, mapTo: { $0 }, default: nil)
+    }
+    
+    
+    // MARK: Initializer Utils
+    
+    // utility initializer for unifying the handling of non-optional and optional RawRepresentable `Value` keys.
+    private convenience init<R: RawRepresentable>(
+        rawRepresentable _: R.Type,
+        key: Key,
+        mapFrom: @escaping @Sendable (R) -> Value,
+        mapTo: @escaping @Sendable (Value) -> R?,
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where R.RawValue: _HasDirectUserDefaultsSupport, R: SendableMetatype {
+        self.init(key: key, default: `default`) { key, defaults in
+            switch R.RawValue._load(from: defaults, forKey: key.value).flatMap(R.init(rawValue:)) {
+            case .none: .empty
+            case .some(let value): .value(mapFrom(value))
+            }
+        } write: { key, newValue, defaults in
+            switch newValue {
+            case .none:
+                defaults.removeObject(forKey: key.value)
+            case .some(let newValue):
+                try mapTo(newValue)?.rawValue._store(to: defaults, forKey: key.value)
+            }
+        }
+    }
+    
+    private convenience init<C: Codable & SendableMetatype>(
+        codable _: C.Type,
+        key: Key,
+        encoder: some TopLevelEncoder<Data> & Sendable,
+        decoder: some TopLevelDecoder<Data> & Sendable,
+        mapFrom: @escaping @Sendable (C) -> Value,
+        mapTo: @escaping @Sendable (Value) -> C?,
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where Value: Codable {
+        self.init(key: key, default: `default`) { key, defaults in
+            switch defaults.data(forKey: key.value) {
+            case .none:
+                return .empty
+            case .some(let data):
+                do {
+                    return .value(mapFrom(try decoder.decode(C.self, from: data)))
+                } catch {
+                    return .failure(error)
+                }
+            }
+        } write: { key, newValue, defaults in
+            if let newValue = newValue.flatMap(mapTo) {
+                let data = try encoder.encode(newValue)
+                defaults.set(data, forKey: key.value)
+            } else {
+                defaults.removeObject(forKey: key.value)
+            }
+        }
     }
 }
 

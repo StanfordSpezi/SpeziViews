@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable empty_string discouraged_optional_boolean
+// swiftlint:disable empty_string discouraged_optional_boolean type_body_length
 
 import Foundation
 import SpeziFoundation
@@ -28,6 +28,7 @@ final class LocalPreferenceTests {
     deinit { // swiftlint:disable:this type_contents_order
         UserDefaults.standard.removePersistentDomain(forName: suiteName)
     }
+    
     
     @Test
     func simpleTypes() throws {
@@ -88,28 +89,6 @@ final class LocalPreferenceTests {
         #expect(suite1.string(forKey: "world") == "hello")
     }
     
-    @Test
-    func optionalValues() throws {
-        func imp(testValue: Bool?) {
-            let key = LocalPreferenceKey<Bool?>(.init(verbatim: "optBoolTestKey", in: .none))
-            store.removeEntry(for: key)
-            #expect(store[key] == nil)
-            #expect(suite.object(forKey: key.key.value) == nil)
-            store[key] = testValue
-            if testValue == nil {
-                #expect(suite.object(forKey: key.key.value) == nil)
-            } else {
-                #expect(suite.object(forKey: key.key.value) != nil)
-            }
-            #expect(store[key] == testValue)
-            store[key] = nil
-            #expect(suite.object(forKey: key.key.value) == nil)
-            #expect(store[key] == nil)
-        }
-        imp(testValue: nil)
-        imp(testValue: false)
-        imp(testValue: true)
-    }
     
     @Test
     func directlySupportedTypes() throws {
@@ -150,6 +129,196 @@ final class LocalPreferenceTests {
     }
     
     
+    @Test
+    func optionalDirectlySupportedTypes() throws {
+        func imp(testValue: Bool?) {
+            let key = LocalPreferenceKey<Bool?>(.init(verbatim: "optBoolTestKey", in: .none))
+            store.removeEntry(for: key)
+            #expect(store[key] == nil)
+            #expect(suite.object(forKey: key.key.value) == nil)
+            store[key] = testValue
+            if testValue == nil {
+                #expect(suite.object(forKey: key.key.value) == nil)
+            } else {
+                #expect(suite.object(forKey: key.key.value) != nil)
+            }
+            #expect(store[key] == testValue)
+            store[key] = nil
+            #expect(suite.object(forKey: key.key.value) == nil)
+            #expect(store[key] == nil)
+        }
+        imp(testValue: nil)
+        imp(testValue: false)
+        imp(testValue: true)
+    }
+    
+    
+    @Test
+    func rawRepresentableTypes() throws {
+        func imp<R: RawRepresentable & Equatable & Sendable & SendableMetatype>(
+            _: R.Type,
+            defaultValue: R,
+            testValues: [R]
+        ) throws where R.RawValue: _HasDirectUserDefaultsSupport {
+            let key = LocalPreferenceKey<R>("rrKey", default: defaultValue)
+            store.removeEntry(for: key)
+            #expect(!store.hasEntry(for: key))
+            #expect(store[key] == defaultValue)
+            for testValue in testValues {
+                store[key] = testValue
+                #expect(store.hasEntry(for: key))
+                #expect(store[key] == testValue)
+                store.removeEntry(for: key)
+                #expect(!store.hasEntry(for: key))
+                #expect(store[key] == defaultValue)
+            }
+            store[key] = nil
+            #expect(!store.hasEntry(for: key))
+            #expect(store[key] == defaultValue)
+            store[key] = defaultValue
+            #expect(store.hasEntry(for: key))
+            #expect(store[key] == defaultValue)
+        }
+        
+        struct IntID: RawRepresentable, Equatable {
+            let rawValue: Int
+        }
+        struct StringID: RawRepresentable, Equatable {
+            let rawValue: String
+        }
+        
+        try imp(
+            IntID.self,
+            defaultValue: IntID(rawValue: 0),
+            testValues: [IntID(rawValue: 1), IntID(rawValue: 2), IntID(rawValue: 3)]
+        )
+        try imp(
+            StringID.self,
+            defaultValue: StringID(rawValue: ""),
+            testValues: [StringID(rawValue: "a"), StringID(rawValue: "b"), StringID(rawValue: "c")]
+        )
+    }
+    
+    
+    @Test
+    func optionalRawRepresentableTypes() throws {
+        func imp<R: RawRepresentable & Equatable & Sendable & SendableMetatype>(
+            _: R.Type,
+            testValues: [Optional<R>]
+        ) throws where R.RawValue: _HasDirectUserDefaultsSupport {
+            let key1 = LocalPreferenceKey<R?>("rrKey")
+            let key2 = LocalPreferenceKey<R?>("rrKey")
+            
+            store.removeEntry(for: key1)
+            #expect(!store.hasEntry(for: key1))
+            #expect(!store.hasEntry(for: key2))
+            #expect(store[key1] == nil)
+            #expect(store[key1] == store[key2])
+            
+            for testValue in testValues {
+                store[key1] = testValue
+                #expect(store.hasEntry(for: key1) == (testValue != nil))
+                #expect(store.hasEntry(for: key2) == (testValue != nil))
+                #expect(store[key1] == testValue)
+                #expect(store[key1] == store[key2])
+                store.removeEntry(for: key2)
+                #expect(!store.hasEntry(for: key1))
+                #expect(!store.hasEntry(for: key2))
+                #expect(store[key1] == nil)
+                #expect(store[key1] == store[key2])
+            }
+            
+            store[key2] = nil
+            #expect(!store.hasEntry(for: key1))
+            #expect(!store.hasEntry(for: key2))
+            #expect(store[key1] == nil)
+            #expect(store[key1] == store[key2])
+        }
+        
+        struct IntID: RawRepresentable, Equatable {
+            let rawValue: Int
+        }
+        struct StringID: RawRepresentable, Equatable {
+            let rawValue: String
+        }
+        
+        try imp(
+            IntID.self,
+            testValues: [IntID(rawValue: 1), nil, IntID(rawValue: 2), nil, IntID(rawValue: 3)]
+        )
+        try imp(
+            StringID.self,
+            testValues: [StringID(rawValue: "a"), nil, StringID(rawValue: "b"), nil, StringID(rawValue: "c")]
+        )
+    }
+    
+    
+    @Test
+    func codableTypes() throws {
+        func imp<T: Codable & Equatable & Sendable & SendableMetatype>(
+            _: T.Type,
+            defaultValue: T,
+            testValues: [T]
+        ) throws {
+            let key = LocalPreferenceKey<T>("codableTest", default: defaultValue)
+            store.removeEntry(for: key)
+            #expect(store[key] == defaultValue)
+            
+            for testValue in testValues {
+                store[key] = testValue
+                #expect(store[key] == testValue)
+                #expect(suite.object(forKey: key.key.value) is Data)
+            }
+        }
+        
+        struct Cat: Hashable, Codable {
+            let name: String
+            let age: Int
+        }
+        
+        try imp(
+            Cat.self,
+            defaultValue: Cat(name: "Steve", age: 7),
+            testValues: [Cat(name: "Martha", age: 5), Cat(name: "Blue", age: 9)]
+        )
+    }
+    
+    
+    @Test
+    func optionalCodableTypes() throws {
+        func imp<T: Codable & Equatable & Sendable & SendableMetatype>(
+            _: T.Type,
+            testValues: [T?]
+        ) throws {
+            let key = LocalPreferenceKey<T?>("codableTest")
+            store.removeEntry(for: key)
+            #expect(store[key] == nil)
+            
+            for testValue in testValues {
+                store[key] = testValue
+                #expect(store[key] == testValue)
+                if testValue == nil {
+                    #expect(suite.object(forKey: key.key.value) == nil)
+                } else {
+                    #expect(suite.object(forKey: key.key.value) is Data)
+                }
+            }
+        }
+        
+        struct Cat: Hashable, Codable {
+            let name: String
+            let age: Int
+        }
+        
+        try imp(
+            Cat.self,
+            testValues: [Cat(name: "Martha", age: 5), nil, Cat(name: "Blue", age: 9), nil, Cat(name: "Sōren", age: 110)]
+        )
+    }
+    
+    
+    // MARK: Migration Testing
+    
     private func withTemporarySuiteForMigration(
         _ test: (_ store: LocalPreferencesStore) throws -> Void
     ) throws {
@@ -161,6 +330,7 @@ final class LocalPreferenceTests {
         let store = LocalPreferencesStore(defaults: suite)
         try test(store)
     }
+    
     
     @Test
     func migrateName() throws {
@@ -188,6 +358,7 @@ final class LocalPreferenceTests {
             }
         }
     }
+    
     
     @Test
     func migrateType() throws {

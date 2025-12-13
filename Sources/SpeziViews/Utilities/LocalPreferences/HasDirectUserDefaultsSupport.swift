@@ -89,10 +89,8 @@ extension URL: _HasDirectUserDefaultsSupport {
 extension Optional: _HasDirectUserDefaultsSupport where Wrapped: _HasDirectUserDefaultsSupport {
     public static func _load(from defaults: UserDefaults, forKey key: String) -> Optional<Optional<Wrapped>> {
         if let value = Wrapped._load(from: defaults, forKey: key) {
-//            Self?.some(value)
             Optional<Optional<Wrapped>>.some(.some(value))
         } else {
-//            Self?.none
             Optional<Optional<Wrapped>>.some(.none)
         }
     }
