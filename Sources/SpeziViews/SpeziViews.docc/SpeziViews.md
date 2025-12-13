@@ -121,6 +121,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 ### Preference Handling
 - ``LocalPreference``
 - ``LocalPreferenceKey``
+- ``LocalPreferencesStore``
 
 ### System Programming Interfaces
 - <doc:SPI>

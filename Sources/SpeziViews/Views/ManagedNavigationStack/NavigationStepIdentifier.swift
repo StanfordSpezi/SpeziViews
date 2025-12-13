@@ -27,7 +27,7 @@ struct NavigationStepIdentifier {
             case (.viewTypeAndSourceLoc, .viewTypeAndSourceLoc):
                 true
             case let (.identifiable(lhsValue), .identifiable(rhsValue)):
-                lhsValue.isEqual(rhsValue)
+                lhsValue.isEqual(to: rhsValue)
             case (.viewTypeAndSourceLoc, .identifiable), (.identifiable, .viewTypeAndSourceLoc):
                 false
             }
@@ -73,7 +73,7 @@ extension NavigationStepIdentifier: Hashable {
         case (.viewTypeAndSourceLoc, .viewTypeAndSourceLoc):
             lhs.stepType == rhs.stepType && lhs.flowElementSourceLocation == rhs.flowElementSourceLocation
         case let (.identifiable(lhsValue), .identifiable(rhsValue)):
-            lhsValue.isEqual(rhsValue)
+            lhsValue.isEqual(to: rhsValue)
         case (.viewTypeAndSourceLoc, .identifiable), (.identifiable, .viewTypeAndSourceLoc):
             false
         }
@@ -107,7 +107,8 @@ extension NavigationStepIdentifier: CustomDebugStringConvertible {
 
 
 extension Equatable {
-    func isEqual(_ other: any Equatable) -> Bool {
+    @inlinable
+    func isEqual(to other: Any) -> Bool {
         if let other = other as? Self {
             other == self
         } else {

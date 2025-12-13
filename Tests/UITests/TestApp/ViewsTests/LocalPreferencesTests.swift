@@ -16,7 +16,7 @@ struct LocalPreferencesTests: View {
     
     var body: some View {
         Form {
-            Text(LocalPreferenceKey<Any>.counter.rawValue)
+            Text(LocalPreferenceKey<Any>.counter.key.value)
             LabeledContent("Counter", value: counter, format: .number)
                 .accessibilityIdentifier("counter1")
                 .accessibilityValue(String(counter))
@@ -26,17 +26,17 @@ struct LocalPreferencesTests: View {
                     .accessibilityValue(String(counter))
             }
             Section {
-                Button("Decrement") {
-                    counter -= 1
-                }
                 Button("Increment") {
                     counter += 1
+                }
+                Button("Decrement") {
+                    counter -= 1
                 }
                 Button("Reset") {
                     counter = 0
                 }
                 Button("Reset via UserDefaults API") {
-                    UserDefaults.standard.removeObject(forKey: LocalPreferenceKey<Any>.counter.rawValue)
+                    UserDefaults.standard.removeObject(forKey: LocalPreferenceKey<Any>.counter.key.value)
                 }
             }
             Section {
@@ -89,6 +89,7 @@ extension LocalPreferencesTests {
 
 extension LocalPreferenceKey {
     fileprivate static var counter: LocalPreferenceKey<Int> {
-        .make("counter", default: 0)
+        .make("counter.2", default: 0)
+//        .make(.init(verbatim: "counter.2"), default: 0)
     }
 }

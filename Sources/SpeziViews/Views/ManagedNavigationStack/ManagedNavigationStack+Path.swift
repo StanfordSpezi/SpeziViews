@@ -285,7 +285,7 @@ extension ManagedNavigationStack.Path {
             case (.viewType(let type), _):
                 return stepIdentifier.stepType == type
             case let (.identifier(valueA), .identifiable(valueB)):
-                return valueA.isEqual(valueB)
+                return valueA.isEqual(to: valueB)
             case (.identifier, .viewTypeAndSourceLoc):
                 return false
             }

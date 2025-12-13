@@ -6,9 +6,10 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable file_types_order function_default_parameter_at_end
+// swiftlint:disable file_types_order
 
 import Foundation
+import SpeziFoundation
 
 
 /// Used to identify data persisted to the `UserDefaults`.
@@ -43,55 +44,66 @@ import Foundation
 /// ### Supporting Types
 /// - ``LocalPreferencesStore``
 /// - ``LocalPreferenceNamespace``
-public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
-    /// The actual key that is used when reading or writing a value to the `UserDefaults` using this key.
-    ///
-    /// - Note: This value is not identical to the key passed to e.g. ``make(namespace:_:default:)-9b4an``;
-    ///     instead, it is derived from the namespace and key, in a way that ensures compatibilty with the `UserDefaults` API.
-    public let rawValue: String
-    @usableFromInline let read: @Sendable (UserDefaults) -> Value
-    @usableFromInline let write: @Sendable (Value?, UserDefaults) throws -> Void
+public struct LocalPreferenceKey<Value: SendableMetatype>: Hashable, Sendable {
+    @usableFromInline
+    enum ReadResult {
+        case empty
+        case value(Value)
+        case failure(any Error)
+    }
     
-    private init(
-        namespace: LocalPreferenceNamespace,
-        key: String,
-        read: @escaping @Sendable (String, UserDefaults) -> Value,
-        write: @escaping @Sendable (String, Value?, UserDefaults) throws -> Void
+    /// The actual key that is used when reading or writing a value to the `UserDefaults` using this key.
+    public let key: Key
+    @usableFromInline let `default`: @Sendable () -> Value
+    /// Reads the key's value from the `UserDefaults`. Returns `nil` if no value existed, or the decoding failed.
+    @usableFromInline let _read: @Sendable (UserDefaults) -> ReadResult // swiftlint:disable:this identifier_name
+    @usableFromInline let _write: @Sendable (Value?, UserDefaults) throws -> Void // swiftlint:disable:this identifier_name
+    
+    @inlinable
+    init(
+        key: Key,
+        default: @escaping @Sendable () -> Value,
+        read: @escaping @Sendable (Key, UserDefaults) -> ReadResult,
+        write: @escaping @Sendable (Key, Value?, UserDefaults) throws -> Void
     ) {
-        // We want to be able to observe these entries via KVO, which doesn't work if they appear to be keyPaths,
-        // therefore we replace all '.' with '_'.
-        let key = "\(namespace.value).\(key)".replacingOccurrences(of: ".", with: "_")
-        self.rawValue = key
-        self.read = { read(key, $0) }
-        self.write = { try write(key, $0, $1) }
+        self.key = key
+        self.default = `default`
+        self._read = { read(key, $0) }
+        self._write = { try write(key, $0, $1) }
     }
     
     /// Creates a `LocalPreferenceKey`.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
     public static func make(
-        namespace: LocalPreferenceNamespace = .app,
-        _ key: String,
+        _ key: Key,
         default makeDefault: @autoclosure @escaping @Sendable () -> Value
     ) -> Self where Value: _HasDirectUserDefaultsSupport {
-        Self(namespace: namespace, key: key) { key, defaults in
-            Value._load(from: defaults, forKey: key) ?? makeDefault()
+        Self(key: key, default: makeDefault) { key, defaults in
+            switch Value._load(from: defaults, forKey: key.value) {
+            case nil: .empty
+            case .some(let value): .value(value)
+            }
         } write: { key, newValue, defaults in
-            try newValue._store(to: defaults, forKey: key)
+            try newValue._store(to: defaults, forKey: key.value)
         }
     }
     
     /// Creates a `LocalPreferenceKey` for a `RawRepresentable` value.
     public static func make(
-        namespace: LocalPreferenceNamespace = .app,
-        _ key: String,
+        _ key: Key,
         default makeDefault: @autoclosure @escaping @Sendable () -> Value
     ) -> Self where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
-        Self(namespace: namespace, key: key) { key, defaults in
-            Value.RawValue._load(from: defaults, forKey: key).flatMap(Value.init(rawValue:)) ?? makeDefault()
+        Self(key: key, default: makeDefault) { key, defaults in
+            switch Value.RawValue._load(from: defaults, forKey: key.value).flatMap(Value.init(rawValue:)) {
+            case nil: .empty
+            case .some(let value): .value(value)
+            }
         } write: { key, newValue, defaults in
             if let rawValue = newValue?.rawValue {
-                try rawValue._store(to: defaults, forKey: key)
+                try rawValue._store(to: defaults, forKey: key.value)
             } else {
-                try Optional<Value.RawValue>.none._store(to: defaults, forKey: key)
+                try Optional<Value.RawValue>.none._store(to: defaults, forKey: key.value)
             }
         }
     }
@@ -99,21 +111,110 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Sendable {
     /// Creates a `LocalPreferenceKey` for a `Codable` value.
     @_disfavoredOverload
     public static func make(
-        namespace: LocalPreferenceNamespace = .app,
-        _ key: String,
+        _ key: Key,
+        encoder: some TopLevelEncoder<Data> & Sendable = JSONEncoder(),
+        decoder: some TopLevelDecoder<Data> & Sendable = JSONDecoder(),
         default makeDefault: @autoclosure @escaping @Sendable () -> Value
     ) -> Self where Value: Codable {
-        Self(namespace: namespace, key: key) { key, defaults in
-            let decoder = JSONDecoder()
-            if let data = defaults.data(forKey: key) {
-                return (try? decoder.decode(Value.self, from: data)) ?? makeDefault()
-            } else {
-                return makeDefault()
+        Self(key: key, default: makeDefault) { key, defaults in
+            switch defaults.data(forKey: key.value) {
+            case .none:
+                return .empty
+            case .some(let data):
+                do {
+                    return .value(try decoder.decode(Value.self, from: data))
+                } catch {
+                    return .failure(error)
+                }
             }
         } write: { key, newValue, defaults in
-            let encoder = JSONEncoder()
             let data = try encoder.encode(newValue)
-            defaults.set(data, forKey: key)
+            defaults.set(data, forKey: key.value)
+        }
+    }
+    
+    @inlinable
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.key == rhs.key
+    }
+    
+    @inlinable
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(key)
+    }
+    
+    // MARK: Operations
+    
+    @inlinable
+    func read(in defaults: UserDefaults) -> ReadResult {
+        _read(defaults)
+    }
+    
+    @inlinable
+    func readOrDefault(in defaults: UserDefaults) -> Value {
+        switch read(in: defaults) {
+        case .value(let value):
+            value
+        case .empty, .failure:
+            `default`()
+        }
+    }
+    
+    @inlinable
+    func write(_ newValue: Value?, in defaults: UserDefaults) throws {
+        try _write(newValue, defaults)
+    }
+}
+
+
+extension LocalPreferenceKey {
+    /// Specifies how the preference is identified within the `UserDefaults`.
+    ///
+    /// ## Topics
+    /// ### Initializers
+    /// - ``init(_:in:)``
+    /// - ``init(verbatim:in:)``
+    /// - ``init(stringLiteral:)``
+    public struct Key: Hashable, ExpressibleByStringLiteral, Sendable {
+        public let value: String
+        @usableFromInline let isKVOCompatible: Bool
+        
+        /// Creates a key.
+        ///
+        /// The actual key value used when persisting data associated with this key in the `UserDefaults` is derived from `key` and `namespace`.
+        /// Additionally, this function normalizes the key (by replacing all `.`s with `_`s), in order to achieve improved performance when observing the `UserDefaults` for changes.
+        /// You can obtain the actual key via the ``value`` property.
+        ///
+        /// - Note: Use the ``init(verbatim:in:)`` initializer to disable the normalization.
+        ///     The resulting key can be used the same way, and will behave the same as keys created via ``init(_:in:)``, but using it with ``LocalPreference`` will result in slower code.
+        @inlinable
+        public init(_ key: String, in namespace: LocalPreferenceNamespace = .app) {
+            // We want to be able to observe these entries via KVO, which doesn't work if they appear to be keyPaths,
+            // therefore we replace all '.' with '_'.
+            value = "\(namespace.value):\(key)".replacingOccurrences(of: ".", with: "_")
+            isKVOCompatible = true
+        }
+        
+        /// Creates a key.
+        ///
+        /// The actual key value used when persisting data associated with this key in the `UserDefaults` is derived from `key` and `namespace`.
+        /// You can obtain the actual key via the ``value`` property.
+        ///
+        /// - Note: This initializer does not normalize the key, which will result in slower code if the key contains any period characters (`.`).
+        ///     Use ``init(_:in:)`` instead if possible.
+        @inlinable
+        public init(verbatim key: String, in namespace: LocalPreferenceNamespace = .app) {
+            value = "\(namespace.value):\(key)"
+            isKVOCompatible = !value.contains(".")
+        }
+        
+        /// Creates a key from a `String` literal.
+        ///
+        /// Creating a key via a `String` literal is equivalent to `Key(value, in: .app)`.
+        /// (I.e., creating a key via ``init(_:in:)`` in the ``LocalPreferenceNamespace/app`` namespace.)
+        @inlinable
+        public init(stringLiteral value: String) {
+            self.init(value, in: .app)
         }
     }
 }
@@ -156,5 +257,46 @@ extension LocalPreferenceNamespace {
     @inlinable
     public static func custom(_ value: String) -> Self {
         Self(value: value)
+    }
+}
+
+
+// MARK: Internal Stuff
+
+extension LocalPreferenceKey.ReadResult {
+    var value: Value? {
+        switch self {
+        case .value(let value):
+            value
+        case .empty, .failure:
+            nil
+        }
+    }
+    
+    var error: (any Error)? {
+        switch self {
+        case .failure(let error):
+            error
+        case .empty, .value:
+            nil
+        }
+    }
+}
+
+
+extension LocalPreferenceKey.ReadResult: Equatable where Value: Equatable {
+    @usableFromInline
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.empty, .empty):
+            true
+        case let (.value(lhs), .value(rhs)):
+            lhs == rhs
+        case let (.failure(lhs), .failure(rhs)):
+            // https://github.com/swiftlang/swift/issues/85111
+            (lhs as any Equatable).isEqual(to: rhs)
+        default:
+            false
+        }
     }
 }

@@ -6,11 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable file_types_order identifier_name type_name
+// swiftlint:disable identifier_name type_name
 
-import Foundation
-import SpeziFoundation
-import SwiftUI
+public import Foundation
 
 
 /// Types which can be directly put into a UserDefaults store (bc there is an official overload of the `set(_:forKey:)` function).
@@ -101,56 +99,5 @@ extension Optional: _HasDirectUserDefaultsSupport where Wrapped: _HasDirectUserD
         } else {
             defaults.removeObject(forKey: key)
         }
-    }
-}
-
-
-/// A type-safe wrapper around `UserDefaults`.
-///
-/// ## Topics
-///
-/// ### Static Properties
-/// - ``standard``
-///
-/// ### Subscripts
-/// - ``subscript(_:)->T``
-/// - ``subscript(_:)->T?``
-///
-/// ### Initializers
-/// - ``init(defaults:)``
-public struct LocalPreferencesStore: @unchecked Sendable {
-    public static let standard = LocalPreferencesStore(defaults: .standard)
-    
-    @usableFromInline let defaults: UserDefaults
-    
-    @inlinable
-    public init(defaults: UserDefaults) {
-        self.defaults = defaults
-    }
-    
-    /// Accesses a ``LocalPreferenceKey``'s persisted value.
-    @inlinable
-    public subscript<T>(key: LocalPreferenceKey<T>) -> T {
-        get { key.read(defaults) }
-        nonmutating set {
-            try? key.write(newValue, defaults)
-        }
-    }
-    
-    /// Accesses a ``LocalPreferenceKey``'s persisted value.
-    @_disfavoredOverload
-    @inlinable
-    public subscript<T>(key: LocalPreferenceKey<T>) -> T? { // we always return nonnil values, but allow nil-resetting
-        get { key.read(defaults) }
-        nonmutating set {
-            try? key.write(newValue, defaults)
-        }
-    }
-}
-
-
-extension UserDefaults {
-    fileprivate func hasEntry(for key: String) -> Bool {
-        object(forKey: key) != nil
     }
 }

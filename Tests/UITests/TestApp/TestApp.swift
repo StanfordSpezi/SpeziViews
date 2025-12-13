@@ -9,7 +9,6 @@
 import Spezi
 import SpeziViews
 import SwiftUI
-import XCTestApp
 
 
 final class TestDelegate: SpeziAppDelegate {

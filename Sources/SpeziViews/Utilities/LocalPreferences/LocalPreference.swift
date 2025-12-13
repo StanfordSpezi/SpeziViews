@@ -6,9 +6,10 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable file_types_order
+// swiftlint:disable file_types_order all
 
 import Foundation
+import SpeziFoundation
 import SwiftUI
 
 
@@ -62,17 +63,17 @@ import SwiftUI
 /// ## Instance Properties
 /// - ``wrappedValue``
 /// - ``projectedValue``
-@MainActor
+//@MainActor
 @propertyWrapper
-public struct LocalPreference<T: SendableMetatype>: DynamicProperty {
+public struct LocalPreference<T: SendableMetatype>: DynamicProperty, Sendable {
     private let key: LocalPreferenceKey<T>
     private let store: LocalPreferencesStore
-    @State private var kvoObserver = UserDefaultsKeyObserver()
+    @State private var observer = UserDefaultsKeyObserver<T>()
     
     /// The current value of the local preference..
     public var wrappedValue: T {
         get {
-            _ = kvoObserver.viewUpdate
+            _ = observer.viewUpdate
             return store[key]
         }
         nonmutating set {
@@ -82,7 +83,7 @@ public struct LocalPreference<T: SendableMetatype>: DynamicProperty {
     
     /// A `Binding` that provides read-write access to the value.
     public var projectedValue: Binding<T> {
-        _ = kvoObserver.viewUpdate
+        _ = observer.viewUpdate
         return Binding<T> {
             store[key]
         } set: {
@@ -103,47 +104,123 @@ public struct LocalPreference<T: SendableMetatype>: DynamicProperty {
     
     @_documentation(visibility: internal)
     nonisolated public func update() {
-        MainActor.assumeIsolated {
-            kvoObserver.configure(for: key.rawValue, in: store.defaults)
-        }
+        observer.configure(for: key, in: store)
     }
 }
 
 
 /// `ObservableObject` that publishes a change whenever the specified key in the specified defaults store changes.
 @Observable
-private final class UserDefaultsKeyObserver: NSObject {
-    private struct ObservationContext: Equatable {
-        let defaults: UserDefaults
-        let key: String
+private final class UserDefaultsKeyObserver<T: SendableMetatype>: NSObject, Sendable {
+    private struct State {
+        struct Config: Hashable {
+            let key: LocalPreferenceKey<T>
+            let store: LocalPreferencesStore
+        }
+        enum ObservationInfo {
+            case kvo
+            case notifications(_ token: any NSObjectProtocol)
+            var isKvo: Bool {
+                switch self {
+                case .kvo: true
+                case .notifications: false
+                }
+            }
+        }
+        let config: Config
+        let observation: ObservationInfo
     }
-    @ObservationIgnored private var context: ObservationContext?
-    private(set) var viewUpdate: UInt64 = 0
     
-    func configure(for key: String, in userDefaults: UserDefaults) {
-        let newContext = ObservationContext(defaults: userDefaults, key: key)
-        guard newContext != context else {
+    let lock = RWLock()
+    @ObservationIgnored nonisolated(unsafe) private var state: State?
+    // https://github.com/swiftlang/swift/issues/81962
+    nonisolated(unsafe) private(set) var viewUpdate: UInt64 = 0
+    // only used if observing via KVO
+    @ObservationIgnored nonisolated(unsafe) private var lastSeenValue: T?
+    
+    nonisolated override init() {
+        super.init()
+    }
+    
+    func configure(for key: LocalPreferenceKey<T>, in store: LocalPreferencesStore) {
+        let newConfig = State.Config(key: key, store: store)
+        guard newConfig != state?.config else {
             return
         }
         stop()
-        userDefaults.addObserver(self, forKeyPath: key, options: [], context: nil)
-        context = newContext
+        assert(state == nil)
+        assert(lastSeenValue == nil)
+        if key.key.isKVOCompatible {
+            store.defaults.addObserver(self, forKeyPath: key.key.value, options: [], context: nil)
+            state = .init(config: newConfig, observation: .kvo)
+        } else {
+            let token = NotificationCenter.default.addObserver(
+                forName: UserDefaults.didChangeNotification,
+                object: store.defaults,
+                queue: nil
+            ) { [weak self] _ in
+                guard let self else {
+                    return
+                }
+                self.lock.withWriteLock {
+                    self.handleNCUpdate()
+                }
+            }
+            state = .init(config: newConfig, observation: .notifications(token))
+        }
     }
     
     // swiftlint:disable:next block_based_kvo discouraged_optional_collection
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        if let keyPath, keyPath == self.context?.key {
+        lock.withWriteLock {
+            guard let state, state.observation.isKvo, state.config.key.key.value == keyPath,
+                  state.config.store.defaults == (object as? UserDefaults) else {
+                super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+                return
+            }
+            viewUpdate &+= 1
+        }
+    }
+    
+    private func handleNCUpdate() {
+        guard let state else {
+            return
+        }
+        let newValue = state.config.store[state.config.key]
+        defer {
+            lastSeenValue = newValue
+        }
+        // T.self is any Equatable.Type
+        guard let oldValue = lastSeenValue else {
+            viewUpdate &+= 1
+            return
+        }
+        precondition(((newValue as? any Equatable) != nil) == (T.self is any Equatable.Type))
+        if let newValue = newValue as? any Equatable {
+            guard !newValue.isEqual(to: oldValue) else {
+                // the value is unchanged
+                return
+            }
+            // the value did actually change
             viewUpdate &+= 1
         } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+            // the value is not Equatable, so we need to just assume that it changed (even though it might not have...)
+            viewUpdate &+= 1
         }
     }
     
     private func stop() {
-        if let context {
-            context.defaults.removeObserver(self, forKeyPath: context.key)
-            self.context = nil
+        lastSeenValue = nil
+        guard let state else {
+            return
         }
+        switch state.observation {
+        case .kvo:
+            state.config.store.defaults.removeObserver(self, forKeyPath: state.config.key.key.value)
+        case .notifications(let token):
+            NotificationCenter.default.removeObserver(token)
+        }
+        self.state = nil
     }
     
     deinit {
