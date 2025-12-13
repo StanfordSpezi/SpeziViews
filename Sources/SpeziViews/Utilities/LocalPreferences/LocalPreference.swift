@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable file_types_order all
+// swiftlint:disable file_types_order
 
 import Foundation
 import SpeziFoundation
@@ -61,7 +61,6 @@ import SwiftUI
 /// ## Instance Properties
 /// - ``wrappedValue``
 /// - ``projectedValue``
-//@MainActor
 @propertyWrapper
 public struct LocalPreference<T: SendableMetatype>: DynamicProperty, Sendable {
     private let key: LocalPreferenceKey<T>
@@ -136,7 +135,7 @@ private final class UserDefaultsKeyObserver<T: SendableMetatype>: NSObject, Send
     // only used if observing via KVO
     @ObservationIgnored nonisolated(unsafe) private var lastSeenValue: T?
     
-    nonisolated override init() {
+    override nonisolated init() {
         super.init()
     }
     
