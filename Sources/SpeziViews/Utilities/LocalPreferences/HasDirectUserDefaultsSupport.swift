@@ -14,9 +14,11 @@ public import Foundation
 /// Types which can be directly put into a UserDefaults store (bc there is an official overload of the `set(_:forKey:)` function).
 public protocol _HasDirectUserDefaultsSupport {
     /// Constructs an instance of the type by loading it from a `UserDefaults` store.
+    @inlinable
     static func _load(from defaults: UserDefaults, forKey key: String) -> Self?
     
     /// Persists an instance of the type to a `UserDefaults` store.
+    @inlinable
     func _store(to defaults: UserDefaults, forKey key: String) throws
 }
 

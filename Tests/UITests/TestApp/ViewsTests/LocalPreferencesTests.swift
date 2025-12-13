@@ -87,9 +87,6 @@ extension LocalPreferencesTests {
 }
 
 
-extension LocalPreferenceKey {
-    fileprivate static var counter: LocalPreferenceKey<Int> {
-        .make("counter.2", default: 0)
-//        .make(.init(verbatim: "counter.2"), default: 0)
-    }
+extension LocalPreferenceKeys {
+    fileprivate static let counter = LocalPreferenceKey<Int>("counter.2", default: 0)
 }

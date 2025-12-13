@@ -31,8 +31,8 @@ final class LocalPreferenceTests {
     
     @Test
     func simpleTypes() throws {
-        #expect(LocalPreferenceKey<Any>.string.key.value == "edu_stanford_SpeziViews_unitTests:string")
-        #expect(LocalPreferenceKey<Any>.stringOpt.key.value == "edu_stanford_SpeziViews_unitTests:stringOpt")
+        #expect(LocalPreferenceKeys.string.key.value == "edu_stanford_SpeziViews_unitTests:string")
+        #expect(LocalPreferenceKeys.stringOpt.key.value == "edu_stanford_SpeziViews_unitTests:stringOpt")
         #expect(store[.string] == "")
         #expect(store[.stringOpt] == nil)
         #expect(suite.string(forKey: "edu_stanford_SpeziViews_unitTests:string") == nil)
@@ -90,8 +90,8 @@ final class LocalPreferenceTests {
     @Test
     func migrateName() throws {
         try withTemporarySuiteForMigration { store in
-            let oldKey: LocalPreferenceKey<Date> = .make("dateOfBrith", default: Date(timeIntervalSince1970: 0))
-            let newKey: LocalPreferenceKey<Date> = .make("dateOfBirth", default: Date(timeIntervalSince1970: 0))
+            let oldKey = LocalPreferenceKey<Date>("dateOfBrith", default: Date(timeIntervalSince1970: 0))
+            let newKey = LocalPreferenceKey<Date>("dateOfBirth", default: Date(timeIntervalSince1970: 0))
             let now = Date()
             #expect(!store.hasEntry(for: oldKey))
             #expect(!store.hasEntry(for: newKey))
@@ -120,8 +120,8 @@ final class LocalPreferenceTests {
             struct Wrapped<T: Codable & Equatable>: Codable, Equatable {
                 let value: T
             }
-            let oldKey: LocalPreferenceKey<Wrapped<Int>> = .make("number", default: .init(value: 0))
-            let newKey: LocalPreferenceKey<Wrapped<String>> = .make("number", default: .init(value: "zero"))
+            let oldKey = LocalPreferenceKey<Wrapped<Int>>("number", default: .init(value: 0))
+            let newKey = LocalPreferenceKey<Wrapped<String>>("number", default: .init(value: "zero"))
             #expect(!store.hasEntry(for: oldKey))
             #expect(!store.hasEntry(for: newKey))
             store[oldKey] = .init(value: 2)
@@ -151,12 +151,13 @@ final class LocalPreferenceTests {
 }
 
 
-extension LocalPreferenceKey {
-    fileprivate static var string: LocalPreferenceKey<String> {
-        .make(.init("string", in: .custom("edu.stanford.SpeziViews.unitTests")), default: "")
-    }
-    
-    fileprivate static var stringOpt: LocalPreferenceKey<String?> {
-        .make(.init("stringOpt", in: .custom("edu.stanford.SpeziViews.unitTests")), default: nil)
-    }
+extension LocalPreferenceKeys {
+    fileprivate static let string = LocalPreferenceKey<String>(
+        .init("string", in: .custom("edu.stanford.SpeziViews.unitTests")),
+        default: ""
+    )
+    fileprivate static let stringOpt = LocalPreferenceKey<String?>(
+        .init("stringOpt", in: .custom("edu.stanford.SpeziViews.unitTests")),
+        default: nil
+    )
 }

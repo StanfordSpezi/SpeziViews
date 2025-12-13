@@ -28,10 +28,8 @@ import SwiftUI
 ///     case home, feed, account
 /// }
 ///
-/// extension LocalPreferenceKey {
-///     static var rootTab: LocalPreferenceKey<RootTab> {
-///         .make("rootTab", default: .home)
-///     }
+/// extension LocalPreferenceKeys {
+///     static let rootTab = LocalPreferenceKey<RootTab>("rootTab", default: .home)
 /// }
 ///
 ///

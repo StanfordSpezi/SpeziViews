@@ -12,16 +12,25 @@ import Foundation
 import SpeziFoundation
 
 
+/// Container type for ``LocalPreferenceKey`` definitions.
+///
+/// Define a ``LocalPreferenceKey`` by placing it in an extension on this type:
+/// ```swift
+/// extension LocalPreferenceKeys {
+///     static let didReview = LocalPreferenceKey<Bool>("didReview", default: false)
+/// }
+/// ```
+public class LocalPreferenceKeys: @unchecked Sendable {}
+
+
 /// Used to identify data persisted to the `UserDefaults`.
 ///
 /// You can either use the ``LocalPreferencesStore`` directly to access the key's data, or you can use the ``LocalPreference`` property wrapper within a SwiftUI view.
 ///
 /// You define a key by placing it in an extension on the `LocalPreferenceKey` type:
 /// ```swift
-/// extension LocalPreferenceKey {
-///     static var prefersMetricUnits: LocalPreferenceKey<Bool> {
-///         .make("prefersMetricUnits", default: true)
-///     }
+/// extension LocalPreferenceKeys {
+///     static let prefersMetricUnits = LocalPreferenceKey<Bool>("prefersMetricUnits", default: true)
 /// }
 /// ```
 ///
@@ -37,14 +46,15 @@ import SpeziFoundation
 /// ## Topics
 ///
 /// ### Creating Keys
-/// - ``make(namespace:_:default:)-9b4an``
-/// - ``make(namespace:_:default:)-7elwj``
-/// - ``make(namespace:_:default:)-7hzi7``
+/// - ``init(_:default:)-1uj4h``
+/// - ``init(_:default:)-90if0``
+/// - ``init(_:encoder:decoder:default:)``
 ///
 /// ### Supporting Types
 /// - ``LocalPreferencesStore``
 /// - ``LocalPreferenceNamespace``
-public struct LocalPreferenceKey<Value: SendableMetatype>: Hashable, Sendable {
+/// - ``LocalPreferenceKeys``
+public final class LocalPreferenceKey<Value: SendableMetatype>: LocalPreferenceKeys, Hashable, @unchecked Sendable {
     @usableFromInline
     enum ReadResult {
         case empty
@@ -59,8 +69,7 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Hashable, Sendable {
     @usableFromInline let _read: @Sendable (UserDefaults) -> ReadResult // swiftlint:disable:this identifier_name
     @usableFromInline let _write: @Sendable (Value?, UserDefaults) throws -> Void // swiftlint:disable:this identifier_name
     
-    @inlinable
-    init(
+    private init(
         key: Key,
         default: @escaping @Sendable () -> Value,
         read: @escaping @Sendable (Key, UserDefaults) -> ReadResult,
@@ -75,11 +84,12 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Hashable, Sendable {
     /// Creates a `LocalPreferenceKey`.
     ///
     /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
-    public static func make(
+    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
+    public convenience init(
         _ key: Key,
-        default makeDefault: @autoclosure @escaping @Sendable () -> Value
-    ) -> Self where Value: _HasDirectUserDefaultsSupport {
-        Self(key: key, default: makeDefault) { key, defaults in
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where Value: _HasDirectUserDefaultsSupport {
+        self.init(key: key, default: `default`) { key, defaults in
             switch Value._load(from: defaults, forKey: key.value) {
             case nil: .empty
             case .some(let value): .value(value)
@@ -90,11 +100,14 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Hashable, Sendable {
     }
     
     /// Creates a `LocalPreferenceKey` for a `RawRepresentable` value.
-    public static func make(
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
+    public convenience init(
         _ key: Key,
-        default makeDefault: @autoclosure @escaping @Sendable () -> Value
-    ) -> Self where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
-        Self(key: key, default: makeDefault) { key, defaults in
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
+        self.init(key: key, default: `default`) { key, defaults in
             switch Value.RawValue._load(from: defaults, forKey: key.value).flatMap(Value.init(rawValue:)) {
             case nil: .empty
             case .some(let value): .value(value)
@@ -109,14 +122,19 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Hashable, Sendable {
     }
     
     /// Creates a `LocalPreferenceKey` for a `Codable` value.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    /// - parameter encoder: The encoder to use when writing values for this key to the ``LocalPreferencesStore``
+    /// - parameter decoder: The decoder to use when reading values for this key from the ``LocalPreferencesStore``
+    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
     @_disfavoredOverload
-    public static func make(
+    public convenience init(
         _ key: Key,
         encoder: some TopLevelEncoder<Data> & Sendable = JSONEncoder(),
         decoder: some TopLevelDecoder<Data> & Sendable = JSONDecoder(),
-        default makeDefault: @autoclosure @escaping @Sendable () -> Value
-    ) -> Self where Value: Codable {
-        Self(key: key, default: makeDefault) { key, defaults in
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where Value: Codable {
+        self.init(key: key, default: `default`) { key, defaults in
             switch defaults.data(forKey: key.value) {
             case .none:
                 return .empty
@@ -134,7 +152,7 @@ public struct LocalPreferenceKey<Value: SendableMetatype>: Hashable, Sendable {
     }
     
     @inlinable
-    public static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: LocalPreferenceKey, rhs: LocalPreferenceKey) -> Bool {
         lhs.key == rhs.key
     }
     
