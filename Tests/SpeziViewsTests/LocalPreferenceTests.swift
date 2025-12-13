@@ -6,27 +6,27 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable empty_string
+// swiftlint:disable empty_string discouraged_optional_boolean
 
 import Foundation
+import SpeziFoundation
 @testable import SpeziViews
 import Testing
 
 
-@Suite
+@Suite(.serialized)
 final class LocalPreferenceTests {
+    let suiteName = "edu.stanford.SpeziViews.unitTests"
     let suite: UserDefaults
     let store: LocalPreferencesStore
     
     init() throws {
-        suite = try #require(UserDefaults(suiteName: "edu.stanford.SpeziViews.unitTests"))
+        suite = try #require(UserDefaults(suiteName: suiteName))
         store = LocalPreferencesStore(defaults: suite)
     }
     
     deinit { // swiftlint:disable:this type_contents_order
-        for key in suite.dictionaryRepresentation().keys where key.starts(with: "edu_stanford_SpeziViews_unitTests") {
-            suite.removeObject(forKey: key)
-        }
+        UserDefaults.standard.removePersistentDomain(forName: suiteName)
     }
     
     @Test
@@ -44,22 +44,36 @@ final class LocalPreferenceTests {
     
     @Test
     func userDefaultsBehaviours() throws {
-        let key = "_bool1"
-        #expect(!suite.bool(forKey: key))
-        suite.set(true, forKey: key)
-        #expect(suite.bool(forKey: key))
+        let rawKey = "_bool1"
+        let key = LocalPreferenceKey<Bool>(.init(verbatim: rawKey, in: .none), default: false)
+        #expect(!suite.bool(forKey: rawKey))
+        suite.set(true, forKey: rawKey)
+        #expect(suite.bool(forKey: rawKey))
+        #expect(store[key])
         
-        suite.set("true", forKey: key)
-        #expect(suite.bool(forKey: key))
+        suite.set("true", forKey: rawKey)
+        #expect(suite.bool(forKey: rawKey))
+        #expect(store[key])
         
-        suite.set("false", forKey: key)
-        #expect(!suite.bool(forKey: key))
+        suite.set("false", forKey: rawKey)
+        #expect(!suite.bool(forKey: rawKey))
+        #expect(!store[key])
         
-        suite.set("abc", forKey: key)
-        #expect(!suite.bool(forKey: key))
+        suite.set("abc", forKey: rawKey)
+        #expect(!suite.bool(forKey: rawKey))
+        #expect(!store[key])
         
-        suite.set("123", forKey: key)
-        #expect(!suite.bool(forKey: key))
+        suite.set("123", forKey: rawKey)
+        #expect(!suite.bool(forKey: rawKey))
+        #expect(!store[key])
+        
+        store[key] = true
+        #expect(suite.bool(forKey: rawKey))
+        #expect(store[key])
+        
+        suite.removeObject(forKey: rawKey)
+        #expect(!suite.bool(forKey: rawKey))
+        #expect(!store[key])
         
         let suite1 = UserDefaults.standard
         let suite2 = try #require(UserDefaults(suiteName: "test"))
@@ -72,6 +86,67 @@ final class LocalPreferenceTests {
         #expect(suite2.string(forKey: "world") == "hello")
         suite1.addSuite(named: "test")
         #expect(suite1.string(forKey: "world") == "hello")
+    }
+    
+    @Test
+    func optionalValues() throws {
+        func imp(testValue: Bool?) {
+            let key = LocalPreferenceKey<Bool?>(.init(verbatim: "optBoolTestKey", in: .none))
+            store.removeEntry(for: key)
+            #expect(store[key] == nil)
+            #expect(suite.object(forKey: key.key.value) == nil)
+            store[key] = testValue
+            if testValue == nil {
+                #expect(suite.object(forKey: key.key.value) == nil)
+            } else {
+                #expect(suite.object(forKey: key.key.value) != nil)
+            }
+            #expect(store[key] == testValue)
+            store[key] = nil
+            #expect(suite.object(forKey: key.key.value) == nil)
+            #expect(store[key] == nil)
+        }
+        imp(testValue: nil)
+        imp(testValue: false)
+        imp(testValue: true)
+    }
+    
+    @Test
+    func directlySupportedTypes() throws {
+        func imp<T: _HasDirectUserDefaultsSupport & Equatable & Sendable>(_: T.Type, defaultValue: T, testValue: T) throws {
+            let key = LocalPreferenceKey<T>(.init(verbatim: "testKey", in: .none), default: defaultValue)
+            store.removeEntry(for: key)
+            #expect(store[key] == defaultValue)
+            #expect(suite.object(forKey: key.key.value) == nil)
+            store[key] = testValue
+            if let testValue = testValue as? any AnyOptional, testValue.isNone {
+                #expect(suite.object(forKey: key.key.value) == nil)
+            } else {
+                #expect(suite.object(forKey: key.key.value) != nil)
+            }
+            #expect(store[key] == testValue)
+            store[key] = nil
+            #expect(suite.object(forKey: key.key.value) == nil)
+            #expect(store[key] == defaultValue)
+        }
+        
+        try imp(Bool.self, defaultValue: false, testValue: true)
+        try imp(Int.self, defaultValue: 0, testValue: 12)
+        try imp(String.self, defaultValue: "", testValue: "heyyy")
+        try imp(Double.self, defaultValue: 2, testValue: 4.7)
+        try imp(Float.self, defaultValue: 5, testValue: 3.1)
+        try imp(Data.self, defaultValue: Data([1, 2, 3]), testValue: Data([4, 5, 6]))
+        try imp(URL.self, defaultValue: URL(filePath: "/Users/Spezi/"), testValue: URL(filePath: "/Users/Spezi/Desktop"))
+        
+        try imp(Bool?.self, defaultValue: nil, testValue: false)
+        try imp(Bool?.self, defaultValue: nil, testValue: nil)
+        try imp(Bool?.self, defaultValue: nil, testValue: true)
+        try imp(Int?.self, defaultValue: nil, testValue: 12)
+        try imp(String?.self, defaultValue: nil, testValue: "hello")
+        try imp(Double?.self, defaultValue: nil, testValue: 1.1)
+        try imp(Float?.self, defaultValue: nil, testValue: 2.2)
+        try imp(Data?.self, defaultValue: nil, testValue: Data([0, 9, 8]))
+        try imp(URL?.self, defaultValue: nil, testValue: URL(filePath: "/Users/Spezi/Desktop/file.txt"))
     }
     
     
@@ -160,4 +235,53 @@ extension LocalPreferenceKeys {
         .init("stringOpt", in: .custom("edu.stanford.SpeziViews.unitTests")),
         default: nil
     )
+}
+
+
+// MARK: Utils
+
+extension LocalPreferenceKey.ReadResult {
+    var value: Value? {
+        switch self {
+        case .value(let value):
+            value
+        case .empty, .failure:
+            nil
+        }
+    }
+    
+    var error: (any Error)? {
+        switch self {
+        case .failure(let error):
+            error
+        case .empty, .value:
+            nil
+        }
+    }
+}
+
+
+extension LocalPreferenceKey.ReadResult: Equatable where Value: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.empty, .empty):
+            true
+        case let (.value(lhs), .value(rhs)):
+            lhs == rhs
+        case let (.failure(lhs), .failure(rhs)):
+            // https://github.com/swiftlang/swift/issues/85111
+            (lhs as any Equatable).isEqual(to: rhs)
+        default:
+            false
+        }
+    }
+}
+
+extension AnyOptional {
+    var isNone: Bool {
+        switch self.unwrappedOptional {
+        case .none: true
+        case .some: false
+        }
+    }
 }

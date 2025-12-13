@@ -6,13 +6,13 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable identifier_name type_name
+// swiftlint:disable identifier_name type_name syntactic_sugar
 
 public import Foundation
 
 
 /// Types which can be directly put into a UserDefaults store (bc there is an official overload of the `set(_:forKey:)` function).
-public protocol _HasDirectUserDefaultsSupport {
+public protocol _HasDirectUserDefaultsSupport: SendableMetatype {
     /// Constructs an instance of the type by loading it from a `UserDefaults` store.
     @inlinable
     static func _load(from defaults: UserDefaults, forKey key: String) -> Self?
@@ -87,11 +87,13 @@ extension URL: _HasDirectUserDefaultsSupport {
 }
 
 extension Optional: _HasDirectUserDefaultsSupport where Wrapped: _HasDirectUserDefaultsSupport {
-    public static func _load(from defaults: UserDefaults, forKey key: String) -> Self? {
+    public static func _load(from defaults: UserDefaults, forKey key: String) -> Optional<Optional<Wrapped>> {
         if let value = Wrapped._load(from: defaults, forKey: key) {
-            Self?.some(value)
+//            Self?.some(value)
+            Optional<Optional<Wrapped>>.some(.some(value))
         } else {
-            Self?.none
+//            Self?.none
+            Optional<Optional<Wrapped>>.some(.none)
         }
     }
     

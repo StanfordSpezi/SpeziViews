@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable file_types_order
+// swiftlint:disable syntactic_sugar
 
 import Foundation
 import SpeziFoundation
@@ -52,7 +52,7 @@ public class LocalPreferenceKeys: @unchecked Sendable {}
 ///
 /// ### Supporting Types
 /// - ``LocalPreferencesStore``
-/// - ``LocalPreferenceNamespace``
+/// - ``LocalPreferenceKeys/Namespace``
 /// - ``LocalPreferenceKeys``
 public final class LocalPreferenceKey<Value: SendableMetatype>: LocalPreferenceKeys, Hashable, @unchecked Sendable {
     @usableFromInline
@@ -79,76 +79,6 @@ public final class LocalPreferenceKey<Value: SendableMetatype>: LocalPreferenceK
         self.default = `default`
         self._read = { read(key, $0) }
         self._write = { try write(key, $0, $1) }
-    }
-    
-    /// Creates a `LocalPreferenceKey`.
-    ///
-    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
-    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
-    public convenience init(
-        _ key: Key,
-        default: @autoclosure @escaping @Sendable () -> Value
-    ) where Value: _HasDirectUserDefaultsSupport {
-        self.init(key: key, default: `default`) { key, defaults in
-            switch Value._load(from: defaults, forKey: key.value) {
-            case nil: .empty
-            case .some(let value): .value(value)
-            }
-        } write: { key, newValue, defaults in
-            try newValue._store(to: defaults, forKey: key.value)
-        }
-    }
-    
-    /// Creates a `LocalPreferenceKey` for a `RawRepresentable` value.
-    ///
-    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
-    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
-    public convenience init(
-        _ key: Key,
-        default: @autoclosure @escaping @Sendable () -> Value
-    ) where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
-        self.init(key: key, default: `default`) { key, defaults in
-            switch Value.RawValue._load(from: defaults, forKey: key.value).flatMap(Value.init(rawValue:)) {
-            case nil: .empty
-            case .some(let value): .value(value)
-            }
-        } write: { key, newValue, defaults in
-            if let rawValue = newValue?.rawValue {
-                try rawValue._store(to: defaults, forKey: key.value)
-            } else {
-                try Optional<Value.RawValue>.none._store(to: defaults, forKey: key.value)
-            }
-        }
-    }
-    
-    /// Creates a `LocalPreferenceKey` for a `Codable` value.
-    ///
-    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
-    /// - parameter encoder: The encoder to use when writing values for this key to the ``LocalPreferencesStore``
-    /// - parameter decoder: The decoder to use when reading values for this key from the ``LocalPreferencesStore``
-    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
-    @_disfavoredOverload
-    public convenience init(
-        _ key: Key,
-        encoder: some TopLevelEncoder<Data> & Sendable = JSONEncoder(),
-        decoder: some TopLevelDecoder<Data> & Sendable = JSONDecoder(),
-        default: @autoclosure @escaping @Sendable () -> Value
-    ) where Value: Codable {
-        self.init(key: key, default: `default`) { key, defaults in
-            switch defaults.data(forKey: key.value) {
-            case .none:
-                return .empty
-            case .some(let data):
-                do {
-                    return .value(try decoder.decode(Value.self, from: data))
-                } catch {
-                    return .failure(error)
-                }
-            }
-        } write: { key, newValue, defaults in
-            let data = try encoder.encode(newValue)
-            defaults.set(data, forKey: key.value)
-        }
     }
     
     @inlinable
@@ -186,6 +116,133 @@ public final class LocalPreferenceKey<Value: SendableMetatype>: LocalPreferenceK
 
 
 extension LocalPreferenceKey {
+    // MARK: Initializers
+    
+    /// Creates a `LocalPreferenceKey`.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
+    ///
+    /// - Note: If `Value` is an `Optional` type, the default value will be ignored, and reading a key for which no value exists in the `UserDefaults` store will always return `nil`.
+    public convenience init(
+        _ key: Key,
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where Value: _HasDirectUserDefaultsSupport {
+        self.init(key: key, default: `default`) { key, defaults in
+            switch Value._load(from: defaults, forKey: key.value) {
+            case .none: .empty
+            case .some(let value): .value(value)
+            }
+        } write: { key, newValue, defaults in
+            try newValue._store(to: defaults, forKey: key.value)
+        }
+    }
+    
+    /// Creates a `LocalPreferenceKey` for a `RawRepresentable` value.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
+    ///
+    /// - Note: If `Value` is an `Optional` type, the default value will be ignored, and reading a key for which no value exists in the `UserDefaults` store will always return `nil`.
+    public convenience init(
+        _ key: Key,
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
+        self.init(key: key, default: `default`) { key, defaults in
+            switch Value.RawValue._load(from: defaults, forKey: key.value).flatMap(Value.init(rawValue:)) {
+            case .none: .empty
+            case .some(let value): .value(value)
+            }
+        } write: { key, newValue, defaults in
+            if let rawValue = newValue?.rawValue {
+                try rawValue._store(to: defaults, forKey: key.value)
+            } else {
+                try Optional<Value.RawValue>.none._store(to: defaults, forKey: key.value)
+            }
+        }
+    }
+    
+    /// Creates a `LocalPreferenceKey` for a `Codable` value.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    /// - parameter encoder: The encoder to use when writing values for this key to the ``LocalPreferencesStore``
+    /// - parameter decoder: The decoder to use when reading values for this key from the ``LocalPreferencesStore``
+    /// - parameter default: The default value, which will be used if no entry exists for the key, or the preferences store failed to decode the value.
+    ///
+    /// - Note: If `Value` is an `Optional` type, the default value will be ignored, and reading a key for which no value exists in the `UserDefaults` store will always return `nil`.
+    @_disfavoredOverload
+    public convenience init(
+        _ key: Key,
+        encoder: some TopLevelEncoder<Data> & Sendable = JSONEncoder(),
+        decoder: some TopLevelDecoder<Data> & Sendable = JSONDecoder(),
+        default: @autoclosure @escaping @Sendable () -> Value
+    ) where Value: Codable {
+        self.init(key: key, default: `default`) { key, defaults in
+            switch defaults.data(forKey: key.value) {
+            case .none:
+                return .empty
+            case .some(let data):
+                do {
+                    return .value(try decoder.decode(Value.self, from: data))
+                } catch {
+                    return .failure(error)
+                }
+            }
+        } write: { key, newValue, defaults in
+            let data = try encoder.encode(newValue)
+            defaults.set(data, forKey: key.value)
+        }
+    }
+    
+    
+    // MARK: Initializers for Optional Values
+    
+    /// Creates a `LocalPreferenceKey` for an optional value.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    public convenience init<V: SendableMetatype>(
+        _ key: Key
+    ) where Value == Optional<V>, Value: _HasDirectUserDefaultsSupport {
+        self.init(key, default: nil)
+    }
+    
+    /// Creates a `LocalPreferenceKey` for an optional `RawRepresentable` value.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    public convenience init<V: SendableMetatype & _HasDirectUserDefaultsSupport>(
+        _ key: Key
+    ) where Value == Optional<V>, V: RawRepresentable, V.RawValue: _HasDirectUserDefaultsSupport, V.RawValue: SendableMetatype {
+        self.init(key: key, default: { nil }) { key, defaults in
+            switch V.RawValue._load(from: defaults, forKey: key.value).flatMap(V.init(rawValue:)) {
+            case .none: .empty
+            case .some(let value): .value(value)
+            }
+        } write: { key, newValue, defaults in
+            if let rawValue = newValue??.rawValue {
+                try rawValue._store(to: defaults, forKey: key.value)
+            } else {
+                try Optional<V.RawValue>.none._store(to: defaults, forKey: key.value)
+            }
+        }
+    }
+    
+    /// Creates a `LocalPreferenceKey` for an optional `Codable` value.
+    ///
+    /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
+    /// - parameter encoder: The encoder to use when writing values for this key to the ``LocalPreferencesStore``
+    /// - parameter decoder: The decoder to use when reading values for this key from the ``LocalPreferencesStore``
+    @_disfavoredOverload
+    public convenience init<V: SendableMetatype>(
+        _ key: Key,
+        encoder: some TopLevelEncoder<Data> & Sendable = JSONEncoder(),
+        decoder: some TopLevelDecoder<Data> & Sendable = JSONDecoder()
+    ) where Value == Optional<V>, Value: Codable {
+        self.init(key, encoder: encoder, decoder: decoder, default: nil)
+    }
+}
+
+
+extension LocalPreferenceKey {
     /// Specifies how the preference is identified within the `UserDefaults`.
     ///
     /// ## Topics
@@ -206,10 +263,10 @@ extension LocalPreferenceKey {
         /// - Note: Use the ``init(verbatim:in:)`` initializer to disable the normalization.
         ///     The resulting key can be used the same way, and will behave the same as keys created via ``init(_:in:)``, but using it with ``LocalPreference`` will result in slower code.
         @inlinable
-        public init(_ key: String, in namespace: LocalPreferenceNamespace = .app) {
+        public init(_ key: String, in namespace: LocalPreferenceKeys.Namespace = .app) {
             // We want to be able to observe these entries via KVO, which doesn't work if they appear to be keyPaths,
             // therefore we replace all '.' with '_'.
-            value = "\(namespace.value):\(key)".replacingOccurrences(of: ".", with: "_")
+            value = namespace.format(keyName: key).replacingOccurrences(of: ".", with: "_")
             isKVOCompatible = true
         }
         
@@ -221,15 +278,15 @@ extension LocalPreferenceKey {
         /// - Note: This initializer does not normalize the key, which will result in slower code if the key contains any period characters (`.`).
         ///     Use ``init(_:in:)`` instead if possible.
         @inlinable
-        public init(verbatim key: String, in namespace: LocalPreferenceNamespace = .app) {
-            value = "\(namespace.value):\(key)"
+        public init(verbatim key: String, in namespace: LocalPreferenceKeys.Namespace = .app) {
+            value = namespace.format(keyName: key)
             isKVOCompatible = !value.contains(".")
         }
         
         /// Creates a key from a `String` literal.
         ///
         /// Creating a key via a `String` literal is equivalent to `Key(value, in: .app)`.
-        /// (I.e., creating a key via ``init(_:in:)`` in the ``LocalPreferenceNamespace/app`` namespace.)
+        /// (I.e., creating a key via ``init(_:in:)`` in the ``LocalPreferenceKeys/Namespace/app`` namespace.)
         @inlinable
         public init(stringLiteral value: String) {
             self.init(value, in: .app)
@@ -238,28 +295,44 @@ extension LocalPreferenceKey {
 }
 
 
-/// A namespace used to avoid conflicts between keys within a single `UserDefaults` store.
-///
-/// ## Topics
-///
-/// ### Creating Namespaces
-/// - ``app``
-/// - ``bundle(_:)``
-/// - ``custom(_:)``
-public struct LocalPreferenceNamespace: Sendable {
-    @usableFromInline let value: String
-    
-    @inlinable
-    init(value: String) {
-        self.value = value
+extension LocalPreferenceKeys {
+    /// A namespace used to avoid conflicts between keys within a single `UserDefaults` store.
+    ///
+    /// ## Topics
+    ///
+    /// ### Creating Namespaces
+    /// - ``app``
+    /// - ``bundle(_:)``
+    /// - ``custom(_:)``
+    public struct Namespace: Sendable {
+        @usableFromInline let value: String
+        
+        @inlinable
+        init(value: String) {
+            self.value = value
+        }
+        
+        @inlinable
+        func format(keyName: String) -> String {
+            if value.isEmpty {
+                keyName
+            } else {
+                "\(value):\(keyName)"
+            }
+        }
     }
 }
 
 
-extension LocalPreferenceNamespace {
+extension LocalPreferenceKeys.Namespace {
     /// The default namespace, based on the current app's bundle id.
     @inlinable public static var app: Self {
         .bundle(.main)
+    }
+    
+    /// A special namespace that causes local preference values be written at the global scope.
+    @inlinable public static var none: Self {
+        .custom("")
     }
     
     /// Creates a namespace that scopes keys based on a bundle id.
@@ -275,46 +348,5 @@ extension LocalPreferenceNamespace {
     @inlinable
     public static func custom(_ value: String) -> Self {
         Self(value: value)
-    }
-}
-
-
-// MARK: Internal Stuff
-
-extension LocalPreferenceKey.ReadResult {
-    var value: Value? {
-        switch self {
-        case .value(let value):
-            value
-        case .empty, .failure:
-            nil
-        }
-    }
-    
-    var error: (any Error)? {
-        switch self {
-        case .failure(let error):
-            error
-        case .empty, .value:
-            nil
-        }
-    }
-}
-
-
-extension LocalPreferenceKey.ReadResult: Equatable where Value: Equatable {
-    @usableFromInline
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        switch (lhs, rhs) {
-        case (.empty, .empty):
-            true
-        case let (.value(lhs), .value(rhs)):
-            lhs == rhs
-        case let (.failure(lhs), .failure(rhs)):
-            // https://github.com/swiftlang/swift/issues/85111
-            (lhs as any Equatable).isEqual(to: rhs)
-        default:
-            false
-        }
     }
 }
