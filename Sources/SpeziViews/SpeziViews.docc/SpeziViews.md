@@ -119,9 +119,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``ConfigureTipKit``
 
 ### Preference Handling
-- ``LocalPreference``
-- ``LocalPreferenceKey``
-- ``LocalPreferencesStore``
+- <doc:LocalPreferences>
 
 ### System Programming Interfaces
 - <doc:SPI>
