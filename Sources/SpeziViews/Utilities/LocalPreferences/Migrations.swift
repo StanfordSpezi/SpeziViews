@@ -39,7 +39,8 @@ extension LocalPreferencesStore {
         
         @_documentation(visibility: internal)
         public func run(in store: LocalPreferencesStore) throws {
-            guard let value = store.defaults.object(forKey: oldKey.value) else {
+            guard !store.hasEntry(for: newKey),
+                  let value = store.defaults.object(forKey: oldKey.value) else {
                 return
             }
             store.defaults.removeObject(forKey: oldKey.value)
@@ -89,7 +90,7 @@ extension LocalPreferencesStore {
                 case .empty:
                     // ... and it contains no value for the new key.
                     // in this case we remove the old entry,
-                    // causing the next access using the new key to simply fall back to that key's default value
+                    // causing the next access using the new key to simply fall back to that key's default value.
                     store.removeEntry(for: oldKey)
                 case .value:
                     // ... and it contains a (valid & decodable) value for the new key.

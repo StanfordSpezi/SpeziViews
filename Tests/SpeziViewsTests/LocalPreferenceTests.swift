@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-// swiftlint:disable empty_string discouraged_optional_boolean type_body_length
+// swiftlint:disable empty_string discouraged_optional_boolean type_body_length file_length
 
 import Foundation
 import SpeziFoundation
@@ -40,6 +40,33 @@ final class LocalPreferenceTests {
         store[.string] = "abc"
         #expect(store[.string] == "abc")
         #expect(try #require(suite.string(forKey: "edu_stanford_SpeziViews_unitTests:string")) == "abc")
+    }
+    
+    
+    @Test
+    func collectionTypes() throws {
+        let arrayKey = LocalPreferenceKey<[Int]>("arrayKey", default: [])
+        let dictKey = LocalPreferenceKey<[String: Int]>("dictKey", default: [:])
+        
+        store.removeEntry(for: arrayKey)
+        store.removeEntry(for: dictKey)
+        
+        #expect(store[arrayKey].isEmpty)
+        #expect(store[dictKey].isEmpty)
+        
+        store[arrayKey].append(12)
+        #expect(store[arrayKey] == [12])
+        store[arrayKey] = [1, 2, 3]
+        #expect(store[arrayKey] == [1, 2, 3])
+        
+        store[dictKey]["1"] = 1
+        #expect(store[dictKey] == ["1": 1])
+        store[dictKey] = [
+            "1": 1,
+            "2": 2,
+            "3": 3
+        ]
+        #expect(store[dictKey] == ["1": 1, "2": 2, "3": 3])
     }
     
     
@@ -92,7 +119,7 @@ final class LocalPreferenceTests {
     
     @Test
     func directlySupportedTypes() throws {
-        func imp<T: _HasDirectUserDefaultsSupport & Equatable & Sendable>(_: T.Type, defaultValue: T, testValue: T) throws {
+        func imp<T: HasDirectUserDefaultsSupport & Equatable & Sendable>(_: T.Type, defaultValue: T, testValue: T) throws {
             let key = LocalPreferenceKey<T>(.init(verbatim: "testKey", in: .none), default: defaultValue)
             store.removeEntry(for: key)
             #expect(store[key] == defaultValue)
@@ -116,6 +143,7 @@ final class LocalPreferenceTests {
         try imp(Float.self, defaultValue: 5, testValue: 3.1)
         try imp(Data.self, defaultValue: Data([1, 2, 3]), testValue: Data([4, 5, 6]))
         try imp(URL.self, defaultValue: URL(filePath: "/Users/Spezi/"), testValue: URL(filePath: "/Users/Spezi/Desktop"))
+        try imp(Date.self, defaultValue: Date(timeIntervalSince1970: 0), testValue: Date.now)
         
         try imp(Bool?.self, defaultValue: nil, testValue: false)
         try imp(Bool?.self, defaultValue: nil, testValue: nil)
@@ -126,6 +154,7 @@ final class LocalPreferenceTests {
         try imp(Float?.self, defaultValue: nil, testValue: 2.2)
         try imp(Data?.self, defaultValue: nil, testValue: Data([0, 9, 8]))
         try imp(URL?.self, defaultValue: nil, testValue: URL(filePath: "/Users/Spezi/Desktop/file.txt"))
+        try imp(Date?.self, defaultValue: nil, testValue: Date(timeIntervalSinceReferenceDate: 0))
     }
     
     
@@ -159,7 +188,7 @@ final class LocalPreferenceTests {
             _: R.Type,
             defaultValue: R,
             testValues: [R]
-        ) throws where R.RawValue: _HasDirectUserDefaultsSupport {
+        ) throws where R.RawValue: HasDirectUserDefaultsSupport {
             let key = LocalPreferenceKey<R>("rrKey", default: defaultValue)
             store.removeEntry(for: key)
             #expect(!store.hasEntry(for: key))
@@ -205,7 +234,7 @@ final class LocalPreferenceTests {
         func imp<R: RawRepresentable & Equatable & Sendable & SendableMetatype>(
             _: R.Type,
             testValues: [Optional<R>]
-        ) throws where R.RawValue: _HasDirectUserDefaultsSupport {
+        ) throws where R.RawValue: HasDirectUserDefaultsSupport {
             let key1 = LocalPreferenceKey<R?>("rrKey")
             let key2 = LocalPreferenceKey<R?>("rrKey")
             
@@ -391,6 +420,34 @@ final class LocalPreferenceTests {
                 try store.runMigrations(migration)
                 #expect(oldKey.read(in: store.defaults) == valueA, "\(idx)")
                 #expect(newKey.read(in: store.defaults) == valueB, "\(idx)")
+            }
+        }
+    }
+    
+    
+    @Test
+    func migrateValue2() throws {
+        try withTemporarySuiteForMigration { store in
+            let testData = Data([2, 3, 5, 7, 11, 13, 17, 19])
+            let testDataB64 = testData.base64EncodedString()
+            let oldKey = LocalPreferenceKey<String>("token", default: "")
+            let newKey = LocalPreferenceKey<Data?>("token")
+            let migration = LocalPreferencesStore.MigrateValue(from: oldKey, to: newKey) { (oldValue: String) -> Data? in
+                Data(base64Encoded: oldValue)
+            }
+            store.removeEntry(for: oldKey)
+            store.removeEntry(for: newKey)
+            store[oldKey] = testDataB64
+            #expect(store[oldKey] == testDataB64)
+            #expect(store[newKey] == nil)
+            #expect(store[oldKey] == testDataB64)
+            try store.runMigrations(migration)
+            #expect(store[oldKey] == "")
+            #expect(store[newKey] == testData)
+            for _ in 0..<20 {
+                try store.runMigrations(migration)
+                #expect(store[oldKey] == "")
+                #expect(store[newKey] == testData)
             }
         }
     }

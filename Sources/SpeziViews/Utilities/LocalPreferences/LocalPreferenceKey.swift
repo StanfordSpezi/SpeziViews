@@ -46,9 +46,16 @@ public class LocalPreferenceKeys: @unchecked Sendable {}
 /// ## Topics
 ///
 /// ### Creating Keys
-/// - ``init(_:default:)-1uj4h``
-/// - ``init(_:default:)-90if0``
+/// - ``init(_:default:)-6dihs``
+/// - ``init(_:default:)-cey3``
 /// - ``init(_:encoder:decoder:default:)``
+/// - ``init(_:)-70fbg``
+/// - ``init(_:)-7o698``
+/// - ``init(_:encoder:decoder:)``
+///
+/// ### Instance Properties
+/// - ``key``
+/// - ``defaultValue``
 ///
 /// ### Supporting Types
 /// - ``LocalPreferencesStore``
@@ -68,6 +75,11 @@ public final class LocalPreferenceKey<Value: SendableMetatype>: LocalPreferenceK
     /// Reads the key's value from the `UserDefaults`. Returns `nil` if no value existed, or the decoding failed.
     @usableFromInline let _read: @Sendable (UserDefaults) -> ReadResult // swiftlint:disable:this identifier_name
     @usableFromInline let _write: @Sendable (Value?, UserDefaults) throws -> Void // swiftlint:disable:this identifier_name
+    
+    /// The key's default value.
+    public var defaultValue: Value {
+        `default`()
+    }
     
     private init(
         key: Key,
@@ -128,7 +140,7 @@ extension LocalPreferenceKey {
     public convenience init(
         _ key: Key,
         default: @autoclosure @escaping @Sendable () -> Value
-    ) where Value: _HasDirectUserDefaultsSupport {
+    ) where Value: HasDirectUserDefaultsSupport {
         self.init(key: key, default: `default`) { key, defaults in
             switch Value._load(from: defaults, forKey: key.value) {
             case .none: .empty
@@ -148,7 +160,7 @@ extension LocalPreferenceKey {
     public convenience init(
         _ key: Key,
         default: @autoclosure @escaping @Sendable () -> Value
-    ) where Value: RawRepresentable, Value.RawValue: _HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
+    ) where Value: RawRepresentable, Value.RawValue: HasDirectUserDefaultsSupport, Value.RawValue: SendableMetatype {
         self.init(rawRepresentable: Value.self, key: key, mapFrom: { $0 }, mapTo: { $0 }, default: `default`())
     }
     
@@ -179,7 +191,7 @@ extension LocalPreferenceKey {
     /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
     public convenience init<V: SendableMetatype>(
         _ key: Key
-    ) where Value == Optional<V>, Value: _HasDirectUserDefaultsSupport {
+    ) where Value == Optional<V>, Value: HasDirectUserDefaultsSupport {
         self.init(key, default: nil)
     }
     
@@ -188,7 +200,7 @@ extension LocalPreferenceKey {
     /// - parameter key: The key definition that will be used when reading or writing data to the `UserDefaults`
     public convenience init<V: RawRepresentable & SendableMetatype>(
         _ key: Key
-    ) where Value == Optional<V>, V.RawValue: _HasDirectUserDefaultsSupport, V.RawValue: SendableMetatype {
+    ) where Value == Optional<V>, V.RawValue: HasDirectUserDefaultsSupport, V.RawValue: SendableMetatype {
         self.init(rawRepresentable: V.self, key: key, mapFrom: { $0 }, mapTo: { $0 }, default: nil)
     }
     
@@ -216,7 +228,7 @@ extension LocalPreferenceKey {
         mapFrom: @escaping @Sendable (R) -> Value,
         mapTo: @escaping @Sendable (Value) -> R?,
         default: @autoclosure @escaping @Sendable () -> Value
-    ) where R.RawValue: _HasDirectUserDefaultsSupport, R: SendableMetatype {
+    ) where R.RawValue: HasDirectUserDefaultsSupport, R: SendableMetatype {
         self.init(key: key, default: `default`) { key, defaults in
             switch R.RawValue._load(from: defaults, forKey: key.value).flatMap(R.init(rawValue:)) {
             case .none: .empty
