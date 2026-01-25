@@ -11,10 +11,7 @@ import Foundation
 
 /// A type erased version of `LocalizedError` with convenience initializers to do a best-effort transform an existing `Error` to an `LocalizedError`.
 public struct AnyLocalizedError: LocalizedError {
-    @usableFromInline static let globalDefaultErrorDescription = LocalizedStringResource(
-        "DEFAULT_ERROR_DESCRIPTION",
-        bundle: .atURL(Bundle.module.bundleURL)
-    )
+    static let globalDefaultErrorDescription = LocalizedStringResource("DEFAULT_ERROR_DESCRIPTION", bundle: .atURL(Bundle.module.bundleURL))
 
     /// A localized message describing what error occurred.
     public var errorDescription: String?
@@ -34,7 +31,6 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    @inlinable
     public init(error: any Error, defaultErrorDescription: LocalizedStringResource? = nil) {
         self.init(error: error, defaultErrorDescription: String(localized: defaultErrorDescription ?? Self.globalDefaultErrorDescription))
     }
@@ -47,7 +43,6 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    @inlinable
     public init(error: any Error, defaultErrorDescription: String) {
         switch error {
         case let localizedError as LocalizedError:
