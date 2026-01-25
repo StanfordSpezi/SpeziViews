@@ -14,7 +14,6 @@ import XCTestExtensions
 final class ViewsTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
-
         continueAfterFailure = false
     }
 

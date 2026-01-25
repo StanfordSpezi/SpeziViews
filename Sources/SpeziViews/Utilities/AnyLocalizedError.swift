@@ -31,6 +31,7 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
+    @inlinable
     public init(error: any Error, defaultErrorDescription: LocalizedStringResource? = nil) {
         self.init(error: error, defaultErrorDescription: String(localized: defaultErrorDescription ?? Self.globalDefaultErrorDescription))
     }
@@ -43,6 +44,7 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
+    @inlinable
     public init(error: any Error, defaultErrorDescription: String) {
         switch error {
         case let localizedError as LocalizedError:
@@ -64,7 +66,8 @@ public struct AnyLocalizedError: LocalizedError {
     }
 }
 
-/// Determines whether an exietential `Error` is an `NSError` instance.
+
+/// Determines whether an existential `Error` is an `NSError` instance.
 ///
 /// This function exists because all Swift `Error`s can implicitly be bridged to `NSError`,
 /// meaning that checks like `error is NSError` or `error as? NSError` will always succeed.
