@@ -11,7 +11,10 @@ import Foundation
 
 /// A type erased version of `LocalizedError` with convenience initializers to do a best-effort transform an existing `Error` to an `LocalizedError`.
 public struct AnyLocalizedError: LocalizedError {
-    private static let globalDefaultErrorDescription = LocalizedStringResource("DEFAULT_ERROR_DESCRIPTION", bundle: .atURL(Bundle.module.bundleURL))
+    @usableFromInline static let globalDefaultErrorDescription = LocalizedStringResource(
+        "DEFAULT_ERROR_DESCRIPTION",
+        bundle: .atURL(Bundle.module.bundleURL)
+    )
 
     /// A localized message describing what error occurred.
     public var errorDescription: String?
