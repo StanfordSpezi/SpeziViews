@@ -17,6 +17,7 @@ extension ViewsTests {
         let app = XCUIApplication()
         app.launch()
         app.open(target: "SpeziViews")
+        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
         app.staticTexts["AnyLocalizableError"].tap()
         
         func imp(_ buttonTitle: String, expectedTitle: String?, expectedMessages: [String]) {
