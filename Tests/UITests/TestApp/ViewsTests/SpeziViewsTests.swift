@@ -28,6 +28,7 @@ enum SpeziViewsTests: String, TestAppTests {
     case conditionalModifier = "Conditional Modifier"
     case defaultErrorOnly = "Default Error Only"
     case defaultErrorDescription = "Default Error Description"
+    case anyLocalizableError = "AnyLocalizableError"
     case button = "Buttons"
     case listRow = "List Row"
     case managedViewUpdate = "Managed View Update"
@@ -102,6 +103,8 @@ enum SpeziViewsTests: String, TestAppTests {
             ViewStateTestView(testError: .init(errorDescription: "Some error occurred!"))
         case .defaultErrorDescription:
             DefaultErrorDescriptionTestView()
+        case .anyLocalizableError:
+            AnyLocalizableErrorTestView()
         case .button:
             ButtonTestView()
         case .listRow:

@@ -211,6 +211,15 @@
     "Next Step" : {
 
     },
+    "NSError (Simple 1)" : {
+
+    },
+    "NSError (Simple 2)" : {
+
+    },
+    "NSError (Simple 3)" : {
+
+    },
     "Operation State: %@" : {
 
     },
@@ -337,6 +346,12 @@
     "Step 9B (odd)" : {
 
     },
+    "Swift Error (Localized)" : {
+
+    },
+    "Swift Error (Simple)" : {
+
+    },
     "Switch Focus" : {
 
     },
@@ -374,6 +389,9 @@
 
     },
     "Trailing" : {
+
+    },
+    "Trigger Error" : {
 
     },
     "Username" : {

@@ -50,10 +50,26 @@ public struct AnyLocalizedError: LocalizedError {
             self.failureReason = localizedError.failureReason
             self.helpAnchor = localizedError.helpAnchor
             self.recoverySuggestion = localizedError.recoverySuggestion
+        case let error where isNSError(error):
+            let error = error as NSError
+            self.errorDescription = error.localizedDescription
+            self.failureReason = error.localizedFailureReason
+            self.helpAnchor = error.helpAnchor
+            self.recoverySuggestion = error.localizedRecoverySuggestion
         case let customStringConvertible as CustomStringConvertible:
             self.errorDescription = customStringConvertible.description
         default:
             self.errorDescription = defaultErrorDescription
         }
     }
+}
+
+
+/// Determines whether an existential `Error` is an `NSError` instance.
+///
+/// This function exists because all Swift `Error`s can implicitly be bridged to `NSError`,
+/// meaning that checks like `error is NSError` or `error as? NSError` will always succeed.
+@inlinable
+func isNSError(_ error: any Error) -> Bool {
+    type(of: error) is NSError.Type
 }
