@@ -31,7 +31,7 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    public init(error: Error, defaultErrorDescription: LocalizedStringResource? = nil) {
+    public init(error: any Error, defaultErrorDescription: LocalizedStringResource? = nil) {
         self.init(error: error, defaultErrorDescription: String(localized: defaultErrorDescription ?? Self.globalDefaultErrorDescription))
     }
     
@@ -43,17 +43,32 @@ public struct AnyLocalizedError: LocalizedError {
     /// - Parameters:
     ///   - error: The error instance that should be wrapped.
     ///   - defaultErrorDescription: The localized default error description that should be used if the `error` does not provide any context to create an error description.
-    public init(error: Error, defaultErrorDescription: String) {
+    public init(error: any Error, defaultErrorDescription: String) {
         switch error {
         case let localizedError as LocalizedError:
-            self.errorDescription = localizedError.errorDescription ?? defaultErrorDescription
-            self.failureReason = localizedError.failureReason
-            self.helpAnchor = localizedError.helpAnchor
-            self.recoverySuggestion = localizedError.recoverySuggestion
+            errorDescription = localizedError.errorDescription ?? defaultErrorDescription
+            failureReason = localizedError.failureReason
+            helpAnchor = localizedError.helpAnchor
+            recoverySuggestion = localizedError.recoverySuggestion
+        case let error where type(of: error) is NSError.Type:
+            let error = error as NSError
+            errorDescription = error.localizedDescription
+            failureReason = error.localizedFailureReason
+            helpAnchor = error.helpAnchor
+            recoverySuggestion = error.localizedRecoverySuggestion
         case let customStringConvertible as CustomStringConvertible:
-            self.errorDescription = customStringConvertible.description
+            errorDescription = customStringConvertible.description
         default:
-            self.errorDescription = defaultErrorDescription
+            errorDescription = defaultErrorDescription
         }
     }
+}
+
+/// Determines whether an exietential `Error` is an `NSError` instance.
+///
+/// This function exists because all Swift `Error`s can implicitly be bridged to `NSError`,
+/// meaning that checks like `error is NSError` or `error as? NSError` will always succeed.
+@inlinable
+func isNSError(_ error: any Error) -> Bool {
+    type(of: error) is NSError.Type
 }
