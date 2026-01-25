@@ -46,20 +46,20 @@ public struct AnyLocalizedError: LocalizedError {
     public init(error: any Error, defaultErrorDescription: String) {
         switch error {
         case let localizedError as LocalizedError:
-            errorDescription = localizedError.errorDescription ?? defaultErrorDescription
-            failureReason = localizedError.failureReason
-            helpAnchor = localizedError.helpAnchor
-            recoverySuggestion = localizedError.recoverySuggestion
+            self.errorDescription = localizedError.errorDescription ?? defaultErrorDescription
+            self.failureReason = localizedError.failureReason
+            self.helpAnchor = localizedError.helpAnchor
+            self.recoverySuggestion = localizedError.recoverySuggestion
         case let error where type(of: error) is NSError.Type:
             let error = error as NSError
-            errorDescription = error.localizedDescription
-            failureReason = error.localizedFailureReason
-            helpAnchor = error.helpAnchor
-            recoverySuggestion = error.localizedRecoverySuggestion
+            self.errorDescription = error.localizedDescription
+            self.failureReason = error.localizedFailureReason
+            self.helpAnchor = error.helpAnchor
+            self.recoverySuggestion = error.localizedRecoverySuggestion
         case let customStringConvertible as CustomStringConvertible:
-            errorDescription = customStringConvertible.description
+            self.errorDescription = customStringConvertible.description
         default:
-            errorDescription = defaultErrorDescription
+            self.errorDescription = defaultErrorDescription
         }
     }
 }
