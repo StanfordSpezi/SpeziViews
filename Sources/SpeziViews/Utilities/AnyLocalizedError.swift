@@ -50,7 +50,7 @@ public struct AnyLocalizedError: LocalizedError {
             self.failureReason = localizedError.failureReason
             self.helpAnchor = localizedError.helpAnchor
             self.recoverySuggestion = localizedError.recoverySuggestion
-        case let error where type(of: error) is NSError.Type:
+        case let error where isNSError(error):
             let error = error as NSError
             self.errorDescription = error.localizedDescription
             self.failureReason = error.localizedFailureReason
