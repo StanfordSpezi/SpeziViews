@@ -13,7 +13,14 @@ import SwiftUI
 public struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
 
+    @_documentation(visibility: internal)
     public var body: some View {
+        button
+            .accessibilityIdentifier("Close")
+    }
+    
+    
+    @ViewBuilder private var button: some View {
 #if swift(>=6.2)
     #if os(visionOS) || os(tvOS) || os(macOS)
         if #available(visionOS 26, tvOS 26, macOS 26, *) {
@@ -40,7 +47,7 @@ public struct DismissButton: View {
     }
     
     
-    @ViewBuilder private var fallbackButton: some View {
+    private var fallbackButton: some View {
 #if os(visionOS) || os(tvOS) || os(macOS)
         Button("Dismiss", systemImage: "xmark") {
             dismiss()
