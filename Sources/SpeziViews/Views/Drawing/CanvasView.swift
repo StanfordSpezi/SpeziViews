@@ -15,11 +15,9 @@ private struct _CanvasView: UIViewRepresentable {
     final class Coordinator: NSObject, PKCanvasViewDelegate {
         let canvasView: _CanvasView
         
-        
         init(canvasView: _CanvasView) {
             self.canvasView = canvasView
         }
-        
         
         func canvasViewDidBeginUsingTool(_ pkCanvasView: PKCanvasView) {
             canvasView.isDrawing = true
@@ -79,7 +77,7 @@ private struct _CanvasView: UIViewRepresentable {
         if canvasView.drawing != drawing {
             canvasView.drawing = drawing
         }
-        
+        canvasView.tool = tool
         if showToolPicker {
             canvasView.becomeFirstResponder()
         }
