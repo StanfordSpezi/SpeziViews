@@ -35,7 +35,7 @@ import SwiftUI
 /// var body: some View {
 ///     CanvasView(
 ///         drawing: $drawing,
-///         tool: .$tool,
+///         tool: $tool,
 ///         drawingPolicy: .anyInput,
 ///         showToolPicker: $showToolPicker
 ///     )
@@ -103,7 +103,7 @@ public struct CanvasView: View {
     /// - parameter drawing: A `Binding` containing the current `PKDrawing`
     /// - parameter isDrawing: A `Binding` indicating if the user is currently drawing.
     ///     Note that this only allows you to observe the state; it does not allow you to prevent the user from drawing.
-    ///     (Use SwiftUI's `disabled(:_)` modifier for that.)
+    ///     (Use SwiftUI's `disabled(_:)` modifier for that.)
     /// - parameter tool: The current tool used by the canvas.
     /// - parameter drawingPolicy: The drawing policy as defined by the PencilKit `PKCanvasViewDrawingPolicy`
     public init(
