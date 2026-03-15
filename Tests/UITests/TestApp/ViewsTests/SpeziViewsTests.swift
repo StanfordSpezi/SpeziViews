@@ -12,9 +12,6 @@ import XCTestApp
 
 
 enum SpeziViewsTests: String, TestAppTests {
-    #if canImport(PencilKit) && !os(macOS)
-    case canvas = "Canvas"
-    #endif
     case geometryReader = "Geometry Reader"
     #if !os(macOS)
     case label = "Label"
@@ -75,10 +72,6 @@ enum SpeziViewsTests: String, TestAppTests {
 
     func view(withNavigationPath path: Binding<NavigationPath>) -> some View {  // swiftlint:disable:this cyclomatic_complexity
         switch self {
-        #if canImport(PencilKit) && !os(macOS)
-        case .canvas:
-            CanvasTestView()
-        #endif
         case .geometryReader:
             GeometryReaderTestView()
         #if !os(macOS)

@@ -37,18 +37,8 @@
     "by Robert C. Martin" : {
 
     },
-    "Canvas Size: none" : {
+    "Canvas Size" : {
 
-    },
-    "Canvas Size: width %lf, height %lf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Canvas Size: width %1$lf, height %2$lf"
-          }
-        }
-      }
     },
     "CanvasTest" : {
 
@@ -62,7 +52,7 @@
     "Clean Code" : {
 
     },
-    "Clear Canvas" : {
+    "Clear" : {
 
     },
     "Closure Condition present" : {
@@ -80,7 +70,7 @@
     "Custom Step" : {
 
     },
-    "Did Draw Anything: %@" : {
+    "Did Draw Anything" : {
 
     },
     "Did tap" : {
@@ -238,6 +228,9 @@
     "Please enter your email address of your account. A email with an link to reset your password will be sent to the email address." : {
 
     },
+    "Random Tool" : {
+
+    },
     "Recommendations" : {
 
     },
@@ -284,9 +277,6 @@
 
     },
     "Show Sheet" : {
-
-    },
-    "Show Tool Picker" : {
 
     },
     "Signup" : {
@@ -386,6 +376,12 @@
 
     },
     "Toggle Condition" : {
+
+    },
+    "Toggle Tool Picker" : {
+
+    },
+    "Tool" : {
 
     },
     "Trailing" : {
