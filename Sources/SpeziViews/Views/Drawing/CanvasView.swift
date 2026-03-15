@@ -229,9 +229,6 @@ extension CanvasView {
             }
             toolPicker.selectedTool = tool
             canvasView.drawingPolicy = drawingPolicy
-            if canvasView.drawing != drawing {
-                canvasView.drawing = drawing
-            }
             toolPicker.addObserver(canvasView)
             toolPicker.setVisible(showToolPicker, forFirstResponder: canvasView)
             if showToolPicker {
