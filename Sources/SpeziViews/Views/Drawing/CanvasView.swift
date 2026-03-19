@@ -161,22 +161,22 @@ extension CanvasView {
             }
             
             func canvasViewDrawingDidChange(_ pkCanvasView: PKCanvasView) {
-                Task { @MainActor in
-                    parent.drawing = pkCanvasView.drawing
+                let oldDrawing = parent.drawing
+                let newDrawing = pkCanvasView.drawing
+                guard oldDrawing != newDrawing && !(oldDrawing.isEmpty && newDrawing.isEmpty) else {
+                    // empty drawings don't necessarily compare equal to each other (FB22283461)
+                    return
                 }
+                parent.drawing = newDrawing
             }
             
             func toolPickerSelectedToolDidChange(_ toolPicker: PKToolPicker) {
-                Task { @MainActor in
-                    handleToolDidChange(toolPicker)
-                }
+                handleToolDidChange(toolPicker)
             }
             
             @available(iOS 18.0, visionOS 2.0, *)
             func toolPickerSelectedToolItemDidChange(_ toolPicker: PKToolPicker) {
-                Task { @MainActor in
-                    handleToolDidChange(toolPicker)
-                }
+                handleToolDidChange(toolPicker)
             }
             
             @MainActor
