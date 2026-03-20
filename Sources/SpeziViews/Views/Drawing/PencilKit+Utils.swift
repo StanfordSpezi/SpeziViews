@@ -11,7 +11,7 @@ import PencilKit
 
 extension PKDrawing: @retroactive Hashable {
     public func hash(into hasher: inout Hasher) {
-        if #available(iOS 18, *) {
+        if #available(iOS 18, macOS 15, visionOS 2, *) {
             hasher.combine(self.bounds)
         } else {
             let bounds = self.bounds
