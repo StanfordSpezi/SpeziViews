@@ -151,6 +151,9 @@
         }
       }
     },
+    "Not Yet Implemented" : {
+
+    },
     "nothing selected" : {
       "localizations" : {
         "sv" : {
@@ -170,6 +173,30 @@
           }
         }
       }
+    },
+    "Select File" : {
+
+    },
+    "Select Files" : {
+
+    },
+    "Select Image" : {
+
+    },
+    "Select Images" : {
+
+    },
+    "Select Photo" : {
+
+    },
+    "Select Video" : {
+
+    },
+    "Select Videos" : {
+
+    },
+    "Take Photo" : {
+
     }
   },
   "version" : "1.0"
