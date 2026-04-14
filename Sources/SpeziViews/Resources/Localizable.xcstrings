@@ -12,6 +12,7 @@
       }
     },
     "A" : {
+      "extractionState" : "stale",
       "localizations" : {
         "sv" : {
           "stringUnit" : {
@@ -22,6 +23,7 @@
       }
     },
     "B" : {
+      "extractionState" : "stale",
       "localizations" : {
         "sv" : {
           "stringUnit" : {
@@ -151,6 +153,9 @@
         }
       }
     },
+    "Not Yet Implemented" : {
+
+    },
     "nothing selected" : {
       "localizations" : {
         "sv" : {
@@ -162,6 +167,7 @@
       }
     },
     "Option %u" : {
+      "extractionState" : "stale",
       "localizations" : {
         "sv" : {
           "stringUnit" : {
@@ -170,6 +176,27 @@
           }
         }
       }
+    },
+    "Select File" : {
+
+    },
+    "Select Files" : {
+
+    },
+    "Select Image" : {
+
+    },
+    "Select Images" : {
+
+    },
+    "Select Photo" : {
+
+    },
+    "Select Video" : {
+
+    },
+    "Select Videos" : {
+
     }
   },
   "version" : "1.0"

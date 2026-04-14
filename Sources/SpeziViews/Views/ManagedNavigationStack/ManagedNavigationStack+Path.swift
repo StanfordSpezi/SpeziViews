@@ -32,6 +32,10 @@ extension ManagedNavigationStack {
     /// - ``append(_:)``
     /// - ``append(customView:)``
     /// - ``removeLast()``
+    ///
+    /// ### Inspecting a `Path`
+    /// - ``isEmpty``
+    /// - ``count``
     @MainActor
     @Observable
     public final class Path {
@@ -337,5 +341,20 @@ extension ManagedNavigationStack.Path {
     /// This method allows to manually move backwards within the navigation flow.
     public func removeLast() {
         path.removeLast()
+    }
+}
+
+
+// MARK: Inspecting
+
+extension ManagedNavigationStack.Path {
+    /// Whether the path currently is empty.
+    public var isEmpty: Bool {
+        count == 0
+    }
+    
+    /// The current number of elements in the path.
+    public var count: Int {
+        path.count
     }
 }

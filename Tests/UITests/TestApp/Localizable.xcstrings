@@ -22,6 +22,12 @@
     "Alignment" : {
 
     },
+    "Allow Multiple Selection" : {
+
+    },
+    "Allowed Content Types" : {
+
+    },
     "Append Custom View" : {
 
     },
@@ -247,6 +253,9 @@
 
     },
     "Second" : {
+
+    },
+    "Selected Image" : {
 
     },
     "Selection" : {
