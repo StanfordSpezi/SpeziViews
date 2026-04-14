@@ -10,23 +10,25 @@
 
 import PhotosUI
 import SpeziFoundation
-import SpeziViews
 import SwiftUI
 import UniformTypeIdentifiers
 
 
+/// An item that was selected using the ``_FilePicker``
+public enum _FilePickerItem: Sendable, Hashable { // swiftlint:disable:this type_name
+    case file(URL)
+    case photo(PhotosPickerItem)
+}
+
+
 /// Reusable view that offers file import options from a range of sources.
+@available(watchOS, unavailable)
 public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_name
-    public enum Item: Sendable {
-        case file(URL)
-        case photo(PhotosPickerItem)
-    }
-    
     @Environment(\.isEnabled) private var isEnabled
     private let label: @MainActor (_ suggestedTitle: LocalizedStringResource) -> Label
     private let enabledTypes: Set<UTType>
     private let allowMultipleSelection: Bool
-    private let selectionHandler: @Sendable ([Item]) -> Void
+    private let selectionHandler: @Sendable ([_FilePickerItem]) -> Void
     @State private var isShowingPhotosPicker = false
     @State private var isShowingFileImporter = false
     @State private var isShowingCameraSheet = false
@@ -54,16 +56,20 @@ public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_na
             // in a single-selection scenario, we'd either need to remove the image, or disable the file picker.
             maxSelectionCount: allowMultipleSelection ? nil : 1,
             selectionBehavior: .default,
-            matching: .any(of: Array {
-                if shouldEnable(.movie) {
-                    .videos
+            matching: { () -> PHPickerFilter in
+                let enabledTypes: [PHPickerFilter] = Array {
+                    if shouldEnable(.movie) {
+                        .videos
+                    }
+                    if shouldEnable(.image) {
+                        // QUESTION if the user has live photos enabled, would this filter only photos w/out a live photo attached,
+                        // or would it still include everything?
+                        .images
+                    }
                 }
-                if shouldEnable(.image) {
-                    // QUESTION if the user has live photos enabled, would this filter only photos w/out a live photo attached,
-                    // or would it still include everything?
-                    .images
-                }
-            }),
+                // can't have an empty ANY filter
+                return enabledTypes.isEmpty ? .images : .any(of: enabledTypes)
+            }(),
             preferredItemEncoding: .automatic
         )
         .fileImporter(
@@ -93,13 +99,13 @@ public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_na
     }
     
     private var suggestedTitle: LocalizedStringResource {
-        if enabledTypes.allSatisfy({ $0.isCompatible(with: .image) }) {
+        if enabledTypes.allSatisfy({ $0.conforms(to: .image) }) {
             if allowMultipleSelection {
                 LocalizedStringResource("Select Images", bundle: .module)
             } else {
                 LocalizedStringResource("Select Image", bundle: .module)
             }
-        } else if enabledTypes.allSatisfy({ $0.isCompatible(with: .movie) }) {
+        } else if enabledTypes.allSatisfy({ $0.conforms(to: .movie) }) {
             if allowMultipleSelection {
                 LocalizedStringResource("Select Videos", bundle: .module)
             } else {
@@ -116,19 +122,10 @@ public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_na
     
     @ViewBuilder private var importMenuContents: some View {
         if shouldEnable(.image) || shouldEnable(.movie) {
-            takePhotoButton
             selectPhotosButton
             Divider()
         }
         importFileButton
-    }
-    
-    private var takePhotoButton: some View {
-        Button {
-            isShowingCameraSheet = true
-        } label: {
-            SwiftUI.Label(LocalizedStringResource("Take Photo", bundle: .module), systemImage: "camera")
-        }
     }
     
     private var selectPhotosButton: some View {
@@ -150,7 +147,7 @@ public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_na
     public init(
         _ contentTypes: Set<UTType>,
         allowMultipleSelection: Bool,
-        selectionHandler: @escaping @Sendable ([Item]) -> Void,
+        selectionHandler: @escaping @Sendable ([_FilePickerItem]) -> Void,
         @ViewBuilder label: @escaping @MainActor (_ suggestedTitle: LocalizedStringResource) -> Label
     ) {
         self.enabledTypes = contentTypes.isEmpty ? [.data] : contentTypes
@@ -195,7 +192,10 @@ public struct _ListRowFilePickerLabel: View { // swiftlint:disable:this type_nam
 
 
 extension UTType {
-    func isCompatible(with other: Self) -> Bool {
+    // we have the bidirectional check here, because:
+    // - if the FilePicker is allowed to select `UTType.image`s we obviously want to allow it to ONLY pick images; but
+    // - if its set to `UTType.data` or `.image`, we want to allow it to pick
+    fileprivate func isCompatible(with other: Self) -> Bool {
         self.conforms(to: other) || other.conforms(to: self)
     }
 }
