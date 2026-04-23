@@ -12,6 +12,7 @@
       }
     },
     "A" : {
+      "extractionState" : "stale",
       "localizations" : {
         "sv" : {
           "stringUnit" : {
@@ -22,6 +23,7 @@
       }
     },
     "B" : {
+      "extractionState" : "stale",
       "localizations" : {
         "sv" : {
           "stringUnit" : {
@@ -162,6 +164,7 @@
       }
     },
     "Option %u" : {
+      "extractionState" : "stale",
       "localizations" : {
         "sv" : {
           "stringUnit" : {
