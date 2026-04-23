@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-#if canImport(PencilKit) && !os(macOS)
+#if canImport(PencilKit) && !os(macOS) && !targetEnvironment(macCatalyst)
 import PencilKit
 import SwiftUI
 
