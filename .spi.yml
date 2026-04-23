@@ -15,8 +15,3 @@ builder:
         - SpeziViews
         - SpeziPersonalInfo
         - SpeziValidation
-    - platform: maccatalyst
-      documentation_targets:
-        - SpeziViews
-        - SpeziPersonalInfo
-        - SpeziValidation
