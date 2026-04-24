@@ -11,28 +11,6 @@
         }
       }
     },
-    "A" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A"
-          }
-        }
-      }
-    },
-    "B" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "B"
-          }
-        }
-      }
-    },
     "Completed" : {
       "comment" : "Completed Tile. Subtitle",
       "localizations" : {
@@ -159,17 +137,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "inget markerat"
-          }
-        }
-      }
-    },
-    "Option %u" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alternativ %u"
           }
         }
       }
