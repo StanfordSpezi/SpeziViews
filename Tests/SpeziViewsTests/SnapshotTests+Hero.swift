@@ -127,9 +127,7 @@ extension SnapshotTests {
                         )
                     }
                 } footer: {
-                    if Bool.random() { // Simulates conditional rendering
-                        EmptyView()
-                    }
+                    EmptyView()
                 }
             case .heroLayoutManagedNavigation:
                 ManagedNavigationStack {
