@@ -76,6 +76,8 @@ public struct HeroLayoutView<Header: View, Content: View, Footer: View>: View {
     private let content: Content
     private let footer: Footer
 
+    @State private var footerHeight: CGFloat?
+
     @_documentation(visibility: internal) // swiftlint:disable:next attributes
     public var body: some View {
         GeometryReader { geometry in
@@ -108,6 +110,17 @@ public struct HeroLayoutView<Header: View, Content: View, Footer: View>: View {
     private var effectiveScrollIndicatorVisibility: ScrollIndicatorVisibility {
         let visibility = scrollIndicatorVisibility
         return visibility == .automatic ? .hidden : visibility
+    }
+
+    private var hasVisibleFooter: Bool {
+        guard Footer.self != EmptyView.self else {
+            return false
+        }
+        guard let footerHeight else {
+            // Assume the footer is visible until we have measured it once.
+            return true
+        }
+        return footerHeight > 0.5
     }
 
 
@@ -190,22 +203,44 @@ public struct HeroLayoutView<Header: View, Content: View, Footer: View>: View {
             VStack {
                 header
                 content
-                    .padding(.bottom, bottomPadding)
+                    .padding(.bottom, hasVisibleFooter ? 0 : bottomPadding)
             }
-            Spacer(minLength: 40)
-            footer
-                .padding(.bottom, bottomPadding)
+            if Footer.self != EmptyView.self {
+                if hasVisibleFooter {
+                    Spacer(minLength: 40)
+                }
+                footer
+                    .background {
+                        GeometryReader { geometry in
+                            Color.clear
+                                .preference(key: HeroLayoutFooterHeightPreferenceKey.self, value: geometry.size.height)
+                        }
+                    }
+                    .padding(.bottom, hasVisibleFooter ? bottomPadding : 0)
+            }
         }
         .padding(edgesWithImplicitPadding)
         .padding(.top, isFirstInManagedNavigationStack && !edgesWithPaddingDisabled.contains(.top) ? 24 : 0)
         .frame(minHeight: geometry.size.height)
         .frame(maxWidth: .infinity, alignment: .center)
+        .onPreferenceChange(HeroLayoutFooterHeightPreferenceKey.self) { footerHeight in
+            self.footerHeight = footerHeight
+        }
     }
 }
 
 
 extension EnvironmentValues {
     @Entry fileprivate var heroLayoutEdgesWithPaddingDisabled: Edge.Set = []
+}
+
+
+private struct HeroLayoutFooterHeightPreferenceKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
 }
 
 

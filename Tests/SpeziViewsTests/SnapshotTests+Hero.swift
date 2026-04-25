@@ -127,7 +127,11 @@ extension SnapshotTests {
                         )
                     }
                 } footer: {
-                    EmptyView()
+                    if false {
+                        AsyncButton("Continue") {
+                        }
+                        .buttonStylePrimaryAction()
+                    }
                 }
             case .heroLayoutManagedNavigation:
                 ManagedNavigationStack {
