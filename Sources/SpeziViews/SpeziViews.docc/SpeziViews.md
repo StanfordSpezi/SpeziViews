@@ -3,14 +3,13 @@
 A Spezi framework that provides a common set of SwiftUI views and related functionality used across the Spezi ecosystem.
 
 <!--
-
-This source file is part of the Spezi open-source project
-
-SPDX-FileCopyrightText: 2023 Stanford University and the project authors (see CONTRIBUTORS.md)
-
-SPDX-License-Identifier: MIT
-
--->
+#
+# This source file is part of the Stanford Spezi open-source project
+#
+# SPDX-FileCopyrightText: 2023 Stanford University and the project authors (see CONTRIBUTORS.md)
+#
+# SPDX-License-Identifier: MIT
+# -->
 ## Overview
 
 SpeziViews provides easy-to-use and easily-reusable UI components that makes the everyday life of developing Spezi applications easier.
