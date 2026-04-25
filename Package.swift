@@ -32,7 +32,7 @@ let package = Package(
         .package(url: "https://github.com/StanfordSpezi/SpeziFoundation.git", from: "2.4.3"),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.0"),
         .package(url: "https://github.com/gonzalezreal/swift-markdown-ui.git", from: "2.4.1"),
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.17.0")
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.19.2")
     ] + swiftLintPackage(),
     targets: [
         .target(
@@ -69,7 +69,7 @@ let package = Package(
             dependencies: [
                 .target(name: "SpeziViews"),
                 .target(name: "SpeziValidation"),
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing", condition: .when(platforms: [.iOS]))
             ],
             plugins: [] + swiftLintPlugin()
         )
