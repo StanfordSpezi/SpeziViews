@@ -13,6 +13,8 @@ import SwiftUI
 ///
 /// The `SequentialStepsView` provides a view to display information that is progressively revealed.
 ///
+/// - Important: The `steps` array must contain at least one step. An empty array will trigger a runtime precondition failure.
+///
 /// - Tip: The ``HeroLayoutView`` provides an alternative to display information all at once.
 ///
 /// The following example demonstrates the usage of the ``SequentialStepsView``:
@@ -135,6 +137,7 @@ public struct SequentialStepsView<Header: View>: View {
         action: @escaping @MainActor () async throws -> Void,
         currentStepIndex: Int = 0
     ) {
+        precondition(!steps.isEmpty, "SequentialStepsView requires at least one step. Provide a non-empty steps array.")
         self.header = header
         self.steps = steps
         self.actionText = actionText
