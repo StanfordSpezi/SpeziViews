@@ -28,6 +28,9 @@ public struct HeroTitleView: View {
                 .accessibilityAddTraits(.isHeader)
             if let subtitle {
                 subtitle
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 4)
             }
         }
         .padding(.vertical)
