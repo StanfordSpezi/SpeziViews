@@ -190,21 +190,14 @@ public struct HeroLayoutView<Header: View, Content: View, Footer: View>: View {
             VStack {
                 header
                 content
-                    // if we don't have a footer, we apply the bottom padding here
-                    .padding(.bottom, footer is EmptyView ? bottomPadding : 0)
-            }
-            if !(footer is EmptyView) {
-                Spacer(minLength: 40)
-                footer
-                    // if we do have a footer, we apply it here
                     .padding(.bottom, bottomPadding)
             }
+            Spacer(minLength: 40)
+            footer
+                .padding(.bottom, bottomPadding)
         }
         .padding(edgesWithImplicitPadding)
-        // if this is the first view in a stack, we need to add an implicit extra top padding,
-        // in order to compensate for the fact that the other steps in the stack will get some de-facto
-        // top padding via the navigation bar (which won't be present in the first step).
-        .padding(.top, isFirstInManagedNavigationStack ? 24 : 0)
+        .padding(.top, isFirstInManagedNavigationStack && !edgesWithPaddingDisabled.contains(.top) ? 24 : 0)
         .frame(minHeight: geometry.size.height)
         .frame(maxWidth: .infinity, alignment: .center)
     }

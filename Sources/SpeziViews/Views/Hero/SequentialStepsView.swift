@@ -81,6 +81,7 @@ public struct SequentialStepsView<Header: View>: View {
 
     @State private var currentStepIndex: Int
     @State private var viewState: ViewState = .idle
+    @State private var shouldScrollOnChange: Bool = false
 
     @_documentation(visibility: internal) // swiftlint:disable:next attributes
     public var body: some View {
@@ -97,10 +98,8 @@ public struct SequentialStepsView<Header: View>: View {
             } footer: {
                 AsyncButton(state: $viewState, action: {
                     if currentStepIndex < steps.count - 1 {
+                        shouldScrollOnChange = true
                         currentStepIndex += 1
-                        withAnimation {
-                            proxy.scrollTo(currentStepIndex - 1, anchor: .top)
-                        }
                     } else {
                         try await action()
                     }
@@ -109,6 +108,14 @@ public struct SequentialStepsView<Header: View>: View {
                 }
                 .buttonStylePrimaryAction()
                 .viewStateAlert(state: $viewState)
+                .onChange(of: currentStepIndex) { _, newIndex in
+                    if shouldScrollOnChange {
+                        shouldScrollOnChange = false
+                        withAnimation {
+                            proxy.scrollTo(newIndex, anchor: .top)
+                        }
+                    }
+                }
             }
         }
     }

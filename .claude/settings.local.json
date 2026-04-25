@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(gh issue *)",
+      "Bash(gh pr *)",
+      "Bash(xcodebuild -scheme SpeziViews-Package -destination 'platform=macOS,arch=arm64,variant=Mac Catalyst' -configuration Debug build)",
+      "Bash(git push *)",
+      "Bash(gh api *)",
+      "Bash(git -C /Users/ahmed/Desktop/SpeziViews branch --show-current)",
+      "Bash(git -C /Users/ahmed/Desktop/SpeziViews log --oneline -3)",
+      "Bash(git -C /Users/ahmed/Desktop/SpeziViews rev-parse --abbrev-ref HEAD)",
+      "Bash(git -C /Users/ahmed/Desktop/SpeziViews status)",
+      "Bash(git -C /Users/ahmed/Desktop/SpeziViews log --oneline main..HEAD)",
+      "Bash(git *)"
+    ]
+  }
+}

@@ -21,7 +21,9 @@ extension SnapshotTests {
         case heroLayoutDefault = "hero-layout-default"
         case heroLayoutCustom = "hero-layout-custom"
         case heroLayoutNoFooter = "hero-layout-no-footer"
+        case heroLayoutConditionalFooter = "hero-layout-conditional-footer"
         case heroLayoutManagedNavigation = "hero-layout-managed-navigation"
+        case heroLayoutManagedNavigationNoTopPadding = "hero-layout-managed-navigation-no-top-padding"
         case sequentialStepsInitial = "sequential-steps-initial"
         case sequentialStepsRevealed = "sequential-steps-revealed"
         case sequentialStepsFinal = "sequential-steps-final"
@@ -113,6 +115,22 @@ extension SnapshotTests {
                 } footer: {
                     EmptyView()
                 }
+            case .heroLayoutConditionalFooter:
+                HeroLayoutView(wrapInScrollView: false) {
+                    HeroTitleView(title: "Conditional Footer", subtitle: "Uses @ViewBuilder to conditionally show footer.")
+                } content: {
+                    InformationListView {
+                        InformationListView.Item(
+                            iconSymbol: "checkmark.shield.fill",
+                            title: "Conditional rendering",
+                            description: "This tests @ViewBuilder that may produce EmptyView at runtime."
+                        )
+                    }
+                } footer: {
+                    if Bool.random() { // Simulates conditional rendering
+                        EmptyView()
+                    }
+                }
             case .heroLayoutManagedNavigation:
                 ManagedNavigationStack {
                     HeroLayoutView(
@@ -122,6 +140,18 @@ extension SnapshotTests {
                         actionText: "Continue"
                     ) {
                     }
+                    Text("Second Step")
+                }
+            case .heroLayoutManagedNavigationNoTopPadding:
+                ManagedNavigationStack {
+                    HeroLayoutView(
+                        title: "No Top Padding",
+                        subtitle: "Uses disablePadding(.top) to opt out of the compensation.",
+                        items: Self.sampleItems,
+                        actionText: "Continue"
+                    ) {
+                    }
+                    .disablePadding(.top)
                     Text("Second Step")
                 }
             case .sequentialStepsInitial:
