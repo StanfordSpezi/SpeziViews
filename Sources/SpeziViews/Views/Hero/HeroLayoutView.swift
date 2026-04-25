@@ -247,7 +247,8 @@ private struct HeroLayoutFooterHeightPreferenceKey: PreferenceKey {
 extension View {
     /// Disables the ``HeroLayoutView``'s implicit padding for the specified edges.
     ///
-    /// If this modifier is applied multiple times, the outermost call will take precedence.
+    /// If this modifier is applied multiple times, the innermost call (the one closest to the
+    /// ``HeroLayoutView``) will take precedence, matching standard SwiftUI environment semantics.
     ///
     /// - Note: If the ``HeroLayoutView`` is contained in a `ManagedNavigationStack`, its top edge will already be disabled implicitly.
     public func disablePadding(_ edges: Edge.Set) -> some View {
