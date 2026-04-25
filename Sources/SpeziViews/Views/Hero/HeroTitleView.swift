@@ -1,0 +1,65 @@
+//
+// This source file is part of the Stanford Spezi open-source project
+//
+// SPDX-FileCopyrightText: 2022 Stanford University and the project authors (see CONTRIBUTORS.md)
+//
+// SPDX-License-Identifier: MIT
+//
+
+import SwiftUI
+
+
+/// A unified hero title with an optional subtitle.
+///
+/// ```swift
+/// HeroTitleView(title: "Title", subtitle: "Subtitle")
+/// ```
+public struct HeroTitleView: View {
+    private let title: Text
+    private let subtitle: Text?
+
+    @_documentation(visibility: internal) // swiftlint:disable:next attributes
+    public var body: some View {
+        VStack(alignment: ProcessInfo.isIOS26 ? .leading : .center) {
+            title
+                .bold()
+                .font(.largeTitle)
+                .padding(.bottom)
+                .accessibilityAddTraits(.isHeader)
+            if let subtitle {
+                subtitle
+            }
+        }
+        .padding(.vertical)
+        .frame(maxWidth: .infinity, alignment: ProcessInfo.isIOS26 ? .leading : .center)
+        .multilineTextAlignment(ProcessInfo.isIOS26 ? .leading : .center)
+        // needed to prevent the last line from being cut off in some edge cases
+        // (not sure what's triggering this but it typically occurs when adding a step that just fits in the remaining space...)
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
+    /// Creates a `HeroTitleView` instance that contains a title and an optional subtitle.
+    /// - Parameters:
+    ///   - title: The localized title.
+    ///   - subtitle: The optional localized subtitle.
+    public init(title: LocalizedStringResource, subtitle: LocalizedStringResource? = nil) {
+        self.title = Text(title)
+        self.subtitle = subtitle.map { Text($0) }
+    }
+
+    /// Creates a `HeroTitleView` instance that contains a title and an optional subtitle.
+    /// - Parameters:
+    ///   - title: The title.
+    ///   - subtitle: The optional subtitle.
+    @_disfavoredOverload
+    public init(title: some StringProtocol, subtitle: (some StringProtocol)? = String?.none) {
+        self.title = Text(title)
+        self.subtitle = subtitle.map { Text($0) }
+    }
+}
+
+#if DEBUG
+#Preview {
+    HeroTitleView(title: String("Title"), subtitle: String("Subtitle"))
+}
+#endif

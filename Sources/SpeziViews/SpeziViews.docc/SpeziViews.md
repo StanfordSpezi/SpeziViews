@@ -78,6 +78,16 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``ManagedNavigationStack``
 - ``ManagedNavigationStack/Path``
 
+### Hero & Sequential Layouts
+
+- ``HeroTitleView``
+- ``InformationListView``
+- ``InformationListView/Item``
+- ``HeroLayoutView``
+- ``SequentialStepsView``
+- ``SequentialStepsView/Step``
+- ``SwiftUICore/View/disablePadding(_:)``
+
 ### Displaying Text
 
 - ``Label``
@@ -111,6 +121,8 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 ### Styles
 
 - ``ReverseLabelStyle``
+- ``PrimaryActionButtonStyle``
+- ``SecondaryActionButtonStyle``
 - ``SwiftUI/LabelStyle/reverse``
 
 ### Localization
