@@ -247,7 +247,7 @@ extension CanvasView {
 }
 
 
-#if DEBUG
+#if DEBUG && !targetEnvironment(macCatalyst)
 #Preview {
     @Previewable @State var drawing = PKDrawing()
     @Previewable @State var isDrawing = false

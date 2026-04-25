@@ -60,7 +60,7 @@ private struct ViewBasedOnVisibility<Unlabeled: View, Labeled: View>: View {
 ///
 /// `OptionSet` by definition allows the selection of multiple values.
 ///
-/// - Note: Displaying labels is only supported on iOS 18 and newer.
+/// - Note: Displaying labels is only supported on iOS 18.0 and macCatalyst 18.0 and newer.
 ///
 /// ## Topics
 ///
