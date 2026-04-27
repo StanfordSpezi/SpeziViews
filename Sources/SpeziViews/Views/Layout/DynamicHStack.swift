@@ -87,12 +87,12 @@ public struct DynamicHStack<Content: View>: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
     @State private var orientation = UIDevice.current.orientation
 #endif
 
     var isLandscape: Bool {
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         orientation.isLandscape
 #else
         true
@@ -114,7 +114,7 @@ public struct DynamicHStack<Content: View>: View {
             content
                 .preference(key: DynamicLayout.self, value: isHorizontalLayout ? .horizontal : .vertical)
         }
-            #if os(iOS)
+            #if os(iOS) && !targetEnvironment(macCatalyst)
             .observeOrientationChanges($orientation)
             #endif
     }

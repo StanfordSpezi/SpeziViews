@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-#if canImport(PencilKit) && !os(macOS)
+#if canImport(PencilKit) && !os(macOS) && !targetEnvironment(macCatalyst)
 import PencilKit
 import SwiftUI
 
@@ -42,6 +42,7 @@ import SwiftUI
 /// }
 /// ```
 @available(macOS, unavailable)
+@available(macCatalyst, unavailable)
 @available(watchOS, unavailable)
 public struct CanvasView: View {
     /// The ``CanvasSizePreferenceKey`` enables outer views to get access to the current canvas size of the ``CanvasView``
@@ -246,7 +247,7 @@ extension CanvasView {
 }
 
 
-#if DEBUG
+#if DEBUG && !targetEnvironment(macCatalyst)
 #Preview {
     @Previewable @State var drawing = PKDrawing()
     @Previewable @State var isDrawing = false

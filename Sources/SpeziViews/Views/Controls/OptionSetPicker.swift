@@ -28,7 +28,7 @@ public enum OptionSetPickerStyle {
 }
 
 
-@available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, macCatalyst 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 private struct ViewBasedOnVisibility<Unlabeled: View, Labeled: View>: View {
     private let unlabeled: Unlabeled
     private let labeled: Labeled
@@ -60,7 +60,7 @@ private struct ViewBasedOnVisibility<Unlabeled: View, Labeled: View>: View {
 ///
 /// `OptionSet` by definition allows the selection of multiple values.
 ///
-/// - Note: Displaying labels is only supported on iOS 18 and newer.
+/// - Note: Displaying labels is only supported on iOS 18.0 and macCatalyst 18.0 and newer.
 ///
 /// ## Topics
 ///
@@ -95,7 +95,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
                 button(for: value)
             }
 
-            if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+            if #available(iOS 18.0, macOS 15.0, macCatalyst 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
                 ViewBasedOnVisibility {
                     view
                 } labeled: {
@@ -158,7 +158,7 @@ public struct OptionSetPicker<Label: View, Value: OptionSet & PickerValue>: View
 #endif
 
     @ViewBuilder private var menuLabel: some View {
-        if #available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
+        if #available(iOS 18.0, macOS 15.0, macCatalyst 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
             ViewBasedOnVisibility {
                 EmptyView()
             } labeled: {
