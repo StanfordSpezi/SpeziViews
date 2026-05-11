@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if canImport(SnapshotTesting)
 import SnapshotTesting
+#endif
 import SpeziFoundation
 @testable import SpeziViews
 import SwiftUI
