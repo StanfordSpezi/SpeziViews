@@ -138,9 +138,25 @@ public struct ManagedNavigationStack: View {
         }
         .environment(path)
         .environment(\.isInManagedNavigationStack, true)
-        .onChange(of: ObjectIdentifier(steps)) {
-            // ensure the model uses the latest views from the initializer
-            path.updateViews(with: steps.elements)
+        .onChange(of: ObjectIdentifier(steps), initial: true) {
+            if !path.didConfigure {
+                // Perform the initial configuration of the stack's ``ManagedNavigationStack/Path``.
+                // Note that we intentionally perform the initial configuration here, instead of in the init:
+                // SwiftUI only installs the `@State var internalPath` when first loading the view.
+                // Meaning that it isn't really available yet in the init, and were we to configure the path
+                // in there (in the init), we'd end up operating on a temporary `Path` instead of the one that
+                // actually exists when `body` is evaluated.
+                // Additionally, `configure` mutates the path, which isn't allowed while the view body is still
+                // being evaluated.
+                path.configure(
+                    elements: steps.elements,
+                    isComplete: isComplete,
+                    startAtStep: startStepSelector
+                )
+            } else {
+                // ensure the model uses the latest views from the initializer
+                path.updateViews(with: steps.elements)
+            }
         }
     }
     
@@ -167,16 +183,6 @@ public struct ManagedNavigationStack: View {
         isComplete = didComplete
         self.externalPath = externalPath
         self.startStepSelector = startStepSelector
-        if !path.didConfigure {
-            // Note: we intentionally perform the initial configuration in here, instead of in the init.
-            // The reason for this is that calling path.configure in the init will, for some reason, cause
-            // a neverending loop of view updates when using an external path. Calling it in here does not.
-            configurePath()
-        }
-    }
-    
-    private func configurePath() {
-        path.configure(elements: steps.elements, isComplete: isComplete, startAtStep: startStepSelector)
     }
 }
 
