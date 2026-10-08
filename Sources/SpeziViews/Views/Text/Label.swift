@@ -118,10 +118,8 @@ public struct Label: View {
 
 
 #if DEBUG
-struct Label_Previews: PreviewProvider {
-    static var previews: some View {
-        Label(verbatim: "This is very long text that wraps around multiple lines and adjusts the spacing between words accordingly.")
-    }
+#Preview {
+    Label(verbatim: "This is very long text that wraps around multiple lines and adjusts the spacing between words accordingly.")
 }
 #endif
 #endif
