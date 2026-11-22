@@ -20,6 +20,10 @@ SwiftUI views that you can use right away in your app: buttons that run tasks an
 
 SpeziViews is part of the [Stanford Spezi](https://github.com/StanfordSpezi) ecosystem, but its views work in any SwiftUI app.
 
+| <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/Tile-Leading~dark.png"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/Tile-Leading.png" alt="A tile with an icon, a title, a subheadline, a description, and a button." width="220"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/Skeleton-Loading-Animation~dark.gif"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/Skeleton-Loading-Animation.gif" alt="Placeholder shapes with a shimmering animation." width="220"></picture> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListHeader.png" alt="A list header with an icon, a title, and instructions." width="260"> |
+|:--:|:--:|:--:|
+| Cards with [`SimpleTile`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/simpletile) | Loading placeholders with `skeletonLoading` | Form headers with [`ListHeader`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/listheader) |
+
 ## What's Inside
 
 The package contains three libraries. Add the ones you need to your app.
@@ -130,6 +134,11 @@ struct NameView: View {
                 }
                 Divider()
                     .gridCellUnsizedAxes(.horizontal)
+                NameFieldRow("Middle", name: $name, for: \.middleName) {
+                    Text("enter your middle name")
+                }
+                Divider()
+                    .gridCellUnsizedAxes(.horizontal)
                 NameFieldRow("Last", name: $name, for: \.familyName) {
                     Text("enter your last name")
                 }
@@ -167,6 +176,7 @@ import SwiftUI
 struct SignUpView: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var username = ""
     @ValidationState private var validation
 
     var body: some View {
@@ -175,6 +185,8 @@ struct SignUpView: View {
                 .validate(input: email, rules: .minimalEmail)
             VerifiableTextField("Password", text: $password, type: .secure)
                 .validate(input: password, rules: .minimalPassword)
+            VerifiableTextField("Username", text: $username)
+                .validate(input: username, rules: .nonEmpty)
 
             Button("Sign Up") {
                 guard validation.validateSubviews() else {
@@ -207,15 +219,11 @@ Here is everything the package offers. Select a name to open its documentation, 
 
 ### SpeziViews
 
-| <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/ViewState~dark.png"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/ViewState.png" alt="An alert presenting an error message." width="200"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/Tile-Leading~dark.png"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/Tile-Leading.png" alt="A tile with an icon, a title, a subheadline, a description, and a button." width="200"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/Skeleton-Loading-Animation~dark.gif"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/Skeleton-Loading-Animation.gif" alt="Placeholder shapes with a shimmering animation." width="200"></picture> |
+| <img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListRow.png" alt="A list row showing a city and its weather side by side." width="250"><br><br><img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListRow-AccessibilitySize.png" alt="The same list row at an accessibility text size, with the weather below the city." width="190"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DescriptionGridRow.png" alt="Three rows that each show a description and its content in two columns." width="250"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DynamicHStack.png" alt="A label and a value displayed side by side." width="200"> |
 |:--:|:--:|:--:|
-| [`ViewState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/viewstate) and `viewStateAlert(state:)` | [`SimpleTile`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/simpletile) and [`TileHeader`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/tileheader) | The `skeletonLoading` modifier |
-| <img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListRow.png" alt="A list row showing a city and its weather side by side." width="250"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListRow-AccessibilitySize.png" alt="The same list row at an accessibility text size, with the weather below the city." width="190"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListHeader.png" alt="A list header with an icon, a title, and instructions." width="250"> |
-| [`ListRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/listrow) | [`ListRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/listrow) at an accessibility text size | [`ListHeader`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/listheader) |
-| <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DescriptionGridRow.png" alt="Three rows that each show a description and its content in two columns." width="250"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DynamicHStack.png" alt="A label and a value displayed side by side." width="200"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/CaseIterablePicker.png" alt="A picker showing its selected option." width="250"> |
-| [`DescriptionGridRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/descriptiongridrow) | [`DynamicHStack`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/dynamichstack) | [`CaseIterablePicker`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/caseiterablepicker) |
-| <img src="Sources/SpeziViews/SpeziViews.docc/Resources/OptionSetPicker.png" alt="An inline picker with two selected options." width="250"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/InfoButton.png" alt="An info button." width="40"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DismissButton.png" alt="A dismiss button." width="60"> |
-| [`OptionSetPicker`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/optionsetpicker) | [`InfoButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/infobutton) | [`DismissButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/dismissbutton) |
+| [`ListRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/listrow) at the default and at an accessibility text size | [`DescriptionGridRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/descriptiongridrow) | [`DynamicHStack`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/dynamichstack) |
+| <img src="Sources/SpeziViews/SpeziViews.docc/Resources/CaseIterablePicker.png" alt="A picker showing its selected option." width="250"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/OptionSetPicker.png" alt="An inline picker with two selected options." width="250"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/InfoButton.png" alt="An info button." width="40">&nbsp;&nbsp;&nbsp;<img src="Sources/SpeziViews/SpeziViews.docc/Resources/DismissButton.png" alt="A dismiss button." width="60"> |
+| [`CaseIterablePicker`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/caseiterablepicker) | [`OptionSetPicker`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/optionsetpicker) | [`InfoButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/infobutton) and [`DismissButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/dismissbutton) |
 
 | Component | What it does |
 |:--|:--|
