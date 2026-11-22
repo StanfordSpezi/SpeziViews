@@ -16,65 +16,194 @@ SPDX-License-Identifier: MIT
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FStanfordSpezi%2FSpeziViews%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/StanfordSpezi/SpeziViews)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FStanfordSpezi%2FSpeziViews%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/StanfordSpezi/SpeziViews)
 
-A Spezi framework that provides a common set of SwiftUI views and related functionality used across the Spezi ecosystem.
+SwiftUI views that you can use right away in your app: buttons that run tasks and report errors, forms that check what the user types, name fields, step-by-step flows such as an onboarding, and layouts that adapt to the user's text size.
 
-## Overview
+SpeziViews is part of the [Stanford Spezi](https://github.com/StanfordSpezi) ecosystem, but its views work in any SwiftUI app.
 
-SpeziViews provides easy-to-use and easily-reusable UI components that makes the everyday life of developing Spezi applications easier.
-The package consists of three targets:
+## What's Inside
 
-- [SpeziViews](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews): UI components to manage view state, run asynchronous actions, lay out content, and build multi-step navigation flows.
-- [SpeziPersonalInfo](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo): Components to display and collect personal information, such as a person's name.
-- [SpeziValidation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation): Rule-based input validation that shows validation feedback to the user.
+The package contains three libraries. Add the ones you need to your app.
 
-|![A SwiftUI alert displayed using the SpeziViews ViewState.](Sources/SpeziViews/SpeziViews.docc/Resources/ViewState.png#gh-light-mode-only) ![A SwiftUI alert displayed using the SpeziViews ViewState.](Sources/SpeziViews/SpeziViews.docc/Resources/ViewState~dark.png#gh-dark-mode-only)|![Three text fields to input your first, middle and last name.](Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields.png#gh-light-mode-only) ![Three text fields to input your first, middle and last name.](Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields~dark.png#gh-dark-mode-only)| ![Three different kinds of text fields showing validation errors in red text.](Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation.png#gh-light-mode-only) ![Three different kinds of text fields showing validation errors in red text.](Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation~dark.png#gh-dark-mode-only) |
-|:--:|:--:|:--:|
-|Easily manage view state and display erroneous state using [`ViewState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/viewstate). |The [SpeziPersonalInfo](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo) provides easy to use abstractions for dealing with personal information. |Perform and visualize input validation with ease using [SpeziValidation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation).|
+| Library | Use it to |
+|:--|:--|
+| [SpeziViews](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews) | Run tasks from buttons, show progress and errors, build step-by-step flows, and lay out content. |
+| [SpeziPersonalInfo](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo) | Ask for a person's name and show their profile picture. |
+| [SpeziValidation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation) | Check what the user types, for example an email address, and tell them if something is wrong. |
 
-## Setup
+## Installation
 
-You need to add the SpeziViews Swift package to
-[your app in Xcode](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app#) or
-[Swift package](https://developer.apple.com/documentation/xcode/creating-a-standalone-swift-package-with-xcode#Add-a-dependency-on-another-Swift-package).
+### In an Xcode Project
 
-> [!IMPORTANT]  
-> If your application is not yet configured to use Spezi, follow the [Spezi setup article](https://swiftpackageindex.com/stanfordspezi/spezi/documentation/spezi/initial-setup) to set up the core Spezi infrastructure.
+1. In Xcode, choose **File > Add Package Dependencies…**
+2. Enter `https://github.com/StanfordSpezi/SpeziViews` in the search field.
+3. Select **Add Package**, then choose the libraries you need and add them to your app target.
 
-## Getting Started
+### In a Swift Package
 
-The following example runs an asynchronous, throwing action when the user taps a button.
-The [`AsyncButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/asyncbutton) shows a progress indicator while the action runs,
-and the `viewStateAlert(state:)` modifier presents an alert if the action throws an error.
+Add SpeziViews to the dependencies in your `Package.swift` file:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/StanfordSpezi/SpeziViews.git", from: "1.12.0")
+]
+```
+
+Then add the libraries you need to your target:
+
+```swift
+.target(
+    name: "MyFeature",
+    dependencies: [
+        .product(name: "SpeziViews", package: "SpeziViews")
+    ]
+)
+```
+
+> [!NOTE]
+> The [`ConfigureTipKit`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/configuretipkit) module requires Spezi. If your app doesn't use Spezi yet, follow the [Spezi setup article](https://swiftpackageindex.com/stanfordspezi/spezi/documentation/spezi/initial-setup). All other components work without it.
+
+## Quick Start
+
+### Run a task when a button is tapped
+
+Use an `AsyncButton` for work that takes a moment, such as sending a request to a server.
+
+<table>
+<tr>
+<td>
 
 ```swift
 import SpeziViews
 import SwiftUI
 
 
-struct SyncView: View {
+struct ResetPasswordView: View {
     @State private var viewState: ViewState = .idle
 
     var body: some View {
-        AsyncButton("Sync Data", state: $viewState) {
-            try await sync()
+        AsyncButton("Reset Password", state: $viewState) {
+            try await sendResetEmail()
         }
             .viewStateAlert(state: $viewState)
     }
 
-    private func sync() async throws {
-        // ...
+    private func sendResetEmail() async throws {
+        // Send the request ...
     }
 }
 ```
 
-The documentation of each target explains its core concepts and contains further examples:
-[SpeziViews](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews),
-[SpeziPersonalInfo](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo), and
-[SpeziValidation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation).
+</td>
+<td width="280" align="center">
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/ViewState~dark.png"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/ViewState.png" alt="An alert telling the user that sending the password reset link failed." width="260"></picture>
+
+</td>
+</tr>
+</table>
+
+- `ViewState` keeps track of whether the view is idle, busy, or ran into an error.
+- `AsyncButton` shows a progress indicator while your code runs, and prevents the user from tapping the button twice.
+- If your code throws an error, `viewStateAlert(state:)` shows it to the user in an alert.
+
+### Ask for a person's name
+
+Use `NameFieldRow`s inside a `Grid` to show a label in front of each text field.
+
+<table>
+<tr>
+<td>
+
+```swift
+import SpeziPersonalInfo
+import SwiftUI
+
+
+struct NameView: View {
+    @State private var name = PersonNameComponents()
+
+    var body: some View {
+        Form {
+            Grid {
+                NameFieldRow("First", name: $name, for: \.givenName) {
+                    Text("enter your first name")
+                }
+                Divider()
+                    .gridCellUnsizedAxes(.horizontal)
+                NameFieldRow("Last", name: $name, for: \.familyName) {
+                    Text("enter your last name")
+                }
+            }
+        }
+    }
+}
+```
+
+</td>
+<td width="280" align="center">
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields~dark.png"><img src="Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields.png" alt="Text fields to enter a first, middle, and last name." width="260"></picture>
+
+</td>
+</tr>
+</table>
+
+- The name is stored as a [`PersonNameComponents`](https://developer.apple.com/documentation/foundation/personnamecomponents) value.
+- Each field tells the system what it contains, so the keyboard can suggest the user's name with AutoFill.
+
+### Check what the user types
+
+Use a `VerifiableTextField` with validation rules to show a message below the text field when the input isn't valid.
+
+<table>
+<tr>
+<td>
+
+```swift
+import SpeziValidation
+import SwiftUI
+
+
+struct SignUpView: View {
+    @State private var email = ""
+    @State private var password = ""
+    @ValidationState private var validation
+
+    var body: some View {
+        Form {
+            VerifiableTextField("Email", text: $email)
+                .validate(input: email, rules: .minimalEmail)
+            VerifiableTextField("Password", text: $password, type: .secure)
+                .validate(input: password, rules: .minimalPassword)
+
+            Button("Sign Up") {
+                guard validation.validateSubviews() else {
+                    return // Shows the error messages.
+                }
+                // All input is valid ...
+            }
+        }
+            .receiveValidation(in: $validation)
+    }
+}
+```
+
+</td>
+<td width="280" align="center">
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation~dark.png"><img src="Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation.png" alt="Text fields showing validation errors in red text." width="260"></picture>
+
+</td>
+</tr>
+</table>
+
+- Each text field checks its input against the rules you pass to `validate(input:rules:)`.
+- `@ValidationState` and `receiveValidation(in:)` collect the results of all text fields, so you can check the whole form when the user taps a button.
+- You can also [write your own rules](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/validationrule).
 
 ## Components
 
-The tables below list the components of each target. Follow the links to their documentation for examples and details.
+Here is everything the package offers. Select a name to open its documentation, which includes more examples.
 
 ### SpeziViews
 
@@ -88,7 +217,7 @@ The tables below list the components of each target. Follow the links to their d
 | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/OptionSetPicker.png" alt="An inline picker with two selected options." width="250"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/InfoButton.png" alt="An info button." width="40"> | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DismissButton.png" alt="A dismiss button." width="60"> |
 | [`OptionSetPicker`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/optionsetpicker) | [`InfoButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/infobutton) | [`DismissButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/dismissbutton) |
 
-| Component | Description |
+| Component | What it does |
 |:--|:--|
 | [`ViewState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/viewstate), [`OperationState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/operationstate) | Track whether a view is idle, processing, or failed, and present errors to the user with the `viewStateAlert(state:)` modifier. |
 | [`AsyncButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/asyncbutton) | A button that runs an asynchronous, throwing action. It shows a progress indicator while the action runs and reports errors through a `ViewState`. |
@@ -106,21 +235,27 @@ The tables below list the components of each target. Follow the links to their d
 
 ### SpeziPersonalInfo
 
-| Component | Description |
+| Component | What it does |
 |:--|:--|
 | [`NameFieldRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo/namefieldrow), [`NameTextField`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo/nametextfield) | Text fields to enter the components of a `PersonNameComponents` value. Each field sets the matching text content type so that the system can offer AutoFill. |
 | [`UserProfileView`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo/userprofileview) | Displays a person's profile image in a circle, or their initials if no image is available. |
 
 ### SpeziValidation
 
-| Component | Description |
+| Component | What it does |
 |:--|:--|
 | [`ValidationRule`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/validationrule) | A rule that validates a `String` input. Comes with built-in rules such as `nonEmpty`, `minimalEmail`, and `minimalPassword`. |
 | `validate(input:rules:)` | Validates an input against one or more validation rules. |
 | [`VerifiableTextField`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/verifiabletextfield), [`ValidationResultsView`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/validationresultsview) | Display validation errors below a text field. |
 | [`ValidationState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/validationstate), `receiveValidation(in:)` | Collect the validation state of all subviews, for example to validate a whole form when the user taps a submit button. |
 
-For more information, please refer to the [API documentation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation).
+## Learn More
+
+The documentation of each library explains its concepts in more detail and contains more examples:
+
+- [SpeziViews documentation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews)
+- [SpeziPersonalInfo documentation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo)
+- [SpeziValidation documentation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation)
 
 ## Contributing
 
