@@ -68,7 +68,9 @@ public struct DescriptionGridRow<Description: View, Content: View>: View {
             }
         }
     }
+}
 
+#Preview {
     Grid(horizontalSpacing: 8, verticalSpacing: 8) {
         DescriptionGridRow {
             Text(verbatim: "Description")
