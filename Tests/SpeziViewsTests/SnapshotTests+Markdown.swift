@@ -22,7 +22,7 @@ struct PadSnapshotTests {
     func reverseLabelStyle() {
         let label = SwiftUI.Label("100 %", image: "battery.100")
             .labelStyle(.reverse)
-        #if os(iOS)
+        #if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: label, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
         assertSnapshot(of: label, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
         #endif
@@ -37,13 +37,13 @@ struct PadSnapshotTests {
         }
         let largeRow = row
             .dynamicTypeSize(.accessibility3)
-        #if os(iOS)
+        #if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: row, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-regular")
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPadPro11)), named: "ipad-XA3")
         #endif
     }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
     @Test
     func markdownView() async throws {
         let view = MarkdownView(document: try MarkdownDocument(processing: "*Clean* Coding"))
