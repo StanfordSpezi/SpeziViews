@@ -132,4 +132,17 @@ final class ManagedNavigationStackTests: XCTestCase {
         // go to final step.
         app.buttons["Next Step"].tap()
     }
+    
+    /// A stack without an external path or start step configures its path after its first body evaluation.
+    /// That configuration on its own needs to update the view; otherwise the stack keeps showing an empty first step.
+    @MainActor
+    func testFirstStepAppearsWithoutStartStep() throws {
+        let app = XCUIApplication()
+        app.launch()
+        app.open(target: "Plain ManagedNavigationStack")
+        
+        XCTAssertTrue(app.staticTexts["Plain Step 1"].waitForExistence(timeout: 2))
+        app.buttons["Next Step"].tap()
+        XCTAssertTrue(app.staticTexts["Plain Step 2"].waitForExistence(timeout: 2))
+    }
 }

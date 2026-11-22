@@ -58,7 +58,13 @@ extension ManagedNavigationStack {
         private var isComplete: Binding<Bool>?
         
         /// Stores all navigation steps as declared within the ``ManagedNavigationStack`` and keep them in order.
-        @ObservationIgnored private var steps: OrderedDictionary<NavigationStepIdentifier, any View> = [:]
+        ///
+        /// - Note: Unlike the other stored properties, this one intentionally participates in observation:
+        ///     ``ManagedNavigationStack``'s body reads it (via ``firstStep``), and the stack performs its initial
+        ///     ``configure(elements:isComplete:startAtStep:)`` only after `body` was first evaluated.
+        ///     Were this property `@ObservationIgnored`, that configuration wouldn't update the view,
+        ///     and the stack would keep showing an empty first step.
+        private var steps: OrderedDictionary<NavigationStepIdentifier, any View> = [:]
         /// Stores all custom navigation steps that are appended to the ``ManagedNavigationStack/Path``
         /// via the ``append(_:)``  instance methods
         @ObservationIgnored private var customSteps: [NavigationStepIdentifier: any View] = [:]
