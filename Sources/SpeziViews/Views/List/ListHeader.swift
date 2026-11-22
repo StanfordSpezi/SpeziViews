@@ -13,7 +13,7 @@ import SwiftUI
 ///  
 /// A header view that can be used in List or Form views.
 ///
-/// @Image(source: "ListHeader", alt: "A list header with an icon, the title \"Create a new Account\", and instructions.")
+/// @Image(source: "ListHeader", alt: "A list header with an icon, a title, and instructions.")
 public struct ListHeader<Image: View, Title: View, Instructions: View>: View {
     private let image: Image
     private let title: Title
