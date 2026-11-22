@@ -13,6 +13,8 @@ import SwiftUI
 ///
 /// The `DescriptionGridRow` provides a layout to attach a leading description label to a content element
 /// in a [`Grid`](https://developer.apple.com/documentation/swiftui/grid)-based layout.
+///
+/// @Image(source: "DescriptionGridRow", alt: "Three rows that each show a description and its content in two columns.")
 public struct DescriptionGridRow<Description: View, Content: View>: View {
     private let description: Description
     private let content: Content

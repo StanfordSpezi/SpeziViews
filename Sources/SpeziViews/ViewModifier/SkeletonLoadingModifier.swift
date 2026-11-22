@@ -56,7 +56,7 @@ extension View {
     /// }
     /// ```
     ///
-    /// @Image(source: "Skeleton-Loading", alt: "The `skeletonLoading` view modifier on a `RoundedRectangle` as placeholder cells.”)  {
+    /// @Image(source: "Skeleton-Loading", alt: "The `skeletonLoading` view modifier on a `RoundedRectangle` as placeholder cells.") {
     ///     Using the `skeletonLoading` view modifier on a `RoundedRectangle` as placeholder cells.
     /// }
     ///
