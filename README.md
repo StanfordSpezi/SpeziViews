@@ -21,16 +21,15 @@ A Spezi framework that provides a common set of SwiftUI views and related functi
 ## Overview
 
 SpeziViews provides easy-to-use and easily-reusable UI components that makes the everyday life of developing Spezi applications easier.
+The package consists of three targets:
 
-The framework consists of three main modules:
-
-- **SpeziViews**: Core UI components, view state management, buttons, layouts, and navigation
-- **SpeziPersonalInfo**: Components for handling personal information like name fields
-- **SpeziValidation**: Input validation with visual feedback
+- [SpeziViews](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews): UI components to manage view state, run asynchronous actions, lay out content, and build multi-step navigation flows.
+- [SpeziPersonalInfo](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo): Components to display and collect personal information, such as a person's name.
+- [SpeziValidation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation): Rule-based input validation that shows validation feedback to the user.
 
 |![A SwiftUI alert displayed using the SpeziViews ViewState.](Sources/SpeziViews/SpeziViews.docc/Resources/ViewState.png#gh-light-mode-only) ![A SwiftUI alert displayed using the SpeziViews ViewState.](Sources/SpeziViews/SpeziViews.docc/Resources/ViewState~dark.png#gh-dark-mode-only)|![Three text fields to input your first, middle and last name.](Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields.png#gh-light-mode-only) ![Three text fields to input your first, middle and last name.](Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields~dark.png#gh-dark-mode-only)| ![Three different kinds of text fields showing validation errors in red text.](Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation.png#gh-light-mode-only) ![Three different kinds of text fields showing validation errors in red text.](Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation~dark.png#gh-dark-mode-only) |
 |:--:|:--:|:--:|
-|Easily manage view state and display erroneous state using [`ViewState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/viewstate). |The [SpeziPersonalInfo](https://swiftpackageindex.com/StanfordSpezi/SpeziViews/documentation/spezipersonalinfo) provides easy to use abstractions for dealing with personal information. |Perform and visualize input validation with ease using [SpeziValidation](https://swiftpackageindex.com/StanfordSpezi/SpeziViews/documentation/spezivalidation).|
+|Easily manage view state and display erroneous state using [`ViewState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/viewstate). |The [SpeziPersonalInfo](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo) provides easy to use abstractions for dealing with personal information. |Perform and visualize input validation with ease using [SpeziValidation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation).|
 
 ## Setup
 
@@ -41,509 +40,77 @@ You need to add the SpeziViews Swift package to
 > [!IMPORTANT]  
 > If your application is not yet configured to use Spezi, follow the [Spezi setup article](https://swiftpackageindex.com/stanfordspezi/spezi/documentation/spezi/initial-setup) to set up the core Spezi infrastructure.
 
-## Usage Examples
+## Getting Started
 
-### SpeziViews - Core Components
-
-#### View State Management
-
-Manage async operations and display loading states or errors using `ViewState`:
+The following example runs an asynchronous, throwing action when the user taps a button.
+The [`AsyncButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/asyncbutton) shows a progress indicator while the action runs,
+and the `viewStateAlert(state:)` modifier presents an alert if the action throws an error.
 
 ```swift
 import SpeziViews
 import SwiftUI
 
-struct LoginView: View {
-    @State private var email = ""
-    @State private var password = ""
+
+struct SyncView: View {
     @State private var viewState: ViewState = .idle
-    
+
     var body: some View {
-        Form {
-            TextField("Email", text: $email)
-            SecureField("Password", text: $password)
-            
-            AsyncButton("Sign In", state: $viewState) {
-                try await performLogin()
-            }
+        AsyncButton("Sync Data", state: $viewState) {
+            try await sync()
         }
-        .viewStateAlert(state: $viewState)
+            .viewStateAlert(state: $viewState)
     }
-    
-    private func performLogin() async throws {
-        // Your async login logic here
+
+    private func sync() async throws {
+        // ...
     }
 }
 ```
 
-#### Async Button
+The documentation of each target explains its core concepts and contains further examples:
+[SpeziViews](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews),
+[SpeziPersonalInfo](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo), and
+[SpeziValidation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation).
 
-Handle async operations with built-in loading states:
+## Components
 
-```swift
-import SpeziViews
-import SwiftUI
+The tables below list the components of each target. Follow the links to their documentation for examples and details.
 
-struct DataView: View {
-    @State private var viewState: ViewState = .idle
-    
-    var body: some View {
-        VStack {
-            AsyncButton("Download Data", state: $viewState) {
-                try await downloadData()
-            }
-            .asyncButtonProcessingStyle(.listRow)
-        }
-        .viewStateAlert(state: $viewState)
-    }
-    
-    private func downloadData() async throws {
-        try await Task.sleep(for: .seconds(2))
-        // Download logic
-    }
-}
-```
+### SpeziViews
 
-#### Tiles and Layout
+| Component | Description | Preview |
+|:--|:--|:--:|
+| [`ViewState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/viewstate), [`OperationState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/operationstate) | Track whether a view is idle, processing, or failed, and present errors to the user with the `viewStateAlert(state:)` modifier. | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/ViewState~dark.png"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/ViewState.png" alt="An alert presenting an error message." width="220"></picture> |
+| [`AsyncButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/asyncbutton) | A button that runs an asynchronous, throwing action. It shows a progress indicator while the action runs and reports errors through a `ViewState`. |  |
+| [`ManagedNavigationStack`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/managednavigationstack) | A `NavigationStack` for multi-step flows such as an onboarding: declare all steps, including conditional ones, in one place and advance with `nextStep()` instead of wiring up each destination. |  |
+| [`SimpleTile`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/simpletile), [`TileHeader`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/tileheader), [`CompletedTileHeader`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/completedtileheader) | Card-style tiles with a header, body, and footer. | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/Tile-Leading~dark.png"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/Tile-Leading.png" alt="A tile with an icon, a title, a subheadline, a description, and a button." width="220"></picture> |
+| [`ListRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/listrow) | A key-value list row. For accessibility text sizes, it stacks the value below the label. | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListRow.png" alt="A list row showing a city and its weather." width="200"><br><img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListRow-AccessibilitySize.png" alt="The same list row at an accessibility text size, with the weather below the city." width="150"> |
+| [`ListHeader`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/listheader) | A header with an image, a title, and instructions, for example at the top of a form. | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/ListHeader.png" alt="A list header with an icon, the title "Create a new Account", and instructions." width="220"> |
+| [`DescriptionGridRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/descriptiongridrow), [`DynamicHStack`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/dynamichstack) | Layouts that adapt to Dynamic Type sizes, device orientation, and size classes, for example by wrapping horizontal content onto the next line when there isn't enough space. | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DescriptionGridRow.png" alt="Three rows with a description and content in two columns." width="220"><br><img src="Sources/SpeziViews/SpeziViews.docc/Resources/DynamicHStack.png" alt="A label and a value side by side." width="170"> |
+| [`CaseIterablePicker`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/caseiterablepicker), [`OptionSetPicker`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/optionsetpicker) | Pickers that derive their options from a `CaseIterable` enum or an `OptionSet`. | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/CaseIterablePicker.png" alt="A picker showing the selected option." width="220"><br><img src="Sources/SpeziViews/SpeziViews.docc/Resources/OptionSetPicker.png" alt="An inline picker with two selected options." width="220"> |
+| [`CanvasView`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/canvasview) | A PencilKit canvas, for example to collect a signature. |  |
+| [`InfoButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/infobutton), [`DismissButton`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/dismissbutton) | An icon-only info button, for example for the trailing side of a list row, and a dismiss button. | <img src="Sources/SpeziViews/SpeziViews.docc/Resources/InfoButton.png" alt="An info button." width="30"> <img src="Sources/SpeziViews/SpeziViews.docc/Resources/DismissButton.png" alt="A close button." width="45"> |
+| `shareSheet(item:)`, [`ShareSheetInput`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/sharesheetinput) | Present the system share sheet from a binding, for the cases where SwiftUI's [`ShareLink`](https://developer.apple.com/documentation/swiftui/sharelink) falls short. |  |
+| [`MarkdownView`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/markdownview), [`LazyText`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/speziviews/lazytext) | Render Markdown content and display long, multi-line text efficiently. |  |
+| `skeletonLoading(replicationCount:repeatInterval:spacing:)`, `shimmer(repeatInterval:)`, `processingOverlay(isProcessing:overlay:)` | Visual effects that communicate that content is loading. | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziViews/SpeziViews.docc/Resources/Skeleton-Loading-Animation~dark.gif"><img src="Sources/SpeziViews/SpeziViews.docc/Resources/Skeleton-Loading-Animation.gif" alt="Placeholder shapes with a shimmering animation." width="220"></picture> |
 
-Create card-like layouts with `SimpleTile`:
+### SpeziPersonalInfo
 
-```swift
-import SpeziViews
-import SwiftUI
+| Component | Description | Preview |
+|:--|:--|:--:|
+| [`NameFieldRow`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo/namefieldrow), [`NameTextField`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo/nametextfield) | Text fields to enter the components of a `PersonNameComponents` value. Each field sets the matching text content type so that the system can offer AutoFill. | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields~dark.png"><img src="Sources/SpeziPersonalInfo/SpeziPersonalInfo.docc/Resources/NameFields.png" alt="Three text fields to enter a first, middle, and last name." width="220"></picture> |
+| [`UserProfileView`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezipersonalinfo/userprofileview) | Displays a person's profile image in a circle, or their initials if no image is available. |  |
 
-struct BookView: View {
-    var body: some View {
-        SimpleTile(alignment: .leading) {
-            TileHeader(alignment: .leading) {
-                Image(systemName: "book.pages.fill")
-                    .foregroundStyle(.teal)
-                    .font(.largeTitle)
-            } title: {
-                Text("Clean Code")
-            } subheadline: {
-                Text("by Robert C. Martin")
-            }
-        } body: {
-            Text("A handbook of agile software craftsmanship")
-        } footer: {
-            Button("Read More") {
-                // Action
-            }
-            .buttonStyle(.borderedProminent)
-        }
-    }
-}
-```
+### SpeziValidation
 
-#### Managed Navigation
+| Component | Description | Preview |
+|:--|:--|:--:|
+| [`ValidationRule`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/validationrule) | A rule that validates a `String` input. Comes with built-in rules such as `nonEmpty`, `minimalEmail`, and `minimalPassword`. |  |
+| `validate(input:rules:)` | Validates an input against one or more validation rules. |  |
+| [`VerifiableTextField`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/verifiabletextfield), [`ValidationResultsView`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/validationresultsview) | Display validation errors below a text field. | <picture><source media="(prefers-color-scheme: dark)" srcset="Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation~dark.png"><img src="Sources/SpeziValidation/SpeziValidation.docc/Resources/Validation.png" alt="Text fields showing validation errors in red text." width="220"></picture> |
+| [`ValidationState`](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation/spezivalidation/validationstate), `receiveValidation(in:)` | Collect the validation state of all subviews, for example to validate a whole form when the user taps a submit button. |  |
 
-Create step-by-step navigation flows:
-
-```swift
-import SpeziViews
-import SwiftUI
-
-struct OnboardingView: View {
-    @State private var path = ManagedNavigationStack.Path()
-    
-    var body: some View {
-        ManagedNavigationStack(path: path) {
-            WelcomeStep()
-            ProfileStep()
-            NotificationStep()
-            CompletionStep()
-        }
-    }
-}
-
-private struct WelcomeStep: View {
-    @Environment(ManagedNavigationStack.Path.self) private var path
-    
-    var body: some View {
-        VStack {
-            Text("Welcome to the App!")
-            Button("Continue") {
-                path.nextStep()
-            }
-        }
-    }
-}
-```
-
-#### Share Sheet
-
-Easily share content with the system share sheet:
-
-```swift
-import SpeziViews
-import SwiftUI
-
-struct ShareView: View {
-    @State private var itemToShare: ShareSheetInput?
-    
-    var body: some View {
-        VStack {
-            Button("Share Text") {
-                itemToShare = ShareSheetInput("Hello World!")
-            }
-            
-            Button("Share Image") {
-                if let image = UIImage(systemName: "star") {
-                    itemToShare = ShareSheetInput(image)
-                }
-            }
-        }
-        .shareSheet(item: $itemToShare)
-    }
-}
-```
-
-#### Skeleton Loading
-
-Add skeleton loading animations:
-
-```swift
-import SpeziViews
-import SwiftUI
-
-struct LoadingView: View {
-    var body: some View {
-        VStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color(.systemGray4))
-                .frame(height: 100)
-                .skeletonLoading(replicationCount: 5, repeatInterval: 1.5, spacing: 16)
-        }
-        .padding()
-    }
-}
-```
-
-### SpeziPersonalInfo - Personal Information
-
-Handle name input with proper formatting:
-
-```swift
-import SpeziPersonalInfo
-import SwiftUI
-
-struct ProfileSetupView: View {
-    @State private var name = PersonNameComponents()
-    
-    var body: some View {
-        Form {
-            Section("Personal Information") {
-                Grid(horizontalSpacing: 15) {
-                    NameFieldRow("First", name: $name, for: \.givenName) {
-                        Text("Enter your first name")
-                    }
-                    
-                    Divider()
-                        .gridCellUnsizedAxes(.horizontal)
-                    
-                    NameFieldRow("Middle", name: $name, for: \.middleName) {
-                        Text("Enter your middle name (optional)")
-                    }
-                    
-                    Divider()
-                        .gridCellUnsizedAxes(.horizontal)
-                    
-                    NameFieldRow("Last", name: $name, for: \.familyName) {
-                        Text("Enter your last name")
-                    }
-                }
-            }
-        }
-    }
-}
-```
-
-### SpeziValidation - Input Validation
-
-Add real-time validation to forms:
-
-```swift
-import SpeziValidation
-import SwiftUI
-
-struct SignupView: View {
-    @State private var email = ""
-    @State private var password = ""
-    @State private var username = ""
-    
-    @ValidationState private var validation
-    
-    var body: some View {
-        Form {
-            Section("Account Details") {
-                VerifiableTextField("Email", text: $email)
-                    .validate(input: email, rules: .minimalEmail)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                
-                VerifiableTextField("Password", text: $password, type: .secure)
-                    .validate(input: password, rules: .minimalPassword)
-                
-                VerifiableTextField("Username", text: $username)
-                    .validate(input: username, rules: .nonEmpty)
-            } footer: {
-                Text("Choose a unique username")
-            }
-        }
-        .receiveValidation(in: $validation)
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button("Create Account") {
-                    guard validation.validateSubviews() else {
-                        return
-                    }
-                    // Create account
-                }
-                .disabled(!validation.allInputValid)
-            }
-        }
-    }
-}
-```
-
-#### Custom Validation Rules
-
-Create custom validation logic:
-
-```swift
-import SpeziValidation
-import SwiftUI
-
-extension ValidationRule {
-    static let strongPassword = ValidationRule(
-        rule: { password in
-            password.count >= 8 && 
-            password.contains { $0.isUppercase } &&
-            password.contains { $0.isLowercase } &&
-            password.contains { $0.isNumber }
-        },
-        message: "Password must be at least 8 characters with uppercase, lowercase, and numbers"
-    )
-}
-
-struct SecureSignupView: View {
-    @State private var password = ""
-    
-    var body: some View {
-        Form {
-            VerifiableTextField("Password", text: $password, type: .secure)
-                .validate(input: password, rules: .strongPassword)
-        }
-    }
-}
-```
-
-#### Validation with Multiple Rules
-
-Combine multiple validation rules:
-
-```swift
-import SpeziValidation
-import SwiftUI
-
-struct ContactForm: View {
-    @State private var fullName = ""
-    @State private var email = ""
-    
-    var body: some View {
-        Form {
-            VerifiableTextField("Full Name", text: $fullName)
-                .validate(input: fullName, rules: [.nonEmpty, .unicodeLettersOnly])
-            
-            VerifiableTextField("Email", text: $email)
-                .validate(input: email, rules: .minimalEmail)
-        }
-    }
-}
-```
-
-## Additional Components and Utilities
-
-### Canvas View
-
-Create drawable canvases for signatures or sketches:
-
-```swift
-import SpeziViews
-import SwiftUI
-import PencilKit
-
-struct SignatureView: View {
-    @State private var drawing = PKDrawing()
-    
-    var body: some View {
-        VStack {
-            CanvasView(drawing: $drawing)
-                .frame(height: 200)
-                .border(Color.gray)
-            
-            HStack {
-                Button("Clear") {
-                    drawing = PKDrawing()
-                }
-                Button("Save") {
-                    let image = drawing.image(from: CGRect(x: 0, y: 0, width: 400, height: 200), scale: 1.0)
-                    // Save image
-                }
-            }
-        }
-    }
-}
-```
-
-### Pickers
-
-Use specialized pickers for enums and option sets:
-
-```swift
-import SpeziViews
-import SwiftUI
-
-enum Priority: String, CaseIterable {
-    case low = "Low"
-    case medium = "Medium" 
-    case high = "High"
-}
-
-struct OptionFlags: OptionSet {
-    let rawValue: Int
-    static let notifications = OptionFlags(rawValue: 1 << 0)
-    static let location = OptionFlags(rawValue: 1 << 1)
-    static let camera = OptionFlags(rawValue: 1 << 2)
-}
-
-struct SettingsView: View {
-    @State private var priority: Priority = .medium
-    @State private var permissions: OptionFlags = []
-    
-    var body: some View {
-        Form {
-            Section("Priority") {
-                CaseIterablePicker("Task Priority", selection: $priority)
-            }
-            
-            Section("Permissions") {
-                OptionSetPicker(selection: $permissions) {
-                    Text("Notifications").tag(OptionFlags.notifications)
-                    Text("Location").tag(OptionFlags.location)
-                    Text("Camera").tag(OptionFlags.camera)
-                }
-            }
-        }
-    }
-}
-```
-
-### List Components
-
-Enhanced list components with better styling:
-
-```swift
-import SpeziViews
-import SwiftUI
-
-struct EnhancedListView: View {
-    var body: some View {
-        List {
-            ListHeader("Settings") {
-                Text("Customize your app experience")
-            }
-            
-            ListRow("Notifications") {
-                Image(systemName: "bell")
-            } action: {
-                // Handle tap
-            }
-            
-            ListRow("Privacy") {
-                Image(systemName: "lock.shield")
-            } action: {
-                // Handle tap  
-            }
-        }
-    }
-}
-```
-
-### Text and Labels
-
-Rich text rendering with Markdown support:
-
-```swift
-import SpeziViews
-import SwiftUI
-
-struct DocumentView: View {
-    let markdownContent = """
-    # Welcome to SpeziViews
-    
-    This is **bold** text and this is *italic* text.
-    
-    - Feature 1
-    - Feature 2
-    - Feature 3
-    
-    [Learn more](https://example.com)
-    """
-    
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                MarkdownView(markdown: markdownContent)
-                
-                Label("Custom Label", systemImage: "star.fill")
-                    .labelStyle(.reverse)
-                
-                LazyText("This text loads efficiently")
-            }
-            .padding()
-        }
-    }
-}
-```
-
-### View Modifiers
-
-Useful view modifiers for common patterns:
-
-```swift
-import SpeziViews
-import SwiftUI
-
-struct ConditionalView: View {
-    @State private var showDetails = false
-    @State private var isLoading = true
-    @State private var orientation = UIDevice.current.orientation
-    
-    var body: some View {
-        VStack {
-            Text("Main Content")
-                .if(showDetails) { view in
-                    view.font(.title)
-                }
-                .focusOnTap()
-            
-            Button("Toggle Details") {
-                showDetails.toggle()
-            }
-        }
-        .shimmer(repeatInterval: 2.0)
-        .processingOverlay(isProcessing: $isLoading)
-        .observeOrientationChanges($orientation)
-        .onChange(of: orientation) { newOrientation in
-            print("Device orientation: \(newOrientation)")
-        }
-    }
-}
-```
-
-For more information, please refer to the [API documentation](https://swiftpackageindex.com/StanfordSpezi/SpeziViews/documentation).
+For more information, please refer to the [API documentation](https://swiftpackageindex.com/stanfordspezi/speziviews/documentation).
 
 ## Contributing
 

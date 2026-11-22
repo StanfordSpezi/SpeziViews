@@ -32,11 +32,13 @@ import SwiftUI
 /// struct VersionPicker: View {
 ///     @State private var version: Version? = .versionA
 ///     var body: some View {
-///         CaseIterablePicker("Version", value: $version)
+///         CaseIterablePicker("Version", selection: $version)
 ///     }
 /// }
 /// ```
 ///  
+/// @Image(source: "CaseIterablePicker", alt: "A picker showing its selected option.")
+///
 /// - Note: If you pass an optional ``PickerValue``, the picker automatically renders the "none" case at the top, separated from value values.
 ///
 /// ## Topics

@@ -10,6 +10,8 @@ import SwiftUI
 
 
 /// Circular Dismiss button.
+///
+/// @Image(source: "DismissButton", alt: "A dismiss button.")
 public struct DismissButton: View {
     @Environment(\.dismiss) private var dismiss
 

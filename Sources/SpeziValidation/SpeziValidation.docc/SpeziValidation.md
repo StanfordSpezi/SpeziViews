@@ -30,10 +30,11 @@ The only thing you have to do, is to set up the ``SwiftUICore/View/validate(inpu
 text input.
 Supply your input and validation rules.
 
-#### Basic Validation
+The below code example shows a basic validation setup.
+Note that we are using the ``VerifiableTextField`` to automatically visualize validation errors to the user.
 
 ```swift
-@State private var phrase: String = ""
+@State var phrase: String = ""
 
 var body: some View {
     Form {
@@ -43,113 +44,63 @@ var body: some View {
 }
 ```
 
-#### Multiple Validation Rules
+> Note: The inner views can access the ``ValidationEngine`` using the [Environment](https://developer.apple.com/documentation/swiftui/environment/init(_:)-8slkf)
+property wrapper.
 
-Combine multiple rules for comprehensive validation:
+### Defining Validation Rules
 
-```swift
-@State private var email = ""
-@State private var password = ""
-
-var body: some View {
-    Form {
-        VerifiableTextField("Email", text: $email)
-            .validate(input: email, rules: .minimalEmail)
-            .textInputAutocapitalization(.never)
-        
-        VerifiableTextField("Password", text: $password, type: .secure)
-            .validate(input: password, rules: .minimalPassword)
-    }
-}
-```
-
-#### Custom Validation Rules
-
-Create your own validation logic:
+SpeziValidation provides built-in rules, such as ``ValidationRule/nonEmpty``, ``ValidationRule/minimalEmail``, and ``ValidationRule/minimalPassword``.
+You can define your own rules using a closure or a regular expression.
+The message is shown to the user if the input doesn't satisfy the rule.
 
 ```swift
 extension ValidationRule {
-    static let strongPassword = ValidationRule(
-        rule: { password in
-            password.count >= 8 && 
-            password.contains { $0.isUppercase } &&
-            password.contains { $0.isLowercase } &&
-            password.contains { $0.isNumber }
-        },
-        message: "Password must be at least 8 characters with uppercase, lowercase, and numbers"
+    static let zipCode = ValidationRule(
+        regex: /[0-9]{5}/,
+        message: "Enter a five-digit ZIP code."
     )
 }
-
-VerifiableTextField("Strong Password", text: $password, type: .secure)
-    .validate(input: password, rules: .strongPassword)
 ```
 
-> Note: The inner views can access the ``ValidationEngine`` using the [Environment](https://developer.apple.com/documentation/swiftui/environment/init(_:)-8slkf)
-property wrapper.
+You can pass multiple rules to the ``SwiftUICore/View/validate(input:rules:)-5dac4`` modifier.
+By default, all rules are evaluated, and the messages of all failed rules are shown.
+Use ``ValidationRule/intercepting`` to skip the remaining rules if a rule fails.
+
+```swift
+VerifiableTextField("ZIP Code", text: $zipCode)
+    .validate(input: zipCode, rules: ValidationRule.nonEmpty.intercepting, .zipCode)
+    .textContentType(.postalCode)
+```
+
+> Tip: Set a [text content type](https://developer.apple.com/documentation/swiftui/view/textcontenttype(_:)-ufdv)
+    on your text fields so that the system can offer AutoFill suggestions.
+
+> Important: Validation rules only run on the client. Always enforce security-relevant restrictions, such as password requirements, on the server as well.
 
 ### Managing Validation
 
 Parent views can access the validation state of their child views using the ``ValidationState`` property wrapper
 and the ``SwiftUICore/View/receiveValidation(in:)`` modifier.
 
-#### Form-Level Validation
-
 The code example below shows
 how you can use the validation state of your subview to perform final validation on a button press.
 
 ```swift
-@State private var email = ""
-@State private var username = ""
-@ValidationState private var validation
+@ValidationState var validation
 
 var body: some View {
     Form {
-        Section("Account Details") {
-            VerifiableTextField("Email", text: $email)
-                .validate(input: email, rules: .minimalEmail)
-            
-            VerifiableTextField("Username", text: $username)
-                .validate(input: username, rules: .nonEmpty)
-        }
-        
-        Section {
-            Button("Create Account") {
-                guard validation.validateSubviews() else {
-                    return // Validation failed
-                }
-                
-                // All validation passed, proceed with account creation
-                createAccount()
-            }
-            .disabled(!validation.allInputValid)
-        }
-    }
-    .receiveValidation(in: $validation)
-}
-```
+        // all subviews that collect data ...
 
-#### Real-Time Validation State
-
-Monitor validation state in real-time:
-
-```swift
-@ValidationState private var validation
-
-var body: some View {
-    VStack {
-        // Your form fields here...
-        
-        if !validation.allInputValid {
-            Text("Please fix the errors above")
-                .foregroundColor(.red)
-        }
-        
         Button("Submit") {
-            validation.validateSubviews()
+            guard validation.validateSubviews() else {
+                return
+            }
+
+            // save data ...
         }
-        .disabled(!validation.allInputValid)
     }
-    .receiveValidation(in: $validation)
+        .receiveValidation(in: $validation)
 }
 ```
 
