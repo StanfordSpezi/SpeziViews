@@ -70,7 +70,7 @@ final class ValidationTests: XCTestCase {
         app.checkBoxes["Switch Focus"].tap()
         #else
         XCTAssertTrue(app.switches["Switch Focus"].exists)
-        try XCTUnwrap(app.switches.allElementsBoundByIndex.last).tap() // toggles automatic focus switch off
+        try XCTUnwrap(app.switches.allElementsBoundByIndex.last).setSwitch(isOn: false) // toggles automatic focus switch off
         #endif
 
         app.buttons["Validate"].tap()
@@ -82,7 +82,7 @@ final class ValidationTests: XCTestCase {
         #if os(macOS)
         app.checkBoxes["Switch Focus"].tap()
         #else
-        try XCTUnwrap(app.switches.allElementsBoundByIndex.last).tap() // toggles automatic focus switch on
+        try XCTUnwrap(app.switches.allElementsBoundByIndex.last).setSwitch(isOn: true) // toggles automatic focus switch on
         #endif
 
         app.buttons["Validate"].tap()

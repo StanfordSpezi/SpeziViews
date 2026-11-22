@@ -54,7 +54,7 @@ final class ManagedNavigationStackTests: XCTestCase {
         #if os(visionOS)
         skipNextStepSwitch.tap()
         #else
-        skipNextStepSwitch.switches.firstMatch.tap()
+        skipNextStepSwitch.switches.firstMatch.setSwitch(isOn: false)
         #endif
         
         // go to step 4
