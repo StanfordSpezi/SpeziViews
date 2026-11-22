@@ -91,41 +91,58 @@ final class CanvasViewTests: XCTestCase {
     func testCanvasToolBinding() throws {
         let app = XCUIApplication()
         app.launch()
+        XCTAssertTrue(app.staticTexts["CanvasTest"].waitForExistence(timeout: 5))
         app.staticTexts["CanvasTest"].tap()
         
+        let toolInfo = app.staticTexts["ToolInfo"]
         let toolPicker = app.otherElements["Drawing-Palette"]
         var currentToolDesc: String {
-            app.staticTexts["ToolInfo"].value as? String ?? ""
+            toolInfo.value as? String ?? ""
         }
         
+        /// Waits for the tool info label to reflect the current tool, which the binding propagates asynchronously.
+        func assertToolInfo(_ predicateFormat: String, _ args: Any..., line: UInt = #line) {
+            let predicate = NSPredicate(format: predicateFormat, argumentArray: args)
+            let expectation = XCTNSPredicateExpectation(predicate: predicate, object: toolInfo)
+            XCTAssertEqual(XCTWaiter().wait(for: [expectation], timeout: 2), .completed, "actual: \(currentToolDesc)", line: line)
+        }
+        
+        /// Selects a tool in the tool picker, waiting for the picker to make it available and to reflect the new selection.
+        func selectTool(_ name: String, line: UInt = #line) {
+            // Starting with iOS 27, the tool picker on iPhone initially is collapsed, only showing the selected tool.
+            // Tapping that tool expands the tool picker to show the other tools.
+            if toolPicker.buttons.count == 1 {
+                toolPicker.buttons.firstMatch.tap()
+            }
+            let tool = toolPicker.buttons[name]
+            XCTAssertTrue(tool.wait(for: \.isHittable, toEqual: true, timeout: 2), line: line)
+            tool.tap()
+            XCTAssertTrue(tool.wait(for: \.isSelected, toEqual: true, timeout: 2), line: line)
+        }
+        
+        XCTAssertTrue(toolInfo.waitForExistence(timeout: 5))
         XCTAssertFalse(toolPicker.exists)
         
         app.buttons["Toggle Tool Picker"].tap()
         XCTAssertTrue(toolPicker.waitForExistence(timeout: 5))
         
-        XCTAssert(currentToolDesc.contains("PKInkingTool"))
-        XCTAssert(currentToolDesc.contains("com.apple.ink.pen color=UIExtendedSRGBColorSpace 1 0 0 1 width=10"))
-        XCTAssert(toolPicker.buttons["Pen"].isSelected)
+        assertToolInfo("value CONTAINS %@", "PKInkingTool")
+        assertToolInfo("value CONTAINS %@", "com.apple.ink.pen color=UIExtendedSRGBColorSpace 1 0 0 1 width=10")
+        XCTAssertTrue(toolPicker.buttons["Pen"].isSelected)
         
-        toolPicker.buttons["Marker"].tap()
+        selectTool("Marker")
         XCTAssertFalse(toolPicker.buttons["Pen"].isSelected)
         XCTAssertFalse(toolPicker.buttons["Eraser"].isSelected)
-        XCTAssert(toolPicker.buttons["Marker"].isSelected)
-        XCTAssert(currentToolDesc.contains("PKInkingTool"))
-        XCTAssert(currentToolDesc.contains("com.apple.ink.marker"), "actual: \(currentToolDesc)")
+        assertToolInfo("value CONTAINS %@", "PKInkingTool")
+        assertToolInfo("value CONTAINS %@", "com.apple.ink.marker")
         
-        toolPicker.buttons["Eraser"].tap()
+        selectTool("Eraser")
         XCTAssertFalse(toolPicker.buttons["Pen"].isSelected)
         XCTAssertFalse(toolPicker.buttons["Marker"].isSelected)
-        XCTAssert(toolPicker.buttons["Eraser"].isSelected)
-        XCTAssert(currentToolDesc.contains("PKEraserTool"))
+        assertToolInfo("value CONTAINS %@", "PKEraserTool")
         
-        do {
-            let oldTool = currentToolDesc
-            app.buttons["Random Tool"].tap()
-            sleep(for: .seconds(0.2)) // give it time to update
-            let newTool = currentToolDesc
-            XCTAssertNotEqual(newTool, oldTool)
-        }
+        let oldTool = currentToolDesc
+        app.buttons["Random Tool"].tap()
+        assertToolInfo("NOT value == %@", oldTool)
     }
 }
