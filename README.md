@@ -10,7 +10,7 @@ SPDX-License-Identifier: MIT
 
 # Spezi Views
 
-[![Build and Test](https://github.com/StanfordSpezi/SpeziViews/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/StanfordSpezi/SpeziViews/actions/workflows/build-and-test.yml)
+[![Build and Test](https://github.com/StanfordSpezi/SpeziViews/actions/workflows/ci.yml/badge.svg)](https://github.com/StanfordSpezi/SpeziViews/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/StanfordSpezi/SpeziViews/branch/main/graph/badge.svg?token=tLnPSYE6W9)](https://codecov.io/gh/StanfordSpezi/SpeziViews)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7806475.svg)](https://doi.org/10.5281/zenodo.7806475)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FStanfordSpezi%2FSpeziViews%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/StanfordSpezi/SpeziViews)

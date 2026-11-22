@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if canImport(SnapshotTesting)
 import SnapshotTesting
+#endif
 @testable import SpeziViews
 import SwiftUI
 import Testing
@@ -25,7 +27,6 @@ extension SnapshotTests {
 
 #if os(iOS)
         assertSnapshot(of: row, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
-
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-XA3")
 #endif
     }

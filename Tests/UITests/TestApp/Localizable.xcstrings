@@ -25,24 +25,20 @@
     "Append Custom View" : {
 
     },
+    "AsyncButton Toolbar Behaviour" : {
+
+    },
+    "AsyncButtonInToolbar" : {
+
+    },
     "Buy" : {
 
     },
     "by Robert C. Martin" : {
 
     },
-    "Canvas Size: none" : {
+    "Canvas Size" : {
 
-    },
-    "Canvas Size: width %lf, height %lf" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Canvas Size: width %1$lf, height %2$lf"
-          }
-        }
-      }
     },
     "CanvasTest" : {
 
@@ -56,7 +52,7 @@
     "Clean Code" : {
 
     },
-    "Clear Canvas" : {
+    "Clear" : {
 
     },
     "Closure Condition present" : {
@@ -74,7 +70,10 @@
     "Custom Step" : {
 
     },
-    "Did Draw Anything: %@" : {
+    "Did Draw Anything" : {
+
+    },
+    "Did tap" : {
 
     },
     "Done" : {
@@ -202,10 +201,22 @@
     "Next Step" : {
 
     },
+    "NSError (Simple 1)" : {
+
+    },
+    "NSError (Simple 2)" : {
+
+    },
+    "NSError (Simple 3)" : {
+
+    },
     "Operation State: %@" : {
 
     },
     "Option Set" : {
+
+    },
+    "Other" : {
 
     },
     "Password" : {
@@ -215,6 +226,9 @@
 
     },
     "Please enter your email address of your account. A email with an link to reset your password will be sent to the email address." : {
+
+    },
+    "Random Tool" : {
 
     },
     "Recommendations" : {
@@ -262,7 +276,7 @@
     "Share Text" : {
 
     },
-    "Show Tool Picker" : {
+    "Show Sheet" : {
 
     },
     "Signup" : {
@@ -322,7 +336,19 @@
     "Step 9B (odd)" : {
 
     },
+    "Swift Error (Localized)" : {
+
+    },
+    "Swift Error (Simple)" : {
+
+    },
     "Switch Focus" : {
+
+    },
+    "Tap Me ;)" : {
+
+    },
+    "Tap Me!" : {
 
     },
     "Targets" : {
@@ -340,6 +366,9 @@
     "This is a label ...\nAn other text. This is longer and we can check if the justified text works as expected. This is a very long text." : {
 
     },
+    "This is the Sheet" : {
+
+    },
     "Tiles" : {
 
     },
@@ -349,7 +378,16 @@
     "Toggle Condition" : {
 
     },
+    "Toggle Tool Picker" : {
+
+    },
+    "Tool" : {
+
+    },
     "Trailing" : {
+
+    },
+    "Trigger Error" : {
 
     },
     "Username" : {

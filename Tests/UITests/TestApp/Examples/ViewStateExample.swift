@@ -38,7 +38,7 @@ struct ViewStateExample: View {
                         .padding()
                 }
                     .navigationTitle("Reset Password")
-                    #if !os(macOS)
+                    #if !os(macOS) && !os(tvOS)
                     .navigationBarTitleDisplayMode(.inline)
                     #endif
                     .viewStateAlert(state: $viewState)
@@ -54,7 +54,9 @@ struct ViewStateExample: View {
 
         VerifiableTextField("E-Mail Address", text: $emailAddress)
             .validate(input: emailAddress, rules: .minimalEmail)
+            #if !os(tvOS)
             .textFieldStyle(.roundedBorder)
+            #endif
             .autocorrectionDisabled(true)
             #if !os(macOS)
             .textInputAutocapitalization(.never)

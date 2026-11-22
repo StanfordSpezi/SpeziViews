@@ -52,7 +52,7 @@ struct OperationStateTestView: View {
         }
             .task {
                 operationState = .someOperationStep
-                try? await Task.sleep(for: .seconds(2))
+                try? await Task.sleep(for: .seconds(4))
                 operationState = .error(
                     AnyLocalizedError(
                         error: testError,

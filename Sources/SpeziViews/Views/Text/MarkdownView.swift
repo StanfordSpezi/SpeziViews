@@ -91,7 +91,7 @@ public struct MarkdownView<CustomElementView: View>: View {
     @Environment(\.multilineTextAlignment) private var textAlignment
     
     private let dividerRule: DividerRule
-    private let customElementViewProvider: @MainActor (_ blockIdx: Int, _ element: MarkdownDocument.CustomElement) -> CustomElementView
+    private let customElementViewProvider: CustomElementViewProvider
     @State private var loadingState: LoadingState
     
     @_documentation(visibility: internal)
@@ -106,7 +106,7 @@ public struct MarkdownView<CustomElementView: View>: View {
                 VStack(spacing: 12) {
                     ForEach(Array(blocks.indices), id: \.self) { blockIdx in
                         let block = blocks[blockIdx]
-                        view(for: block, at: blockIdx)
+                        view(for: block, at: blockIdx, in: document)
                             .id(block.id)
                         let isLast = blockIdx >= blocks.endIndex - 1
                         if !isLast && dividerRule.shouldInsertDividerAfter(blockIdx, block) {
@@ -145,16 +145,16 @@ public struct MarkdownView<CustomElementView: View>: View {
     
     /// Creates a new MarkdownView
     ///
-    /// - parameter markdownDocument: The [`MarkdownDocument`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/documentation/spezifoundation/markdowndocument) the view should display
+    /// - parameter document: The [`MarkdownDocument`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/documentation/spezifoundation/markdowndocument) the view should display
     /// - parameter dividerRule: Defines when the view should place a `Divider` between two sections. Defaults to ``DividerRule/never``.
     /// - parameter customElementViewProvider: A `ViewBuilder` closure that provides backing views for custom elements in the Markdown which cannot be handled by the ``MarkdownView`` itself.
     public init(
-        markdownDocument: MarkdownDocument,
+        document: MarkdownDocument,
         dividerRule: DividerRule = .never,
-        @ViewBuilder customElementViewProvider: @escaping CustomElementViewProvider = { _, _ in EmptyView() }
+        @ViewBuilder _ customElementViewProvider: @escaping CustomElementViewProvider = { _, _ in EmptyView() }
     ) {
         self.init(
-            loadingState: .loaded(markdownDocument),
+            loadingState: .loaded(document),
             dividerRule: dividerRule,
             customElementViewProvider: customElementViewProvider
         )
@@ -162,22 +162,25 @@ public struct MarkdownView<CustomElementView: View>: View {
     
     
     @ViewBuilder
-    private func view(for block: MarkdownDocument.Block, at idx: Int) -> some View {
+    private func view(for block: MarkdownDocument.Block, at idx: Int, in document: MarkdownDocument) -> some View {
         switch block {
         case .markdown(id: _, let content):
             // ISSUE: we can't seem to get the `Markdown` view to make itself as wide as possible.
             // SOLUTION: depending on the text alignment, we place the `Markdown` view inside a HStack, alongside a Spacer to push it to the edge.
+            let markdown = Markdown(content, baseURL: document.baseUrl)
+                .markdownImageProvider(MarkdownViewImageProvider())
+                .markdownInlineImageProvider(MarkdownViewInlineImageProvider())
             switch textAlignment {
             case .center:
-                Markdown(content)
+                markdown
             case .trailing:
                 HStack(spacing: 0) {
                     Spacer()
-                    Markdown(content)
+                    markdown
                 }
             case .leading:
                 HStack(spacing: 0) {
-                    Markdown(content)
+                    markdown
                     Spacer()
                 }
             }
@@ -190,7 +193,25 @@ public struct MarkdownView<CustomElementView: View>: View {
 
 // MARK: Backwards Compatibility
 
-extension MarkdownView where CustomElementView == EmptyView {
+extension MarkdownView {
+    /// Creates a new MarkdownView
+    ///
+    /// - parameter markdownDocument: The [`MarkdownDocument`](https://swiftpackageindex.com/stanfordspezi/spezifoundation/documentation/spezifoundation/markdowndocument) the view should display
+    /// - parameter dividerRule: Defines when the view should place a `Divider` between two sections. Defaults to ``DividerRule/never``.
+    /// - parameter customElementViewProvider: A `ViewBuilder` closure that provides backing views for custom elements in the Markdown which cannot be handled by the ``MarkdownView`` itself.
+    @available(*, deprecated, renamed: "init(document:dividerRule:_:)")
+    public init(
+        markdownDocument: MarkdownDocument,
+        dividerRule: DividerRule = .never,
+        @ViewBuilder customElementViewProvider: @escaping CustomElementViewProvider = { _, _ in EmptyView() }
+    ) {
+        self.init(
+            loadingState: .loaded(markdownDocument),
+            dividerRule: dividerRule,
+            customElementViewProvider: customElementViewProvider
+        )
+    }
+    
     /// Creates a ``MarkdownView`` that displays the content of a markdown file as an UTF-8 representation that is loaded asynchronously.
     /// - Parameters:
     ///   - asyncMarkdown: An async closure to load the markdown in an UTF-8 representation.
@@ -205,7 +226,7 @@ extension MarkdownView where CustomElementView == EmptyView {
     public init(
         asyncMarkdown: @escaping () async -> Data,
         state: Binding<ViewState> = .constant(.idle)
-    ) {
+    ) where CustomElementView == EmptyView {
         self.init(
             loadingState: .pending(asyncMarkdown, viewStateBinding: state),
             dividerRule: .never,
@@ -227,7 +248,7 @@ extension MarkdownView where CustomElementView == EmptyView {
     public init(
         markdown: Data,
         state: Binding<ViewState> = .constant(.idle)
-    ) {
+    ) where CustomElementView == EmptyView {
         self.init(
             asyncMarkdown: { markdown },
             state: state

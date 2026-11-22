@@ -19,7 +19,7 @@ struct NameFieldsTestView: View {
                 nameFields
             }
         }
-            #if !os(macOS)
+            #if !os(macOS) && !os(tvOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
     }

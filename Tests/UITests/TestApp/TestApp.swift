@@ -12,7 +12,7 @@ import SwiftUI
 import XCTestApp
 
 
-class TestDelegate: SpeziAppDelegate {
+final class TestDelegate: SpeziAppDelegate {
     override var configuration: Configuration {
         Configuration {
             ConfigureTipKit()

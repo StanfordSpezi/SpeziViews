@@ -13,7 +13,7 @@ import SwiftUI
 /// An `NavigationStepIdentifier` serves as an abstraction of a step in the navigation flow as outlined within the ``ManagedNavigationStack``.
 ///
 /// It contains both the identifier for a navigation step (the view's type) as well as a flag that indicates if whether the step is custom
-/// (i.e., was not included in the ``ManagedNavigationStack``'s contents, but rather programmatically pushed onto the stack using ``ManagedNavigationStack/Path/append(customView:)``).
+/// (i.e., was not included in the ``ManagedNavigationStack``'s contents, but rather programmatically pushed onto the stack using ``ManagedNavigationStack/Path/append(_:)``).
 struct NavigationStepIdentifier {
     /// The source of the `NavigationStepIdentifier`'s identity
     enum IdentifierKind: Equatable {
@@ -42,7 +42,7 @@ struct NavigationStepIdentifier {
     let stepType: any View.Type
     let flowElementSourceLocation: ManagedNavigationStack.StepsCollection.Element.SourceLocation?
     
-    /// Whether the step is custom, i.e. not one of the steps defined via the ``NavigationFlowBuilder`` but instead created via e.g. ``ManagedNavigationStack/Path/append(customView:)``.
+    /// Whether the step is custom, i.e. not one of the steps defined via the ``NavigationFlowBuilder`` but instead created via e.g. ``ManagedNavigationStack/Path/append(_:)``.
     var isCustom: Bool {
         flowElementSourceLocation == nil
     }

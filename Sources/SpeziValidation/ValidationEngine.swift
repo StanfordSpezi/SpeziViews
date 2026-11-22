@@ -37,7 +37,7 @@ public final class ValidationEngine: Identifiable {
 
 
     /// Unique identifier for this validation engine.
-    public nonisolated var id: ObjectIdentifier {
+    nonisolated public var id: ObjectIdentifier {
         ObjectIdentifier(self)
     }
 

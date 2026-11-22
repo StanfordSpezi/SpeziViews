@@ -11,29 +11,15 @@
         }
       }
     },
-    "A" : {
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A"
-          }
-        }
-      }
-    },
-    "B" : {
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "B"
-          }
-        }
-      }
-    },
     "Completed" : {
       "comment" : "Completed Tile. Subtitle",
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminada"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -151,16 +137,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "inget markerat"
-          }
-        }
-      }
-    },
-    "Option %u" : {
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alternativ %u"
           }
         }
       }

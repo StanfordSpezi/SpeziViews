@@ -15,6 +15,7 @@ import SwiftUI
 
 struct CanvasTestView: View {
     @State private var isDrawing = false
+    @State private var tool: any PKTool = PKInkingTool(.pen, color: .red, width: 10)
     @State private var showToolPicker = false
     @State private var drawing = PKDrawing()
     @State private var receivedSize: CGSize?
@@ -28,15 +29,14 @@ struct CanvasTestView: View {
         ZStack {
             VStack {
                 Group {
-                    Text("Did Draw Anything: \(didDrawAnything.description)")
-                    if let receivedSize {
-                        Text("Canvas Size: width \(receivedSize.width), height \(receivedSize.height)")
-                    } else {
-                        Text("Canvas Size: none")
-                    }
-                    Button("Show Tool Picker") {
-                        showToolPicker.toggle()
-                    }
+                    LabeledContent("Did Draw Anything", value: didDrawAnything.description)
+                    LabeledContent("Canvas Size", value: receivedSize?.debugDescription ?? "none")
+                    LabeledContent("Tool", value: String(describing: tool))
+                        .accessibilityIdentifier("ToolInfo")
+                        .accessibilityValue(String(describing: tool))
+                    Divider()
+                    actionButtons
+                    Divider()
                     HStack {
                         Button("Enable/Disable Canvas") {
                             enableDrawing.toggle()
@@ -46,48 +46,65 @@ struct CanvasTestView: View {
                     }
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel("Enable/Disable Canvas, \(enableDrawing.description)")
-                    Button("Clear Canvas") {
-                        drawing.strokes.removeAll()
-                    }
                 }
                 .padding(.horizontal)
                 Divider()
                 CanvasView(
                     drawing: $drawing,
-                    isDrawing: $isDrawing,
-                    tool: .init(.pencil, color: .red, width: 10),
+                    tool: $tool,
                     drawingPolicy: .anyInput,
+                    isDrawing: $isDrawing,
                     showToolPicker: $showToolPicker
                 )
                 .disabled(!enableDrawing)
             }
         }
-            .navigationBarTitleDisplayMode(.inline)
-            .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
-                if Thread.isMainThread {
-                    MainActor.assumeIsolated {
-                        self.receivedSize = size
-                    }
-                } else {
-                    self.values.continuation.yield(size)
+        .navigationBarTitleDisplayMode(.inline)
+        .onPreferenceChange(CanvasView.CanvasSizePreferenceKey.self) { size in
+            if Thread.isMainThread {
+                MainActor.assumeIsolated {
+                    self.receivedSize = size
                 }
+            } else {
+                self.values.continuation.yield(size)
             }
-            .task {
-                for await value in values.stream {
-                    self.receivedSize = value
-                }
-                values = AsyncStream.makeStream()
+        }
+        .task {
+            for await value in values.stream {
+                self.receivedSize = value
             }
-            .interactiveDismissDisabled()
+            values = AsyncStream.makeStream()
+        }
+        .interactiveDismissDisabled()
+    }
+    
+    @ViewBuilder private var actionButtons: some View {
+        HStack {
+            Button("Random Tool") {
+                tool = [
+                    PKInkingTool(.crayon, color: .red),
+                    PKInkingTool(.fountainPen, color: .orange),
+                    PKInkingTool(.watercolor, color: .green),
+                    PKEraserTool(.bitmap),
+                    PKLassoTool()
+                ].randomElement()! // swiftlint:disable:this force_unwrapping
+            }
+            Spacer()
+            Button("Toggle Tool Picker") {
+                showToolPicker.toggle()
+            }
+            Spacer()
+            Button("Clear") {
+                drawing.strokes.removeAll()
+            }
+        }
     }
 }
 
 
 #if DEBUG
-struct CanvasTestView_Previews: PreviewProvider {
-    static var previews: some View {
-        CanvasTestView()
-    }
+#Preview {
+    CanvasTestView()
 }
 #endif
 #endif

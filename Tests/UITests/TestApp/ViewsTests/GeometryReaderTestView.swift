@@ -36,7 +36,7 @@ struct GeometryReaderTestView: View {
                 .frame(width: 300)
                 .border(.blue)
         }
-            #if !os(macOS)
+            #if !os(macOS) && !os(tvOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
     }

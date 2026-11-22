@@ -39,7 +39,7 @@ struct NameFieldsExample: View {
             }
         }
             .navigationTitle("Enter your details")
-            #if !os(macOS)
+            #if !os(macOS) && !os(tvOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .navigationBarBackButtonHidden(hideBackButton)
