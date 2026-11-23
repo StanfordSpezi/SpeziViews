@@ -11,6 +11,9 @@
         }
       }
     },
+    "Browse Files" : {
+
+    },
     "Completed" : {
       "comment" : "Completed Tile. Subtitle",
       "localizations" : {
@@ -140,6 +143,27 @@
           }
         }
       }
+    },
+    "Photo Library" : {
+
+    },
+    "Select File" : {
+
+    },
+    "Select Files" : {
+
+    },
+    "Select Image" : {
+
+    },
+    "Select Images" : {
+
+    },
+    "Select Video" : {
+
+    },
+    "Select Videos" : {
+
     }
   },
   "version" : "1.0"

@@ -142,6 +142,9 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 - ``DismissButton``
 - ``CaseIterablePicker``
 - ``OptionSetPicker``
+- ``FilePicker``
+- ``FilePickerItem``
+- ``FilePickerListRowLabel``
 - ``SwiftUICore/View/shareSheet(item:)``
 - ``SwiftUICore/View/shareSheet(items:)``
 
@@ -160,6 +163,7 @@ Default layouts and utilities to automatically adapt your view layouts to dynami
 ### Images
 
 - ``ImageReference``
+- ``FileThumbnail``
 
 ### Conditional Modifiers
 
