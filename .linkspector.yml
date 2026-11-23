@@ -1,0 +1,25 @@
+#
+# This source file is part of the Stanford Spezi open source project
+#
+# SPDX-FileCopyrightText: 2026 Stanford University and the project authors (see CONTRIBUTORS.md)
+#
+# SPDX-License-Identifier: MIT
+#
+
+# Same settings as the default configuration created by the shared markdown link check workflow,
+# except that 503 (Service Unavailable) also counts as alive: Swift Package Index occasionally returns 503
+# for documentation pages that exist, which made the check fail on random links. Dead links (e.g., 404) still fail.
+dirs:
+  - .
+useGitIgnore: true
+ignorePatterns:
+  - pattern: '^doc:.*$'
+  - pattern: '^http://localhost.*$'
+replacementPatterns:
+  - pattern: '(.*)#gh-dark-mode-only'
+    replacement: '$1'
+  - pattern: '(.*)#gh-light-mode-only'
+    replacement: '$1'
+aliveStatusCodes:
+  - 200
+  - 503
