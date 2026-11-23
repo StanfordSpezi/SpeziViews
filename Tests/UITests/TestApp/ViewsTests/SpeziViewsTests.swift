@@ -34,7 +34,9 @@ enum SpeziViewsTests: String, TestAppTests {
     case shareSheet = "Share Sheet"
     #endif
     case dismissButton = "Dismiss Button"
+    #if !os(tvOS)
     case filePicker = "File Picker"
+    #endif
     
     #if !os(macOS)
     @MainActor @ViewBuilder private var label: some View {
@@ -117,8 +119,10 @@ enum SpeziViewsTests: String, TestAppTests {
         #endif
         case .dismissButton:
             DismissButtonTestView()
+        #if !os(tvOS)
         case .filePicker:
             FilePickerTestView()
+        #endif
         }
     }
 }

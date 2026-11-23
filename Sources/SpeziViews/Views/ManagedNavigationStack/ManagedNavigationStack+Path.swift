@@ -356,7 +356,7 @@ extension ManagedNavigationStack.Path {
 extension ManagedNavigationStack.Path {
     /// Whether the path currently is empty.
     public var isEmpty: Bool {
-        count == 0
+        path.isEmpty
     }
     
     /// The current number of elements in the path.

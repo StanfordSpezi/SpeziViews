@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if !os(tvOS) && !os(watchOS)
+
 // swiftlint:disable file_types_order
 
 import PhotosUI
@@ -14,62 +16,66 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 
-/// An item that was selected using the ``_FilePicker``
-public enum _FilePickerItem: Sendable, Hashable { // swiftlint:disable:this type_name
+/// An item that was selected using a ``FilePicker``.
+public enum FilePickerItem: Sendable, Hashable {
+    /// A file selected from the Files app.
+    ///
+    /// - Note: The URL may point to a security-scoped resource. Call `startAccessingSecurityScopedResource()`
+    ///     before reading it, and `stopAccessingSecurityScopedResource()` once you are done.
     case file(URL)
+    /// A photo or video selected from the photo library.
     case photo(PhotosPickerItem)
 }
 
 
-/// Reusable view that offers file import options from a range of sources.
-@available(watchOS, unavailable)
-public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_name
-    @Environment(\.isEnabled) private var isEnabled
+/// A menu that lets the user pick files, photos, or videos.
+///
+/// Depending on the allowed content types, the menu offers to select items from the photo library, from the Files app, or both.
+///
+/// ```swift
+/// FilePicker([.image, .pdf], allowMultipleSelection: true) { items in
+///     // handle the selected items ...
+/// } label: { suggestedTitle in
+///     FilePickerListRowLabel(suggestedTitle)
+/// }
+/// ```
+///
+/// The `label` closure receives a suggested title (e.g., "Select Images" or "Select File") based on the allowed content types,
+/// which you can use for the menu's label.
+///
+/// - Note: Not available on tvOS and watchOS.
+public struct FilePicker<Label: View>: View {
     private let label: @MainActor (_ suggestedTitle: LocalizedStringResource) -> Label
     private let enabledTypes: Set<UTType>
     private let allowMultipleSelection: Bool
-    private let selectionHandler: @Sendable ([_FilePickerItem]) -> Void
+    private let selectionHandler: @MainActor ([FilePickerItem]) -> Void
     @State private var isShowingPhotosPicker = false
     @State private var isShowingFileImporter = false
-    @State private var isShowingCameraSheet = false
     @State private var viewState: ViewState = .idle
     @State private var selectedPhotos: [PhotosPickerItem] = []
-    
+
+    @_documentation(visibility: internal) // swiftlint:disable:next attributes
     public var body: some View {
-        // IDEAS
-        // - if there is only one enabled uti, we should skip the menu!
-        // - if there are no enabled UTIs, we show the regular menu, but disable it!
         Menu {
-            importMenuContents
+            if shouldEnable(.image) || shouldEnable(.movie) {
+                selectPhotosButton
+                Divider()
+            }
+            importFileButton
         } label: {
             label(suggestedTitle)
         }
         .accessibilityIdentifier("FilePickerButton")
         .listRowInsets(EdgeInsets())
         .viewStateAlert(state: $viewState)
-        // We need all of these modifiers placed here at the top level, since the buttons that trigger them are in the Menu,
-        // and will disappear when tapped (bc the menu gets closed)
+        // The modifiers that present the pickers need to be placed at the top level,
+        // since the buttons that trigger them are in the Menu, which gets dismissed when a button is tapped.
         .photosPicker(
             isPresented: $isShowingPhotosPicker,
             selection: $selectedPhotos,
-            // Issue (here and below) what if the user already has selected an image, and is now also opening the file picker?
-            // in a single-selection scenario, we'd either need to remove the image, or disable the file picker.
             maxSelectionCount: allowMultipleSelection ? nil : 1,
             selectionBehavior: .default,
-            matching: { () -> PHPickerFilter in
-                let enabledTypes: [PHPickerFilter] = Array {
-                    if shouldEnable(.movie) {
-                        .videos
-                    }
-                    if shouldEnable(.image) {
-                        // QUESTION if the user has live photos enabled, would this filter only photos w/out a live photo attached,
-                        // or would it still include everything?
-                        .images
-                    }
-                }
-                // can't have an empty ANY filter
-                return enabledTypes.isEmpty ? .images : .any(of: enabledTypes)
-            }(),
+            matching: photosPickerFilter,
             preferredItemEncoding: .automatic
         )
         .fileImporter(
@@ -84,70 +90,68 @@ public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_na
                 viewState = .error(AnyLocalizedError(error: error))
             }
         }
-        .sheet(isPresented: $isShowingCameraSheet) {
-            Text("Not Yet Implemented", bundle: .module)
-        }
         .onChange(of: selectedPhotos) { _, newValue in
             guard !newValue.isEmpty else {
                 return
             }
-            // it seems that the PhotosPicker only updates the binding, once, at the end, when the user confirmed the selection.
-            // if multiple selection is enabled, the binding does not get continuously updated as the selection changes.
+            // The PhotosPicker updates the binding once, when the user confirms the selection.
             let photos = exchange(&selectedPhotos, with: [])
             selectionHandler(photos.map { .photo($0) })
         }
     }
-    
+
     private var suggestedTitle: LocalizedStringResource {
+        let key: String.LocalizationValue
         if enabledTypes.allSatisfy({ $0.conforms(to: .image) }) {
-            if allowMultipleSelection {
-                LocalizedStringResource("Select Images", bundle: .module)
-            } else {
-                LocalizedStringResource("Select Image", bundle: .module)
-            }
+            key = allowMultipleSelection ? "Select Images" : "Select Image"
         } else if enabledTypes.allSatisfy({ $0.conforms(to: .movie) }) {
-            if allowMultipleSelection {
-                LocalizedStringResource("Select Videos", bundle: .module)
-            } else {
-                LocalizedStringResource("Select Video", bundle: .module)
-            }
+            key = allowMultipleSelection ? "Select Videos" : "Select Video"
         } else {
-            if allowMultipleSelection {
-                LocalizedStringResource("Select Files", bundle: .module)
-            } else {
-                LocalizedStringResource("Select File", bundle: .module)
+            key = allowMultipleSelection ? "Select Files" : "Select File"
+        }
+        return LocalizedStringResource(key, bundle: .atURL(from: .module))
+    }
+    
+    private var photosPickerFilter: PHPickerFilter {
+        let filters: [PHPickerFilter] = Array {
+            if shouldEnable(.movie) {
+                .videos
+            }
+            if shouldEnable(.image) {
+                .images
             }
         }
+        // an `any(of:)` filter can't be empty
+        return filters.isEmpty ? .images : .any(of: filters)
     }
-    
-    @ViewBuilder private var importMenuContents: some View {
-        if shouldEnable(.image) || shouldEnable(.movie) {
-            selectPhotosButton
-            Divider()
-        }
-        importFileButton
-    }
-    
+
     private var selectPhotosButton: some View {
         Button {
             isShowingPhotosPicker = true
         } label: {
-            SwiftUI.Label(LocalizedStringResource("Select Photo", bundle: .module), systemImage: "photo.on.rectangle")
+            SwiftUI.Label(LocalizedStringResource("Photo Library", bundle: .atURL(from: .module)), systemImage: "photo.on.rectangle")
         }
     }
-    
+
     private var importFileButton: some View {
         Button {
             isShowingFileImporter = true
         } label: {
-            SwiftUI.Label(LocalizedStringResource("Select File", bundle: .module), systemImage: "document")
+            SwiftUI.Label(LocalizedStringResource("Browse Files", bundle: .atURL(from: .module)), systemImage: "folder")
         }
     }
-    
+
+    /// Creates a file picker.
+    ///
+    /// - Parameters:
+    ///   - contentTypes: The content types the user may select. If empty, any data can be selected.
+    ///   - allowMultipleSelection: Whether the user may select multiple items at once.
+    ///   - selectionHandler: Called with the selected items once the user confirms a selection.
+    ///   - label: The menu's label. The closure receives a suggested title based on the allowed content types.
     public init(
         _ contentTypes: Set<UTType>,
         allowMultipleSelection: Bool,
-        selectionHandler: @escaping @Sendable ([_FilePickerItem]) -> Void,
+        selectionHandler: @escaping @MainActor ([FilePickerItem]) -> Void,
         @ViewBuilder label: @escaping @MainActor (_ suggestedTitle: LocalizedStringResource) -> Label
     ) {
         self.enabledTypes = contentTypes.isEmpty ? [.data] : contentTypes
@@ -155,16 +159,26 @@ public struct _FilePicker<Label: View>: View { // swiftlint:disable:this type_na
         self.selectionHandler = selectionHandler
         self.label = label
     }
-    
+
     private func shouldEnable(_ uti: UTType) -> Bool {
         enabledTypes.contains { $0.isCompatible(with: uti) }
     }
 }
 
 
-public struct _ListRowFilePickerLabel: View { // swiftlint:disable:this type_name
+/// A list row label for a ``FilePicker``.
+///
+/// ```swift
+/// FilePicker([.pdf], allowMultipleSelection: false) { items in
+///     // handle the selected items ...
+/// } label: { suggestedTitle in
+///     FilePickerListRowLabel(suggestedTitle)
+/// }
+/// ```
+public struct FilePickerListRowLabel: View {
     private let title: Text
-    
+
+    @_documentation(visibility: internal) // swiftlint:disable:next attributes
     public var body: some View {
         HStack {
             Image(systemName: "plus.circle.fill")
@@ -180,11 +194,14 @@ public struct _ListRowFilePickerLabel: View { // swiftlint:disable:this type_nam
         .frame(maxHeight: .infinity)
         .padding()
     }
-    
+
+    /// Creates a list row label with a localized title.
     public init(_ title: LocalizedStringResource) {
         self.title = Text(title)
     }
-    
+
+    /// Creates a list row label with a title.
+    @_disfavoredOverload
     public init(_ title: some StringProtocol) {
         self.title = Text(title)
     }
@@ -192,10 +209,13 @@ public struct _ListRowFilePickerLabel: View { // swiftlint:disable:this type_nam
 
 
 extension UTType {
-    // we have the bidirectional check here, because:
-    // - if the FilePicker is allowed to select `UTType.image`s we obviously want to allow it to ONLY pick images; but
-    // - if its set to `UTType.data` or `.image`, we want to allow it to pick
+    /// Whether two types overlap, in either direction.
+    ///
+    /// A picker that allows `.image` should offer the photo library, and so should a picker that allows any `.data`,
+    /// since images are data as well.
     fileprivate func isCompatible(with other: Self) -> Bool {
         self.conforms(to: other) || other.conforms(to: self)
     }
 }
+
+#endif

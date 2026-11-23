@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if !os(tvOS)
+
 import Foundation
 import PhotosUI
 import SpeziViews
@@ -16,7 +18,7 @@ import UniformTypeIdentifiers
 struct FilePickerTestView: View {
     @State private var allowedContentTypes: Set<UTType> = []
     @State private var allowMultipleSelection = true
-    @State private var items: [_FilePickerItem] = []
+    @State private var items: [FilePickerItem] = []
     
     var body: some View {
         Form {
@@ -28,18 +30,13 @@ struct FilePickerTestView: View {
                 ForEach(items, id: \.self) { item in
                     row(for: item)
                 }
-                _FilePicker(allowedContentTypes, allowMultipleSelection: allowMultipleSelection) { items in
-                    Task { @MainActor in
-                        for item in items {
-                            if !self.items.contains(item) {
-                                self.items.append(item)
-                            }
-                        }
+                FilePicker(allowedContentTypes, allowMultipleSelection: allowMultipleSelection) { items in
+                    for item in items where !self.items.contains(item) {
+                        self.items.append(item)
                     }
                 } label: { suggestedTitle in
-                    _ListRowFilePickerLabel(suggestedTitle)
+                    FilePickerListRowLabel(suggestedTitle)
                 }
-
             }
         }
     }
@@ -78,7 +75,7 @@ struct FilePickerTestView: View {
     }
     
     @ViewBuilder
-    private func row(for item: _FilePickerItem) -> some View {
+    private func row(for item: FilePickerItem) -> some View {
         switch item {
         case .file(let url):
             HStack {
@@ -89,8 +86,7 @@ struct FilePickerTestView: View {
                     Text({ () -> String in
                         var elements: [String] = []
                         if let uti = fileInfo.uti {
-                            // TODO how can we get smth like "TIFF Image" (ie what the system share sheet does)
-                            elements.append(uti.description)
+                            elements.append(uti.localizedDescription ?? uti.identifier)
                         }
                         if let size = fileInfo.size {
                             elements.append(Int64(size).formatted(.byteCount(style: .file, spellsOutZero: true)))
@@ -156,3 +152,5 @@ extension URL {
         )
     }
 }
+
+#endif
