@@ -31,6 +31,8 @@ public enum FilePickerItem: Sendable, Hashable {
 /// A menu that lets the user pick files, photos, or videos.
 ///
 /// Depending on the allowed content types, the menu offers to select items from the photo library, from the Files app, or both.
+/// The photo library is only offered if any photo or video it may return is allowed, e.g., for `.image`, `.movie`, or `.data`,
+/// but not for a specific format like `.png`, since the photo library may return images in other formats.
 ///
 /// ```swift
 /// FilePicker([.image, .pdf], allowMultipleSelection: true) { items in
@@ -47,6 +49,7 @@ public enum FilePickerItem: Sendable, Hashable {
 public struct FilePicker<Label: View>: View {
     private let label: @MainActor (_ suggestedTitle: LocalizedStringResource) -> Label
     private let enabledTypes: Set<UTType>
+    private let photoLibraryContent: FilePickerPhotoLibraryContent
     private let allowMultipleSelection: Bool
     private let selectionHandler: @MainActor ([FilePickerItem]) -> Void
     @State private var isShowingPhotosPicker = false
@@ -57,7 +60,7 @@ public struct FilePicker<Label: View>: View {
     @_documentation(visibility: internal) // swiftlint:disable:next attributes
     public var body: some View {
         Menu {
-            if shouldEnable(.image) || shouldEnable(.movie) {
+            if !photoLibraryContent.isEmpty {
                 selectPhotosButton
                 Divider()
             }
@@ -114,10 +117,10 @@ public struct FilePicker<Label: View>: View {
     
     private var photosPickerFilter: PHPickerFilter {
         let filters: [PHPickerFilter] = Array {
-            if shouldEnable(.movie) {
+            if photoLibraryContent.contains(.videos) {
                 .videos
             }
-            if shouldEnable(.image) {
+            if photoLibraryContent.contains(.images) {
                 .images
             }
         }
@@ -155,13 +158,10 @@ public struct FilePicker<Label: View>: View {
         @ViewBuilder label: @escaping @MainActor (_ suggestedTitle: LocalizedStringResource) -> Label
     ) {
         self.enabledTypes = contentTypes.isEmpty ? [.data] : contentTypes
+        self.photoLibraryContent = FilePickerPhotoLibraryContent(allowedContentTypes: enabledTypes)
         self.allowMultipleSelection = allowMultipleSelection
         self.selectionHandler = selectionHandler
         self.label = label
-    }
-
-    private func shouldEnable(_ uti: UTType) -> Bool {
-        enabledTypes.contains { $0.isCompatible(with: uti) }
     }
 }
 
@@ -208,13 +208,29 @@ public struct FilePickerListRowLabel: View {
 }
 
 
-extension UTType {
-    /// Whether two types overlap, in either direction.
+/// The kinds of photo library items a ``FilePicker`` may offer.
+struct FilePickerPhotoLibraryContent: OptionSet, Sendable {
+    static let images = Self(rawValue: 1 << 0)
+    static let videos = Self(rawValue: 1 << 1)
+    
+    let rawValue: UInt8
+    
+    init(rawValue: UInt8) {
+        self.rawValue = rawValue
+    }
+    
+    /// Determines which photo library items fit the allowed content types.
     ///
-    /// A picker that allows `.image` should offer the photo library, and so should a picker that allows any `.data`,
-    /// since images are data as well.
-    fileprivate func isCompatible(with other: Self) -> Bool {
-        self.conforms(to: other) || other.conforms(to: self)
+    /// The photo library may return images and videos in any format (e.g., HEIC, JPEG, or QuickTime),
+    /// so it is only offered if every such item would be allowed, i.e., if an allowed type is `.image`, `.movie`, or one of their supertypes.
+    init(allowedContentTypes: Set<UTType>) {
+        self = []
+        if allowedContentTypes.contains(where: { UTType.image.conforms(to: $0) }) {
+            insert(.images)
+        }
+        if allowedContentTypes.contains(where: { UTType.movie.conforms(to: $0) }) {
+            insert(.videos)
+        }
     }
 }
 

@@ -27,10 +27,10 @@ extension ViewsTests {
         // Any content type and multiple selection allowed by default.
         let picker = app.buttons["FilePickerButton"]
         XCTAssert(picker.waitForExistence(timeout: 2.0))
-        XCTAssert(app.staticTexts["Select Files"].exists)
+        XCTAssert(app.staticTexts["Select Files"].waitForExistence(timeout: 2.0))
 
         let toggle = app.switches["Allow Multiple Selection"]
-        XCTAssert(toggle.exists)
+        XCTAssert(toggle.waitForExistence(timeout: 2.0))
         #if os(visionOS)
         toggle.tap()
         #else

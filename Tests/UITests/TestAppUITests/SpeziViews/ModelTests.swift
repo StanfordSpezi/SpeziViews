@@ -163,8 +163,8 @@ final class ModelTests: XCTestCase {
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 2.0))
 
         app.open(target: "SpeziViews")
-        app.collectionViews.firstMatch.swipeUp() // out of the window on visionOS and iPadOS
 
+        // "Default Error Only" is near the top of the list, so there is no need to scroll.
         XCTAssert(app.buttons["Default Error Only"].waitForExistence(timeout: 2))
         app.buttons["Default Error Only"].tap()
 
