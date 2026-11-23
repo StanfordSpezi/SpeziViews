@@ -46,7 +46,7 @@ extension SnapshotTests {
         TestView(type: .async)
     ])
     func allButtons(_ button: TestView) async throws {
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: button, as: .image(layout: .device(config: .iPhone13Pro)), named: "button-" + button.type.rawValue)
 #endif
     }

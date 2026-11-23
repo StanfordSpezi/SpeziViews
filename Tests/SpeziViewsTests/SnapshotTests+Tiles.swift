@@ -42,7 +42,7 @@ extension SnapshotTests {
         let centerTileHeader = TestView(alignment: .center)
         let trailingTileHeader = TestView(alignment: .trailing)
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: leadingTileHeader, as: .image(layout: .device(config: .iPhone13Pro)), named: "leading")
         assertSnapshot(of: centerTileHeader, as: .image(layout: .device(config: .iPhone13Pro)), named: "center")
         assertSnapshot(of: trailingTileHeader, as: .image(layout: .device(config: .iPhone13Pro)), named: "trailing")
@@ -78,7 +78,7 @@ extension SnapshotTests {
         let tileCenter = TileView(alignment: .center)
         let tileTraining = TileView(alignment: .trailing)
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: tileLeading, as: .image(layout: .device(config: .iPhone13Pro)), named: "leading")
         assertSnapshot(of: tileCenter, as: .image(layout: .device(config: .iPhone13Pro)), named: "center")
         assertSnapshot(of: tileTraining, as: .image(layout: .device(config: .iPhone13Pro)), named: "trailing")
@@ -91,7 +91,7 @@ extension SnapshotTests {
             Text("Some Title")
         }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
 #endif
     }

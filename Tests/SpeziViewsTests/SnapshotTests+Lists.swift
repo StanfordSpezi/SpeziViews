@@ -25,7 +25,7 @@ extension SnapshotTests {
         let largeRow = row
             .dynamicTypeSize(.accessibility3)
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: row, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
         assertSnapshot(of: largeRow, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-XA3")
 #endif
@@ -64,7 +64,7 @@ extension SnapshotTests {
             Text("Create a new Account", bundle: .module)
         }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: listHeader0, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header-instructions")
         assertSnapshot(of: listHeader1, as: .image(layout: .device(config: .iPhone13Pro)), named: "list-header")
 #endif
