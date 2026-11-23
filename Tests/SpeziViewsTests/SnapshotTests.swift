@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if canImport(SnapshotTesting)
 import SnapshotTesting
+#endif
 @testable import SpeziViews
 import SwiftUI
 import Testing
@@ -39,7 +41,7 @@ struct SnapshotTests {
                 }
             }
         }
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
             assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
 #endif
     }
@@ -54,7 +56,7 @@ struct SnapshotTests {
             }
         }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "header")
 #endif
     }
@@ -84,7 +86,7 @@ struct SnapshotTests {
         #expect(nonExistingImage.nsImage == nil)
 #endif
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: image, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
 #endif
     }
@@ -100,7 +102,7 @@ struct SnapshotTests {
             Spacer()
         }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13Pro)), named: "skeleton-loading")
 #endif
     }

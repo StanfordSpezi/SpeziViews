@@ -13,7 +13,7 @@ import SwiftUI
 
 struct MarkdownViewImageProvider: ImageProvider {
     private struct ImageLoadingView: View {
-        let url: URL?
+        private let url: URL?
         @State private var image: Image?
         
         var body: some View {
@@ -27,6 +27,10 @@ struct MarkdownViewImageProvider: ImageProvider {
                     image = try? await CachedImageLoader.shared.load(url)
                 }
             }
+        }
+        
+        nonisolated init(url: URL?) {
+            self.url = url
         }
     }
     

@@ -17,6 +17,7 @@ struct SpeziViewsTargetsTests: View {
     @State var presentingSpeziPersonalInfo = false
     @State var presentingSpeziValidation = false
     @State var presentingManagedNavigationStack = false
+    @State var presentingPlainManagedNavigationStack = false
     @State var presentingToolbarAsyncButtonSheet = false
 
 #if os(macOS)
@@ -65,6 +66,9 @@ struct SpeziViewsTargetsTests: View {
                 }
                 Button("ManagedNavigationStack") {
                     presentingManagedNavigationStack = true
+                }
+                Button("Plain ManagedNavigationStack") {
+                    presentingPlainManagedNavigationStack = true
                 }
                 #if canImport(PencilKit) && !os(macOS)
                 NavigationLink("CanvasTest") {
@@ -135,6 +139,12 @@ struct SpeziViewsTargetsTests: View {
         }
         .sheet(isPresented: $presentingManagedNavigationStack) {
             ManagedNavigationStackTestView()
+#if os(macOS)
+                .frame(minWidth: idealWidth, minHeight: idealHeight)
+#endif
+        }
+        .sheet(isPresented: $presentingPlainManagedNavigationStack) {
+            PlainManagedNavigationStackTestView()
 #if os(macOS)
                 .frame(minWidth: idealWidth, minHeight: idealHeight)
 #endif

@@ -60,6 +60,8 @@ private struct ViewBasedOnVisibility<Unlabeled: View, Labeled: View>: View {
 ///
 /// `OptionSet` by definition allows the selection of multiple values.
 ///
+/// @Image(source: "OptionSetPicker", alt: "An inline picker with two selected options.")
+///
 /// - Note: Displaying labels is only supported on iOS 18 and newer.
 ///
 /// ## Topics

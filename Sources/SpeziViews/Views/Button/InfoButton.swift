@@ -12,6 +12,8 @@ import SwiftUI
 /// Icon-only info button.
 ///
 /// You can use this button, e.g., on the trailing side of a list row to provide additional information about an entity.
+///
+/// @Image(source: "InfoButton", alt: "An info button.")
 public struct InfoButton: View {
     private let label: Text
     private let action: () -> Void

@@ -47,6 +47,36 @@ var body: some View {
 > Note: The inner views can access the ``ValidationEngine`` using the [Environment](https://developer.apple.com/documentation/swiftui/environment/init(_:)-8slkf)
 property wrapper.
 
+### Defining Validation Rules
+
+SpeziValidation provides built-in rules, such as ``ValidationRule/nonEmpty``, ``ValidationRule/minimalEmail``, and ``ValidationRule/minimalPassword``.
+You can define your own rules using a closure or a regular expression.
+The message is shown to the user if the input doesn't satisfy the rule.
+
+```swift
+extension ValidationRule {
+    static let zipCode = ValidationRule(
+        regex: /[0-9]{5}/,
+        message: "Enter a five-digit ZIP code."
+    )
+}
+```
+
+You can pass multiple rules to the ``SwiftUICore/View/validate(input:rules:)-5dac4`` modifier.
+By default, all rules are evaluated, and the messages of all failed rules are shown.
+Use ``ValidationRule/intercepting`` to skip the remaining rules if a rule fails.
+
+```swift
+VerifiableTextField("ZIP Code", text: $zipCode)
+    .validate(input: zipCode, rules: ValidationRule.nonEmpty.intercepting, .zipCode)
+    .textContentType(.postalCode)
+```
+
+> Tip: Set a [text content type](https://developer.apple.com/documentation/swiftui/view/textcontenttype(_:)-ufdv)
+    on your text fields so that the system can offer AutoFill suggestions.
+
+> Important: Validation rules only run on the client. Always enforce security-relevant restrictions, such as password requirements, on the server as well.
+
 ### Managing Validation
 
 Parent views can access the validation state of their child views using the ``ValidationState`` property wrapper

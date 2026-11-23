@@ -16,6 +16,19 @@ import SwiftUI
 ///
 /// Below is a short code example on how to implement a simple List row that shows the temperature for a given city.
 ///
+/// @Row {
+///     @Column {
+///         @Image(source: "ListRow", alt: "A list row showing a city and its weather side by side.") {
+///             A `ListRow` at the default text size.
+///         }
+///     }
+///     @Column {
+///         @Image(source: "ListRow-AccessibilitySize", alt: "A list row showing the weather below the city.") {
+///             The same `ListRow` at an accessibility text size.
+///         }
+///     }
+/// }
+///
 /// - Note: For more information how this view adjusts to different dynamic type sizes, device orientations and
 ///     horizontal size classes, refer to the documentation of the underlying ``DynamicHStack`` view.
 ///

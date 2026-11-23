@@ -11,27 +11,8 @@
         }
       }
     },
-    "A" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A"
-          }
-        }
-      }
-    },
-    "B" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "B"
-          }
-        }
-      }
+    "Browse Files" : {
+
     },
     "Completed" : {
       "comment" : "Completed Tile. Subtitle",
@@ -153,9 +134,6 @@
         }
       }
     },
-    "Not Yet Implemented" : {
-
-    },
     "nothing selected" : {
       "localizations" : {
         "sv" : {
@@ -166,16 +144,8 @@
         }
       }
     },
-    "Option %u" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alternativ %u"
-          }
-        }
-      }
+    "Photo Library" : {
+
     },
     "Select File" : {
 
@@ -187,9 +157,6 @@
 
     },
     "Select Images" : {
-
-    },
-    "Select Photo" : {
 
     },
     "Select Video" : {

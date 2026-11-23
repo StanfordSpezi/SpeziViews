@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if canImport(SnapshotTesting)
 import SnapshotTesting
+#endif
 @testable import SpeziViews
 import SwiftUI
 import Testing
@@ -17,7 +19,7 @@ extension SnapshotTests {
         let longString = String(repeating: "Clean Code\nA Handbook of Agile Software Craftsmanship\nby Robert C. Martin\n", count: 100)
         let lazyText = LazyText(verbatim: longString)
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: lazyText, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
 #endif
     }
@@ -28,7 +30,7 @@ extension SnapshotTests {
             Text(verbatim: "Code")
         }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: labeledContent, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
 #endif
     }

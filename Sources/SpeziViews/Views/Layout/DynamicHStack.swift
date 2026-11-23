@@ -26,6 +26,8 @@ public enum DynamicLayout: Sendable {
 /// in circumstances where there isn't enough vertical screen space available.
 /// It accommodates for dynamic type sizes, device orientation and device size classes.
 ///
+/// @Image(source: "DynamicHStack", alt: "A label and a value displayed side by side.")
+///
 /// The `HStack` automatically transform into a `VStack` if the content is considered too wide.
 /// This check is done based on the [`dynamicTypeSize`](https://developer.apple.com/documentation/swiftui/environmentvalues/dynamictypesize)
 /// of the view. This check won't apply if the [`horizontalSizeClass`](https://developer.apple.com/documentation/swiftui/environmentvalues/horizontalsizeclass)
@@ -87,12 +89,12 @@ public struct DynamicHStack<Content: View>: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
     @State private var orientation = UIDevice.current.orientation
 #endif
 
     var isLandscape: Bool {
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         orientation.isLandscape
 #else
         true
@@ -114,7 +116,7 @@ public struct DynamicHStack<Content: View>: View {
             content
                 .preference(key: DynamicLayout.self, value: isHorizontalLayout ? .horizontal : .vertical)
         }
-            #if os(iOS)
+            #if os(iOS) && !targetEnvironment(macCatalyst)
             .observeOrientationChanges($orientation)
             #endif
     }

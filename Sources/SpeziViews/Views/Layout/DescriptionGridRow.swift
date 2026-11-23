@@ -13,6 +13,8 @@ import SwiftUI
 ///
 /// The `DescriptionGridRow` provides a layout to attach a leading description label to a content element
 /// in a [`Grid`](https://developer.apple.com/documentation/swiftui/grid)-based layout.
+///
+/// @Image(source: "DescriptionGridRow", alt: "Three rows that each show a description and its content in two columns.")
 public struct DescriptionGridRow<Description: View, Content: View>: View {
     private let description: Description
     private let content: Content
@@ -45,48 +47,48 @@ public struct DescriptionGridRow<Description: View, Content: View>: View {
 
 
 #if DEBUG
-struct DescriptionGridRow_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            Form {
-                Grid(horizontalSpacing: 8, verticalSpacing: 8) {
-                    DescriptionGridRow {
-                        Text(verbatim: "Description")
-                    } content: {
-                        Text(verbatim: "Content")
-                    }
-                    Divider()
-                    DescriptionGridRow {
-                        Text(verbatim: "Description")
-                    } content: {
-                        Text(verbatim: "Content")
-                    }
-                    DescriptionGridRow {
-                        Text(verbatim: "Description")
-                    } content: {
-                        Text(verbatim: "Content")
-                    }
+#Preview {
+    VStack {
+        Form {
+            Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+                DescriptionGridRow {
+                    Text(verbatim: "Description")
+                } content: {
+                    Text(verbatim: "Content")
+                }
+                Divider()
+                DescriptionGridRow {
+                    Text(verbatim: "Description")
+                } content: {
+                    Text(verbatim: "Content")
+                }
+                DescriptionGridRow {
+                    Text(verbatim: "Description")
+                } content: {
+                    Text(verbatim: "Content")
                 }
             }
         }
-
-        Grid(horizontalSpacing: 8, verticalSpacing: 8) {
-            DescriptionGridRow {
-                Text(verbatim: "Description")
-            } content: {
-                Text(verbatim: "Content")
-            }
-            Divider()
-            DescriptionGridRow {
-                Text(verbatim: "Description")
-            } content: {
-                Text(verbatim: "Content")
-            }
-        }
-            .padding(32)
-        #if os(iOS)
-            .background(Color(.systemGroupedBackground))
-        #endif
     }
+}
+
+#Preview {
+    Grid(horizontalSpacing: 8, verticalSpacing: 8) {
+        DescriptionGridRow {
+            Text(verbatim: "Description")
+        } content: {
+            Text(verbatim: "Content")
+        }
+        Divider()
+        DescriptionGridRow {
+            Text(verbatim: "Description")
+        } content: {
+            Text(verbatim: "Content")
+        }
+    }
+        .padding(32)
+    #if os(iOS)
+        .background(Color(.systemGroupedBackground))
+    #endif
 }
 #endif

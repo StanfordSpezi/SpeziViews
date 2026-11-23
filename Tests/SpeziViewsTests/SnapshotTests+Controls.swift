@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: MIT
 //
 
+#if canImport(SnapshotTesting)
 import SnapshotTesting
+#endif
 @testable import SpeziViews
 import SwiftUI
 import Testing
@@ -46,7 +48,7 @@ extension SnapshotTests {
             OptionSetPicker("Code", selection: .constant(Options.option1.union(.option2)), style: .inline, allowEmptySelection: true)
         }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: picker0, as: .image(layout: .device(config: .iPhone13Pro)), named: "option-picker")
         assertSnapshot(of: picker1, as: .image(layout: .device(config: .iPhone13Pro)), named: "option-picker-inline")
 #endif
@@ -58,7 +60,7 @@ extension SnapshotTests {
             CaseIterablePicker("Clean Code", selection: .constant(Version.versionA))
         }
 
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(macCatalyst)
         assertSnapshot(of: picker, as: .image(layout: .device(config: .iPhone13Pro)), named: "iphone-regular")
 #endif
     }
