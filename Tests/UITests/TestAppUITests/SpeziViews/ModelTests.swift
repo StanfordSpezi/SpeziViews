@@ -137,7 +137,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(app.buttons["Toggle Condition"].waitForExistence(timeout: 1))
         app.buttons["Toggle Condition"].tap()
         
-        XCTAssert(!app.staticTexts["Condition present"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Condition present"].waitForNonExistence(timeout: 2))
         
         XCTAssert(app.buttons["Toggle Condition"].waitForExistence(timeout: 1))
         app.buttons["Toggle Condition"].tap()
@@ -148,7 +148,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(app.buttons["Toggle Closure Condition"].waitForExistence(timeout: 1))
         app.buttons["Toggle Closure Condition"].tap()
         
-        XCTAssert(!app.staticTexts["Closure Condition present"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Closure Condition present"].waitForNonExistence(timeout: 2))
         
         XCTAssert(app.buttons["Toggle Closure Condition"].waitForExistence(timeout: 1))
         app.buttons["Toggle Closure Condition"].tap()
